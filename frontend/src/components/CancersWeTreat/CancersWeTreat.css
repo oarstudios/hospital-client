@@ -1,0 +1,98 @@
+.cancers-section {
+  padding: 80px 40px;
+  font-family: "DM Sans", sans-serif;
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.cancers-heading {
+  font-size: 40px;
+  font-weight: 700;
+  color: rgba(63, 34, 74, 1);
+  margin-bottom: 40px;
+}
+
+/* GRID */
+.cancers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+/* CARD */
+.cancer-card {
+  position: relative;
+  background: rgba(252, 245, 255, 1);
+  border: 1px solid rgba(189, 187, 191, 1);
+  border-radius: 16px;
+  padding: 20px 80px;
+  height: 120px;
+  transition: box-shadow 0.2s ease;
+}
+
+.cancer-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* ICON */
+.icon-wrapper {
+  position: absolute;
+  left: -28px;
+  top: 50%;
+  transform: translateY(-71%);
+  width: 84px;
+  height: 84px;
+  background: rgba(255, 255, 255, 1);
+  border: 2px solid rgba(189, 187, 191, 1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-wrapper img {
+  width: 36px;
+  height: 36px;
+}
+
+/* TEXT */
+.card-content h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: rgba(63, 34, 74, 1);
+
+}
+
+.learn-more {
+  font-size: 16px;
+  font-weight: 200;
+  color: rgba(0, 0, 0, 1);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.learn-more span {
+  font-size: 18px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .cancers-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .cancers-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cancer-card {
+    padding-left: 72px;
+  }
+
+  .icon-wrapper {
+    left: -20px;
+  }
+}

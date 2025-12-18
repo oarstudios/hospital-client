@@ -1,0 +1,164 @@
+.appointment-wrapper {
+  padding: 80px 40px;
+  background: #ffffff;
+  font-family: "DM Sans", sans-serif;
+}
+
+.appointment-card {
+
+  margin: auto;
+  display: flex;
+  border-radius: 24px;
+background: linear-gradient(105.41deg, #ECDFF2 8.94%, #B068CD 89.7%);
+
+box-shadow: 0px 4px 16px 0px rgba(63, 34, 74, 0.15) inset;
+border: 1px solid rgba(228, 227, 229, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* LEFT */
+.appointment-form {
+
+  padding: 48px;
+
+  width: 70%;
+}
+
+.appointment-form h2 {
+  font-size: 30px;
+  font-weight: 700;
+  color: rgba(63, 34, 74, 1);
+  margin-bottom: 24px;
+}
+
+.section-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(105, 60, 121, 1);
+  margin: 20px 0 12px;
+}
+
+.input-row {
+  display: flex;
+  gap: 16px;
+}
+
+.appointment-form input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(189, 187, 191, 1);
+  background: rgba(255, 255, 255, 1);
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(116, 111, 119, 1);
+  margin-bottom: 16px;
+  outline: none;
+}
+
+/* CENTRES */
+.centres-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.centre-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(253, 253, 253, 1);
+  border: 1px solid rgba(189, 187, 191, 1);
+  border-radius: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(116, 111, 119, 1);
+  position: relative;
+}
+
+/* hide default checkbox */
+.centre-chip input {
+  display: none;
+}
+
+/* custom checkbox */
+.custom-checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(189, 187, 191, 1);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-checkbox img {
+  width: 12px;
+  height: 12px;
+  opacity: 0;
+}
+
+
+
+
+.centre-chip input:checked + .custom-checkbox img {
+  opacity: 1;
+}
+
+.centre-name {
+  white-space: nowrap;
+}
+
+/* DATE */
+.date-input {
+  margin-top: 10px;
+}
+
+/* BUTTON */
+.book-btn {
+  margin-top: 24px;
+  padding: 14px 28px;
+  background: rgba(176, 104, 205, 1);
+  border: none;
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 1);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* RIGHT IMAGE — MATCHING FIGMA */
+.appointment-image {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  padding-right: 40px;
+}
+
+.appointment-image img {
+  height: 95%;
+  object-fit: contain;
+}
+
+
+/* ERROR TEXT */
+.error {
+  display: block;
+  font-size: 12px;
+  color: #c0392b;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+/* DATE INPUT FIX */
+.date-input {
+  cursor: pointer;
+}
