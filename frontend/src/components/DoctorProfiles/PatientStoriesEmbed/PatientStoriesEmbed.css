@@ -1,22 +1,27 @@
 .ps-wrapper {
   padding: 80px 40px;
-  background: #fff;
+  background: #ffffff;
   font-family: "DM Sans", sans-serif;
-  border: 1px solid rgba(191, 192, 204, 1);
-  border-radius: 24px;
 }
 
+/* HEADER */
 .ps-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 40px;
+  margin-bottom: 32px;
 }
 
-.ps-header h2 {
-  font-size: 36px;
-  font-weight: 800;
-  color: #6b3b7c;
+.ps-title {
+  font-size: 40px;
+  font-weight: 700;
+  color: rgba(105, 60, 121, 1);
+}
+
+/* NAV */
+.ps-nav {
+  display: flex;
+  gap: 12px;
 }
 
 .ps-nav button {
@@ -26,52 +31,40 @@
   border: 1px solid #ccc;
   background: #fff;
   font-size: 20px;
+  cursor: pointer;
 }
 
-.ps-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
+/* SLIDER */
+.ps-slider {
+  overflow: hidden;
+  width: 100%;
 }
 
+.ps-track {
+  display: flex;
+  transition: transform 0.6s ease;
+}
+
+/* 4 POSTS PER VIEW */
+.ps-slide {
+  width: 25%;
+  padding: 0 12px;
+  box-sizing: border-box;
+}
+
+/* CARD WITH BORDER RADIUS */
 .ps-embed-card {
-  border-radius: 18px;
+  border-radius: 20px;
   overflow: hidden;
   border: 1px solid #ddd;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-.ps-wrapper {
-  padding: 80px 40px;
   background: #fff;
 }
 
-.ps-title {
-  font-size: 32px;
-  font-weight: 900;
-  color: #6b3b82;
-  margin-bottom: 32px;
-}
-
-.ps-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
-
-/* IMPORTANT */
+/* IMPORTANT: Instagram overrides */
 .instagram-media {
   width: 100% !important;
   min-width: unset !important;
   max-width: 100% !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
 }
