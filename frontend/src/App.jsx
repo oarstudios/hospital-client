@@ -31,6 +31,7 @@ import DoctorProfile from "./components/DoctorProfiles/DoctorProfile/DoctorProfi
 import DoctorBreadcrumb from "./components/DoctorProfiles/DoctorBreadcrumb/DoctorBreadcrumb";
 import RecentHighlights from "./components/DoctorProfiles/RecentHighlights/RecentHighlights";
 import PatientStoriesEmbed from "./components/DoctorProfiles/PatientStoriesEmbed/PatientStoriesEmbed";
+import BlogsSection from "./components/BlogsSection/BlogsSection";
 
 function App() {
   return (
@@ -90,7 +91,15 @@ function App() {
 
         } />
 
+ <Route path="/blog" element={
+        <>
+        <BlogsSection/>
+          <OurNetworkOfCare />
+              <RequestCallback />
+        
+        </>
 
+        } />
 
 
       </Routes>
