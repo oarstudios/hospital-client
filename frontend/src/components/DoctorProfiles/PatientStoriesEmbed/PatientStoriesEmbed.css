@@ -2,6 +2,8 @@
   padding: 80px 40px;
   background: #fff;
   font-family: "DM Sans", sans-serif;
+  border: 1px solid rgba(191, 192, 204, 1);
+  border-radius: 24px;
 }
 
 .ps-header {

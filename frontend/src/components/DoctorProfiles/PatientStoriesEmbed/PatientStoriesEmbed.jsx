@@ -3,8 +3,10 @@ import "./PatientStoriesEmbed.css";
 
 const posts = [
   "https://www.instagram.com/reel/DSajmWyjIRV/",
-  "https://www.instagram.com/p/CxYabc123/",
-  "https://www.instagram.com/p/CzZxyz789/"
+  "https://www.instagram.com/reel/DSajmWyjIRV/",
+  "https://www.instagram.com/reel/DSajmWyjIRV/",
+  "https://www.instagram.com/reel/DSajmWyjIRV/",
+  "https://www.instagram.com/reel/DSajmWyjIRV/"
 ];
 
 const PatientStoriesEmbed = () => {
