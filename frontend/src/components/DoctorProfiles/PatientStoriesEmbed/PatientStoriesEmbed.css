@@ -1,0 +1,75 @@
+.ps-wrapper {
+  padding: 80px 40px;
+  background: #fff;
+  font-family: "DM Sans", sans-serif;
+}
+
+.ps-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.ps-header h2 {
+  font-size: 36px;
+  font-weight: 800;
+  color: #6b3b7c;
+}
+
+.ps-nav button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-size: 20px;
+}
+
+.ps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.ps-embed-card {
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid #ddd;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.ps-wrapper {
+  padding: 80px 40px;
+  background: #fff;
+}
+
+.ps-title {
+  font-size: 32px;
+  font-weight: 900;
+  color: #6b3b82;
+  margin-bottom: 32px;
+}
+
+.ps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* IMPORTANT */
+.instagram-media {
+  width: 100% !important;
+  min-width: unset !important;
+  max-width: 100% !important;
+}

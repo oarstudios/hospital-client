@@ -1,10 +1,14 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import "./Navbar.css";
 import logo from "../../../assets/ICTC_Logo.png";
 import arrow from "../../../assets/dropDownIcon.png";
 
 const Navbar = () => {
   const [activeMenu, setActiveMenu] = useState(null);
+
+  const navigate = useNavigate(); // ✅ ADD THIS
 
   const toggleMenu = (menu) => {
     setActiveMenu(activeMenu === menu ? null : menu);
@@ -37,7 +41,9 @@ const Navbar = () => {
             <li onClick={() => toggleMenu("cancer")}>
               CANCER TYPES <img src={arrow} />
             </li>
-            <li>BLOGS</li>
+            <li onClick={() => navigate("/doctor")}>
+  BLOGS
+</li>
             <li>ABOUT US</li>
           </ul>
 

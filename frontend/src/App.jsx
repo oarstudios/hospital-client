@@ -30,6 +30,7 @@ import PatientTestimonials from "./components/OurCenters/PatientTestimonials/Pat
 import DoctorProfile from "./components/DoctorProfiles/DoctorProfile/DoctorProfile";
 import DoctorBreadcrumb from "./components/DoctorProfiles/DoctorBreadcrumb/DoctorBreadcrumb";
 import RecentHighlights from "./components/DoctorProfiles/RecentHighlights/RecentHighlights";
+import PatientStoriesEmbed from "./components/DoctorProfiles/PatientStoriesEmbed/PatientStoriesEmbed";
 
 function App() {
   return (
@@ -80,6 +81,7 @@ function App() {
         <DoctorBreadcrumb docName="Dr Rohit Pai" />
         <DoctorProfile />
           <PatientTestimonials />
+          <PatientStoriesEmbed/>
           <RecentHighlights/>
           <OurNetworkOfCare />
               <RequestCallback />

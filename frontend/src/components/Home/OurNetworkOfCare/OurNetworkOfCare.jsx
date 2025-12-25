@@ -5,8 +5,11 @@ const centres = [
   {
     name: "Vashi",
     phone: "91915 12345",
-    lat: 19.0707,
-    lng: 72.9986,
+    lat: 19.074025738304062,
+    lng: 72.99926885288968,
+    description: "ICTC Vashi Center",
+
+   
   },
   {
     name: "Panvel",
