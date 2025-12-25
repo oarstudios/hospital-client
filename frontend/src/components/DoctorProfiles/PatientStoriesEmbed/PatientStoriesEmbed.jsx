@@ -10,7 +10,7 @@ const posts = [
   "https://www.instagram.com/reel/DSajmWyjIRV/",
 ];
 
-const VISIBLE_COUNT = 4;
+const VISIBLE_COUNT = 3;
 
 const PatientStoriesEmbed = () => {
   const trackRef = useRef(null);
