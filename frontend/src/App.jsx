@@ -32,6 +32,7 @@ import DoctorBreadcrumb from "./components/DoctorProfiles/DoctorBreadcrumb/Docto
 import RecentHighlights from "./components/DoctorProfiles/RecentHighlights/RecentHighlights";
 import PatientStoriesEmbed from "./components/DoctorProfiles/PatientStoriesEmbed/PatientStoriesEmbed";
 import BlogsSection from "./components/BlogsSection/BlogsSection";
+import BlogBreadcrumb from "./components/BlogsSection/BlogBreadcrumb";
 
 function App() {
   return (
@@ -93,6 +94,7 @@ function App() {
 
  <Route path="/blog" element={
         <>
+                    <BlogBreadcrumb blogNewsName="Blogs and News" />
         <BlogsSection/>
           <OurNetworkOfCare />
               <RequestCallback />

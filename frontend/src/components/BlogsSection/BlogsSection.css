@@ -129,7 +129,7 @@
     padding: 4px 10px;
   border-radius: 20px;
   font-weight: 700;
-  color: #666;
+  color: rgba(48, 45, 49, 1);
   background: rgba(233, 234, 235, 1);
   border: 0.83px solid var(--grey-200, rgba(189, 187, 191, 1));
 }
