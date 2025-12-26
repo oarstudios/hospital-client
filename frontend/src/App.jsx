@@ -33,6 +33,8 @@ import RecentHighlights from "./components/DoctorProfiles/RecentHighlights/Recen
 import PatientStoriesEmbed from "./components/DoctorProfiles/PatientStoriesEmbed/PatientStoriesEmbed";
 import BlogsSection from "./components/BlogsSection/BlogsSection";
 import BlogBreadcrumb from "./components/BlogsSection/BlogBreadcrumb";
+import BlogPost from "./components/BlogsSection/BlogPost";
+import BlogPostBreadcrumb from "./components/BlogsSection/BlogPostBreadcrumb";
 
 function App() {
   return (
@@ -64,7 +66,7 @@ function App() {
           path="/ourCenters"
           element={
             <>
-            <CenterBreadcrumb centerName="ICTC Vashi" />
+              <CenterBreadcrumb centerName="ICTC Vashi" />
               <OurCenterHero />
               <CenterDescription />
               <ExpertsAtICTC />
@@ -78,36 +80,45 @@ function App() {
           }
         />
 
-      <Route path="/doctor" element={
-        <>
-        <DoctorBreadcrumb docName="Dr Rohit Pai" />
-        <DoctorProfile />
-          <PatientTestimonials />
-          <PatientStoriesEmbed/>
-          <RecentHighlights/>
-          <OurNetworkOfCare />
+        <Route
+          path="/doctor"
+          element={
+            <>
+              <DoctorBreadcrumb docName="Dr Rohit Pai" />
+              <DoctorProfile />
+              <PatientTestimonials />
+              <PatientStoriesEmbed />
+              <RecentHighlights />
+              <OurNetworkOfCare />
               <RequestCallback />
-        
-        </>
+            </>
+          }
+        />
 
-        } />
-
- <Route path="/blog" element={
-        <>
-                    <BlogBreadcrumb blogNewsName="Blogs and News" />
-        <BlogsSection/>
-          <OurNetworkOfCare />
+        <Route
+          path="/blog"
+          element={
+            <>
+              <BlogBreadcrumb blogNewsName="Blogs and News" />
+              <BlogsSection />
+              <OurNetworkOfCare />
               <RequestCallback />
-        
-        </>
+            </>
+          }
+        />
 
-        } />
-
-
+        <Route
+          path="/blogpost"
+          element={
+            <>
+              <BlogPostBreadcrumb blogPostName="Parenting With Cancer: What Do We Tell the Kids?" />
+             <BlogPost/>
+              <OurNetworkOfCare />
+              <RequestCallback />
+            </>
+          }
+        />
       </Routes>
-
-
-
 
       <Footer />
     </>
