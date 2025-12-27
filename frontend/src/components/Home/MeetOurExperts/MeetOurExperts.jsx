@@ -73,7 +73,7 @@ const MeetOurExperts = () => {
       {/* SLIDER */}
       <div className="experts-slider" ref={sliderRef}>
         {doctors.map((doc, index) => (
-          <div className="doctor-card" key={index}>
+          <div className="doctor-card-home" key={index}>
             
             {/* IMAGE + HOVER */}
             <div className="doctor-img-wrapper">

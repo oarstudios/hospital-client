@@ -35,6 +35,16 @@ import BlogsSection from "./components/BlogsSection/BlogsSection";
 import BlogBreadcrumb from "./components/BlogsSection/BlogBreadcrumb";
 import BlogPost from "./components/BlogsSection/BlogPost";
 import BlogPostBreadcrumb from "./components/BlogsSection/BlogPostBreadcrumb";
+import AllCentres from "./components/AllCentres/AllCentres";
+import CancerDetails from "./components/CancerDetails/CancerDetails";
+import AllCentersBreadcrumb from "./components/AllCentres/AllCentersBreadcrumb";
+import CancerDetBreadcrumb from "./components/CancerDetails/CancerDetBreadcrumb";
+import ServicePage from "./components/ServicePage/ServicePage";
+import OurDoctorTeam from "./components/OurDoctorTeam/OurDoctorTeam";
+import AboutUs from "./components/AboutUs/AboutUs";
+
+
+import Chatbot from "./components/Chatbot/Chatbot"
 
 function App() {
   return (
@@ -112,7 +122,67 @@ function App() {
           element={
             <>
               <BlogPostBreadcrumb blogPostName="Parenting With Cancer: What Do We Tell the Kids?" />
-             <BlogPost/>
+              <BlogPost />
+              <OurNetworkOfCare />
+              <RequestCallback />
+            </>
+          }
+        />
+
+        <Route
+          path="/allCenters"
+          element={
+            <>
+              <AllCentersBreadcrumb centerName="All Centres" />
+              <AllCentres />
+              <OurNetworkOfCare />
+              <RequestCallback />
+            </>
+          }
+        />
+
+        <Route
+          path="/cancerDetails"
+          element={
+            <>
+              <CancerDetBreadcrumb cancerName="Breast Cancer" />
+              <CancerDetails />
+              <OurNetworkOfCare />
+              <RequestCallback />
+            </>
+          }
+        />
+
+        <Route
+          path="/servicePage"
+          element={
+            <>
+              <ServicePage/>
+              <ServicesatICTC/>
+              <BookAppointment/>
+              <OurNetworkOfCare />
+              <RequestCallback />
+            </>
+          }
+        />
+
+        <Route
+          path="/ourDoctors"
+          element={
+            <>
+              <OurDoctorTeam/>
+              <BookAppointment/>
+              <OurNetworkOfCare />
+              <RequestCallback />
+            </>
+          }
+        />
+
+        <Route
+          path="/aboutUs"
+          element={
+            <>
+           <AboutUs/>
               <OurNetworkOfCare />
               <RequestCallback />
             </>
@@ -120,6 +190,7 @@ function App() {
         />
       </Routes>
 
+          <Chatbot/>
       <Footer />
     </>
   );
