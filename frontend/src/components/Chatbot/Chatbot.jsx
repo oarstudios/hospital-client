@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import "./Chatbot.css";
-import chatIcon from "../../assets/Chatbutton.png";
+import chatIcon from "../../assets/ChatButton.png";
 import backIcon from "../../assets/BackArrow.png";
 import sendIcon from "../../assets/Send Message icon.svg";
 import DefaultArrow from "../../assets/DefaultArrow.png";
