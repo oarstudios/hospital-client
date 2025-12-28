@@ -2,11 +2,12 @@ import "../OurCenters/CenterBreadcrumb/CenterBreadcrumb.css";
 import homeIcon from "../../assets/mdi-light_home.png";
 import { Link } from "react-router-dom";
 
-const AllCentersBreadcrumb = () => {
+const BookAppoinmentBreadcrumb = ({
+  bookAppPageName = "Book Appointment",
+}) => {
   return (
     <nav className="center-breadcrumb">
       <div className="center-breadcrumb__content">
-        {/* HOME */}
         <Link to="/">
           <img
             src={homeIcon}
@@ -17,13 +18,12 @@ const AllCentersBreadcrumb = () => {
 
         <span className="center-breadcrumb__sep">›</span>
 
-        {/* CURRENT */}
         <span className="center-breadcrumb__current">
-          Our Centres
+          {bookAppPageName}
         </span>
       </div>
     </nav>
   );
 };
 
-export default AllCentersBreadcrumb;
+export default BookAppoinmentBreadcrumb;

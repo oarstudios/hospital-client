@@ -1,8 +1,13 @@
 import "../OurCenters/CenterBreadcrumb/CenterBreadcrumb.css";
 import homeIcon from "../../assets/mdi-light_home.png";
-import { Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import serviceData from "../../data/serviceData";
 
-const AllCentersBreadcrumb = () => {
+const ServiceBreadcrumb = () => {
+  const { slug } = useParams();
+
+  const serviceName = serviceData[slug]?.name || "Service Details";
+
   return (
     <nav className="center-breadcrumb">
       <div className="center-breadcrumb__content">
@@ -17,13 +22,20 @@ const AllCentersBreadcrumb = () => {
 
         <span className="center-breadcrumb__sep">›</span>
 
-        {/* CURRENT */}
+        {/* ALL SERVICES */}
+        <Link to="/AllService" className="center-breadcrumb__text">
+          Services at ICTC
+        </Link>
+
+        <span className="center-breadcrumb__sep">›</span>
+
+        {/* CURRENT SERVICE */}
         <span className="center-breadcrumb__current">
-          Our Centres
+          {serviceName}
         </span>
       </div>
     </nav>
   );
 };
 
-export default AllCentersBreadcrumb;
+export default ServiceBreadcrumb;

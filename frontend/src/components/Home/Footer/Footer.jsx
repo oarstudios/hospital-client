@@ -1,5 +1,29 @@
 import "./Footer.css";
 import logo from "../../../assets/ICTC_Logo(long).png";
+import { Link } from "react-router-dom";
+import centerData from "../../../data/centerData";
+
+/* SAME SLUGS AS NAVBAR & DATA */
+const serviceLinks = [
+  { label: "Chemotherapy", slug: "chemotherapy" },
+  { label: "Immunotherapy", slug: "immunotherapy" },
+  { label: "Cancer Surgery", slug: "cancer-surgery" },
+  { label: "Radiation Therapy", slug: "radiation-therapy" },
+  { label: "Targeted Therapy", slug: "targeted-therapy" },
+  { label: "Bone Marrow Transplant", slug: "bone-marrow-transplant" },
+  { label: "CAR-T Cellular Therapy", slug: "car-t-therapy" },
+];
+
+const cancerLinks = [
+  { label: "Breast Cancer", slug: "breast-cancer" },
+  { label: "Lung Cancer", slug: "lung-cancer" },
+  { label: "Blood Cancer", slug: "blood-cancer" },
+  { label: "Brain Cancer", slug: "brain-cancer" },
+  { label: "Gastrointestinal Cancer", slug: "gastrointestinal-cancer" },
+  { label: "Gynecological Cancer", slug: "gynecological-cancer" },
+  { label: "Urological Cancer", slug: "urological-cancer" },
+  { label: "Bone & Soft Tissue Cancer", slug: "bone-soft-tissue-cancer" },
+];
 
 const Footer = () => {
   return (
@@ -7,7 +31,9 @@ const Footer = () => {
       <div className="footer-container">
         {/* LOGO */}
         <div className="footer-logo">
-          <img src={logo} alt="Indian Cancer Treatment Centre" />
+          <Link to="/">
+            <img src={logo} alt="Indian Cancer Treatment Centre" />
+          </Link>
         </div>
 
         {/* COLUMNS */}
@@ -16,36 +42,34 @@ const Footer = () => {
           <div className="footer-col">
             <h4>About Us</h4>
             <ul>
-              <li>About ICTC</li>
-              <li>Our Team</li>
+              <li><Link to="/aboutUs">About ICTC</Link></li>
+              <li><Link to="/ourDoctors">Our Team</Link></li>
             </ul>
 
             <h4 className="mt">Services</h4>
             <ul>
-              <li>Chemotherapy</li>
-              <li>Immunotherapy</li>
-              <li>Cancer Surgery</li>
-              <li>Radiation Therapy</li>
-              <li>Targeted Therapy</li>
-              <li>Bone Marrow Transplant</li>
-              <li>CAR-T Cellular Therapy</li>
+              {serviceLinks.map((item) => (
+                <li key={item.slug}>
+                  <Link to={`/service/${item.slug}`}>
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* CENTRES */}
+          {/* CENTRES (NOW DYNAMIC) */}
           <div className="footer-col">
             <h4>Centres</h4>
             <ul className="centres-list">
-              <li><span className="sp" >Vashi</span> 92345 12345</li>
-              <li><span className="sp" >Panvel</span> 92345 12345</li>
-              <li><span className="sp" >Kalyan</span> 92345 12345</li>
-              <li><span className="sp" >Dombivali</span> 92345 12345</li>
-              <li><span className="sp" >Sion</span> 92345 12345</li>
-              <li><span className="sp" >Dadar</span> 92345 12345</li>
-              <li><span className="sp" >Santacruz</span> 92345 12345</li>
-              <li><span className="sp" >Goregaon</span> 92345 12345</li>
-              <li><span className="sp" >Ghatkopar</span> 92345 12345</li>
-              <li><span className="sp" >Chembur</span> 92345 12345</li>
+              {Object.values(centerData).map((centre) => (
+                <li key={centre.slug}>
+                  <Link to={`/centre/${centre.slug}`}>
+                    <span className="sp">{centre.name}</span>
+                  </Link>{" "}
+                  {centre.phone}
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -53,8 +77,13 @@ const Footer = () => {
           <div className="footer-col">
             <h4>Cancers We Treat</h4>
             <ul>
-              <li>Breast Cancers</li>
-              <li>Blood Cancers</li>
+              {cancerLinks.slice(0, 6).map((item) => (
+                <li key={item.slug}>
+                  <Link to={`/cancer/${item.slug}`}>
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -62,7 +91,7 @@ const Footer = () => {
           <div className="footer-col">
             <h4>Useful Link</h4>
             <ul>
-              <li>ICTC Blogs</li>
+              <li><Link to="/blog">ICTC Blogs</Link></li>
               <li>ICTC Newsletter</li>
               <li>Privacy Policy</li>
               <li>Contact Us</li>

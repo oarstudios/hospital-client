@@ -161,4 +161,5 @@ border: 1px solid rgba(228, 227, 229, 1);
 /* DATE INPUT FIX */
 .date-input {
   cursor: pointer;
+  width: 50% !important;
 }

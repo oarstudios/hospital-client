@@ -43,13 +43,28 @@ import ServicePage from "./components/ServicePage/ServicePage";
 import OurDoctorTeam from "./components/OurDoctorTeam/OurDoctorTeam";
 import AboutUs from "./components/AboutUs/AboutUs";
 
+import Chatbot from "./components/Chatbot/Chatbot";
+import BookAppoinmentFull from "./components/BookAppoinmentSecond/BookAppoinmentFull";
+import BookSecondOp from "./components/BookAppoinmentSecond/BookSecondOp";
+import AllCancerTypePage from "./components/CancerDetails/AllCancerTypePage";
+import AllServicePage from "./components/ServicePage/AllServicePage";
 
-import Chatbot from "./components/Chatbot/Chatbot"
+import ServiceBreadcrumb from "./components/ServicePage/ServiceBreadcrumb";
+import AllDoctorsBreadcrumb from "./components/OurDoctorTeam/AllDoctorsBreadcrumb";
+import AboutUsBreadcrumb from "./components/AboutUs/AboutUsBreadcrumb";
+import BookAppoinmentBreadcrumb from "./components/BookAppoinmentSecond/BookAppoinmentBreadcrumb";
+import BookSecondAppoinmentBreadcrumb from "./components/BookAppoinmentSecond/BookSecondAppoinmentBreadcrumb";
+import AllCancerDetBreadcrumb from "./components/CancerDetails/AllCancerDetBreadcrumb";
+import AllServiceBreadcrumb from "./components/ServicePage/AllServiceBreadcrumb";
+import ScrollToTop from "./components/Common/ScrollToTop";
+import NotFound from "./components/Common/NotFound";
 
 function App() {
   return (
     <>
       <Navbar />
+
+      <ScrollToTop/>
 
       <Routes>
         {/* HOME PAGE */}
@@ -71,19 +86,18 @@ function App() {
           }
         />
 
-        {/* OUR CENTERS PAGE */}
         <Route
-          path="/ourCenters"
+          path="/centre/:slug"
           element={
             <>
-              <CenterBreadcrumb centerName="ICTC Vashi" />
+              <CenterBreadcrumb />
               <OurCenterHero />
               <CenterDescription />
               <ExpertsAtICTC />
               <ServicesatICTC />
               <PatientTestimonials />
-              <BookAppointmentCenter centerName="Vashi" />
-              <CenterGallery center="vashi" />
+              <BookAppointmentCenter />
+              <CenterGallery />
               <OurNetworkOfCare />
               <RequestCallback />
             </>
@@ -91,10 +105,22 @@ function App() {
         />
 
         <Route
-          path="/doctor"
+          path="/allCenters"
           element={
             <>
-              <DoctorBreadcrumb docName="Dr Rohit Pai" />
+              <AllCentersBreadcrumb  />
+              <AllCentres />
+              <OurNetworkOfCare />
+              <RequestCallback />
+            </>
+          }
+        />
+
+        <Route
+          path="/doctor/:slug"
+          element={
+            <>
+              <DoctorBreadcrumb />
               <DoctorProfile />
               <PatientTestimonials />
               <PatientStoriesEmbed />
@@ -106,10 +132,23 @@ function App() {
         />
 
         <Route
+          path="/ourDoctors"
+          element={
+            <>
+              <AllDoctorsBreadcrumb />
+              <OurDoctorTeam />
+              <BookAppointment />
+              <OurNetworkOfCare />
+              <RequestCallback />
+            </>
+          }
+        />
+
+        <Route
           path="/blog"
           element={
             <>
-              <BlogBreadcrumb blogNewsName="Blogs and News" />
+              <BlogBreadcrumb />
               <BlogsSection />
               <OurNetworkOfCare />
               <RequestCallback />
@@ -118,10 +157,10 @@ function App() {
         />
 
         <Route
-          path="/blogpost"
+          path="/blog/:slug"
           element={
             <>
-              <BlogPostBreadcrumb blogPostName="Parenting With Cancer: What Do We Tell the Kids?" />
+              <BlogPostBreadcrumb />
               <BlogPost />
               <OurNetworkOfCare />
               <RequestCallback />
@@ -130,22 +169,10 @@ function App() {
         />
 
         <Route
-          path="/allCenters"
+          path="/cancer/:slug"
           element={
             <>
-              <AllCentersBreadcrumb centerName="All Centres" />
-              <AllCentres />
-              <OurNetworkOfCare />
-              <RequestCallback />
-            </>
-          }
-        />
-
-        <Route
-          path="/cancerDetails"
-          element={
-            <>
-              <CancerDetBreadcrumb cancerName="Breast Cancer" />
+              <CancerDetBreadcrumb />
               <CancerDetails />
               <OurNetworkOfCare />
               <RequestCallback />
@@ -154,12 +181,12 @@ function App() {
         />
 
         <Route
-          path="/servicePage"
+          path="/AllCancer"
           element={
             <>
-              <ServicePage/>
-              <ServicesatICTC/>
-              <BookAppointment/>
+              <AllCancerDetBreadcrumb />
+              <AllCancerTypePage />
+              <BookAppointment />
               <OurNetworkOfCare />
               <RequestCallback />
             </>
@@ -167,11 +194,26 @@ function App() {
         />
 
         <Route
-          path="/ourDoctors"
+          path="/service/:slug"
           element={
             <>
-              <OurDoctorTeam/>
-              <BookAppointment/>
+              <ServiceBreadcrumb />
+              <ServicePage />
+              <ServicesatICTC />
+              <BookAppointment />
+              <OurNetworkOfCare />
+              <RequestCallback />
+            </>
+          }
+        />
+
+        <Route
+          path="/AllService"
+          element={
+            <>
+              <AllServiceBreadcrumb />
+              <AllServicePage />
+              <BookAppointment />
               <OurNetworkOfCare />
               <RequestCallback />
             </>
@@ -182,15 +224,42 @@ function App() {
           path="/aboutUs"
           element={
             <>
-           <AboutUs/>
+              <AboutUsBreadcrumb  />
+              <AboutUs />
               <OurNetworkOfCare />
               <RequestCallback />
             </>
           }
         />
+
+        <Route
+          path="/BookAppoinment"
+          element={
+            <>
+              <BookAppoinmentBreadcrumb  />
+              <BookAppoinmentFull />
+              <OurNetworkOfCare />
+              <RequestCallback />
+            </>
+          }
+        />
+
+        <Route
+          path="/BookSecondOpinion"
+          element={
+            <>
+              <BookSecondAppoinmentBreadcrumb  />
+              <BookSecondOp />
+              <OurNetworkOfCare />
+              <RequestCallback />
+            </>
+          }
+        />
+
+        <Route path="*" element={<NotFound/>} />
       </Routes>
 
-          <Chatbot/>
+      <Chatbot />
       <Footer />
     </>
   );

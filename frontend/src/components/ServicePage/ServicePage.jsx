@@ -1,12 +1,17 @@
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import "./ServicePage.css";
 
-/* IMAGES */
+/* DATA */
+import serviceData from "../../data/serviceData";
+
+/* IMAGES (STATIC – SAME FOR ALL SERVICES) */
 import heroImg from "../../assets/serviceHero.png";
 import contentImg1 from "../../assets/service1.png";
 import contentImg2 from "../../assets/service2.png";
 import arrowIcon from "../../assets/cuida_dropdown-outline.png";
 
+/* FAQ (can be made dynamic later if needed) */
 const faqs = [
   {
     question: "Can chemotherapy be used to treat cancer?",
@@ -27,59 +32,62 @@ const faqs = [
 
 const ServicePage = () => {
   const [activeIndex, setActiveIndex] = useState(2);
+  const { slug } = useParams();
+
+  const data = serviceData[slug];
+
+  /* SAFETY CHECK */
+  if (!data) {
+    return (
+      <section className="ictc-service-page">
+        <h2 style={{ padding: "40px" }}>
+          Service details not found
+        </h2>
+      </section>
+    );
+  }
 
   return (
     <section className="ictc-service-page">
       {/* HERO CARD */}
       <div className="ictc-service-hero-card">
-        <img src={heroImg} alt="Chemotherapy at ICTC" />
+        <img src={heroImg} alt={data.heroTitle} />
         <div className="ictc-service-hero-title">
-          Chemotherapy at ICTC
+          {data.heroTitle}
         </div>
       </div>
 
       {/* CONTENT */}
       <div className="ictc-service-content">
-        <h3>
-          Chemotherapy employs drugs to eradicate cancer cells.
-        </h3>
+        <h3>{data.description[0]}</h3>
 
-        <p>
-          With this specific cancer therapy, cancer cells are prevented from
-          multiplying, dividing, and generating new cells. A number of cancers
-          can be treated using chemotherapy.
-        </p>
-
-        <p>
-          The medicine chemotherapy has an overall body-wide impact. This
-          implies that it circulates throughout the body via the bloodstream.
-        </p>
+        {data.description.slice(1).map((para, index) => (
+          <p key={index}>{para}</p>
+        ))}
 
         <img src={contentImg1} alt="Doctor consultation" />
 
         <h3>Subtypes of therapy</h3>
         <ul>
-          <li>Adjuvant therapy</li>
-          <li>Curative therapy</li>
-          <li>Neoadjuvant therapy</li>
-          <li>Palliative therapy</li>
+          {data.subtypes.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
         </ul>
 
-        <h3>Benefits of chemotherapy</h3>
+        <h3>Benefits of {data.name}</h3>
         <ul>
-          <li>Shrinks or eliminates tumors</li>
-          <li>Helps prevent cancer recurrence</li>
-          <li>Allows surgery to remove malignancy</li>
+          {data.benefits.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
         </ul>
 
         <img src={contentImg2} alt="Patient care" />
 
-        <h3>Downside of chemotherapy</h3>
+        <h3>Downside of {data.name}</h3>
         <ul>
-          <li>Hair loss</li>
-          <li>Nausea and vomiting</li>
-          <li>Fatigue</li>
-          <li>Weak immune system</li>
+          {data.downsides.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
         </ul>
       </div>
 

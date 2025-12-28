@@ -1,7 +1,12 @@
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import "./BookAppointmentCenter.css";
+import centerData from "../../../data/centerData";
 
-const BookAppointmentCenter = ({ centerName }) => {
+const BookAppointmentCenter = () => {
+  const { slug } = useParams();
+  const center = centerData[slug];
+
   const [form, setForm] = useState({
     name: "",
     age: "",
@@ -24,13 +29,15 @@ const BookAppointmentCenter = ({ centerName }) => {
       return;
     }
 
-    alert(`Appointment booked at ICTC ${centerName}`);
+    alert(`Appointment booked at ${center?.name}`);
   };
+
+  if (!center) return null;
 
   return (
     <section className="ictc-book-wrapper">
       <h2 className="ictc-book-heading">
-        Book an Appointment at ICTC {centerName}
+        Book an Appointment at {center.name}
       </h2>
 
       <p className="ictc-book-section-title">Patient Details</p>
@@ -73,7 +80,6 @@ const BookAppointmentCenter = ({ centerName }) => {
         onChange={handleChange}
       />
 
-      {/* BUTTON ON NEW LINE */}
       <div className="ictc-book-btn-row">
         <button className="ictc-book-btn" onClick={handleSubmit}>
           Book Appointment

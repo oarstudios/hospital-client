@@ -1,19 +1,14 @@
 import "../OurCenters/CenterBreadcrumb/CenterBreadcrumb.css";
-import { useParams, useNavigate } from "react-router-dom";
-import blogData from "../../data/blogData";
 import homeIcon from "../../assets/mdi-light_home.png";
+import { useNavigate } from "react-router-dom";
 
-const BlogPostBreadcrumb = () => {
-  const { slug } = useParams();
+const AllDoctorsBreadcrumb = ({ docPageName = "Doctors at ICTC" }) => {
   const navigate = useNavigate();
-
-  const blog = blogData[slug];
-
-  if (!blog) return null;
 
   return (
     <nav className="center-breadcrumb">
       <div className="center-breadcrumb__content">
+        {/* HOME */}
         <img
           src={homeIcon}
           alt="home"
@@ -24,22 +19,13 @@ const BlogPostBreadcrumb = () => {
 
         <span className="center-breadcrumb__sep">›</span>
 
-        <span
-          className="center-breadcrumb__text"
-          style={{ cursor: "pointer" }}
-          onClick={() => navigate("/blog")}
-        >
-          Blogs and News
-        </span>
-
-        <span className="center-breadcrumb__sep">›</span>
-
+        {/* CURRENT PAGE */}
         <span className="center-breadcrumb__current">
-          {blog.title}
+          {docPageName}
         </span>
       </div>
     </nav>
   );
 };
 
-export default BlogPostBreadcrumb;
+export default AllDoctorsBreadcrumb;

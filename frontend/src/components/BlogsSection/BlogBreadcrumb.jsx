@@ -1,7 +1,10 @@
 import "../OurCenters/CenterBreadcrumb/CenterBreadcrumb.css";
+import { useNavigate } from "react-router-dom";
 import homeIcon from "../../assets/mdi-light_home.png";
 
-const BlogBreadcrumb = ({ blogNewsName }) => {
+const BlogBreadcrumb = () => {
+  const navigate = useNavigate();
+
   return (
     <nav className="center-breadcrumb">
       <div className="center-breadcrumb__content">
@@ -9,16 +12,14 @@ const BlogBreadcrumb = ({ blogNewsName }) => {
           src={homeIcon}
           alt="home"
           className="center-breadcrumb__home"
+          style={{ cursor: "pointer" }}
+          onClick={() => navigate("/")}
         />
 
         <span className="center-breadcrumb__sep">›</span>
 
-      
-
-   
-
         <span className="center-breadcrumb__current">
-          {blogNewsName}
+          Blogs and News
         </span>
       </div>
     </nav>

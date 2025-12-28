@@ -1,32 +1,28 @@
 import "./OurCenterHero.css";
-import heroBg from "../../../assets/Frame 87.png";
 import phoneIcon from "../../../assets/call (2).png";
 import locationIcon from "../../../assets/weui_location-filled.png";
 import starIcon from "../../../assets/Hearts.png";
-
-/* 🔹 Dynamic centre data */
-const centerData = {
-  name: "ICTC Vashi Centre",
-  rating: "4.9",
-  reviews: "150+ Ratings",
-  phone: "+91 88588 55200",
-  address:
-    "3rd floor, Mahavir Center, Office 47/48, above Golden Punjab Hotel, Sec-17 Road, Sector 17, Vashi, Navi Mumbai, Maharashtra 400703",
-  timing: "Mon – Sat 9:00 a.m. to 7:00 p.m.",
-};
+import { useParams } from "react-router-dom";
+import centerData from "../../../data/centerData";
 
 const OurCenterHero = () => {
+  const { slug } = useParams();
+
+  const center = centerData[slug];
+
+  if (!center) return null;
+
   return (
     <section className="our-center-hero">
       {/* HERO IMAGE */}
       <div
         className="hero-banner"
-        style={{ backgroundImage: `url(${heroBg})` }}
+        style={{ backgroundImage: `url(${center.heroBg})` }}
       />
 
       {/* INFO SECTION */}
       <div className="center-info">
-        <h2>{centerData.name}</h2>
+        <h2>{center.fullName}</h2>
 
         {/* RATING */}
         <div className="rating-row">
@@ -38,30 +34,30 @@ const OurCenterHero = () => {
           </div>
 
           <span className="rating-text">
-            {centerData.rating}
+            {center.rating}
             <span className="divider"> | </span>
-            {centerData.reviews}
+            {center.reviews}
           </span>
         </div>
 
         {/* PHONE */}
         <div className="contact-row">
           <img src={phoneIcon} alt="phone" />
-          <span className="phone">{centerData.phone}</span>
+          <span className="phone">{center.phone}</span>
         </div>
 
-        {/* ADDRESS (NEW LINE FIX) */}
+        {/* ADDRESS */}
         <div className="address-block">
           <div className="address-title">
             <img src={locationIcon} alt="location" />
             <span className="addTitle">Address:</span>
           </div>
 
-          <p className="address-text">{centerData.address}</p>
+          <p className="address-text">{center.address}</p>
         </div>
 
         {/* TIMING */}
-        <p className="timing">{centerData.timing}</p>
+        <p className="timing">{center.timing}</p>
       </div>
     </section>
   );

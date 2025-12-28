@@ -1,4 +1,6 @@
 import "./CancersWeTreat.css";
+import { useNavigate } from "react-router-dom";
+
 
 /* 
   Pass icon as image src.
@@ -18,25 +20,34 @@ import cwt8 from "../../../assets/cwt8.png";
 
 
 const cancerTypes = [
-  { title: "Gastrointestinal Cancers", icon: cwt1 },
-  { title: "Brain Cancers", icon: cwt2 },
-  { title: "Lung Cancers", icon: cwt3 },
-  { title: "Urological Cancers", icon: cwt4 },
-  { title: "Blood Cancers", icon: cwt5 },
-  { title: "Bone and Soft Tissue Cancers", icon: cwt6 },
-  { title: "Breast Cancers", icon: cwt7 },
-  { title: "Gynecological Cancers", icon: cwt8 },
+  { title: "Gastrointestinal Cancers", slug: "gastrointestinal-cancer", icon: cwt1 },
+  { title: "Brain Cancers", slug: "brain-cancer", icon: cwt2 },
+  { title: "Lung Cancers", slug: "lung-cancer", icon: cwt3 },
+  { title: "Urological Cancers", slug: "urological-cancer", icon: cwt4 },
+  { title: "Blood Cancers", slug: "blood-cancer", icon: cwt5 },
+  { title: "Bone and Soft Tissue Cancers", slug: "bone-soft-tissue-cancer", icon: cwt6 },
+  { title: "Breast Cancers", slug: "breast-cancer", icon: cwt7 },
+  { title: "Gynecological Cancers", slug: "gynecological-cancer", icon: cwt8 },
 ];
 
 
+
 const CancersWeTreat = () => {
+
+  const navigate = useNavigate();
+
+const handleClick = (slug) => {
+  navigate(`/cancer/${slug}`);
+};
+
+
   return (
     <section className="cancers-section">
       <h2 className="cancers-heading">Cancers We Treat</h2>
 
       <div className="cancers-grid">
         {cancerTypes.map((item, index) => (
-          <div className="cancer-card" key={index}>
+          <div className="cancer-card" key={index}    onClick={() => handleClick(item.slug)}>
             <div className="icon-wrapper">
               <img src={item.icon} alt={item.title} />
             </div>

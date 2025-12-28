@@ -5,18 +5,46 @@ import "./Navbar.css";
 import logo from "../../../assets/ICTC_Logo.png";
 import arrow from "../../../assets/dropDownIcon.png";
 
+/* 🔹 DATA */
+import centerData from "../../../data/centerData";
+
+/* CANCERS */
+const cancerMenu = [
+  { label: "Breast Cancer", slug: "breast-cancer" },
+  { label: "Lung Cancer", slug: "lung-cancer" },
+  { label: "Blood Cancer", slug: "blood-cancer" },
+  { label: "Brain Cancer", slug: "brain-cancer" },
+  { label: "Gastrointestinal Cancer", slug: "gastrointestinal-cancer" },
+  { label: "Gynecological Cancer", slug: "gynecological-cancer" },
+  { label: "Urological Cancer", slug: "urological-cancer" },
+  { label: "Bone & Soft Tissue Cancer", slug: "bone-soft-tissue-cancer" },
+];
+
+/* SERVICES */
+const serviceMenu = [
+  { label: "Chemotherapy", slug: "chemotherapy" },
+  { label: "Immunotherapy", slug: "immunotherapy" },
+  { label: "Cancer Surgery", slug: "cancer-surgery" },
+  { label: "Radiation Therapy", slug: "radiation-therapy" },
+  { label: "Targeted Therapy", slug: "targeted-therapy" },
+  { label: "Bone Marrow Transplant", slug: "bone-marrow-transplant" },
+  { label: "CAR–T Cellular Therapy", slug: "car-t-therapy" },
+];
+
 const Navbar = () => {
   const [activeMenu, setActiveMenu] = useState(null);
-
-  const navigate = useNavigate(); // ✅ ADD THIS
+  const navigate = useNavigate();
 
   const toggleMenu = (menu) => {
     setActiveMenu(activeMenu === menu ? null : menu);
   };
 
+  /* 🔹 CENTRES ARRAY FROM DATA */
+  const centres = Object.values(centerData);
+
   return (
     <>
-      {/* ================= TOP BAR ================= */}
+      {/* TOP BAR */}
       <div className="top-bar">
         <span>Mail Us at: info@ictconco.org</span>
         <span>
@@ -24,10 +52,15 @@ const Navbar = () => {
         </span>
       </div>
 
-      {/* ================= NAVBAR ================= */}
+      {/* NAVBAR */}
       <div className="navbar-wrapper">
         <nav className="navbar">
-          <div className="logo">
+          {/* LOGO */}
+          <div
+            className="logo"
+            onClick={() => navigate("/")}
+            style={{ cursor: "pointer" }}
+          >
             <img src={logo} alt="ICTC Logo" />
           </div>
 
@@ -41,81 +74,119 @@ const Navbar = () => {
             <li onClick={() => toggleMenu("cancer")}>
               CANCER TYPES <img src={arrow} />
             </li>
-            <li onClick={() => navigate("/doctor")}>
-  BLOGS
-</li>
-            <li>ABOUT US</li>
+            <li onClick={() => navigate("/blog")}>BLOGS</li>
+            <li onClick={() => navigate("/aboutUs")}>ABOUT US</li>
           </ul>
 
-          <button className="appointment-btn">Book an Appointment</button>
+          <button
+            className="appointment-btn"
+            onClick={() => navigate("/BookAppoinment")}
+          >
+            Book an Appointment
+          </button>
         </nav>
 
-        {/* ================= DROPDOWNS ================= */}
+        {/* SERVICES DROPDOWN */}
         {activeMenu === "services" && (
           <MegaDropdown heading="SERVICES">
             <div className="column">
-              <p>Chemotherapy</p>
-              <p>Immunotherapy</p>
-              <p>Radiation Therapy</p>
-              <p>Cancer Surgery</p>
+              {serviceMenu.slice(0, 4).map((item) => (
+                <p
+                  key={item.slug}
+                  onClick={() => {
+                    navigate(`/service/${item.slug}`);
+                    setActiveMenu(null);
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  {item.label}
+                </p>
+              ))}
             </div>
 
             <div className="column">
-              <p>Targeted Therapy</p>
-              <p>Bone Marrow Transplant</p>
-              <p>CAR-T Cellular Therapy</p>
-            </div>
-
-            <div className="column">
-              <p>Scalp Cooling</p>
-              <p>BM Testing – Aspiration & Biopsy</p>
-              <p>Palliative Care</p>
-              <p>Hormonal Therapies</p>
-            </div>
-
-            <div className="column">
-              <p>Chemotherapy Port Insertion & Handling</p>
-              <p>Oral Metronomic Chemotherapy</p>
+              {serviceMenu.slice(4).map((item) => (
+                <p
+                  key={item.slug}
+                  onClick={() => {
+                    navigate(`/service/${item.slug}`);
+                    setActiveMenu(null);
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  {item.label}
+                </p>
+              ))}
             </div>
           </MegaDropdown>
         )}
 
+        {/* CENTRES DROPDOWN (DYNAMIC) */}
         {activeMenu === "centres" && (
           <MegaDropdown heading="OUR CENTRES">
             <div className="column">
-              <p>Vashi</p>
-              <p>Panvel</p>
-              <p>Kalyan</p>
-              <p>Dombivli</p>
+              {centres.slice(0, 4).map((center) => (
+                <p
+                  key={center.slug}
+                  onClick={() => {
+                    navigate(`/centre/${center.slug}`);
+                    setActiveMenu(null);
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  {center.name}
+                </p>
+              ))}
             </div>
 
             <div className="column">
-              <p>Sion</p>
-              <p>Dadar</p>
-              <p>Ghatkopar</p>
-              <p>Goregaon</p>
-            </div>
-
-            <div className="column">
-              <p>Santacruz</p>
-              <p>Chembur</p>
+              {centres.slice(4, 8).map((center) => (
+                <p
+                  key={center.slug}
+                  onClick={() => {
+                    navigate(`/centre/${center.slug}`);
+                    setActiveMenu(null);
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  {center.name}
+                </p>
+              ))}
             </div>
           </MegaDropdown>
         )}
 
+        {/* CANCER DROPDOWN */}
         {activeMenu === "cancer" && (
           <MegaDropdown heading="CANCER TYPES">
             <div className="column">
-              <p>Breast Cancer</p>
-              <p>Lung Cancer</p>
-              <p>Blood Cancer</p>
-              <p>Head & Neck Cancer</p>
+              {cancerMenu.slice(0, 4).map((item) => (
+                <p
+                  key={item.slug}
+                  onClick={() => {
+                    navigate(`/cancer/${item.slug}`);
+                    setActiveMenu(null);
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  {item.label}
+                </p>
+              ))}
             </div>
 
             <div className="column">
-              <p>Gastrointestinal Cancer</p>
-              <p>Gynecological Cancer</p>
-              <p>Prostate Cancer</p>
+              {cancerMenu.slice(4).map((item) => (
+                <p
+                  key={item.slug}
+                  onClick={() => {
+                    navigate(`/cancer/${item.slug}`);
+                    setActiveMenu(null);
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  {item.label}
+                </p>
+              ))}
             </div>
           </MegaDropdown>
         )}
@@ -124,23 +195,21 @@ const Navbar = () => {
   );
 };
 
-/* ================= MEGA DROPDOWN COMPONENT ================= */
+/* MEGA DROPDOWN */
 const MegaDropdown = ({ heading, children }) => (
   <div className="mega-dropdown">
     <div className="dropdown-grid">
-      {/* LEFT SIDE */}
       <div className="dropdown-left">
         <div className="dropdown-heading">{heading}</div>
         <div className="dropdown-content">{children}</div>
       </div>
 
-      {/* RIGHT SIDE */}
       <QuickLinks />
     </div>
   </div>
 );
 
-/* ================= QUICK LINKS ================= */
+/* QUICK LINKS */
 const QuickLinks = () => (
   <div className="quick-links">
     <h4>Quick Links</h4>

@@ -1,4 +1,6 @@
 import "../CancersWeTreat/CancersWeTreat.css";
+import { useNavigate } from "react-router-dom";
+
 
 /* 
   Pass icon as image src.
@@ -15,24 +17,28 @@ import cwt7 from "../../../assets/Ellipse 1 (6).png";
 
 
 const services = [
-  { title: "Chemotherapy", icon: cwt1 },
-  { title: "Immunotherapy", icon: cwt2 },
-  { title: "Cancer Surgery", icon: cwt3 },
-  { title: "Radiation Therapy", icon: cwt4 },
-  { title: "Targeted Therapy", icon: cwt5 },
-  { title: "Bone Marrow Transplant", icon: cwt6 },
-  { title: "CAR–T Cellular Therapy", icon: cwt7 },
+  { title: "Chemotherapy", slug: "chemotherapy", icon: cwt1 },
+  { title: "Immunotherapy", slug: "immunotherapy", icon: cwt2 },
+  { title: "Cancer Surgery", slug: "cancer-surgery", icon: cwt3 },
+  { title: "Radiation Therapy", slug: "radiation-therapy", icon: cwt4 },
+  { title: "Targeted Therapy", slug: "targeted-therapy", icon: cwt5 },
+  { title: "Bone Marrow Transplant", slug: "bone-marrow-transplant", icon: cwt6 },
+  { title: "CAR–T Cellular Therapy", slug: "car-t-therapy", icon: cwt7 },
 ];
 
 
+
 const ServicesatICTC = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="cancers-section">
       <h2 className="cancers-heading">Services Offered at ICTC</h2>
 
       <div className="cancers-grid">
         {services.map((item, index) => (
-          <div className="cancer-card" key={index}>
+          <div className="cancer-card" key={index}  onClick={() => navigate(`/service/${item.slug}`)}
+  style={{ cursor: "pointer" }}>
             <div className="icon-wrapper">
            <img
   src={item.icon}
