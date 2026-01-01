@@ -76,23 +76,164 @@
   font-size: 18px;
 }
 
-/* RESPONSIVE */
-@media (max-width: 1024px) {
+/* ================= RESPONSIVE CANCERS WE TREAT ================= */
+
+/* Large Laptops & Small Desktops */
+@media (max-width: 1440px) {
+  .cancers-section {
+    padding: 72px 32px;
+  }
+
+  .cancers-heading {
+    font-size: 36px;
+  }
+
   .cancers-grid {
-    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
   }
 }
 
-@media (max-width: 640px) {
+/* Tablets & Large Tablets */
+@media (max-width: 1199px) {
   .cancers-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 38px;
   }
 
   .cancer-card {
-    padding-left: 72px;
+    padding: 20px 64px;
+    height: auto;
+    min-height: 120px;
+  }
+
+  .card-content h3 {
+    font-size: 22px;
+  }
+}
+
+/* Tablets */
+@media (max-width: 1023px) {
+  .cancers-section {
+    padding: 64px 24px;
+  }
+
+  .cancers-heading {
+    font-size: 32px;
+    margin-bottom: 32px;
   }
 
   .icon-wrapper {
-    left: -20px;
+    width: 72px;
+    height: 72px;
+  }
+
+  .icon-wrapper img {
+    width: 32px;
+    height: 32px;
   }
 }
+
+/* Large Mobile / iPhone / Nothing */
+@media (max-width: 767px) {
+  .cancers-section {
+    padding: 48px 20px;
+  }
+
+  .cancers-heading {
+    font-size: 28px;
+    text-align: center;
+  }
+
+  .cancers-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .cancer-card {
+    padding: 20px 20px 20px 112px;
+  }
+
+  .icon-wrapper {
+    left: 20px;
+    top: 20px;
+    transform: none;
+  }
+
+  .card-content h3 {
+    font-size: 20px;
+  }
+
+  .learn-more {
+    font-size: 15px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .cancers-section {
+    padding: 40px 16px;
+  }
+
+  .cancers-heading {
+    font-size: 24px;
+  }
+
+  .cancer-card {
+    padding: 16px 16px 16px 98px;
+  }
+
+  .icon-wrapper {
+    width: 64px;
+    height: 64px;
+    left: 16px;
+    top: 16px;
+  }
+
+  .icon-wrapper img {
+    width: 28px;
+    height: 28px;
+  }
+
+  .card-content h3 {
+    font-size: 18px;
+  }
+
+  .learn-more {
+    font-size: 14px;
+  }
+}
+
+/* Very Small Devices */
+@media (max-width: 360px) {
+  .card-content h3 {
+    font-size: 17px;
+  }
+
+  .learn-more {
+    font-size: 13px;
+  }
+}
+
+/* Large Desktop / Wide Screens */
+@media (min-width: 1680px) {
+  .cancers-section {
+    padding: 96px 40px;
+  }
+
+  .cancers-heading {
+    font-size: 44px;
+  }
+
+  .cancers-grid {
+    gap: 48px;
+  }
+
+  .card-content h3 {
+    font-size: 26px;
+  }
+
+  .learn-more {
+    font-size: 17px;
+  }
+}
+

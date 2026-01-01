@@ -129,3 +129,177 @@ box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.1);
   border-radius: 45px;
     padding: 8px;
 }
+
+
+
+/* ================= RESPONSIVE REQUEST CALLBACK ================= */
+
+/* Large Laptops & Small Desktops */
+@media (max-width: 1440px) {
+  .callback-wrapper {
+    padding: 72px 32px;
+  }
+
+  .callback-form h2 {
+    font-size: 36px;
+  }
+
+  .support-card h3 {
+    font-size: 36px;
+  }
+}
+
+/* Tablets & Large Tablets */
+@media (max-width: 1199px) {
+  .callback-wrapper {
+    gap: 24px;
+  }
+
+  .callback-image {
+    width: 360px;
+  }
+
+  .support-card {
+    padding: 40px;
+  }
+
+  .support-phone {
+    font-size: 32px;
+  }
+}
+
+/* Tablets */
+@media (max-width: 1023px) {
+  .callback-wrapper {
+    flex-direction: column;
+  }
+
+  .callback-card {
+    flex-direction: column;
+  }
+
+  .callback-image {
+    width: 90%;
+  position: absolute;
+    padding: 16px 0;
+    align-items: flex-end;
+  }
+
+  .callback-image img {
+    max-height: 280px;
+  }
+
+  .support-card {
+    padding: 36px;
+  }
+}
+
+/* Large Mobile / iPhone / Nothing */
+@media (max-width: 767px) {
+  .callback-wrapper {
+    padding: 48px 20px;
+  }
+
+  .callback-form h2 {
+    font-size: 28px;
+  }
+
+  .callback-form {
+    padding: 24px;
+  }
+
+  /* Hide image on mobile */
+  .callback-image {
+    display: none;
+  }
+
+  .callback-card {
+    flex-direction: column;
+  }
+
+  .callback-form button {
+    width: 100%;
+  }
+
+  .support-card {
+    margin-top: 24px;
+    padding: 32px 24px;
+  }
+
+  .support-card h3 {
+    font-size: 28px;
+  }
+
+  .support-label {
+    font-size: 18px;
+  }
+
+  .support-phone {
+    font-size: 24px;
+    justify-content: center;
+  }
+
+  .support-phone img {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .callback-wrapper {
+    padding: 40px 16px;
+  }
+
+  .callback-form h2 {
+    font-size: 24px;
+  }
+
+  .callback-form input {
+    font-size: 13px;
+    padding: 14px;
+  }
+
+  .callback-form button {
+    font-size: 13px;
+    padding: 12px;
+  }
+
+  .support-card h3 {
+    font-size: 24px;
+  }
+
+  .support-label {
+    font-size: 16px;
+  }
+
+  .support-phone {
+    font-size: 20px;
+  }
+}
+
+/* Very Small Devices */
+@media (max-width: 360px) {
+  .callback-form h2 {
+    font-size: 22px;
+  }
+
+  .support-card h3 {
+    font-size: 22px;
+  }
+}
+
+/* Large Desktop / Wide Screens */
+@media (min-width: 1680px) {
+  .callback-wrapper {
+    padding: 96px 40px;
+  }
+
+  .callback-form h2 {
+    font-size: 44px;
+  }
+
+  .support-card h3 {
+    font-size: 44px;
+  }
+}

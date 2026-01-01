@@ -64,19 +64,145 @@
   border-bottom-right-radius: 24px;
 }
 
-/* RESPONSIVE */
-@media (max-width: 1200px) {
-  .why-grid {
-    grid-template-columns: repeat(2, 1fr);
+/* ================= RESPONSIVE WHY CHOOSE ICTC ================= */
+
+/* Large Laptops & Small Desktops */
+@media (max-width: 1440px) {
+  .why-ictc {
+    padding: 72px 32px;
+  }
+
+  .why-title {
+    font-size: 36px;
+  }
+
+  .why-card-content h3 {
+    font-size: 22px;
   }
 }
 
-@media (max-width: 768px) {
+/* Tablets & Large Tablets */
+@media (max-width: 1199px) {
   .why-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .why-card {
+    height: auto;
+  }
+
+  .why-card-content {
+    padding: 24px;
+  }
+
+  .why-card-content h3 {
+    font-size: 20px;
+  }
+
+  .why-card-content p {
+    font-size: 14px;
+  }
+}
+
+/* Tablets */
+@media (max-width: 1023px) {
+  .why-ictc {
+    padding: 64px 24px;
+  }
+
+  .why-title {
+    font-size: 32px;
+    margin-bottom: 32px;
+  }
+
+  .why-grid {
+    gap: 20px;
+  }
+}
+
+/* Large Mobile / iPhone / Nothing */
+@media (max-width: 767px) {
+  .why-ictc {
+    padding: 48px 20px;
   }
 
   .why-title {
     font-size: 28px;
+    text-align: center;
+  }
+
+  .why-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .why-card-content {
+    padding: 20px;
+  }
+
+  .why-card-content h3 {
+    font-size: 18px;
+  }
+
+  .why-card-content p {
+    font-size: 15px;
+  }
+
+  .why-card-image img {
+    height: 220px;
   }
 }
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .why-ictc {
+    padding: 40px 16px;
+  }
+
+  .why-title {
+    font-size: 24px;
+  }
+
+  .why-card-content h3 {
+    font-size: 17px;
+  }
+
+  .why-card-content p {
+    font-size: 14px;
+  }
+
+  .why-card-image img {
+    height: 200px;
+  }
+}
+
+/* Very Small Devices */
+@media (max-width: 360px) {
+  .why-title {
+    font-size: 22px;
+  }
+
+  .why-card-content p {
+    font-size: 13px;
+  }
+}
+
+/* Large Desktop / Wide Screens */
+@media (min-width: 1680px) {
+  .why-ictc {
+    padding: 96px 40px;
+  }
+
+  .why-title {
+    font-size: 44px;
+  }
+
+  .why-card-content h3 {
+    font-size: 26px;
+  }
+
+  .why-card-content p {
+    font-size: 16px;
+  }
+}
+

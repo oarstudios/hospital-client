@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./HeroCarousel.css";
 
 import slide1 from "../../../assets/slide img.png";
@@ -9,25 +10,27 @@ const slides = [slide1, slide2, slide3];
 
 const HeroCarousel = () => {
   const [current, setCurrent] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
-    }, 4000); // 4 seconds
+    }, 4000);
 
     return () => clearInterval(interval);
   }, []);
 
+  /* CTA HANDLERS */
   const handleLocateCentre = () => {
-    console.log("Locate Centre clicked");
+    navigate("/allCenters");
   };
 
   const handleBookAppointment = () => {
-    console.log("Book Appointment clicked");
+    navigate("/BookAppoinment");
   };
 
   const handleSecondOpinion = () => {
-    console.log("Second Opinion clicked");
+    navigate("/BookSecondOpinion");
   };
 
   return (
@@ -42,7 +45,7 @@ const HeroCarousel = () => {
         />
       ))}
 
-      {/* QUICK CTA BAR (STATIC) */}
+      {/* QUICK CTA BAR */}
       <div className="quick-cta">
         <button className="cta-btn light" onClick={handleLocateCentre}>
           Locate Centre <span>→</span>

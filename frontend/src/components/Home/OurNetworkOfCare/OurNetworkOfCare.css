@@ -103,3 +103,196 @@
   align-items: center;
   gap: 8px;
 }
+
+
+
+/* ================= RESPONSIVE OUR NETWORK OF CARE ================= */
+
+/* Large Laptops & Small Desktops */
+@media (max-width: 1440px) {
+  .network-wrapper {
+    padding: 72px 32px;
+  }
+
+  .network-left h2 {
+    font-size: 36px;
+  }
+
+  .network-stats h1 {
+    font-size: 72px;
+  }
+
+  .network-stats p {
+    font-size: 36px;
+  }
+}
+
+/* Tablets & Large Tablets */
+@media (max-width: 1199px) {
+  .network-container {
+    gap: 32px;
+  }
+
+  .network-left {
+    width: 340px;
+  }
+
+  .location-pill,
+  .location-pill.active {
+    font-size: 20px;
+    padding: 10px 16px;
+  }
+
+  .network-map {
+    height: 640px;
+  }
+}
+
+/* Tablets */
+@media (max-width: 1023px) {
+  .network-wrapper {
+    padding: 64px 24px;
+  }
+
+  .network-container {
+    flex-direction: column;
+  }
+
+  .network-left {
+    width: 100%;
+  }
+
+  .location-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .network-stats {
+    margin-top: 32px;
+  }
+
+  .network-stats h1 {
+    font-size: 64px;
+  }
+
+  .network-stats p {
+    font-size: 32px;
+  }
+
+  .network-map {
+    height: 520px;
+  }
+}
+
+/* Large Mobile / iPhone / Nothing */
+@media (max-width: 767px) {
+  .network-wrapper {
+    padding: 48px 20px;
+  }
+
+  .network-left h2 {
+    font-size: 28px;
+    text-align: center;
+  }
+
+  .location-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .location-pill,
+  .location-pill.active {
+    font-size: 16px;
+    padding: 10px 12px;
+  }
+
+  .network-stats {
+    text-align: center;
+  }
+
+  .network-stats h1 {
+    font-size: 52px;
+  }
+
+  .network-stats p {
+    font-size: 24px;
+  }
+
+  .network-map {
+    height: 420px;
+  }
+
+  .map-phone-badge {
+    font-size: 10px;
+    padding: 6px 8px;
+    top: 4px;
+    right: 4px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .network-wrapper {
+    padding: 40px 16px;
+  }
+
+  .network-left h2 {
+    font-size: 24px;
+  }
+
+ 
+
+  .location-pill,
+  .location-pill.active {
+    font-size: 15px;
+  }
+
+  .network-stats h1 {
+    font-size: 44px;
+  }
+
+  .network-stats p {
+    font-size: 20px;
+  }
+
+  .network-map {
+    height: 360px;
+  }
+
+  .map-phone-badge {
+    font-size: 13px;
+  }
+}
+
+/* Very Small Devices */
+@media (max-width: 360px) {
+  .network-left h2 {
+    font-size: 22px;
+  }
+
+  .network-map {
+    height: 320px;
+  }
+}
+
+/* Large Desktop / Wide Screens */
+@media (min-width: 1680px) {
+  .network-wrapper {
+    padding: 96px 40px;
+  }
+
+  .network-left h2 {
+    font-size: 44px;
+  }
+
+  .network-stats h1 {
+    font-size: 88px;
+  }
+
+  .network-stats p {
+    font-size: 44px;
+  }
+
+  .network-map {
+    height: 760px;
+  }
+}

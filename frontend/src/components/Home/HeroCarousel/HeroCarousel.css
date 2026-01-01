@@ -77,3 +77,104 @@
 .cta-btn:hover span {
   opacity: 1;
 }
+
+
+
+/* ================= RESPONSIVE HERO CAROUSEL ================= */
+
+/* Large Tablets & Small Laptops */
+@media (max-width: 1199px) {
+  .hero-carousel {
+    height: 520px;
+  }
+
+  .cta-btn {
+    padding: 12px 22px;
+    font-size: 13px;
+  }
+}
+
+/* Tablets */
+@media (max-width: 1023px) {
+  .hero-carousel {
+    height: 460px;
+  }
+
+  .quick-cta {
+    bottom: 24px;
+    border-radius: 36px;
+  }
+
+  .cta-btn span {
+    font-size: 22px;
+  }
+}
+
+/* Large Mobile / iPhone / Nothing */
+@media (max-width: 767px) {
+  .hero-carousel {
+    height: 420px;
+  }
+
+  .quick-cta {
+    flex-direction: column;
+    width: calc(100% - 32px);
+    left: 16px;
+    transform: none;
+    border-radius: 20px;
+  }
+
+  .cta-btn {
+    width: 100%;
+    justify-content: space-between;
+    padding: 14px 20px;
+    font-size: 14px;
+  }
+
+  .cta-btn span {
+    font-size: 24px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .hero-carousel {
+    height: 360px;
+  }
+
+  .quick-cta {
+    bottom: 16px;
+  }
+
+  .cta-btn {
+    font-size: 13px;
+    padding: 12px 16px;
+  }
+
+  .cta-btn span {
+    font-size: 22px;
+  }
+}
+
+/* Very Small Devices */
+@media (max-width: 360px) {
+  .hero-carousel {
+    height: 320px;
+  }
+
+  .cta-btn {
+    font-size: 12px;
+  }
+}
+
+/* Large Desktop */
+@media (min-width: 1680px) {
+  .hero-carousel {
+    height: 640px;
+  }
+
+  .cta-btn {
+    font-size: 15px;
+    padding: 14px 32px;
+  }
+}

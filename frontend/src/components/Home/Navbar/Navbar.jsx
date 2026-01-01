@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "./Navbar.css";
@@ -33,7 +33,11 @@ const serviceMenu = [
 
 const Navbar = () => {
   const [activeMenu, setActiveMenu] = useState(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [sticky, setSticky] = useState(false);
+
   const navigate = useNavigate();
+  const navRef = useRef(null);
 
   const toggleMenu = (menu) => {
     setActiveMenu(activeMenu === menu ? null : menu);
@@ -42,8 +46,33 @@ const Navbar = () => {
   /* 🔹 CENTRES ARRAY FROM DATA */
   const centres = Object.values(centerData);
 
+  /* 🔹 STICKY NAVBAR */
+  useEffect(() => {
+    const onScroll = () => {
+      setSticky(window.scrollY > 80);
+    };
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  /* 🔹 OUTSIDE CLICK CLOSE */
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (navRef.current && !navRef.current.contains(e.target)) {
+        setActiveMenu(null);
+        setMobileOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <>
+      {/* OVERLAY */}
+      {(activeMenu || mobileOpen) && <div className="nav-overlay"></div>}
+
       {/* TOP BAR */}
       <div className="top-bar">
         <span>Mail Us at: info@ictconco.org</span>
@@ -53,17 +82,25 @@ const Navbar = () => {
       </div>
 
       {/* NAVBAR */}
-      <div className="navbar-wrapper">
+      <div
+        className={`navbar-wrapper ${sticky ? "sticky" : ""}`}
+        ref={navRef}
+      >
         <nav className="navbar">
           {/* LOGO */}
           <div
             className="logo"
-            onClick={() => navigate("/")}
+            onClick={() => {
+              navigate("/");
+              setMobileOpen(false);
+              setActiveMenu(null);
+            }}
             style={{ cursor: "pointer" }}
           >
             <img src={logo} alt="ICTC Logo" />
           </div>
 
+          {/* DESKTOP MENU */}
           <ul className="menu">
             <li onClick={() => toggleMenu("services")}>
               SERVICES <img src={arrow} />
@@ -78,13 +115,46 @@ const Navbar = () => {
             <li onClick={() => navigate("/aboutUs")}>ABOUT US</li>
           </ul>
 
+          {/* DESKTOP BUTTON */}
           <button
             className="appointment-btn"
             onClick={() => navigate("/BookAppoinment")}
           >
             Book an Appointment
           </button>
+
+          {/* HAMBURGER */}
+          <div
+            className="hamburger"
+            onClick={() => {
+              setMobileOpen(!mobileOpen);
+              setActiveMenu(null);
+            }}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
         </nav>
+
+        {/* MOBILE MENU */}
+        <div className={`mobile-menu ${mobileOpen ? "open" : ""}`}>
+          <ul>
+            <li onClick={() => navigate("/")}>Home</li>
+            <li onClick={() => toggleMenu("services")}>Services</li>
+            <li onClick={() => toggleMenu("centres")}>Our Centre</li>
+            <li onClick={() => toggleMenu("cancer")}>Cancer Types</li>
+            <li onClick={() => navigate("/blog")}>Blogs</li>
+            <li onClick={() => navigate("/aboutUs")}>About Us</li>
+
+            <button
+              className="appointment-btn mobile-btn"
+              onClick={() => navigate("/BookAppoinment")}
+            >
+              Book an Appointment
+            </button>
+          </ul>
+        </div>
 
         {/* SERVICES DROPDOWN */}
         {activeMenu === "services" && (
@@ -96,8 +166,8 @@ const Navbar = () => {
                   onClick={() => {
                     navigate(`/service/${item.slug}`);
                     setActiveMenu(null);
+                    setMobileOpen(false);
                   }}
-                  style={{ cursor: "pointer" }}
                 >
                   {item.label}
                 </p>
@@ -111,8 +181,8 @@ const Navbar = () => {
                   onClick={() => {
                     navigate(`/service/${item.slug}`);
                     setActiveMenu(null);
+                    setMobileOpen(false);
                   }}
-                  style={{ cursor: "pointer" }}
                 >
                   {item.label}
                 </p>
@@ -121,7 +191,7 @@ const Navbar = () => {
           </MegaDropdown>
         )}
 
-        {/* CENTRES DROPDOWN (DYNAMIC) */}
+        {/* CENTRES DROPDOWN */}
         {activeMenu === "centres" && (
           <MegaDropdown heading="OUR CENTRES">
             <div className="column">
@@ -131,8 +201,8 @@ const Navbar = () => {
                   onClick={() => {
                     navigate(`/centre/${center.slug}`);
                     setActiveMenu(null);
+                    setMobileOpen(false);
                   }}
-                  style={{ cursor: "pointer" }}
                 >
                   {center.name}
                 </p>
@@ -146,8 +216,8 @@ const Navbar = () => {
                   onClick={() => {
                     navigate(`/centre/${center.slug}`);
                     setActiveMenu(null);
+                    setMobileOpen(false);
                   }}
-                  style={{ cursor: "pointer" }}
                 >
                   {center.name}
                 </p>
@@ -166,8 +236,8 @@ const Navbar = () => {
                   onClick={() => {
                     navigate(`/cancer/${item.slug}`);
                     setActiveMenu(null);
+                    setMobileOpen(false);
                   }}
-                  style={{ cursor: "pointer" }}
                 >
                   {item.label}
                 </p>
@@ -181,8 +251,8 @@ const Navbar = () => {
                   onClick={() => {
                     navigate(`/cancer/${item.slug}`);
                     setActiveMenu(null);
+                    setMobileOpen(false);
                   }}
-                  style={{ cursor: "pointer" }}
                 >
                   {item.label}
                 </p>
@@ -197,7 +267,7 @@ const Navbar = () => {
 
 /* MEGA DROPDOWN */
 const MegaDropdown = ({ heading, children }) => (
-  <div className="mega-dropdown">
+  <div className="mega-dropdown slide-down">
     <div className="dropdown-grid">
       <div className="dropdown-left">
         <div className="dropdown-heading">{heading}</div>

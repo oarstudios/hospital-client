@@ -171,3 +171,166 @@
   font-size: 12px;
   font-weight: 700;
 }
+
+
+
+/* ================= RESPONSIVE MEET OUR EXPERTS ================= */
+
+/* Large Laptops & Small Desktops */
+@media (max-width: 1440px) {
+  .experts-section {
+    padding: 72px 32px;
+  }
+
+  .experts-header h2 {
+    font-size: 36px;
+  }
+
+  .doctor-card-home {
+    min-width: 280px;
+  }
+}
+
+/* Tablets & Large Tablets */
+@media (max-width: 1199px) {
+  .experts-header {
+    margin-bottom: 32px;
+  }
+
+  .doctor-card-home {
+    min-width: 260px;
+  }
+
+  .doctor-content h3 {
+    font-size: 22px;
+  }
+}
+
+/* Tablets */
+@media (max-width: 1023px) {
+  .experts-section {
+    padding: 64px 24px;
+  }
+
+  .experts-header h2 {
+    font-size: 32px;
+  }
+
+  .nav-buttons button {
+    width: 52px;
+    height: 52px;
+    font-size: 18px;
+  }
+
+  .doctor-card-home {
+    min-width: 240px;
+  }
+}
+
+/* Large Mobile / iPhone / Nothing */
+@media (max-width: 767px) {
+  .experts-section {
+    padding: 48px 20px;
+  }
+
+  .experts-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .experts-header h2 {
+    font-size: 28px;
+  }
+
+  /* Hide arrow buttons on mobile (touch swipe instead) */
+  .nav-buttons {
+    display: none;
+  }
+
+  .experts-slider {
+    gap: 16px;
+  }
+
+  .doctor-card-home {
+    min-width: 220px;
+  }
+
+  .doctor-content h3 {
+    font-size: 20px;
+  }
+
+  .doctor-content p {
+    font-size: 11px;
+  }
+
+  .doctor-tag {
+    font-size: 11px;
+    padding: 6px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .experts-section {
+    padding: 40px 16px;
+  }
+
+  .experts-header h2 {
+    font-size: 24px;
+  }
+
+  .doctor-card-home {
+    min-width: 200px;
+  }
+
+  .doctor-img-wrapper img {
+    padding: 8px;
+  }
+
+  .view-profile-btn {
+    font-size: 11px;
+  }
+
+  .view-profile-btn span {
+    font-size: 16px;
+  }
+}
+
+/* Very Small Devices */
+@media (max-width: 360px) {
+  .doctor-card-home {
+    min-width: 180px;
+  }
+
+  .doctor-content h3 {
+    font-size: 18px;
+  }
+}
+
+/* Large Desktop / Wide Screens */
+@media (min-width: 1680px) {
+  .experts-section {
+    padding: 96px 40px;
+  }
+
+  .experts-header h2 {
+    font-size: 44px;
+  }
+
+  .doctor-card-home {
+    min-width: 320px;
+  }
+
+  .doctor-content h3 {
+    font-size: 26px;
+  }
+
+  .doctor-content p {
+    font-size: 13px;
+  }
+
+  .doctor-tag {
+    font-size: 13px;
+  }
+}
