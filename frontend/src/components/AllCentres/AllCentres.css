@@ -122,3 +122,139 @@
   font-weight: 600;
   color: rgba(18, 16, 18, 1);
 }
+
+
+
+/* ================================= */
+/* ALL CENTRES – RESPONSIVE ONLY */
+/* ================================= */
+
+/* ---------- LARGE LAPTOPS ---------- */
+@media (max-width: 1200px) {
+  .ictc-centre-card {
+    grid-template-columns: 240px 1fr;
+  }
+
+  .ictc-centre-header h3 {
+    font-size: 32px;
+  }
+}
+
+/* ---------- TABLETS ---------- */
+@media (max-width: 1024px) {
+  .ictc-centres-page {
+    padding: 32px;
+  }
+
+  .ictc-centre-card {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .ictc-centre-map iframe {
+    min-height: 260px;
+  }
+
+  .ictc-centre-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .ictc-centre-header h3 {
+    font-size: 28px;
+  }
+}
+
+/* ---------- SMALL TABLETS ---------- */
+@media (max-width: 768px) {
+  .ictc-centres-page {
+    padding: 24px;
+  }
+
+  .ictc-centres-title {
+    font-size: 32px;
+  }
+
+  .ictc-centre-rating img {
+    width: 22px;
+  }
+
+  .rating-score,
+  .rating-count {
+    font-size: 18px;
+  }
+
+  .ictc-centre-address {
+    font-size: 16px;
+  }
+
+  .ictc-centre-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .ictc-centre-phone {
+    font-size: 22px;
+  }
+
+  .ictc-centre-time {
+    font-size: 16px;
+  }
+}
+
+/* ---------- MOBILE ---------- */
+@media (max-width: 480px) {
+  .ictc-centres-page {
+    padding: 16px;
+  }
+
+  .ictc-centres-title {
+    font-size: 28px;
+    margin-bottom: 24px;
+  }
+
+  .ictc-centre-card {
+    padding: 8px;
+  }
+
+  .ictc-centre-map iframe {
+    min-height: 220px;
+  }
+
+  .ictc-centre-header h3 {
+    font-size: 22px;
+  }
+
+  .ictc-centre-rating {
+    flex-wrap: wrap;
+  }
+
+  .ictc-centre-phone {
+    font-size: 18px;
+  }
+
+  .ictc-centre-phone img {
+    width: 22px;
+  }
+
+  .ictc-centre-time {
+    font-size: 14px;
+  }
+}
+
+/* ---------- VERY SMALL DEVICES ---------- */
+@media (max-width: 360px) {
+  .ictc-centre-header h3 {
+    font-size: 20px;
+  }
+
+  .ictc-centre-address {
+    font-size: 14px;
+  }
+
+  .ictc-centre-phone {
+    font-size: 16px;
+  }
+}

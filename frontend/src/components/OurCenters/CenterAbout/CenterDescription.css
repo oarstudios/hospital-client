@@ -4,6 +4,7 @@
   font-family: "DM Sans", sans-serif;
 }
 
+/* CARD */
 .center-desc-card {
   max-width: 1200px;
   margin: auto;
@@ -50,7 +51,27 @@
   object-fit: cover;
 }
 
-/* RESPONSIVE */
+/* ========================= */
+/* RESPONSIVE BREAKPOINTS */
+/* ========================= */
+
+/* LARGE TABLETS */
+@media (max-width: 1024px) {
+  .center-desc-wrapper {
+    padding: 64px 24px;
+  }
+
+  .center-desc-card {
+    padding: 40px;
+    gap: 32px;
+  }
+
+  .center-desc-content p {
+    font-size: 18px;
+  }
+}
+
+/* TABLETS */
 @media (max-width: 900px) {
   .center-desc-card {
     flex-direction: column;
@@ -58,5 +79,36 @@
 
   .center-desc-image img {
     max-width: 100%;
+    height: auto;
+  }
+}
+
+/* LARGE MOBILES */
+@media (max-width: 600px) {
+  .center-desc-wrapper {
+    padding: 48px 16px;
+  }
+
+  .center-desc-card {
+    padding: 28px 20px;
+  }
+
+  .center-desc-content h2 {
+    font-size: 24px;
+  }
+
+  .center-desc-content p {
+    font-size: 16px;
+  }
+}
+
+/* SMALL MOBILES */
+@media (max-width: 360px) {
+  .center-desc-content h2 {
+    font-size: 22px;
+  }
+
+  .center-desc-content p {
+    font-size: 15px;
   }
 }

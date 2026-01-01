@@ -292,3 +292,187 @@ box-shadow: 0px 4px 15px 2px rgba(0, 0, 0, 0.05);
   font-size: 20px;
   font-weight: 400;
 }
+
+
+/* ================================= */
+/* BLOG POST – RESPONSIVE ONLY CSS */
+/* ================================= */
+
+/* ---------- LARGE TABLETS ---------- */
+@media (max-width: 1200px) {
+  .ictc-blogpost-layout {
+    grid-template-columns: 1fr 320px;
+    gap: 32px;
+    padding: 32px;
+  }
+
+  .ictc-blogpost-title {
+    font-size: 26px;
+  }
+
+  .ictc-blogpost-sidebar-title {
+    font-size: 26px;
+  }
+}
+
+/* ---------- TABLETS ---------- */
+@media (max-width: 1024px) {
+  .ictc-blogpost-layout {
+    grid-template-columns: 1fr;
+    padding: 28px;
+  }
+
+  .ictc-blogpost-sidebar {
+    order: 2;
+  }
+
+  .ictc-blogpost-article {
+    order: 1;
+  }
+
+  .ictc-blogpost-sidebar-title {
+    margin-top: 24px;
+  }
+
+  .ictc-blogpost-cta {
+    padding: 28px;
+  }
+}
+
+/* ---------- SMALL TABLETS ---------- */
+@media (max-width: 768px) {
+  .ictc-blogpost-layout {
+    padding: 24px;
+  }
+
+  .ictc-blogpost-title {
+    font-size: 24px;
+  }
+
+  .ictc-blogpost-body {
+    padding: 24px;
+  }
+
+  .ictc-blogpost-body p,
+  .ictc-blogpost-body li {
+    font-size: 15px;
+  }
+
+  .ictc-blogpost-body h2 {
+    font-size: 18px;
+  }
+
+  .ictc-blogpost-meta-tags {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .ictc-bp-flex {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .ictc-blogpost-share-btn {
+    align-self: flex-start;
+  }
+
+  .ictc-blg-text {
+    font-size: 18px;
+  }
+
+  .ictc-blogpost-tags-section {
+    margin: 24px;
+  }
+
+  .ictc-blogpost-tags-list span {
+    font-size: 16px;
+  }
+}
+
+/* ---------- MOBILE ---------- */
+@media (max-width: 480px) {
+  .ictc-blogpost-layout {
+    padding: 16px;
+    gap: 24px;
+  }
+
+  .ictc-blg-padd {
+    padding: 0px 16px;
+  }
+
+  .ictc-blogpost-title {
+    font-size: 22px;
+  }
+
+  .ictc-blogpost-author {
+    font-size: 12px;
+  }
+
+  .ictc-blogpost-body {
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+  .ictc-blogpost-body p,
+  .ictc-blogpost-body li {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .ictc-blogpost-inline-img {
+    margin: 16px 0;
+  }
+
+  .ictc-blogpost-sidebar-title {
+    font-size: 22px;
+  }
+
+  .ictc-blogpost-similar-card {
+    padding: 14px;
+  }
+
+  .ictc-blg-text {
+    font-size: 16px;
+  }
+
+  .ictc-blogpost-cta {
+    padding: 20px;
+  }
+
+  .ictc-blogpost-cta h3 {
+    font-size: 20px;
+  }
+
+  .ictc-blogpost-cta h2 {
+    font-size: 22px;
+  }
+
+  .ictc-blogpost-tags-section {
+    margin: 16px;
+    padding: 20px;
+  }
+
+  .ictc-blogpost-tags-title {
+    font-size: 18px;
+  }
+
+  .ictc-blogpost-tags-list span {
+    font-size: 14px;
+  }
+}
+
+/* ---------- VERY SMALL DEVICES ---------- */
+@media (max-width: 360px) {
+  .ictc-blogpost-title {
+    font-size: 20px;
+  }
+
+  .ictc-blogpost-body {
+    padding: 16px;
+  }
+
+  .ictc-blogpost-cta h2 {
+    font-size: 20px;
+  }
+}

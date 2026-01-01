@@ -49,12 +49,11 @@
   margin-bottom: 28px;
 }
 
-/* BUTTON ROW */
+/* BUTTON */
 .ictc-book-btn-row {
   margin-top: 10px;
 }
 
-/* BUTTON */
 .ictc-book-btn {
   background: rgba(176, 104, 205, 1);
   color: rgba(255, 255, 255, 1);
@@ -70,8 +69,34 @@
   opacity: 0.9;
 }
 
-/* RESPONSIVE */
+/* ========================= */
+/* RESPONSIVE BREAKPOINTS */
+/* ========================= */
+
+/* LARGE TABLETS */
+@media (max-width: 1024px) {
+  .ictc-book-wrapper {
+    margin: 2.5rem 2rem;
+    padding: 48px;
+  }
+
+  .ictc-book-full {
+    width: 80%;
+  }
+}
+
+/* TABLETS */
 @media (max-width: 768px) {
+  .ictc-book-wrapper {
+    margin: 2rem 1.2rem;
+    padding: 40px 24px;
+  }
+
+  .ictc-book-heading {
+    font-size: 26px;
+    margin-bottom: 32px;
+  }
+
   .ictc-book-row {
     flex-direction: column;
   }
@@ -80,8 +105,41 @@
     width: 100%;
   }
 
+  .ictc-book-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* LARGE MOBILES */
+@media (max-width: 480px) {
   .ictc-book-wrapper {
-    padding: 40px 24px;
-    margin: 2rem 1rem;
+    margin: 1.5rem 1rem;
+    padding: 32px 20px;
+  }
+
+  .ictc-book-heading {
+    font-size: 22px;
+  }
+
+  .ictc-book-input {
+    padding: 14px 16px;
+    font-size: 13px;
+  }
+
+  .ictc-book-btn {
+    padding: 14px;
+    font-size: 13px;
+  }
+}
+
+/* SMALL MOBILES */
+@media (max-width: 360px) {
+  .ictc-book-heading {
+    font-size: 20px;
+  }
+
+  .ictc-book-section-title {
+    font-size: 13px;
   }
 }

@@ -157,3 +157,149 @@
   background: rgba(236, 223, 242, 1);
   color: rgba(0, 0, 0, 1);
 }
+
+
+/* ================================= */
+/* BLOGS SECTION – RESPONSIVE ONLY */
+/* ================================= */
+
+/* ---------- LARGE LAPTOPS ---------- */
+@media (max-width: 1200px) {
+  .blogs-layout {
+    grid-template-columns: 260px 1fr;
+    gap: 24px;
+  }
+
+  .sidebar-card h3 {
+    font-size: 26px;
+  }
+}
+
+/* ---------- TABLETS ---------- */
+@media (max-width: 1024px) {
+  .blogs-wrapper {
+    padding: 32px;
+  }
+
+  .blogs-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .blogs-sidebar {
+    order: 2;
+  }
+
+  .blogs-grid {
+    order: 1;
+  }
+
+  .blogs-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ---------- SMALL TABLETS ---------- */
+@media (max-width: 768px) {
+  .blogs-wrapper {
+    padding: 24px;
+  }
+
+  .blogs-heading {
+    font-size: 32px;
+  }
+
+  .blogs-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar-card h3 {
+    font-size: 24px;
+  }
+
+  .sidebar-card ul li {
+    font-size: 16px;
+    padding: 10px 0;
+  }
+
+  .pip p {
+    font-size: 16px;
+  }
+
+  .post-index {
+    font-size: 28px;
+  }
+
+  .blog-card h4 {
+    font-size: 18px;
+  }
+}
+
+/* ---------- MOBILE ---------- */
+@media (max-width: 480px) {
+  .blogs-wrapper {
+    padding: 16px;
+  }
+
+  .blogs-heading {
+    font-size: 28px;
+    margin-bottom: 24px;
+  }
+
+  .sidebar-card {
+    padding: 16px;
+  }
+
+  .sidebar-card h3 {
+    font-size: 22px;
+  }
+
+  .sidebar-card ul li {
+    font-size: 14px;
+  }
+
+  .sidebar-card ol li {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .post-index {
+    font-size: 24px;
+  }
+
+  .pip p {
+    font-size: 15px;
+  }
+
+  .blog-card-body {
+    padding: 14px;
+  }
+
+  .blog-card h4 {
+    font-size: 16px;
+  }
+
+  .tag-row {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}
+
+/* ---------- VERY SMALL DEVICES ---------- */
+@media (max-width: 360px) {
+  .blogs-heading {
+    font-size: 24px;
+  }
+
+  .blog-card h4 {
+    font-size: 15px;
+  }
+
+  .pip p {
+    font-size: 14px;
+  }
+}

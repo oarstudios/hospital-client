@@ -11,10 +11,53 @@
   margin-bottom: 20px;
 }
 
-/* GRID */
+/* ================= GRID ================= */
 .our-doctor-team-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
- 
   gap: 32px;
+}
+
+/* ================================================= */
+/* ================= RESPONSIVE ==================== */
+/* ================================================= */
+
+/* LARGE LAPTOPS / SMALL DESKTOPS */
+@media (max-width: 1200px) {
+  .our-doctor-team-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* TABLETS */
+@media (max-width: 768px) {
+  .our-doctor-team {
+    padding: 64px 24px;
+  }
+
+  .our-doctor-team-title {
+    font-size: 32px;
+    text-align: center;
+  }
+
+  .our-doctor-team-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+  .our-doctor-team {
+    padding: 48px 16px;
+  }
+
+  .our-doctor-team-title {
+    font-size: 28px;
+  }
+
+  .our-doctor-team-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
 }

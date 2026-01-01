@@ -366,3 +366,156 @@ border: 1px solid var(--grey-200, rgba(189, 187, 191, 1));
 
 
 
+@media (max-width: 1200px) {
+  .doctor-profile {
+    grid-template-columns: 280px 1fr;
+    gap: 32px;
+    padding: 64px 32px;
+  }
+
+  .doctor-card__image img {
+    width: 140px;
+  }
+}
+@media (max-width: 992px) {
+  .doctor-profile {
+    grid-template-columns: 1fr;
+  }
+
+  .doctor-profile__sidebar {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .doctor-card {
+    width: 100%;
+  }
+
+  .doctor-info-card {
+    flex: 1;
+  }
+
+  .expertise-grid,
+  .achievement-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 768px) {
+  .doctor-profile {
+    padding: 48px 24px;
+  }
+
+  .doctor-section {
+    padding: 24px;
+  }
+
+  .doctor-section h2 {
+    font-size: 24px;
+  }
+
+  .details-title {
+    font-size: 20px;
+  }
+
+  .details-text,
+  .doctor-section p {
+    font-size: 14px;
+  }
+
+  .appointment-box {
+    padding: 28px;
+  }
+
+  .appointment-title {
+    font-size: 22px;
+  }
+
+  .appointment-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full-width {
+    grid-column: span 1;
+  }
+
+  .appointment-centre-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .appointment-date {
+    width: 100%;
+  }
+}
+@media (max-width: 480px) {
+  .doctor-profile {
+    padding: 32px 16px;
+  }
+
+  .doctor-card {
+    padding: 24px;
+  }
+
+  .doctor-card__image img {
+    width: 120px;
+  }
+
+  .doctor-card__name {
+    font-size: 20px;
+  }
+
+   .doctor-section {
+    padding: 14px;
+  }
+
+  .doctor-card__designation {
+    font-size: 14px;
+  }
+
+  .doctor-info-card h3 {
+    font-size: 16px;
+  }
+
+  .info-row span {
+    font-size: 13px;
+  }
+
+  .doctor-section h2 {
+    font-size: 22px;
+  }
+
+  .details-title {
+    font-size: 18px;
+  }
+
+  .timeline strong {
+    font-size: 14px;
+  }
+
+  .timeline p {
+    font-size: 13px;
+  }
+
+  .achievement-card {
+    font-size: 13px;
+    padding: 12px;
+  }
+
+  .appointment-title {
+    font-size: 20px;
+  }
+
+  .appointment-subtitle {
+    font-size: 12px;
+  }
+
+  .centre-checkbox {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .appointment-date {
+    font-size: 14px;
+  }
+}

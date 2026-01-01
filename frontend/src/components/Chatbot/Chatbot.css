@@ -419,3 +419,153 @@
 .chat-body::-webkit-scrollbar {
   display: none; /* Chrome, Safari */
 }
+
+
+
+/* ========================= */
+/* CHATBOT RESPONSIVE FIXES */
+/* ========================= */
+
+/* -------- LARGE LAPTOPS -------- */
+@media (max-width: 1200px) {
+  .chat-window {
+    width: 340px;
+    height: 480px;
+  }
+
+  .chat-header img {
+    width: 70%;
+  }
+}
+
+/* -------- TABLETS -------- */
+@media (max-width: 1024px) {
+  .chat-window {
+    width: 320px;
+    height: 460px;
+    bottom: 70px;
+  }
+
+  .chat-icon {
+    width: 60px;
+  }
+
+  .chat-hover-text {
+    display: none; /* hover text not needed on touch */
+  }
+}
+
+/* -------- SMALL TABLETS -------- */
+@media (max-width: 768px) {
+  .chat-window {
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    right: 0;
+    border-radius: 0;
+  }
+
+  .chat-header {
+    padding: 12px;
+  }
+
+  .chat-header img {
+    width: 60%;
+  }
+
+  .chat-body {
+    padding: 12px;
+  }
+
+  .chat-float-wrapper {
+    bottom: 24px;
+    right: 16px;
+    margin-right: 0;
+  }
+
+  .chat-button {
+    bottom: 16px;
+    right: 16px;
+  }
+
+  .chat-down-btn {
+    bottom: 16px;
+    right: 16px;
+  }
+
+  .centre-box {
+    margin-left: 0;
+    justify-content: center;
+  }
+  .input-row{
+    flex-direction: row !important;
+  }
+}
+
+/* -------- MOBILE -------- */
+@media (max-width: 480px) {
+  .chat-window {
+    width: 100vw;
+    height: 100dvh; /* modern mobile safe height */
+  }
+
+  .hi-text {
+    font-size: 20px;
+  }
+
+  .menu-option {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .msg {
+    font-size: 13px;
+    max-width: 90%;
+  }
+
+  .input-row input {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .send-icon {
+    padding: 10px;
+    width: 50px;
+  }
+
+  .centre-btn {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  .faq-title {
+    font-size: 13px;
+  }
+
+  .faq-question {
+    font-size: 13px;
+  }
+
+  .faq-answer {
+    font-size: 13px;
+  }
+
+  .chat-icon {
+    width: 56px;
+  }
+}
+
+/* -------- VERY SMALL DEVICES -------- */
+@media (max-width: 360px) {
+  .menu-option {
+    font-size: 12px;
+  }
+
+  .msg {
+    font-size: 12px;
+  }
+
+  .hi-text {
+    font-size: 18px;
+  }
+}

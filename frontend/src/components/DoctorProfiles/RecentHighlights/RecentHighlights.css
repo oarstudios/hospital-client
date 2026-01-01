@@ -69,19 +69,99 @@ border: 0.83px solid var(--grey-200, rgba(189, 187, 191, 1));
   gap: 8px;
 }
 
-/* RESPONSIVE */
-@media (max-width: 1024px) {
-  .rh-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
+/* ================= RESPONSIVE – RECENT HIGHLIGHTS ================= */
 
-@media (max-width: 600px) {
-  .rh-grid {
-    grid-template-columns: 1fr;
+/* ---------- LARGE LAPTOPS / SMALL DESKTOPS ---------- */
+@media (max-width: 1200px) {
+  .rh-wrapper {
+    padding: 80px 32px;
   }
 
   .rh-title {
-    font-size: 32px;
+    font-size: 36px;
+    margin-bottom: 48px;
+  }
+
+  .rh-grid {
+    gap: 32px;
+  }
+
+  .rh-text {
+    font-size: 18px;
   }
 }
+
+/* ---------- TABLETS ---------- */
+@media (max-width: 1024px) {
+  .rh-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+  }
+
+  .rh-thumb img {
+    height: 180px;
+  }
+}
+
+/* ---------- SMALL TABLETS ---------- */
+@media (max-width: 768px) {
+  .rh-wrapper {
+    padding: 64px 24px;
+  }
+
+  .rh-title {
+    font-size: 30px;
+    margin-bottom: 40px;
+  }
+
+  .rh-grid {
+    gap: 24px;
+  }
+
+  .rh-text {
+    font-size: 16px;
+  }
+
+  .rh-view-btn {
+    margin-top: 40px;
+    font-size: 14px;
+    padding: 12px 22px;
+  }
+}
+
+/* ---------- MOBILE ---------- */
+@media (max-width: 480px) {
+  .rh-wrapper {
+    padding: 48px 16px;
+  }
+
+  .rh-title {
+    font-size: 24px;
+    margin-bottom: 32px;
+  }
+
+  .rh-grid {
+
+    gap: 10px;
+  }
+
+  .rh-thumb img {
+    height: 160px;
+  }
+
+  .rh-card {
+    padding: 14px;
+  }
+
+  .rh-text {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .rh-view-btn {
+    margin-top: 32px;
+    font-size: 13px;
+    padding: 10px 18px;
+  }
+}
+

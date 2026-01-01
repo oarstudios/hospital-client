@@ -73,4 +73,113 @@
 
 
 
+/* ================= RESPONSIVE – PATIENT STORIES ================= */
+
+/* ---------- LARGE TABLETS / SMALL LAPTOPS ---------- */
+@media (max-width: 1200px) {
+  .ps-wrapper {
+    padding: 64px 32px;
+  }
+
+  .ps-title {
+    font-size: 34px;
+  }
+
+  .ps-slide {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+/* ---------- TABLETS ---------- */
+@media (max-width: 992px) {
+  .ps-header {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .ps-title {
+    font-size: 30px;
+  }
+
+  .ps-nav button {
+    width: 44px;
+    height: 44px;
+  }
+
+  .ps-slide {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+/* ---------- SMALL TABLETS ---------- */
+@media (max-width: 768px) {
+  .ps-wrapper {
+    padding: 48px 24px;
+  }
+
+  .ps-title {
+    font-size: 26px;
+  }
+
+  .ps-slide {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .ps-nav {
+    align-self: flex-end;
+  }
+
+  .ps-nav button {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+}
+
+/* ---------- MOBILE ---------- */
+@media (max-width: 480px) {
+  .ps-wrapper {
+    padding: 40px 16px;
+  }
+
+  .ps-header {
+    align-items: center;
+    text-align: center;
+  }
+
+  .ps-title {
+    font-size: 22px;
+  }
+
+  .ps-slide {
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding: 0 6px;
+  }
+
+  .ps-embed-card {
+    border-radius: 16px;
+  }
+
+  .instagram-media {
+    border-radius: 16px !important;
+  }
+}
+
+/* ---------- EXTRA SAFETY: PREVENT CUTTING / OVERFLOW ---------- */
+.ps-track {
+  will-change: transform;
+}
+
+.ps-slider {
+  overflow: hidden;
+}
+
+.ps-embed-card {
+  height: 100%;
+}
 

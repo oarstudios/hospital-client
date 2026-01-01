@@ -179,14 +179,15 @@
   }
 
   .cancer-card {
-    padding: 16px 16px 16px 98px;
+    padding: 12px 12px 12px 98px;
+    min-height: 100px;
   }
 
   .icon-wrapper {
-    width: 64px;
-    height: 64px;
-    left: 16px;
-    top: 16px;
+    width: 56px;
+    height: 56px;
+    left: 20px;
+    top: 20px;
   }
 
   .icon-wrapper img {

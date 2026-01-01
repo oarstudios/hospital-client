@@ -4,6 +4,7 @@
   font-family: "DM Sans", sans-serif;
 }
 
+/* TITLE */
 .center-gallery__title {
   text-align: center;
   font-size: 40px;
@@ -16,45 +17,96 @@
 .center-gallery__grid {
   max-width: 1200px;
   margin: 0 auto;
+
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 32px;
 
-  /* ✅ ADD THESE */
   justify-items: center;
 }
-
 
 /* IMAGE CARD */
 .center-gallery__item {
   width: 100%;
-
   border-radius: 20px;
   overflow: hidden;
 
-
+  /* 🔥 keeps all images visually consistent */
+  aspect-ratio: 4 / 3;
+  background: #f4f4f4;
 }
 
+/* IMAGE */
 .center-gallery__item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+
+  transition: transform 0.3s ease;
 }
 
-/* RESPONSIVE */
+/* HOVER (DESKTOP ONLY) */
+@media (hover: hover) {
+  .center-gallery__item:hover img {
+    transform: scale(1.04);
+  }
+}
+
+/* ========================= */
+/* RESPONSIVE BREAKPOINTS */
+/* ========================= */
+
+/* LARGE TABLETS */
+@media (max-width: 1200px) {
+  .center-gallery {
+    padding: 64px 32px;
+  }
+
+  .center-gallery__grid {
+    gap: 28px;
+  }
+}
+
+/* TABLETS */
 @media (max-width: 1024px) {
   .center-gallery__grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .center-gallery__title {
+    font-size: 36px;
+  }
 }
 
-@media (max-width: 600px) {
-  .center-gallery__grid {
-    grid-template-columns: 1fr;
+/* LARGE MOBILES */
+@media (max-width: 768px) {
+  .center-gallery {
+    padding: 56px 24px;
   }
 
   .center-gallery__title {
     font-size: 32px;
+    margin-bottom: 36px;
+  }
+
+  .center-gallery__grid {
+    gap: 24px;
+  }
+}
+
+/* SMALL MOBILES */
+@media (max-width: 480px) {
+  .center-gallery {
+    padding: 48px 16px;
+  }
+
+  .center-gallery__grid {
+
+    gap: 10px;
+  }
+
+  .center-gallery__title {
+    font-size: 28px;
   }
 }

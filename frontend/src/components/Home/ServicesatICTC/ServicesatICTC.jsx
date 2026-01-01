@@ -43,7 +43,7 @@ const ServicesatICTC = () => {
            <img
   src={item.icon}
   alt={item.title}
-  style={{ width: "84px", height: "84px" }}
+  style={{ width: "74px", height: "74px" }}
 />
 
             </div>
