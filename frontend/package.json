@@ -3,6 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+   "build": {
+    "target": "es2015"
+  },
+  "browserslist": [
+  "iOS >= 13",
+  "Safari >= 13",
+  "last 2 Chrome versions"
+],
   "scripts": {
     "dev": "vite",
     "build": "vite build",

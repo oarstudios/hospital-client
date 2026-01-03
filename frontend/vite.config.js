@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [
     react({
@@ -10,4 +9,16 @@ export default defineConfig({
       },
     }),
   ],
+
+  
+
+  /* ✅ ADD BELOW (iPhone Safari compatibility) */
+  build: {
+    target: ['es2015'],        // iPhone Safari safe
+    cssTarget: 'chrome61',     // prevents CSS crash on iOS
+  },
+
+  esbuild: {
+    target: 'es2015',          // forces safe JS output
+  },
 })
