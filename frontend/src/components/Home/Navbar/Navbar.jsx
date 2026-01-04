@@ -166,7 +166,7 @@ const Navbar = () => {
 
         {/* SERVICES DROPDOWN */}
         {activeMenu === "services" && (
-          <MegaDropdown heading="SERVICES">
+          <MegaDropdown heading="SERVICES" onNavigate={handleNavigate}>
             <div className="column">
               {serviceMenu.slice(0, 4).map((item) => (
                 <p
@@ -193,7 +193,7 @@ const Navbar = () => {
 
         {/* CENTRES DROPDOWN */}
         {activeMenu === "centres" && (
-          <MegaDropdown heading="OUR CENTRES">
+          <MegaDropdown heading="OUR CENTRES" onNavigate={handleNavigate}>
             <div className="column">
               {centres.slice(0, 4).map((center) => (
                 <p
@@ -220,7 +220,7 @@ const Navbar = () => {
 
         {/* CANCER DROPDOWN */}
         {activeMenu === "cancer" && (
-          <MegaDropdown heading="CANCER TYPES">
+          <MegaDropdown heading="CANCER TYPES" onNavigate={handleNavigate}>
             <div className="column">
               {cancerMenu.slice(0, 4).map((item) => (
                 <p
@@ -250,7 +250,7 @@ const Navbar = () => {
 };
 
 /* MEGA DROPDOWN */
-const MegaDropdown = ({ heading, children }) => (
+const MegaDropdown = ({ heading, children, onNavigate }) => (
   <div className="mega-dropdown slide-down">
     <div className="dropdown-grid">
       <div className="dropdown-left">
@@ -258,26 +258,39 @@ const MegaDropdown = ({ heading, children }) => (
         <div className="dropdown-content">{children}</div>
       </div>
 
-      <QuickLinks />
+      <QuickLinks onNavigate={onNavigate} />
     </div>
   </div>
 );
 
+
 /* QUICK LINKS */
-const QuickLinks = () => (
+const QuickLinks = ({ onNavigate }) => (
   <div className="quick-links">
     <h4>Quick Links</h4>
 
-    <div className="helpline-box">
+    {/* 📞 CLICK TO CALL */}
+    <a href="tel:+918858855200" className="helpline-box">
       <span>ICTC Helpline</span>
       <strong>+91 885 885 5200</strong>
-    </div>
+    </a>
 
-    <button className="quick-btn purple">Book an Appointment</button>
-    <button className="quick-btn dark">
+    <button
+      className="quick-btn purple"
+      onClick={() => onNavigate("/BookAppoinment")}
+    >
+      Book an Appointment
+    </button>
+
+    <button
+      className="quick-btn dark"
+      onClick={() => onNavigate("/allCenters")}
+    >
       Our Centres <span>→</span>
     </button>
   </div>
 );
+
+
 
 export default Navbar;
