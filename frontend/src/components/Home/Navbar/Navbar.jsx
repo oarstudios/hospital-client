@@ -80,12 +80,25 @@ const Navbar = () => {
       {(activeMenu || mobileOpen) && <div className="nav-overlay"></div>}
 
       {/* TOP BAR */}
-      <div className="top-bar">
-        <span>Mail Us at: info@ictconco.org</span>
-        <span>
-          ICTC Helpline: <span className="diffColor">885 885 5200</span>
-        </span>
-      </div>
+     <div className="top-bar">
+  <span>
+    Mail Us at:{" "}
+    <a href="mailto:info@ictconco.org">
+      info@ictconco.org
+    </a>
+  </span>
+
+  <span>
+    ICTC Helpline:{" "}
+    <a
+      href="tel:+918858855200"
+      className="diffColor"
+    >
+      885 885 5200
+    </a>
+  </span>
+</div>
+
 
       {/* NAVBAR */}
       <div
