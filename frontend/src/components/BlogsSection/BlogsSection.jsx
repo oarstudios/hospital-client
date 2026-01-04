@@ -1,5 +1,6 @@
 import "./BlogsSection.css";
 import { useNavigate } from "react-router-dom";
+import { useState, useMemo } from "react";
 import blogData from "../../data/blogData";
 
 const categories = [
@@ -13,9 +14,37 @@ const categories = [
   "Childhood Cancer",
 ];
 
+const POSTS_PER_PAGE = 6;
+
 const BlogsSection = () => {
   const navigate = useNavigate();
-  const blogs = Object.values(blogData);
+
+  /* ✅ SAFELY NORMALIZE + DEDUPLICATE BLOG DATA */
+  const blogs = useMemo(() => {
+    const map = new Map();
+    Object.values(blogData).forEach((blog) => {
+      if (!map.has(blog.slug)) {
+        map.set(blog.slug, blog);
+      }
+    });
+    return Array.from(map.values());
+  }, []);
+
+  /* 🔹 PAGINATION STATE */
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.ceil(blogs.length / POSTS_PER_PAGE);
+
+  const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
+  const endIndex = startIndex + POSTS_PER_PAGE;
+  const currentBlogs = blogs.slice(startIndex, endIndex);
+
+  /* 🔹 PAGE CHANGE HANDLER */
+  const changePage = (page) => {
+    if (page < 1 || page > totalPages) return;
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <section className="blogs-wrapper">
@@ -62,7 +91,7 @@ const BlogsSection = () => {
 
         {/* BLOG GRID */}
         <div className="blogs-grid">
-          {blogs.map((blog) => (
+          {currentBlogs.map((blog) => (
             <div
               className="blog-card"
               key={blog.slug}
@@ -85,14 +114,35 @@ const BlogsSection = () => {
       </div>
 
       {/* PAGINATION */}
-      <div className="pagination">
-        <button>←</button>
-        <button className="active">1</button>
-        <button>2</button>
-        <button>3</button>
-        <button>4</button>
-        <button>→</button>
-      </div>
+      {totalPages > 1 && (
+        <div className="pagination">
+          <button
+            onClick={() => changePage(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            ←
+          </button>
+
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+            (page) => (
+              <button
+                key={page}
+                className={currentPage === page ? "active" : ""}
+                onClick={() => changePage(page)}
+              >
+                {page}
+              </button>
+            )
+          )}
+
+          <button
+            onClick={() => changePage(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            →
+          </button>
+        </div>
+      )}
     </section>
   );
 };
