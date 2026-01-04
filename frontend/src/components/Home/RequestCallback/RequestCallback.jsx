@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./RequestCallback.css";
 import doctorImg from "../../../assets/High res images 1.png";
-import phoneIcon from "../../../assets/call.png";
+import phoneIcon from "../../../assets/fluent_call-16-filled.png";
 
 const RequestCallback = () => {
   const [name, setName] = useState("");
