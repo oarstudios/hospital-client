@@ -43,6 +43,13 @@ const Navbar = () => {
     setActiveMenu(activeMenu === menu ? null : menu);
   };
 
+  /* ✅ SINGLE PLACE NAVIGATION HANDLER */
+  const handleNavigate = (path) => {
+    navigate(path);
+    setActiveMenu(null);
+    setMobileOpen(false);
+  };
+
   /* 🔹 CENTRES ARRAY FROM DATA */
   const centres = Object.values(centerData);
 
@@ -70,7 +77,6 @@ const Navbar = () => {
 
   return (
     <>
-      {/* OVERLAY */}
       {(activeMenu || mobileOpen) && <div className="nav-overlay"></div>}
 
       {/* TOP BAR */}
@@ -90,11 +96,7 @@ const Navbar = () => {
           {/* LOGO */}
           <div
             className="logo"
-            onClick={() => {
-              navigate("/");
-              setMobileOpen(false);
-              setActiveMenu(null);
-            }}
+            onClick={() => handleNavigate("/")}
             style={{ cursor: "pointer" }}
           >
             <img src={logo} alt="ICTC Logo" />
@@ -111,14 +113,17 @@ const Navbar = () => {
             <li onClick={() => toggleMenu("cancer")}>
               CANCER TYPES <img src={arrow} />
             </li>
-            <li onClick={() => navigate("/blog")}>BLOGS</li>
-            <li onClick={() => navigate("/aboutUs")}>ABOUT US</li>
+            <li onClick={() => handleNavigate("/ourDoctors")}>
+              DOCTORS
+            </li>
+            <li onClick={() => handleNavigate("/blog")}>BLOGS</li>
+            <li onClick={() => handleNavigate("/aboutUs")}>ABOUT US</li>
           </ul>
 
           {/* DESKTOP BUTTON */}
           <button
             className="appointment-btn"
-            onClick={() => navigate("/BookAppoinment")}
+            onClick={() => handleNavigate("/BookAppoinment")}
           >
             Book an Appointment
           </button>
@@ -140,16 +145,19 @@ const Navbar = () => {
         {/* MOBILE MENU */}
         <div className={`mobile-menu ${mobileOpen ? "open" : ""}`}>
           <ul>
-            <li onClick={() => navigate("/")}>Home</li>
+            <li onClick={() => handleNavigate("/")}>Home</li>
             <li onClick={() => toggleMenu("services")}>Services</li>
             <li onClick={() => toggleMenu("centres")}>Our Centre</li>
             <li onClick={() => toggleMenu("cancer")}>Cancer Types</li>
-            <li onClick={() => navigate("/blog")}>Blogs</li>
-            <li onClick={() => navigate("/aboutUs")}>About Us</li>
+              <li onClick={() => handleNavigate("/ourDoctors")}>
+              Doctors
+            </li>
+            <li onClick={() => handleNavigate("/blog")}>Blogs</li>
+            <li onClick={() => handleNavigate("/aboutUs")}>About Us</li>
 
             <button
               className="appointment-btn mobile-btn"
-              onClick={() => navigate("/BookAppoinment")}
+              onClick={() => handleNavigate("/BookAppoinment")}
             >
               Book an Appointment
             </button>
@@ -163,11 +171,7 @@ const Navbar = () => {
               {serviceMenu.slice(0, 4).map((item) => (
                 <p
                   key={item.slug}
-                  onClick={() => {
-                    navigate(`/service/${item.slug}`);
-                    setActiveMenu(null);
-                    setMobileOpen(false);
-                  }}
+                  onClick={() => handleNavigate(`/service/${item.slug}`)}
                 >
                   {item.label}
                 </p>
@@ -178,11 +182,7 @@ const Navbar = () => {
               {serviceMenu.slice(4).map((item) => (
                 <p
                   key={item.slug}
-                  onClick={() => {
-                    navigate(`/service/${item.slug}`);
-                    setActiveMenu(null);
-                    setMobileOpen(false);
-                  }}
+                  onClick={() => handleNavigate(`/service/${item.slug}`)}
                 >
                   {item.label}
                 </p>
@@ -198,11 +198,7 @@ const Navbar = () => {
               {centres.slice(0, 4).map((center) => (
                 <p
                   key={center.slug}
-                  onClick={() => {
-                    navigate(`/centre/${center.slug}`);
-                    setActiveMenu(null);
-                    setMobileOpen(false);
-                  }}
+                  onClick={() => handleNavigate(`/centre/${center.slug}`)}
                 >
                   {center.name}
                 </p>
@@ -213,11 +209,7 @@ const Navbar = () => {
               {centres.slice(4, 8).map((center) => (
                 <p
                   key={center.slug}
-                  onClick={() => {
-                    navigate(`/centre/${center.slug}`);
-                    setActiveMenu(null);
-                    setMobileOpen(false);
-                  }}
+                  onClick={() => handleNavigate(`/centre/${center.slug}`)}
                 >
                   {center.name}
                 </p>
@@ -233,11 +225,7 @@ const Navbar = () => {
               {cancerMenu.slice(0, 4).map((item) => (
                 <p
                   key={item.slug}
-                  onClick={() => {
-                    navigate(`/cancer/${item.slug}`);
-                    setActiveMenu(null);
-                    setMobileOpen(false);
-                  }}
+                  onClick={() => handleNavigate(`/cancer/${item.slug}`)}
                 >
                   {item.label}
                 </p>
@@ -248,11 +236,7 @@ const Navbar = () => {
               {cancerMenu.slice(4).map((item) => (
                 <p
                   key={item.slug}
-                  onClick={() => {
-                    navigate(`/cancer/${item.slug}`);
-                    setActiveMenu(null);
-                    setMobileOpen(false);
-                  }}
+                  onClick={() => handleNavigate(`/cancer/${item.slug}`)}
                 >
                   {item.label}
                 </p>

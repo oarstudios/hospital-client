@@ -3,9 +3,7 @@ import doc2 from "../assets/doc2.png";
 import doc3 from "../assets/doc3.png";
 
 const doctorData = {
-  /* ===================================================== */
-  /* ================= DR ROHIT PAI ====================== */
-  /* ===================================================== */
+  
   "rohit-pai": {
     slug: "rohit-pai",
     name: "Dr. Rohit Pai",
