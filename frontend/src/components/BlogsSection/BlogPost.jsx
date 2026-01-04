@@ -10,12 +10,37 @@ import doctorImg from "../../assets/High res images 1.png";
 const BlogPost = () => {
   const { slug } = useParams();
   const blog = blogData[slug];
-if (!blog || !blog.content) return null;
 
+  if (!blog || !blog.content) return null;
 
   const similarBlogs = Object.values(blogData).filter(
     (b) => b.slug !== slug
   );
+
+  /* ===================================== */
+  /* 🔹 SHARE HANDLER (MOBILE + DESKTOP) */
+  /* ===================================== */
+  const handleShare = async () => {
+    const shareUrl = window.location.href;
+
+    try {
+      /* ✅ MOBILE / MODERN BROWSERS */
+      if (navigator.share) {
+        await navigator.share({
+          title: blog.title,
+          text: blog.title,
+          url: shareUrl,
+        });
+      } 
+      /* ✅ DESKTOP FALLBACK */
+      else {
+        await navigator.clipboard.writeText(shareUrl);
+        alert("Link copied! You can now share it anywhere.");
+      }
+    } catch (error) {
+      console.error("Share failed:", error);
+    }
+  };
 
   return (
     <>
@@ -33,11 +58,13 @@ if (!blog || !blog.content) return null;
               <div className="ictc-blogpost-meta-row">
                 <div className="ictc-blogpost-meta-tags">
                   <span className="tag blog">{blog.type}</span>
+
                   {blog.tags?.map((tag) => (
                     <span key={tag} className="tag childhood-cancer">
                       {tag}
                     </span>
                   ))}
+
                   <span className="date">{blog.date}</span>
                 </div>
               </div>
@@ -50,7 +77,11 @@ if (!blog || !blog.content) return null;
                   <span>by {blog.author}</span>
                 </div>
 
-                <button className="ictc-blogpost-share-btn">
+                {/* ✅ WORKING SHARE BUTTON */}
+                <button
+                  className="ictc-blogpost-share-btn"
+                  onClick={handleShare}
+                >
                   <img src={shareIcon} alt="Share blog" />
                   Share
                 </button>
