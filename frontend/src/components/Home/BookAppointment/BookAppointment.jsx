@@ -144,6 +144,7 @@ const BookAppointment = () => {
           )}
 
           <div>
+              <p className="section-label">Please Click below to select Date</p>
             <input
               type="date"
               name="date"
