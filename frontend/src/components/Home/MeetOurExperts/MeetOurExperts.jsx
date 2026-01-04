@@ -17,6 +17,11 @@ const MeetOurExperts = () => {
     sliderRef.current.scrollBy({ left: 350, behavior: "smooth" });
   };
 
+  /* 🔹 CARD CLICK HANDLER */
+  const goToDoctorProfile = (slug) => {
+    navigate(`/doctor/${slug}`);
+  };
+
   return (
     <section className="experts-section">
       {/* HEADER */}
@@ -32,7 +37,16 @@ const MeetOurExperts = () => {
       {/* SLIDER */}
       <div className="experts-slider" ref={sliderRef}>
         {doctors.map((doc) => (
-          <div className="doctor-card-home" key={doc.slug}>
+          <div
+            className="doctor-card-home"
+            key={doc.slug}
+            onClick={() => goToDoctorProfile(doc.slug)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") goToDoctorProfile(doc.slug);
+            }}
+          >
             {/* IMAGE + HOVER */}
             <div className="doctor-img-wrapper">
               <img src={doc.image} alt={doc.name} />
@@ -40,7 +54,10 @@ const MeetOurExperts = () => {
               <div className="doctor-hover">
                 <button
                   className="view-profile-btn"
-                  onClick={() => navigate(`/doctor/${doc.slug}`)}
+                  onClick={(e) => {
+                    e.stopPropagation(); // ✅ prevent double navigation
+                    goToDoctorProfile(doc.slug);
+                  }}
                 >
                   View Complete Profile <span>→</span>
                 </button>

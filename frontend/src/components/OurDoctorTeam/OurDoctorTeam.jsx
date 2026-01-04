@@ -28,14 +28,32 @@ const OurDoctorTeam = () => {
 
   const doctors = Object.values(doctorData);
 
+  /* 🔹 CARD NAVIGATION HANDLER */
+  const goToDoctorProfile = (slug) => {
+    navigate(`/doctor/${slug}`);
+  };
+
   return (
     <section className="our-doctor-team">
       <h2 className="our-doctor-team-title">Our Doctor Team</h2>
 
+      {/* ===================== */}
       {/* DOCTOR GRID */}
+      {/* ===================== */}
       <div className="our-doctor-team-grid">
         {doctors.map((doc) => (
-          <div className="doctor-card-home" key={doc.slug}>
+          <div
+            className="doctor-card-home"
+            key={doc.slug}
+            role="button"
+            tabIndex={0}
+            onClick={() => goToDoctorProfile(doc.slug)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                goToDoctorProfile(doc.slug);
+              }
+            }}
+          >
             {/* IMAGE + HOVER */}
             <div className="doctor-img-wrapper">
               <img src={doc.image} alt={doc.name} />
@@ -43,7 +61,10 @@ const OurDoctorTeam = () => {
               <div className="doctor-hover">
                 <button
                   className="view-profile-btn"
-                  onClick={() => navigate(`/doctor/${doc.slug}`)}
+                  onClick={(e) => {
+                    e.stopPropagation(); // ✅ prevent double navigation
+                    goToDoctorProfile(doc.slug);
+                  }}
                 >
                   View Complete Profile <span>→</span>
                 </button>
@@ -62,7 +83,9 @@ const OurDoctorTeam = () => {
         ))}
       </div>
 
-      {/* FAQ */}
+      {/* ===================== */}
+      {/* FAQ SECTION */}
+      {/* ===================== */}
       <div className="ictc-service-faq">
         <h2>FAQ’s</h2>
 
@@ -81,6 +104,7 @@ const OurDoctorTeam = () => {
             >
               <div className="ictc-faq-question">
                 <span>{faq.question}</span>
+
                 <img
                   src={arrowIcon}
                   className={isActive ? "rotate" : ""}

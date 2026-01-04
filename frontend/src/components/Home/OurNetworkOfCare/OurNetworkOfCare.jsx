@@ -1,71 +1,10 @@
 import { useState } from "react";
 import "./OurNetworkOfCare.css";
-import callIcon from "../../../assets/fluent_call-16-filled.png"; 
-// adjust path if needed
+import callIcon from "../../../assets/fluent_call-16-filled.png";
 
+import centerData from "../../../data/centerData";
 
-const centres = [
-  {
-    name: "Vashi",
-    phone: "91915 12345",
-    mapEmbed:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3412.3515059166466!2d72.99670582466513!3d19.073796452042792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c12e366befd9%3A0x422a83b108bd2893!2sDr%20Salil%20Patkar%20%2C%20Cancer%20Specialist%20in%20Vashi%20Navi%20Mumbai%2C%20Best%20Oncologist%20in%20Vashi%2C%20Navi%20Mumbai%20Oncologist%20%7C%20ICTC%20Vashi!5e1!3m2!1sen!2sin!4v1767514911613!5m2!1sen!2sin",
-  },
-  {
-    name: "Panvel",
-    phone: "91915 23456",
-    mapEmbed:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3414.0496613381006!2d73.11214447466304!3d18.991160854631566!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7e94576a0d73b%3A0x36d856b6c2f8066a!2sDr%20Salil%20Patkar%2C%20Cancer%20Specialist%20Panvel%20Navi%20Mumbai%2C%20Oncologist%20in%20Navi%20Mumbai%20%7C%20ICTC!5e1!3m2!1sen!2sin!4v1767515000407!5m2!1sen!2sin",
-  },
-  {
-    name: "Kalyan",
-    phone: "91915 34567",
-    mapEmbed:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13635.221670262083!2d73.11858564253039!3d19.245254470594404!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be795d1b4ecdb4f%3A0x854c3b30dc3b1775!2sDr%20Amit%20Ghanekar%20%7C%20ICTC%2C%20Kalyan%20%7C%20Best%20Oncologist%20in%20Kalyan%2C%20Cancer%20Specialist%2C%20Hemat-Oncologist%20Kalyan!5e1!3m2!1sen!2sin!4v1767515047123!5m2!1sen!2sin",
-  },
-  {
-    name: "Dombivli",
-    phone: "91915 45678",
-    mapEmbed:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3409.4320164288247!2d73.08609417715512!3d19.21506470125195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be79593301ee44f%3A0x820a319785e46b87!2sDr%20Amit%20Ghanekar%20Cancer%20Specialist%20in%20Dombivli%2C%20Best%20Oncologist%20in%20Dombivli%2C%20Top%20Cancer%20Treatment%2C%20Hemat-Oncologist%20%7C%20ICTC!5e1!3m2!1sen!2sin!4v1767515112368!5m2!1sen!2sin",
-  },
-  {
-    name: "Sion",
-    phone: "91915 56789",
-    mapEmbed:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3413.097349783561!2d72.85946797466435!3d19.037544753179688!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7cf112e225555%3A0xe06806556362a1c1!2sDr.%20Rohit%20Pai%20%7C%20ICTC%2C%20Sion%20%7C%20Cancer%20Specialist%20in%20Sion%20Mumbai%2C%20Best%20Oncologist%20in%20Mumbai%2C%20Hematologist!5e1!3m2!1sen!2sin!4v1767515143953!5m2!1sen!2sin",
-  },
-  {
-    name: "Dadar",
-    phone: "91915 67890",
-    mapEmbed:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3413.5202766536772!2d72.82636857466377!3d19.0169588538245!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7cf005a0bf0e3%3A0x1292cb1e39e131c5!2sDr%20Viraj%20Nevrekar%20-%20Best%20Cancer%20Specialist%20in%20Mumbai%2C%20Oncologist%20in%20Dadar%20%7C%20ICTC%20Dadar!5e1!3m2!1sen!2sin!4v1767515175555!5m2!1sen!2sin",
-  },
-  {
-    name: "Goregaon",
-    phone: "91915 90123",
-    mapEmbed:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d218401.40800536098!2d72.66141144915886!3d19.065515444445786!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b767bb650fe3%3A0x8be5e9f8d1667916!2sDr%20Viraj%20Nevrekar%20-%20Best%20Cancer%20Specialist%20in%20Goregaon%2C%20Oncologist%20in%20Goregaon%2C%20Cancer%20Hospital%20%26%20Treatment!5e1!3m2!1sen!2sin!4v1767515244982!5m2!1sen!2sin",
-  },
-  {
-    name: "Ghatkopar",
-    phone: "91915 78901",
-    mapEmbed:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3412.038431756734!2d72.90438177466551!3d19.088993651565527!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c707f2273c3f%3A0x31d18eff35f5fe0a!2sDr.%20Deep%20Vora%20%7C%20Cancer%20Specialist%20in%20Ghatkopar%2C%20Best%20Oncologist%20in%20Ghatkopar%2C%20Top%20Cancer%20Treatment%20%7C%20ICTC%20Ghatkopar!5e1!3m2!1sen!2sin!4v1767515322582!5m2!1sen!2sin",
-  },
-  {
-    name: "Santacruz",
-    phone: "91915 89012",
-    mapEmbed:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3412.0309507385036!2d72.83512587466552!3d19.08935665155413!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c98168ba27ad%3A0x3ba3b1b97d371202!2sDr%20Shreya%20Gattani%20%7C%20Cancer%20Specialist%20in%20Santacruz%2C%20Best%20Oncologist%20in%20Santacruz%20Mumbai%20-%20ICTC!5e1!3m2!1sen!2sin!4v1767515390936!5m2!1sen!2sin",
-  },
-  {
-    name: "Chembur",
-    phone: "91915 11223",
-    mapEmbed:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3412.3515059166466!2d72.99670582466513!3d19.073796452042792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c12e366befd9%3A0x422a83b108bd2893!2sDr%20Salil%20Patkar%20%2C%20Cancer%20Specialist%20in%20Vashi%20Navi%20Mumbai%2C%20Best%20Oncologist%20in%20Vashi%2C%20Navi%20Mumbai%20Oncologist%20%7C%20ICTC%20Vashi!5e1!3m2!1sen!2sin!4v1767514911613!5m2!1sen!2sin",
-  },
-];
+const centres = Object.values(centerData);
 
 const OurNetworkOfCare = () => {
   const [activeCentre, setActiveCentre] = useState(centres[0]);
@@ -73,25 +12,27 @@ const OurNetworkOfCare = () => {
   return (
     <section className="network-wrapper">
       <div className="network-container">
+        
+        {/* LEFT SIDE */}
         <div className="network-left">
           <h2>Our Network of Care</h2>
 
           <div className="location-grid">
             {centres.map((centre) => (
               <button
-                key={centre.name}
+                key={centre.slug}
                 className={`location-pill ${
-                  activeCentre.name === centre.name ? "active" : ""
+                  activeCentre.slug === centre.slug ? "active" : ""
                 }`}
                 onClick={() => setActiveCentre(centre)}
               >
-                {centre.name}
+                {centre.name.replace("ICTC ", "")}
               </button>
             ))}
           </div>
 
           <div className="network-stats">
-            <h1>10</h1>
+            <h1>{centres.length}</h1>
             <p>
               Centres throughout
               <br />
@@ -100,29 +41,32 @@ const OurNetworkOfCare = () => {
           </div>
         </div>
 
+        {/* RIGHT SIDE MAP */}
         <div className="network-map">
+          
+          {/* PHONE BADGE */}
           <a
-  href={`tel:+${activeCentre.phone.replace(/\s/g, "")}`}
-  className="map-phone-badge"
->
-  <img
-    src={callIcon}
-    alt="Call"
-    className="call-icon"
-  />
-  <span>
-    {activeCentre.name}: {activeCentre.phone}
-  </span>
-</a>
+            href={`tel:${activeCentre.phone.replace(/\s/g, "")}`}
+            className="map-phone-badge"
+          >
+            <img
+              src={callIcon}
+              alt="Call"
+              className="call-icon"
+            />
+            <span>
+              {activeCentre.name}: {activeCentre.phone}
+            </span>
+          </a>
 
-
+          {/* MAP */}
           <iframe
             title={`${activeCentre.name} Map`}
             src={activeCentre.mapEmbed}
             loading="lazy"
             allowFullScreen
             referrerPolicy="no-referrer-when-downgrade"
-          ></iframe>
+          />
         </div>
       </div>
     </section>

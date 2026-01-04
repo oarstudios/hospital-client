@@ -15,14 +15,17 @@ const AllCentres = () => {
       <h2 className="ictc-centres-title">ICTC Cancer Care Centres</h2>
 
       <div className="ictc-centres-list">
-        {Object.values(centerData).map((centre, index) => (
-          <article className="ictc-centre-card" key={index}>
+        {Object.values(centerData).map((centre) => (
+          <article className="ictc-centre-card" key={centre.slug}>
+            
             {/* MAP */}
             <div className="ictc-centre-map">
               <iframe
                 title={`${centre.name} map`}
-                src={`https://www.google.com/maps?q=${centre.lat},${centre.lng}&z=16&output=embed`}
+                src={centre.mapEmbed}
                 loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
               />
             </div>
 
@@ -30,6 +33,7 @@ const AllCentres = () => {
             <div className="ictc-centre-info">
               <div className="ictc-centre-header">
                 <h3>{centre.name}</h3>
+
                 <button
                   className="appointment-btn"
                   onClick={() => navigate(`/centre/${centre.slug}`)}
@@ -38,25 +42,31 @@ const AllCentres = () => {
                 </button>
               </div>
 
+              {/* RATING */}
               <div className="ictc-centre-rating">
                 <img src={starIcon} alt="rating" />
                 <img src={starIcon} alt="rating" />
                 <img src={starIcon} alt="rating" />
                 <img src={starIcon} alt="rating" />
                 <img src={starHalfIcon} alt="rating" />
+
                 <span className="rating-score">{centre.rating}</span>
                 <span className="rating-sep">|</span>
                 <span className="rating-count">{centre.reviews}</span>
               </div>
 
+              {/* ADDRESS */}
               <p className="ictc-centre-address">
                 {centre.address}
               </p>
 
+              {/* FOOTER */}
               <div className="ictc-centre-footer">
                 <div className="ictc-centre-phone">
                   <img src={callIcon} alt="Call" />
-                  <span>{centre.phone}</span>
+                  <a href={`tel:${centre.phone.replace(/\s/g, "")}`}>
+                    {centre.phone}
+                  </a>
                 </div>
 
                 <span className="ictc-centre-time">
