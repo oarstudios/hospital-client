@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import "./PatientStoriesEmbed.css";
+import NewsFromExperts from "../../Home/NewsFromExperts/NewsFromExperts";
 
 const posts = [
   "https://www.instagram.com/reel/DSajmWyjIRV/",
@@ -38,6 +39,7 @@ const PatientStoriesEmbed = () => {
   };
 
   return (
+    <>
     <section className="ps-wrapper">
       <div className="ps-header">
         <h2 className="ps-title">Patient Stories</h2>
@@ -70,6 +72,8 @@ const PatientStoriesEmbed = () => {
         </div>
       </div>
     </section>
+<NewsFromExperts/>
+</>
   );
 };
 

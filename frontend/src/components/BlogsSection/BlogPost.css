@@ -217,49 +217,114 @@ padding: 32px;
 }
 
 /* CTA */
+/* ================= CTA CARD ================= */
+
 .ictc-blogpost-cta {
-background: linear-gradient(180deg, rgba(176, 104, 205, 0.68) -53.92%, #ECDFF2 5.33%, #FFFFFF 71.84%);
-border: 1px solid var(--grey-100, rgba(228, 227, 229, 1));
-box-shadow: 0px 4px 15px 2px rgba(0, 0, 0, 0.05);
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
 
+  background: linear-gradient(
+    180deg,
+    rgba(176, 104, 205, 0.68) -53.92%,
+    #ECDFF2 5.33%,
+    #FFFFFF 71.84%
+  );
 
+  border: 1px solid rgba(228, 227, 229, 1);
+  box-shadow: 0px 4px 15px 2px rgba(0, 0, 0, 0.05);
   border-radius: 24px;
+
   padding: 32px;
-  margin-top: 24px;
-  text-align: center;
+  overflow: hidden;
 }
 
-.ictc-blogpost-cta h3 {
+/* LEFT CONTENT */
+.ictc-blogpost-cta-content {
+
+  z-index: 2;
+}
+
+.ictc-blogpost-cta-content h3 {
   font-size: 24px;
   font-weight: 600;
   color: rgba(63, 34, 74, 1);
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
-.ictc-blogpost-cta p {
+.ictc-blogpost-cta-content p {
   font-size: 16px;
-  font-weight: 400;
   color: rgba(63, 34, 74, 1);
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
-.ictc-blogpost-cta h2{
-    font-size: 30px;
-    font-style: italic;
-    font-weight: 600;
-    color: rgba(63, 34, 74, 1);
-    margin-bottom: 16px;
+.ictc-blogpost-cta-content h2 {
+  font-size: 32px;
+  font-style: italic;
+  width: 65%;
+  font-weight: 600;
+  color: rgba(63, 34, 74, 1);
+  margin-bottom: 20px;
 }
 
+/* LOGO */
 .ictc-blogpost-cta-logo {
-  width: 90%;
-  margin: 16px auto;
+  width: 280px;
+  margin: 20px 0;
 }
 
-.ictc-blogpost-cta-doctor {
-  width: 100%;
-  margin: 16px 0;
+/* BUTTON */
+.ictc-blogpost-cta-btn {
+  padding: 14px 28px;
+  font-size: 16px;
+  border-radius: 40px;
 }
+
+/* RIGHT IMAGE */
+.ictc-blogpost-cta-doctor {
+  position: absolute;
+  right: -20px;
+  bottom: 0;
+
+  height: 50%;
+  max-width: none;
+  object-fit: contain;
+
+  z-index: 1;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1024px) {
+  .ictc-blogpost-cta-content {
+    max-width: 70%;
+  }
+
+  .ictc-blogpost-cta-doctor {
+display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .ictc-blogpost-cta {
+    flex-direction: column;
+    padding: 24px;
+  }
+
+  .ictc-blogpost-cta-content {
+    max-width: 100%;
+  }
+
+  .ictc-blogpost-cta-doctor {
+    position: relative;
+    height: auto;
+    width: 100%;
+    margin-top: 20px;
+    right: 0;
+  }
+}
+
 
 .ictc-blogpost-cta-btn {
   margin-top: 0px;
@@ -476,3 +541,5 @@ box-shadow: 0px 4px 15px 2px rgba(0, 0, 0, 0.05);
     font-size: 20px;
   }
 }
+
+

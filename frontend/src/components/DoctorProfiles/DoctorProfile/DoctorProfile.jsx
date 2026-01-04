@@ -11,19 +11,22 @@ import phoneIcon from "../../../assets/phone.png";
 import calendarIcon from "../../../assets/calendar.png";
 import languageIcon from "../../../assets/language.png";
 import userss from "../../../assets/Container.png";
-import tickIcon from "../../../assets/Vector (8).png";
+import BookAppointment from "../../Home/BookAppointment/BookAppointment";
+// import tickIcon from "../../../assets/Vector (8).png";
 
 const DoctorProfile = () => {
   const { slug } = useParams();
   const doctor = doctorData[slug];
 
-  const [selectedCentre, setSelectedCentre] = useState(
+  const [selectedCentre] = useState(
     doctor?.centres[0]
   );
 
   if (!doctor) return null;
 
   return (
+
+    <>
     <section className="doctor-profile">
       {/* LEFT SIDEBAR */}
       <aside className="doctor-profile__sidebar">
@@ -159,7 +162,7 @@ const DoctorProfile = () => {
           </div>
 
           {/* BOOK APPOINTMENT */}
-       <div className="appointment-box">
+       {/* <div className="appointment-box">
       <h3 className="appointment-title">
         Book an Appointment with {doctor.name}
       </h3>
@@ -203,10 +206,15 @@ const DoctorProfile = () => {
       </div>
 
       <button className="book-btn">Book Appointment</button>
-    </div>
+    </div> */}
+
+
+
         </section>
       </main>
     </section>
+<BookAppointment/>
+    </>
   );
 };
 

@@ -96,7 +96,7 @@ function App() {
               <ExpertsAtICTC />
               <ServicesatICTC />
               <PatientTestimonials />
-              <BookAppointmentCenter />
+              <BookAppointment/>
               <CenterGallery />
               <OurNetworkOfCare />
               <RequestCallback />
@@ -124,7 +124,7 @@ function App() {
               <DoctorProfile />
               <PatientTestimonials />
               <PatientStoriesEmbed />
-              <RecentHighlights />
+           
               <OurNetworkOfCare />
               <RequestCallback />
             </>

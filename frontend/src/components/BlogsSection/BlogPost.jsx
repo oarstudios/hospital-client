@@ -1,5 +1,5 @@
 import "./BlogPost.css";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import blogData from "../../data/blogData";
 
 import userIcon from "../../assets/solar_user-bold.png";
@@ -9,9 +9,14 @@ import doctorImg from "../../assets/High res images 1.png";
 
 const BlogPost = () => {
   const { slug } = useParams();
+  const navigate = useNavigate();
+
   const blog = blogData[slug];
 
-  if (!blog || !blog.content) return null;
+  /* ❌ SAFETY CHECK */
+  if (!blog || !blog.content) {
+    return <p style={{ padding: "40px" }}>Blog not found.</p>;
+  }
 
   const similarBlogs = Object.values(blogData).filter(
     (b) => b.slug !== slug
@@ -24,18 +29,15 @@ const BlogPost = () => {
     const shareUrl = window.location.href;
 
     try {
-      /* ✅ MOBILE / MODERN BROWSERS */
       if (navigator.share) {
         await navigator.share({
           title: blog.title,
           text: blog.title,
           url: shareUrl,
         });
-      } 
-      /* ✅ DESKTOP FALLBACK */
-      else {
+      } else {
         await navigator.clipboard.writeText(shareUrl);
-        alert("Link copied! You can now share it anywhere.");
+        alert("Link copied! You can now share it.");
       }
     } catch (error) {
       console.error("Share failed:", error);
@@ -77,7 +79,7 @@ const BlogPost = () => {
                   <span>by {blog.author}</span>
                 </div>
 
-                {/* ✅ WORKING SHARE BUTTON */}
+                {/* SHARE */}
                 <button
                   className="ictc-blogpost-share-btn"
                   onClick={handleShare}
@@ -130,8 +132,10 @@ const BlogPost = () => {
 
           {similarBlogs.slice(0, 3).map((item) => (
             <div
-              className="ictc-blogpost-similar-card"
               key={item.slug}
+              className="ictc-blogpost-similar-card"
+              onClick={() => navigate(`/blog/${item.slug}`)}
+              style={{ cursor: "pointer" }}
             >
               <img src={item.image} alt={item.title} />
 
@@ -145,28 +149,35 @@ const BlogPost = () => {
           ))}
 
           {/* CTA */}
-          <div className="ictc-blogpost-cta">
-            <h3>Need Cancer Treatment or Guidance?</h3>
-            <p>Book a Free Consultation or Second Opinion at</p>
+        <div className="ictc-blogpost-cta">
+  <div className="ictc-blogpost-cta-content">
+    <h3>Need Cancer Treatment or Guidance?</h3>
+    <p>Book a Free Consultation or Second Opinion at</p>
 
-            <img
-              src={ictcLogo}
-              alt="ICTC Logo"
-              className="ictc-blogpost-cta-logo"
-            />
+    <img
+      src={ictcLogo}
+      alt="ICTC Logo"
+      className="ictc-blogpost-cta-logo"
+    />
 
-            <h2>Mumbai’s Largest Cancer Care Chain</h2>
+    <h2>Mumbai’s Largest Cancer Care Chain</h2>
 
-            <img
-              src={doctorImg}
-              alt="Doctor"
-              className="ictc-blogpost-cta-doctor"
-            />
+    <button
+   className="book-btn ictc-blogpost-cta-btn"
+      onClick={() => navigate("/BookAppoinment")}
+    >
+      Book a Consultation
+    </button>
+  </div>
 
-            <button className="book-btn ictc-blogpost-cta-btn">
-              Book a Consultation
-            </button>
-          </div>
+  {/* RIGHT SIDE DOCTOR IMAGE */}
+  <img
+    src={doctorImg}
+    alt="Doctor"
+    className="ictc-blogpost-cta-doctor"
+  />
+</div>
+
         </aside>
       </main>
 
