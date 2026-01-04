@@ -65,7 +65,7 @@ function App() {
       <Navbar />
 
       <ScrollToTop/>
-
+  <main className="app-layout">
       <Routes>
         {/* HOME PAGE */}
         <Route
@@ -258,7 +258,7 @@ function App() {
 
         <Route path="*" element={<NotFound/>} />
       </Routes>
-
+</main>
       <Chatbot />
       <Footer />
     </>

@@ -73,3 +73,46 @@ h5,
 h6 {
   overflow-wrap: break-word;
 }
+
+
+/* ================================
+   Global Responsive Layout Wrapper
+================================ */
+
+.app-layout {
+  width: 100%;
+  margin: 0 auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+  .app-layout {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+}
+
+/* Laptop */
+@media (min-width: 1024px) {
+  .app-layout {
+    max-width: 1200px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/* Large Desktop */
+@media (min-width: 1440px) {
+  .app-layout {
+    max-width: 1320px;
+  }
+}
+
+/* Ultra-wide screens */
+@media (min-width: 1600px) {
+  .app-layout {
+    max-width: 1400px;
+  }
+}
