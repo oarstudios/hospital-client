@@ -2,11 +2,27 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./HeroCarousel.css";
 
-import slide1 from "../../../assets/slide img.png";
-import slide2 from "../../../assets/slide img.png";
-import slide3 from "../../../assets/slide img.png";
+import slide1Desktop from "../../../assets/slide img.png";
+import slide1Tablet from "../../../assets/ICTC Creatives_laptop.jpg";
+import slide1Mobile from "../../../assets/ICTC Creatives_mobile.jpg";
 
-const slides = [slide1, slide2, slide3];
+const slides = [
+  {
+    desktop: slide1Desktop,
+    tablet: slide1Tablet,
+    mobile: slide1Mobile,
+  },
+  {
+    desktop: slide1Desktop,
+    tablet: slide1Tablet,
+    mobile: slide1Mobile,
+  },
+  {
+    desktop: slide1Desktop,
+    tablet: slide1Tablet,
+    mobile: slide1Mobile,
+  },
+];
 
 const HeroCarousel = () => {
   const [current, setCurrent] = useState(0);
@@ -20,42 +36,45 @@ const HeroCarousel = () => {
     return () => clearInterval(interval);
   }, []);
 
-  /* CTA HANDLERS */
-  const handleLocateCentre = () => {
-    navigate("/allCenters");
-  };
-
-  const handleBookAppointment = () => {
-    navigate("/BookAppoinment");
-  };
-
-  const handleSecondOpinion = () => {
-    navigate("/BookSecondOpinion");
-  };
-
   return (
     <section className="hero-carousel">
-      {/* IMAGE SLIDER */}
-      {slides.map((img, index) => (
-        <img
+      {/* SLIDES */}
+      {slides.map((slide, index) => (
+        <picture
           key={index}
-          src={img}
-          alt={`Hero slide ${index + 1}`}
           className={`hero-image ${index === current ? "active" : ""}`}
-        />
+        >
+          {/* MOBILE */}
+          <source
+            media="(max-width: 767px)"
+            srcSet={slide.mobile}
+          />
+
+          {/* TABLET */}
+          <source
+            media="(max-width: 1024px)"
+            srcSet={slide.tablet}
+          />
+
+          {/* DESKTOP */}
+          <img
+            src={slide.desktop}
+            alt={`Hero slide ${index + 1}`}
+          />
+        </picture>
       ))}
 
-      {/* QUICK CTA BAR */}
+      {/* QUICK CTA */}
       <div className="quick-cta">
-        <button className="cta-btn light" onClick={handleLocateCentre}>
+        <button className="cta-btn light" onClick={() => navigate("/allCenters")}>
           Locate Centre <span>→</span>
         </button>
 
-        <button className="cta-btn white" onClick={handleBookAppointment}>
+        <button className="cta-btn white" onClick={() => navigate("/BookAppoinment")}>
           Book an Appointment <span>→</span>
         </button>
 
-        <button className="cta-btn grey" onClick={handleSecondOpinion}>
+        <button className="cta-btn grey" onClick={() => navigate("/BookSecondOpinion")}>
           Get Second Opinion <span>→</span>
         </button>
       </div>

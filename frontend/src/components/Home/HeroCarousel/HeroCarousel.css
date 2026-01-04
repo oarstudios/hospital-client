@@ -1,3 +1,5 @@
+/* ================= HERO CAROUSEL ================= */
+
 .hero-carousel {
   position: relative;
   width: 100%;
@@ -6,24 +8,31 @@
   font-family: "DM Sans", sans-serif;
 }
 
-/* SLIDES */
-.hero-image {
+/* ================= SLIDES (PICTURE BASED) ================= */
+
+.hero-carousel picture.hero-image {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-
   opacity: 0;
   transition: opacity 1s ease-in-out;
 }
 
 /* ACTIVE SLIDE */
-.hero-image.active {
+.hero-carousel picture.hero-image.active {
   opacity: 1;
 }
 
-/* QUICK CTA BAR */
+/* IMAGE INSIDE PICTURE */
+.hero-carousel picture.hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ================= QUICK CTA BAR ================= */
+
 .quick-cta {
   position: absolute;
   bottom: 32px;
@@ -34,6 +43,7 @@
   overflow: hidden;
   border: 1px solid rgba(18, 16, 18, 1);
   z-index: 2;
+  background: transparent;
 }
 
 /* CTA BUTTON BASE */
@@ -50,7 +60,7 @@
   white-space: nowrap;
 }
 
-/* COLORS */
+/* CTA COLORS */
 .cta-btn.light {
   background: rgba(236, 223, 242, 1);
   color: rgba(48, 45, 49, 1);
@@ -66,21 +76,20 @@
   color: rgba(48, 45, 49, 1);
 }
 
-/* Arrow */
+/* ARROW */
 .cta-btn span {
   font-size: 26px;
   color: rgba(152, 148, 155, 1);
   line-height: 1;
   opacity: 0.6;
+  transition: opacity 0.2s ease;
 }
 
 .cta-btn:hover span {
   opacity: 1;
 }
 
-
-
-/* ================= RESPONSIVE HERO CAROUSEL ================= */
+/* ================= RESPONSIVE ================= */
 
 /* Large Tablets & Small Laptops */
 @media (max-width: 1199px) {
@@ -110,7 +119,7 @@
   }
 }
 
-/* Large Mobile / iPhone / Nothing */
+/* Large Mobile */
 @media (max-width: 767px) {
   .hero-carousel {
     height: 420px;
