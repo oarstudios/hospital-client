@@ -90,7 +90,7 @@ h6 {
 /* Laptop */
 @media (min-width: 1024px) {
   .app-layout {
-    max-width: 1200px;
+    max-width: 1300px;
     padding-left: 0;
     padding-right: 0;
   }
