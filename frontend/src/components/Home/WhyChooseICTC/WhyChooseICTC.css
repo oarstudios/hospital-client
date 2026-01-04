@@ -87,9 +87,7 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .why-card {
-    height: auto;
-  }
+  
 
   .why-card-content {
     padding: 24px;

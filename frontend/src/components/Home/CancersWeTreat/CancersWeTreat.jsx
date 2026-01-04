@@ -22,12 +22,12 @@ import cwt8 from "../../../assets/cwt8.png";
 const cancerTypes = [
   { title: "Gastrointestinal Cancers", slug: "gastrointestinal-cancer", icon: cwt1 },
   { title: "Brain Cancers", slug: "brain-cancer", icon: cwt2 },
-  { title: "Lung Cancers", slug: "lung-cancer", icon: cwt3 },
-  { title: "Urological Cancers", slug: "urological-cancer", icon: cwt4 },
-  { title: "Blood Cancers", slug: "blood-cancer", icon: cwt5 },
-  { title: "Bone and Soft Tissue Cancers", slug: "bone-soft-tissue-cancer", icon: cwt6 },
-  { title: "Breast Cancers", slug: "breast-cancer", icon: cwt7 },
-  { title: "Gynecological Cancers", slug: "gynecological-cancer", icon: cwt8 },
+  { title: "Lung Cancers", slug: "lung-cancer", icon: cwt8 },
+  { title: "Urological Cancers", slug: "urological-cancer", icon: cwt3 },
+  { title: "Blood Cancers", slug: "blood-cancer", icon: cwt6 },
+  { title: "Bone and Soft Tissue Cancers", slug: "bone-soft-tissue-cancer", icon: cwt7 },
+  { title: "Breast Cancers", slug: "breast-cancer", icon: cwt5 },
+  { title: "Gynecological Cancers", slug: "gynecological-cancer", icon: cwt4 },
 ];
 
 
