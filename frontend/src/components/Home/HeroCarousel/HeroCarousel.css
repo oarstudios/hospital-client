@@ -148,7 +148,7 @@
 /* Small Mobile */
 @media (max-width: 480px) {
   .hero-carousel {
-    height: 460px;
+    height: 560px;
   }
 
   .quick-cta {
