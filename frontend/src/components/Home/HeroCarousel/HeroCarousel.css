@@ -148,11 +148,11 @@
 /* Small Mobile */
 @media (max-width: 480px) {
   .hero-carousel {
-    height: 360px;
+    height: 460px;
   }
 
   .quick-cta {
-    bottom: 16px;
+    bottom: 60px;
   }
 
   .cta-btn {
@@ -167,9 +167,7 @@
 
 /* Very Small Devices */
 @media (max-width: 360px) {
-  .hero-carousel {
-    height: 320px;
-  }
+ 
 
   .cta-btn {
     font-size: 12px;

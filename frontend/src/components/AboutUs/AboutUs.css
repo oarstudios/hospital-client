@@ -26,11 +26,14 @@
     rgba(214, 214, 214, 0.2) 0%,
     rgba(255, 255, 255, 0.2) 100%
   );
-  transition: all 0.35s ease;
+  background-clip: padding-box;
+  transition: background 0.35s ease, box-shadow 0.35s ease;
   z-index: 1;
 }
 
-/* GRADIENT BORDER (NORMAL) */
+/* =======================
+   GRADIENT BORDER (NORMAL)
+======================= */
 .ictc-stat-card::before {
   content: "";
   position: absolute;
@@ -42,13 +45,13 @@
     #888888 0%,
     #3C3C3E 100%
   );
-  -webkit-mask:
+  mask:
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
   mask-composite: exclude;
+  -webkit-mask-composite: destination-out;
   pointer-events: none;
-  transition: all 0.35s ease;
+  transition: background 0.35s ease;
 }
 
 /* =======================
@@ -99,36 +102,26 @@
 }
 
 /* =======================
-   ARROW ICON
+   ARROW ICON (SINGLE IMAGE – ROTATE ONLY)
 ======================= */
 .ictc-arrow {
   position: relative;
   width: 28px;
   height: 28px;
+  flex-shrink: 0;
 }
 
 .ictc-arrow img {
-  position: absolute;
-  inset: 0;
-  width: 28px;
-  transition: all 0.3s ease;
+  width: 100%;
+  height: 100%;
+  display: block;
+  transition: transform 0.35s ease;
+  transform-origin: center;
 }
 
-/* default arrow */
-.arrow-hover {
-  opacity: 0;
-  transform: translate(-6px, 6px);
-}
-
-/* hover arrow animation */
-.ictc-stat-card:hover .arrow-default {
-  opacity: 0;
-  transform: translate(6px, -6px);
-}
-
-.ictc-stat-card:hover .arrow-hover {
-  opacity: 1;
-  transform: translate(0, 0);
+/* Rotate arrow on hover */
+.ictc-stat-card:hover .ictc-arrow img {
+  transform: rotate(-45deg);
 }
 
 /* =======================
@@ -180,9 +173,6 @@
 /* =======================
    RESPONSIVE
 ======================= */
-/* ================================= */
-/* ABOUT US – RESPONSIVE ONLY */
-/* ================================= */
 
 /* ---------- LARGE LAPTOPS ---------- */
 @media (max-width: 1200px) {
@@ -291,6 +281,7 @@
 
   .ictc-arrow img {
     width: 24px;
+    height: 24px;
   }
 }
 
@@ -312,4 +303,3 @@
     font-size: 16px;
   }
 }
-

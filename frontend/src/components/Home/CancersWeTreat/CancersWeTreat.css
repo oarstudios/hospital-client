@@ -1,5 +1,5 @@
 .cancers-section {
-  padding: 80px 40px;
+  padding: 80px 60px;
   font-family: "DM Sans", sans-serif;
   background-color: rgba(255, 255, 255, 1);
 }
@@ -15,7 +15,7 @@
 .cancers-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
+  gap: 40px 80px;
 }
 
 /* CARD */
@@ -81,7 +81,7 @@
 /* Large Laptops & Small Desktops */
 @media (max-width: 1440px) {
   .cancers-section {
-    padding: 72px 32px;
+    padding: 72px 52px;
   }
 
   .cancers-heading {
@@ -89,7 +89,7 @@
   }
 
   .cancers-grid {
-    gap: 32px;
+    gap: 32px 72px;
   }
 }
 
@@ -97,7 +97,7 @@
 @media (max-width: 1199px) {
   .cancers-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 38px;
+    gap: 38px 78px;
   }
 
   .cancer-card {
@@ -114,7 +114,7 @@
 /* Tablets */
 @media (max-width: 1023px) {
   .cancers-section {
-    padding: 64px 24px;
+    padding: 64px 44px;
   }
 
   .cancers-heading {
@@ -136,7 +136,7 @@
 /* Large Mobile / iPhone / Nothing */
 @media (max-width: 767px) {
   .cancers-section {
-    padding: 48px 20px;
+    padding: 48px 40px;
   }
 
   .cancers-heading {
@@ -146,7 +146,7 @@
 
   .cancers-grid {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 24px 64px;
   }
 
   .cancer-card {
@@ -218,7 +218,7 @@
 /* Large Desktop / Wide Screens */
 @media (min-width: 1680px) {
   .cancers-section {
-    padding: 96px 40px;
+    padding: 96px 60px;
   }
 
   .cancers-heading {
@@ -226,7 +226,7 @@
   }
 
   .cancers-grid {
-    gap: 48px;
+    gap: 48px 78px;
   }
 
   .card-content h3 {

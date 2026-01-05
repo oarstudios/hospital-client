@@ -2,7 +2,7 @@ import "./AboutUs.css";
 
 /* ICONS */
 import arrowDefault from "../../assets/tabler_arrow-up.png";
-import arrowHover from "../../assets/tabler_arrow-up (1).png";
+
 import OurDoctorTeam from "../OurDoctorTeam/OurDoctorTeam";
 
 const stats = [
@@ -65,19 +65,11 @@ const AboutUs = () => {
               <span className="ictc-stat-value">{item.value}</span>
 
               {item.showArrow && (
-                <div className="ictc-arrow">
-                  <img
-                    src={arrowDefault}
-                    alt="arrow"
-                    className="arrow-default"
-                  />
-                  <img
-                    src={arrowHover}
-                    alt="arrow hover"
-                    className="arrow-hover"
-                  />
-                </div>
-              )}
+  <div className="ictc-arrow">
+    <img src={arrowDefault} alt="arrow" />
+  </div>
+)}
+
             </div>
 
             <h4>{item.title}</h4>
