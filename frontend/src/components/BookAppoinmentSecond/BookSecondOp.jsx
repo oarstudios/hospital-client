@@ -22,7 +22,8 @@ const BookSecondOp = () => {
     age: "",
     phone: "",
     date: "",
-    selectedCentres: [],
+    selectedCentre: "", // 🔹 SINGLE CENTRE
+    type: "Second Opinion", // 🔹 to differentiate in Google Sheet
   });
 
   const [errors, setErrors] = useState({});
@@ -33,17 +34,12 @@ const BookSecondOp = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  /* CHECKBOX */
+  /* SINGLE CENTRE SELECT */
   const handleCentreChange = (centre) => {
-    setFormData((prev) => {
-      const exists = prev.selectedCentres.includes(centre);
-      return {
-        ...prev,
-        selectedCentres: exists
-          ? prev.selectedCentres.filter((c) => c !== centre)
-          : [...prev.selectedCentres, centre],
-      };
-    });
+    setFormData((prev) => ({
+      ...prev,
+      selectedCentre: centre,
+    }));
   };
 
   /* VALIDATION */
@@ -58,21 +54,52 @@ const BookSecondOp = () => {
     if (!/^\d{10}$/.test(formData.phone))
       newErrors.phone = "Enter valid 10-digit phone number";
 
-    if (formData.selectedCentres.length === 0)
-      newErrors.centres = "Select at least one centre";
+    if (!formData.selectedCentre)
+      newErrors.centres = "Select one centre";
 
-    if (!formData.date) newErrors.date = "Please select appointment date";
+    if (!formData.date)
+      newErrors.date = "Please select appointment date";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  /* SUBMIT */
-  const handleSubmit = () => {
+  /* SUBMIT → GOOGLE SHEETS */
+  const handleSubmit = async () => {
     if (!validate()) return;
 
-    console.log("Second Opinion Data:", formData);
-    alert("Second opinion request submitted successfully!");
+    try {
+      const response = await fetch(
+        "https://script.google.com/macros/s/AKfycby_yIfLs8GlqAlgyqHtjPFcujoIfeiYqHzFNUUJckL4FAb1z-EkbqlBW1FpkVqXFA/exec",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const result = await response.json();
+
+      if (result.success) {
+        alert("Second opinion request submitted successfully!");
+
+        setFormData({
+          name: "",
+          age: "",
+          phone: "",
+          date: "",
+          selectedCentre: "",
+          type: "Second Opinion",
+        });
+      } else {
+        alert("Failed to save data");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Network error");
+    }
   };
 
   return (
@@ -81,7 +108,7 @@ const BookSecondOp = () => {
         {/* LEFT FORM */}
         <div className="appointment-form">
           <h2>Book a Second Opinion Consultation</h2>
-        
+
           <p className="section-label">Patient Details</p>
 
           <div className="input-row">
@@ -128,7 +155,7 @@ const BookSecondOp = () => {
               <label key={index} className="centre-chip">
                 <input
                   type="checkbox"
-                  checked={formData.selectedCentres.includes(centre)}
+                  checked={formData.selectedCentre === centre}
                   onChange={() => handleCentreChange(centre)}
                 />
                 <span className="custom-checkbox">
@@ -144,7 +171,9 @@ const BookSecondOp = () => {
           )}
 
           <div>
-             <p className="section-label">Please Click below to select Date</p>
+            <p className="section-label">
+              Please Click below to select Date
+            </p>
             <input
               type="date"
               name="date"
