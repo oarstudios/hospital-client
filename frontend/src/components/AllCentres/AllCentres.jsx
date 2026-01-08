@@ -15,67 +15,79 @@ const AllCentres = () => {
       <h2 className="ictc-centres-title">ICTC Cancer Care Centres</h2>
 
       <div className="ictc-centres-list">
-        {Object.values(centerData).map((centre) => (
-          <article className="ictc-centre-card" key={centre.slug}>
-            
-            {/* MAP */}
-            <div className="ictc-centre-map">
-              <iframe
-                title={`${centre.name} map`}
-                src={centre.mapEmbed}
-                loading="lazy"
-                allowFullScreen
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-            </div>
+       {Object.values(centerData).map((centre) => (
+  <article
+    className="ictc-centre-card"
+    key={centre.slug}
+    onClick={() => navigate(`/centre/${centre.slug}`)}
+    style={{ cursor: "pointer" }}
+  >
+    
+    {/* MAP */}
+    <div className="ictc-centre-map">
+      <iframe
+        title={`${centre.name} map`}
+        src={centre.mapEmbed}
+        loading="lazy"
+        allowFullScreen
+        referrerPolicy="no-referrer-when-downgrade"
+      />
+    </div>
 
-            {/* INFO */}
-            <div className="ictc-centre-info">
-              <div className="ictc-centre-header">
-                <h3>{centre.name}</h3>
+    {/* INFO */}
+    <div className="ictc-centre-info">
+      <div className="ictc-centre-header">
+        <h3>{centre.name}</h3>
 
-                <button
-                  className="appointment-btn"
-                  onClick={() => navigate(`/centre/${centre.slug}`)}
-                >
-                  BOOK APPOINTMENT
-                </button>
-              </div>
+        <button
+          className="appointment-btn"
+          onClick={(e) => {
+            e.stopPropagation(); // 🔥 IMPORTANT
+            navigate("/BookAppoinment");
+          }}
+        >
+          BOOK APPOINTMENT
+        </button>
+      </div>
 
-              {/* RATING */}
-              <div className="ictc-centre-rating">
-                <img src={starIcon} alt="rating" />
-                <img src={starIcon} alt="rating" />
-                <img src={starIcon} alt="rating" />
-                <img src={starIcon} alt="rating" />
-                <img src={starHalfIcon} alt="rating" />
+      {/* RATING */}
+      <div className="ictc-centre-rating">
+        <img src={starIcon} alt="rating" />
+        <img src={starIcon} alt="rating" />
+        <img src={starIcon} alt="rating" />
+        <img src={starIcon} alt="rating" />
+        <img src={starHalfIcon} alt="rating" />
 
-                <span className="rating-score">{centre.rating}</span>
-                <span className="rating-sep">|</span>
-                <span className="rating-count">{centre.reviews}</span>
-              </div>
+        <span className="rating-score">{centre.rating}</span>
+        <span className="rating-sep">|</span>
+        <span className="rating-count">{centre.reviews}</span>
+      </div>
 
-              {/* ADDRESS */}
-              <p className="ictc-centre-address">
-                {centre.address}
-              </p>
+      {/* ADDRESS */}
+      <p className="ictc-centre-address">
+        {centre.address}
+      </p>
 
-              {/* FOOTER */}
-              <div className="ictc-centre-footer">
-                <div className="ictc-centre-phone">
-                  <img src={callIcon} alt="Call" />
-                  <a href={`tel:${centre.phone.replace(/\s/g, "")}`}>
-                    {centre.phone}
-                  </a>
-                </div>
+      {/* FOOTER */}
+      <div className="ictc-centre-footer">
+        <div className="ictc-centre-phone">
+          <img src={callIcon} alt="Call" />
+          <a
+            href={`tel:${centre.phone.replace(/\s/g, "")}`}
+            onClick={(e) => e.stopPropagation()} // 🔥 stop card click
+          >
+            {centre.phone}
+          </a>
+        </div>
 
-                <span className="ictc-centre-time">
-                  {centre.timing}
-                </span>
-              </div>
-            </div>
-          </article>
-        ))}
+        <span className="ictc-centre-time">
+          {centre.timing}
+        </span>
+      </div>
+    </div>
+  </article>
+))}
+
       </div>
     </section>
   );
