@@ -202,3 +202,33 @@
     font-size: 15px;
   }
 }
+
+
+.expert-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* LIMIT TEXT */
+.expert-summary {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #ccc;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 10;      /* 👈 show only 3 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+
+}
+
+/* KNOW MORE ALWAYS AT BOTTOM */
+.know-more {
+  margin-top: 12px;
+
+  cursor: pointer;
+
+  align-self: flex-start;
+}

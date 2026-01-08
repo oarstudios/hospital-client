@@ -64,18 +64,22 @@ const ExpertsAtICTC = () => {
             </div>
 
             {/* RIGHT CONTENT */}
-            <div className="expert-content">
-              <h3>{doc.name}</h3>
+            {/* RIGHT CONTENT */}
+<div className="expert-content">
+  <h3>{doc.name}</h3>
 
-              <p>{doc.summary}</p>
+  <p className="expert-summary">
+    {doc.summary}
+  </p>
 
-              <span
-                className="know-more"
-                onClick={() => navigate(`/doctor/${doc.slug}`)}
-              >
-                Know More <span>→</span>
-              </span>
-            </div>
+  <span
+    className="know-more"
+    onClick={() => navigate(`/doctor/${doc.slug}`)}
+  >
+    Know More <span>→</span>
+  </span>
+</div>
+
           </div>
         ))
       )}
