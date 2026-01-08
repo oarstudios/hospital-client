@@ -720,7 +720,7 @@ const cancerData = {
   ]
 },
 
-"gastrointestinal-cancers": {
+"gastrointestinal-cancer": {
   Name: "Gastrointestinal (GI) Cancers",
 
   Introduction:
@@ -938,7 +938,7 @@ const cancerData = {
   ]
 },
 
-"urological-cancers": {
+"urological-cancer": {
   Name: "Urological Cancers",
 
   Introduction:
@@ -1344,7 +1344,7 @@ const cancerData = {
   ]
 },
 
-"gynecological-cancers": {
+"gynecological-cancer": {
   Name: "Gynecological Cancers",
 
   Introduction:
