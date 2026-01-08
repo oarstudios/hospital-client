@@ -2,6 +2,8 @@ import "./DoctorProfile.css";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import doctorData from "../../../data/doctorData";
+import { useNavigate} from "react-router-dom";
+
 
 /* ICONS */
 import starIcon from "../../../assets/star.png";
@@ -15,6 +17,8 @@ import BookAppointment from "../../Home/BookAppointment/BookAppointment";
 // import tickIcon from "../../../assets/Vector (8).png";
 
 const DoctorProfile = () => {
+  const navigate = useNavigate();
+
   const [showFullSummary, setShowFullSummary] = useState(false);
 
   const { slug } = useParams();
@@ -64,10 +68,14 @@ const DoctorProfile = () => {
               <span>{doctor.phone}</span>
             </div>
 
-            <button className="info-row info-cta">
-              <img src={calendarIcon} alt="calendar" />
-              Book an Appointment
-            </button>
+           <button
+  className="info-row info-cta"
+  onClick={() => navigate("/BookAppoinment")}
+>
+  <img src={calendarIcon} alt="calendar" />
+  Book an Appointment
+</button>
+
           </div>
 
           {/* LANGUAGES */}
