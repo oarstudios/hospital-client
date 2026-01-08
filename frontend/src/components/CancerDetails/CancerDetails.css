@@ -214,3 +214,22 @@
     padding: 16px;
   }
 }
+
+
+.ictc-section-block {
+  margin-bottom: 24px;
+}
+
+.ictc-sub-section {
+  margin-left: 16px;
+}
+
+.ictc-faq-item {
+  margin-bottom: 20px;
+}
+
+.ictc-cancer-intro {
+  font-size: 1.05rem;
+  margin-bottom: 24px;
+  color: #444;
+}
