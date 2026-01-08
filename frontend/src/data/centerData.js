@@ -207,11 +207,12 @@ const centerData = {
     address: "Goregaon, Mumbai",
     timing: "Mon – Sat 9:00 a.m. to 7:00 p.m.",
     heroBg,
+description: [
+  "ICTC Indian Cancer Treatment Centre – Goregaon is a state-of-the-art Day Care Chemotherapy Centre dedicated to delivering advanced, patient-centric oncology services with a strong focus on day-care chemotherapy. Conveniently located in Goregaon, the centre serves patients from Malad, Jogeshwari, Andheri, Oshiwara, Borivali, and surrounding western suburbs of Mumbai, ensuring easy access to high-quality cancer care close to home.",
+  "Designed with patient comfort and clinical efficiency in mind, the Goregaon centre provides safe, streamlined chemotherapy treatments that allow patients to receive expert care and return home the same day. This day-care approach minimizes prolonged hospital stays while maintaining the highest standards of medical safety, infection control, and treatment effectiveness.",
+  "ICTC Goregaon is led by Dr. Viraj Nevrekar, a highly respected oncologist known for his expertise in comprehensive cancer management and personalized treatment planning. Supported by modern infrastructure, advanced medical technology, and a dedicated multidisciplinary oncology team, the centre is committed to delivering affordable, advanced, and compassionate cancer care in a supportive and healing environment.",
+],
 
-    description: [
-      "Comprehensive cancer care in Western suburbs.",
-      "Modern oncology infrastructure.",
-    ],
 
     image: defaultImg,
     gallery: [g1, g2, g3],
@@ -293,10 +294,12 @@ const centerData = {
     timing: "Mon – Sat 9:00 a.m. to 7:00 p.m.",
     heroBg,
 
-    description: [
-      "Comprehensive oncology services in Chembur.",
-      "Patient-first and ethical cancer care.",
-    ],
+ description: [
+  "ICTC Indian Cancer Treatment Centre – Chembur is a premier Day Care Chemotherapy Centre offering advanced, patient-centric cancer care with a strong focus on day-care chemotherapy. Strategically located in Chembur, the centre serves patients from Govandi, Tilak Nagar, Kurla, Ghatkopar, Deonar, Vashi, Trombay, and Sion, ensuring easy access to high-quality oncology services close to home.",
+  "The centre is thoughtfully designed to deliver safe, comfortable, and efficient chemotherapy services, allowing patients to receive treatment and return home the same day. This approach minimizes prolonged hospital stays while maintaining the highest standards of medical safety, clinical precision, and compassionate care.",
+  "ICTC Chembur is led by Dr. Deep Vora, a highly experienced oncologist known for his patient-first, evidence-based approach to cancer treatment. By tailoring treatment plans to each patient’s specific medical condition and using modern cancer therapies, the centre has earned a strong reputation as a trusted destination for advanced, affordable, and personalized cancer care in a supportive and healing environment.",
+],
+
 
     image: defaultImg,
     gallery: [g1, g2, g3],

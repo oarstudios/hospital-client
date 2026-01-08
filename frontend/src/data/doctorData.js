@@ -376,7 +376,7 @@ const doctorData = {
   reviews: "50+ Ratings",
   phone: "+91-9871250784",
 
-  centres: ["ICTC Dadar"],
+  centres: ["ICTC Dadar", "ICTC Goregaon"],
   languages: ["English", "Hindi", "Marathi"],
 
   summary: `Dr. Viraj Nevrekar is a highly experienced Cancer Specialist and Medical
@@ -617,7 +617,7 @@ const doctorData = {
   reviews: "50+ Ratings",
   phone: "+91-9426973436",
 
-  centres: ["ICTC Ghatkopar"],
+  centres: ["ICTC Ghatkopar", "ICTC Chembur"],
   languages: ["English", "Hindi", "Gujarati"],
 
   summary: `Dr. Deep Vora is a dedicated Medical Oncologist, Hemato-Oncologist, and
