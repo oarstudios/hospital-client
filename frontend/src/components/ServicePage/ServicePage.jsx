@@ -5,51 +5,61 @@ import "./ServicePage.css";
 /* DATA */
 import serviceData from "../../data/serviceData";
 
-/* IMAGES (STATIC – SAME FOR ALL SERVICES) */
+/* IMAGES */
 import heroImg from "../../assets/serviceHero.png";
 import contentImg1 from "../../assets/service1.png";
 import contentImg2 from "../../assets/service2.png";
 import arrowIcon from "../../assets/cuida_dropdown-outline.png";
 
-/* FAQ (can be made dynamic later if needed) */
-const faqs = [
-  {
-    question: "Can chemotherapy be used to treat cancer?",
-    answer:
-      "Most patients don’t feel any pain while receiving treatment, especially if they’re taking tablets or using cream topically. When the needle is inserted for a shot or injection, you can experience an unpleasant sting or prick.",
-  },
-  {
-    question: "Does receiving chemotherapy hurt?",
-    answer:
-      "Chemotherapy itself does not usually cause pain. Some discomfort may occur due to IV insertion or side effects.",
-  },
-  {
-    question: "What stage of cancer receives chemotherapy treatment?",
-    answer:
-      "Chemotherapy can be used in early, advanced, or metastatic stages depending on treatment goals.",
-  },
-];
+/* UTIL HELPERS */
+const formatTitle = (text) =>
+  text
+    .replace(/([A-Z])/g, " $1")
+    .replace(/_/g, " ")
+    .replace(/^\w/, (c) => c.toUpperCase());
+
+const renderArray = (arr) => (
+  <ul>
+    {arr.map((item, i) => (
+      <li key={i}>{item}</li>
+    ))}
+  </ul>
+);
+
+const renderObject = (obj) =>
+  Object.entries(obj).map(([key, value]) => (
+    <div key={key} className="ictc-service-section">
+      <h4>{formatTitle(key)}</h4>
+
+      {Array.isArray(value) && renderArray(value)}
+
+      {typeof value === "object" &&
+        !Array.isArray(value) &&
+        Object.entries(value).map(([subKey, subValue]) => (
+          <div key={subKey} className="ictc-service-subsection">
+            <h5>{formatTitle(subKey)}</h5>
+            {Array.isArray(subValue) && renderArray(subValue)}
+          </div>
+        ))}
+    </div>
+  ));
 
 const ServicePage = () => {
-  const [activeIndex, setActiveIndex] = useState(2);
   const { slug } = useParams();
-
   const data = serviceData[slug];
+  const [activeIndex, setActiveIndex] = useState(null);
 
-  /* SAFETY CHECK */
   if (!data) {
     return (
       <section className="ictc-service-page">
-        <h2 style={{ padding: "40px" }}>
-          Service details not found
-        </h2>
+        <h2 style={{ padding: "40px" }}>Service details not found</h2>
       </section>
     );
   }
 
   return (
     <section className="ictc-service-page">
-      {/* HERO CARD */}
+      {/* HERO */}
       <div className="ictc-service-hero-card">
         <img src={heroImg} alt={data.heroTitle} />
         <div className="ictc-service-hero-title">
@@ -57,75 +67,82 @@ const ServicePage = () => {
         </div>
       </div>
 
+      {/* INTRO */}
+      {data.introduction && (
+        <p className="ictc-service-intro">{data.introduction}</p>
+      )}
+
       {/* CONTENT */}
       <div className="ictc-service-content">
-        <h3>{data.description[0]}</h3>
+        <img src={contentImg1} alt="Treatment illustration" />
 
-        {data.description.slice(1).map((para, index) => (
-          <p key={index}>{para}</p>
-        ))}
+        {Object.entries(data).map(([key, value]) => {
+          if (
+            ["name", "heroTitle", "introduction", "faqs"].includes(key)
+          )
+            return null;
 
-        <img src={contentImg1} alt="Doctor consultation" />
+          if (Array.isArray(value)) {
+            return (
+              <section key={key}>
+                <h3>{formatTitle(key)}</h3>
+                {renderArray(value)}
+              </section>
+            );
+          }
 
-        <h3>Subtypes of therapy</h3>
-        <ul>
-          {data.subtypes.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ul>
+          if (typeof value === "object") {
+            return (
+              <section key={key}>
+                <h3>{formatTitle(key)}</h3>
+                {renderObject(value)}
+              </section>
+            );
+          }
 
-        <h3>Benefits of {data.name}</h3>
-        <ul>
-          {data.benefits.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ul>
+          return null;
+        })}
 
         <img src={contentImg2} alt="Patient care" />
-
-        <h3>Downside of {data.name}</h3>
-        <ul>
-          {data.downsides.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ul>
       </div>
 
       {/* FAQ */}
-      <div className="ictc-service-faq">
-        <h2>FAQ’s</h2>
+      {data.faqs?.length > 0 && (
+        <div className="ictc-service-faq">
+          <h2>FAQ’s</h2>
 
-        {faqs.map((faq, index) => {
-          const isActive = activeIndex === index;
+          {data.faqs.map((faq, index) => {
+            const isActive = activeIndex === index;
 
-          return (
-            <div
-              key={index}
-              className={`ictc-faq-item ${
-                isActive ? "ictc-faq-active" : ""
-              }`}
-              onClick={() =>
-                setActiveIndex(isActive ? -1 : index)
-              }
-            >
-              <div className="ictc-faq-question">
-                <span>{faq.question}</span>
-                <img
-                  src={arrowIcon}
-                  className={isActive ? "rotate" : ""}
-                  alt="toggle"
-                />
-              </div>
-
-              {isActive && (
-                <div className="ictc-faq-answer">
-                  {faq.answer}
+            return (
+              <div
+                key={index}
+                className={`ictc-faq-item ${
+                  isActive ? "ictc-faq-active" : ""
+                }`}
+                onClick={() =>
+                  setActiveIndex(isActive ? null : index)
+                }
+              >
+                <div className="ictc-faq-question">
+                  <span>{faq.question}</span>
+                  <img
+                    src={arrowIcon}
+                    className={isActive ? "rotate" : ""}
+                    alt="toggle"
+                  />
                 </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
+
+                {isActive && (
+                  <div className="ictc-faq-answer">
+                    {faq.answer}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
     </section>
   );
 };
