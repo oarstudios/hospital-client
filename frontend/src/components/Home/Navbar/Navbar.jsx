@@ -205,31 +205,46 @@ const Navbar = () => {
         )}
 
         {/* CENTRES DROPDOWN */}
-        {activeMenu === "centres" && (
-          <MegaDropdown heading="OUR CENTRES" onNavigate={handleNavigate}>
-            <div className="column">
-              {centres.slice(0, 4).map((center) => (
-                <p
-                  key={center.slug}
-                  onClick={() => handleNavigate(`/centre/${center.slug}`)}
-                >
-                  {center.name}
-                </p>
-              ))}
-            </div>
+       {activeMenu === "centres" && (
+  <MegaDropdown heading="OUR CENTRES" onNavigate={handleNavigate}>
+    {(() => {
+      const mid = Math.ceil(centres.length / 2);
+      const col1 = centres.slice(0, mid);
+      const col2 = centres.slice(mid);
 
-            <div className="column">
-              {centres.slice(4, 8).map((center) => (
-                <p
-                  key={center.slug}
-                  onClick={() => handleNavigate(`/centre/${center.slug}`)}
-                >
-                  {center.name}
-                </p>
-              ))}
-            </div>
-          </MegaDropdown>
-        )}
+      return (
+        <>
+          <div className="column">
+            {col1.map((center) => (
+              <p
+                key={center.slug}
+                onClick={() =>
+                  handleNavigate(`/centre/${center.slug}`)
+                }
+              >
+                {center.name}
+              </p>
+            ))}
+          </div>
+
+          <div className="column">
+            {col2.map((center) => (
+              <p
+                key={center.slug}
+                onClick={() =>
+                  handleNavigate(`/centre/${center.slug}`)
+                }
+              >
+                {center.name}
+              </p>
+            ))}
+          </div>
+        </>
+      );
+    })()}
+  </MegaDropdown>
+)}
+
 
         {/* CANCER DROPDOWN */}
         {activeMenu === "cancer" && (
