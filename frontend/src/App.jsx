@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import "./index.css";
 
-/* COMMON */
+/* COMMON Comp*/
 import Navbar from "./components/Home/Navbar/Navbar";
 import Footer from "./components/Home/Footer/Footer";
 
