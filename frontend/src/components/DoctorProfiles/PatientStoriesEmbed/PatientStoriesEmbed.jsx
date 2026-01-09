@@ -3,12 +3,13 @@ import "./PatientStoriesEmbed.css";
 import NewsFromExperts from "../../Home/NewsFromExperts/NewsFromExperts";
 
 const posts = [
-  "https://www.instagram.com/reel/DSajmWyjIRV/",
-  "https://www.instagram.com/reel/DSajmWyjIRV/",
-  "https://www.instagram.com/reel/DSajmWyjIRV/",
-  "https://www.instagram.com/reel/DSajmWyjIRV/",
-  "https://www.instagram.com/reel/DSajmWyjIRV/",
-  "https://www.instagram.com/reel/DSajmWyjIRV/",
+  "https://www.instagram.com/reel/DST-mcRDCC1/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+  "https://www.instagram.com/reel/DTHYcKMCnnA/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+  "https://www.instagram.com/reel/DRjo6xWDKOa/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+  "https://www.instagram.com/reel/DQ35e-LjETs/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+  "https://www.instagram.com/reel/DQbW9nTDIAu/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+  "https://www.instagram.com/reel/DP09jgBDGk-/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+  "https://www.instagram.com/reel/DGFk51sNhcK/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=="
 ];
 
 const VISIBLE_COUNT = 3;
