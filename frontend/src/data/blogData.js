@@ -1,8 +1,8 @@
 import blogImage1 from "../assets/BreastCancer-blog.jpg";
-import blogInline1 from "../assets/BreastCancer-blog.jpg";
-import blogInline2 from "../assets/BreastCancer-blog.jpg";
-import blogInline3 from "../assets/BreastCancer-blog.jpg";
-import blogInline4 from "../assets/BreastCancer-blog.jpg";
+// import blogInline1 from "../assets/BreastCancer-blog.jpg";
+// import blogInline2 from "../assets/BreastCancer-blog.jpg";
+// import blogInline3 from "../assets/BreastCancer-blog.jpg";
+// import blogInline4 from "../assets/BreastCancer-blog.jpg";
 
 
 import blogImage2 from "../assets/CancerFatigue-blog.jpg";
@@ -41,7 +41,7 @@ const blogData = {
     },
       {
     type: "image",
-    src: blogInline1,
+    // src: blogInline1,
     alt: "Breast cancer awareness screening"
   },
     {
@@ -55,7 +55,7 @@ const blogData = {
     },
       {
     type: "image",
-    src: blogInline2,
+    // src: blogInline2,
     alt: "Types of breast cancer"
   },
     {
@@ -86,7 +86,7 @@ const blogData = {
     },
      {
     type: "image",
-    src: blogInline3,
+    // src: blogInline3,
     alt: "Breast cancer symptoms illustration"
   },
     {
@@ -121,7 +121,7 @@ const blogData = {
     },
     {
     type: "image",
-    src: blogInline4,
+    // src: blogInline4,
     alt: "Mammography screening process"
   },
     {

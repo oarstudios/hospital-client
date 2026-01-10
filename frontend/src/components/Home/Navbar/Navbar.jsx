@@ -50,14 +50,12 @@ const Navbar = () => {
     setMobileOpen(false);
   };
 
-  /* 🔹 CENTRES ARRAY FROM DATA */
+  /* 🔹 CENTRES ARRAY */
   const centres = Object.values(centerData);
 
   /* 🔹 STICKY NAVBAR */
   useEffect(() => {
-    const onScroll = () => {
-      setSticky(window.scrollY > 80);
-    };
+    const onScroll = () => setSticky(window.scrollY > 80);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -80,25 +78,19 @@ const Navbar = () => {
       {(activeMenu || mobileOpen) && <div className="nav-overlay"></div>}
 
       {/* TOP BAR */}
-     <div className="top-bar">
-  <span>
-    Mail Us at:{" "}
-    <a href="mailto:info@ictconco.org">
-      info@ictconco.org
-    </a>
-  </span>
+      <div className="top-bar">
+        <span>
+          Mail Us at:{" "}
+          <a href="mailto:info@ictconco.org">info@ictconco.org</a>
+        </span>
 
-  <span>
-    ICTC Helpline:{" "}
-    <a
-      href="tel:+918858855200"
-      className="diffColor"
-    >
-      885 885 5200
-    </a>
-  </span>
-</div>
-
+        <span>
+          ICTC Helpline:{" "}
+          <a href="tel:+918858855200" className="diffColor">
+            885 885 5200
+          </a>
+        </span>
+      </div>
 
       {/* NAVBAR */}
       <div
@@ -117,21 +109,25 @@ const Navbar = () => {
 
           {/* DESKTOP MENU */}
           <ul className="menu">
-              <li onClick={() => handleNavigate("/aboutUs")}>ABOUT US</li>
+            <li onClick={() => handleNavigate("/aboutUs")}>ABOUT US</li>
+
             <li onClick={() => toggleMenu("services")}>
               SERVICES <img src={arrow} />
             </li>
+
             <li onClick={() => toggleMenu("centres")}>
               OUR CENTRE <img src={arrow} />
             </li>
+
             <li onClick={() => toggleMenu("cancer")}>
               CANCER TYPES <img src={arrow} />
             </li>
+
             <li onClick={() => handleNavigate("/ourDoctors")}>
               ONCOLOGIST
             </li>
+
             <li onClick={() => handleNavigate("/blog")}>BLOGS</li>
-          
           </ul>
 
           {/* DESKTOP BUTTON */}
@@ -160,15 +156,14 @@ const Navbar = () => {
         <div className={`mobile-menu ${mobileOpen ? "open" : ""}`}>
           <ul>
             <li onClick={() => handleNavigate("/")}>Home</li>
-              <li onClick={() => handleNavigate("/aboutUs")}>About Us</li>
+            <li onClick={() => handleNavigate("/aboutUs")}>About Us</li>
             <li onClick={() => toggleMenu("services")}>Services</li>
             <li onClick={() => toggleMenu("centres")}>Our Centre</li>
             <li onClick={() => toggleMenu("cancer")}>Cancer Types</li>
-              <li onClick={() => handleNavigate("/ourDoctors")}>
-                   ONCOLOGIST
+            <li onClick={() => handleNavigate("/ourDoctors")}>
+              ONCOLOGIST
             </li>
             <li onClick={() => handleNavigate("/blog")}>Blogs</li>
-          
 
             <button
               className="appointment-btn mobile-btn"
@@ -181,12 +176,18 @@ const Navbar = () => {
 
         {/* SERVICES DROPDOWN */}
         {activeMenu === "services" && (
-          <MegaDropdown heading="SERVICES" onNavigate={handleNavigate}>
+          <MegaDropdown
+            heading="SERVICES"
+            headingRoute="/AllService"
+            onNavigate={handleNavigate}
+          >
             <div className="column">
               {serviceMenu.slice(0, 4).map((item) => (
                 <p
                   key={item.slug}
-                  onClick={() => handleNavigate(`/service/${item.slug}`)}
+                  onClick={() =>
+                    handleNavigate(`/service/${item.slug}`)
+                  }
                 >
                   {item.label}
                 </p>
@@ -197,7 +198,9 @@ const Navbar = () => {
               {serviceMenu.slice(4).map((item) => (
                 <p
                   key={item.slug}
-                  onClick={() => handleNavigate(`/service/${item.slug}`)}
+                  onClick={() =>
+                    handleNavigate(`/service/${item.slug}`)
+                  }
                 >
                   {item.label}
                 </p>
@@ -207,55 +210,61 @@ const Navbar = () => {
         )}
 
         {/* CENTRES DROPDOWN */}
-       {activeMenu === "centres" && (
-  <MegaDropdown heading="OUR CENTRES" onNavigate={handleNavigate}>
-    {(() => {
-      const mid = Math.ceil(centres.length / 2);
-      const col1 = centres.slice(0, mid);
-      const col2 = centres.slice(mid);
+        {activeMenu === "centres" && (
+          <MegaDropdown
+            heading="OUR CENTRES"
+            headingRoute="/allCenters"
+            onNavigate={handleNavigate}
+          >
+            {(() => {
+              const mid = Math.ceil(centres.length / 2);
+              return (
+                <>
+                  <div className="column">
+                    {centres.slice(0, mid).map((center) => (
+                      <p
+                        key={center.slug}
+                        onClick={() =>
+                          handleNavigate(`/centre/${center.slug}`)
+                        }
+                      >
+                        {center.name}
+                      </p>
+                    ))}
+                  </div>
 
-      return (
-        <>
-          <div className="column">
-            {col1.map((center) => (
-              <p
-                key={center.slug}
-                onClick={() =>
-                  handleNavigate(`/centre/${center.slug}`)
-                }
-              >
-                {center.name}
-              </p>
-            ))}
-          </div>
-
-          <div className="column">
-            {col2.map((center) => (
-              <p
-                key={center.slug}
-                onClick={() =>
-                  handleNavigate(`/centre/${center.slug}`)
-                }
-              >
-                {center.name}
-              </p>
-            ))}
-          </div>
-        </>
-      );
-    })()}
-  </MegaDropdown>
-)}
-
+                  <div className="column">
+                    {centres.slice(mid).map((center) => (
+                      <p
+                        key={center.slug}
+                        onClick={() =>
+                          handleNavigate(`/centre/${center.slug}`)
+                        }
+                      >
+                        {center.name}
+                      </p>
+                    ))}
+                  </div>
+                </>
+              );
+            })()}
+          </MegaDropdown>
+        )}
 
         {/* CANCER DROPDOWN */}
         {activeMenu === "cancer" && (
-          <MegaDropdown heading="CANCER TYPES" onNavigate={handleNavigate}>
+          <MegaDropdown
+            heading="CANCER TYPES"
+            headingRoute="/AllCancer"
+            onNavigate={handleNavigate}
+          >
             <div className="column">
               {cancerMenu.slice(0, 4).map((item) => (
                 <p
                   key={item.slug}
-                  onClick={() => handleNavigate(`/cancer/${item.slug}`)}
+                  onClick={() =>
+                    handleNavigate(`/cancer/${item.slug}`)
+                  }
                 >
                   {item.label}
                 </p>
@@ -266,7 +275,9 @@ const Navbar = () => {
               {cancerMenu.slice(4).map((item) => (
                 <p
                   key={item.slug}
-                  onClick={() => handleNavigate(`/cancer/${item.slug}`)}
+                  onClick={() =>
+                    handleNavigate(`/cancer/${item.slug}`)
+                  }
                 >
                   {item.label}
                 </p>
@@ -280,11 +291,23 @@ const Navbar = () => {
 };
 
 /* MEGA DROPDOWN */
-const MegaDropdown = ({ heading, children, onNavigate }) => (
+const MegaDropdown = ({
+  heading,
+  headingRoute,
+  children,
+  onNavigate,
+}) => (
   <div className="mega-dropdown slide-down">
     <div className="dropdown-grid">
       <div className="dropdown-left">
-        <div className="dropdown-heading">{heading}</div>
+        {/* CLICKABLE HEADING */}
+        <div
+          className="dropdown-heading clickable"
+          onClick={() => onNavigate(headingRoute)}
+        >
+          {heading} 
+        </div>
+
         <div className="dropdown-content">{children}</div>
       </div>
 
@@ -293,13 +316,11 @@ const MegaDropdown = ({ heading, children, onNavigate }) => (
   </div>
 );
 
-
 /* QUICK LINKS */
 const QuickLinks = ({ onNavigate }) => (
   <div className="quick-links">
     <h4>Quick Links</h4>
 
-    {/* 📞 CLICK TO CALL */}
     <a href="tel:+918858855200" className="helpline-box">
       <span>ICTC Helpline</span>
       <strong>+91 885 885 5200</strong>
@@ -320,7 +341,5 @@ const QuickLinks = ({ onNavigate }) => (
     </button>
   </div>
 );
-
-
 
 export default Navbar;

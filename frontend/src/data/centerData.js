@@ -17,7 +17,7 @@ const centerData = {
     name: "ICTC Vashi",
     fullName: "ICTC Vashi Centre",
     rating: "4.9",
-    reviews: "150+ Ratings",
+    reviews: "500+ Ratings",
 
     phone: "84510 69854 / 93249 85044",
 
@@ -47,8 +47,8 @@ const centerData = {
     slug: "panvel",
     name: "ICTC Panvel",
     fullName: "ICTC Panvel Centre",
-    rating: "4.8",
-    reviews: "120+ Ratings",
+    rating: "4.9",
+    reviews: "200+ Ratings",
 
     phone: "83568 36498",
 
@@ -77,8 +77,8 @@ const centerData = {
     slug: "kalyan",
     name: "ICTC Kalyan",
     fullName: "ICTC Kalyan Centre",
-    rating: "4.8",
-    reviews: "110+ Ratings",
+    rating: "4.9",
+    reviews: "200+ Ratings",
 
     phone: "99200 18399",
 
@@ -107,8 +107,8 @@ const centerData = {
     slug: "dombivli",
     name: "ICTC Dombivli",
     fullName: "ICTC Dombivli Centre",
-    rating: "4.7",
-    reviews: "100+ Ratings",
+    rating: "4.9",
+    reviews: "200+ Ratings",
 
     phone: "99201 99490",
 
@@ -137,8 +137,8 @@ const centerData = {
     slug: "sion",
     name: "ICTC Sion",
     fullName: "ICTC Sion Centre",
-    rating: "4.8",
-    reviews: "130+ Ratings",
+    rating: "4.9",
+    reviews: "100+ Ratings",
 
     phone: "91915 56789",
 
@@ -167,8 +167,8 @@ const centerData = {
     slug: "dadar",
     name: "ICTC Dadar",
     fullName: "ICTC Dadar Centre",
-    rating: "4.8",
-    reviews: "140+ Ratings",
+    rating: "4.9",
+    reviews: "100+ Ratings",
 
     phone: "91915 67890",
 
@@ -197,8 +197,8 @@ const centerData = {
     slug: "goregaon",
     name: "ICTC Goregaon",
     fullName: "ICTC Goregaon Centre",
-    rating: "4.8",
-    reviews: "135+ Ratings",
+    rating: "4.9",
+    reviews: "50+ Ratings",
     phone: "+91 91915 90123",
 
     mapQuery: "ICTC Cancer Care Centre Goregaon Mumbai",
@@ -223,8 +223,8 @@ description: [
     slug: "ghatkopar",
     name: "ICTC Ghatkopar",
     fullName: "ICTC Ghatkopar Centre",
-    rating: "4.8",
-    reviews: "125+ Ratings",
+    rating: "4.9",
+    reviews: "100+ Ratings",
 
     phone: "91915 78901",
 
@@ -253,8 +253,8 @@ description: [
     slug: "santacruz",
     name: "ICTC Santacruz",
     fullName: "ICTC Santacruz Centre",
-    rating: "4.8",
-    reviews: "128+ Ratings",
+    rating: "4.9",
+    reviews: "50+ Ratings",
 
     phone: "91915 89012",
 
@@ -283,8 +283,8 @@ description: [
     slug: "chembur",
     name: "ICTC Chembur",
     fullName: "ICTC Chembur Centre",
-    rating: "4.8",
-    reviews: "120+ Ratings",
+    rating: "4.9",
+    reviews: "50+ Ratings",
     phone: "+91 91915 11223",
 
     mapQuery: "ICTC Cancer Care Centre Chembur Mumbai",

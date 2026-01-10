@@ -15,8 +15,8 @@ const doctorData = {
   qualification:
     "MBBS, MD Internal Medicine, DM Medical Oncology, Certified in Immuno-Oncology and Precision Oncology (Harvard Medical School)",
 
-  rating: "5.0",
-  reviews: "100+ Ratings",
+  rating: "4.9",
+  reviews: "900+ Ratings",
   phone: "+91-8451069854",
 
   centres: ["ICTC Panvel", "ICTC Vashi"],
@@ -149,8 +149,8 @@ const doctorData = {
   qualification:
     "MBBS, MD Internal Medicine, DNB Medical Oncology, Fellowship in Oncology & Bone Marrow Transplantation, ESMO Certified Oncologist",
 
-  rating: "5.0",
-  reviews: "100+ Ratings",
+  rating: "4.9",
+  reviews: "500+ Ratings",
   phone: "+91-9920177313",
 
   centres: ["ICTC Kalyan", "ICTC Dombivli"],
@@ -267,7 +267,7 @@ const doctorData = {
     "MBBS, MD Internal Medicine (AIIMS), DM Medical Oncology (AIIMS), MRCP (UK), DNB, ECMO",
 
   rating: "4.9",
-  reviews: "50+ Ratings",
+  reviews: "200+ Ratings",
   phone: "+91-9820007628",
 
   centres: ["ICTC Sion"],
@@ -373,7 +373,7 @@ const doctorData = {
     "MBBS, MD Internal Medicine (AIIMS), DM Medical Oncology (AIIMS), MRCP (UK), ECMO",
 
   rating: "4.9",
-  reviews: "50+ Ratings",
+  reviews: "100+ Ratings",
   phone: "+91-9871250784",
 
   centres: ["ICTC Dadar", "ICTC Goregaon"],
@@ -614,7 +614,7 @@ const doctorData = {
     "MBBS, DNB Internal Medicine, DM Medical Oncology (Tata Memorial Hospital), MRCP SCE (UK), ESMO Certified, Certification in Advanced Oncology (Harvard Medical School)",
 
   rating: "4.9",
-  reviews: "50+ Ratings",
+  reviews: "100+ Ratings",
   phone: "+91-9426973436",
 
   centres: ["ICTC Ghatkopar", "ICTC Chembur"],
@@ -731,8 +731,8 @@ const doctorData = {
   qualification:
     "MBBS, MD, DM Medical Oncology (GCRI), Fellowship in Geriatric Oncology (Tata Memorial Hospital, Mumbai)",
 
-  rating: "4.8",
-  reviews: "30+ Ratings",
+  rating: "4.9",
+  reviews: "100+ Ratings",
   phone: "+91-9112735218",
 
   centres: ["ICTC Santacruz"],

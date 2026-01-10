@@ -1,7 +1,48 @@
+/* ================= CHEMOTHERAPY ================= */
+import chemoHero from "../assets/Chemotherapy.webp";
+import chemo1 from "../assets/service1.png";
+import chemo2 from "../assets/service2.png";
+
+/* ================= IMMUNOTHERAPY ================= */
+import immunoHero from "../assets/Immunotherapy.webp";
+import immuno1 from "../assets/service1.png";
+import immuno2 from "../assets/service2.png";
+
+/* ================= CANCER SURGERY ================= */
+import surgeryHero from "../assets/Cancer Surgery.webp";
+import surgery1 from "../assets/service1.png";
+import surgery2 from "../assets/service2.png";
+
+/* ================= RADIATION THERAPY ================= */
+import radiationHero from "../assets/Radiation Therapy.webp";
+import radiation1 from "../assets/service1.png";
+import radiation2 from "../assets/service2.png";
+
+/* ================= TARGETED THERAPY ================= */
+import targetedHero from "../assets/Targeted Therapy.webp";
+import targeted1 from "../assets/service1.png";
+import targeted2 from "../assets/service2.png";
+
+/* ================= BONE MARROW TRANSPLANT ================= */
+import bmtHero from "../assets/Bone Marrow Transplant.webp";
+import bmt1 from "../assets/service1.png";
+import bmt2 from "../assets/service2.png";
+
+/* ================= CAR-T THERAPY ================= */
+import cartHero from "../assets/CART Cell Therapy.webp";
+import cart1 from "../assets/service1.png";
+import cart2 from "../assets/service2.png";
+
+
+
 const serviceData = {
 "chemotherapy": {
   name: "Chemotherapy",
   heroTitle: "Chemotherapy At ICTC",
+
+    heroImage: chemoHero,
+
+      contentImages: [chemo1, chemo2],
 
   introduction:
     "Chemotherapy is a cancer treatment that employs powerful drugs to eradicate cancer cells. It works by preventing cancer cells from multiplying, dividing, and generating new cells. Chemotherapy may also be referred to as conventional chemotherapy or cytotoxic chemotherapy.",
@@ -166,6 +207,10 @@ const serviceData = {
   name: "Immunotherapy",
   heroTitle: "Immunotherapy At ICTC",
 
+    heroImage: immunoHero,
+
+  contentImages: [immuno1, immuno2],
+
   introduction:
     "Immunotherapy is a broad term used for a class of cancer treatments that activate the body’s immune system to fight cancer cells. While healthy cells naturally die off, cancer cells continue to grow uncontrollably. Immunotherapy helps the immune system recognize and destroy these abnormal cells.",
 
@@ -301,6 +346,10 @@ const serviceData = {
 "cancer-surgery": {
   name: "Cancer Surgery",
   heroTitle: "Cancer Surgery At ICTC",
+
+  heroImage: surgeryHero,
+contentImages: [surgery1, surgery2],
+
 
   introduction:
     "Cancer surgery is a treatment in which a surgeon removes cancerous tissue from the body. It is one of the oldest and most effective methods of treating cancer, especially when the disease is localized. Surgery may be used alone or in combination with chemotherapy, radiation therapy, targeted therapy, or immunotherapy depending on the type and stage of cancer.",
@@ -458,6 +507,10 @@ const serviceData = {
 "radiation-therapy": {
   name: "Radiation Therapy",
   heroTitle: "Radiation Therapy At ICTC",
+
+  heroImage: radiationHero,
+contentImages: [radiation1, radiation2],
+
 
   introduction:
     "Radiation therapy is a cancer treatment that uses high-energy radiation to destroy cancer cells or slow their growth. It works by damaging the DNA of cancer cells, preventing them from multiplying and causing them to die over time. Radiation therapy is commonly used alone or in combination with surgery, chemotherapy, targeted therapy, or immunotherapy.",
@@ -624,6 +677,10 @@ const serviceData = {
   name: "Targeted Therapy",
   heroTitle: "Targeted Therapy At ICTC",
 
+  heroImage: targetedHero,
+contentImages: [targeted1, targeted2],
+
+
   introduction:
     "Targeted therapy is a form of cancer treatment that identifies and attacks specific cancer cell types while minimizing damage to normal cells. It focuses on particular proteins or genetic changes that control cancer cell growth, division, and spread. Targeted therapy may be used alone or in combination with surgery, radiation therapy, chemotherapy, or immunotherapy.",
 
@@ -763,6 +820,10 @@ const serviceData = {
 "bone-marrow-transplant": {
   name: "Bone Marrow Transplant",
   heroTitle: "Bone Marrow Transplant At ICTC",
+
+  heroImage: bmtHero,
+contentImages: [bmt1, bmt2],
+
 
   introduction:
     "Bone marrow transplant, also known as stem cell transplant, is a specialized cancer treatment used to replace damaged or diseased bone marrow with healthy stem cells. It is most commonly used in blood cancers and certain immune or genetic disorders. The procedure allows patients to receive high-dose chemotherapy or radiation to destroy cancer cells, followed by restoration of healthy blood-forming cells.",
@@ -925,6 +986,10 @@ const serviceData = {
 "car-t-therapy": {
   name: "CAR-T Cell Therapy",
   heroTitle: "CAR-T Cell Therapy At ICTC",
+
+  heroImage: cartHero,
+contentImages: [cart1, cart2],
+
 
   introduction:
     "CAR-T cell therapy, or Chimeric Antigen Receptor T-cell therapy, is an advanced form of immunotherapy that uses a patient’s own immune cells to fight cancer. In this treatment, T-cells are genetically modified in a laboratory to better recognize and destroy cancer cells, then infused back into the patient. CAR-T therapy has shown remarkable success in certain blood cancers.",

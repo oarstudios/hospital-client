@@ -101,6 +101,7 @@
   font-weight: 800;
   font-family: "DM Sans", sans-serif;
   margin-bottom: 16px;
+  cursor: pointer;
 }
 
 /* CONTENT BELOW HEADING */
@@ -322,3 +323,6 @@
   color: inherit;
   display: block;
 }
+
+
+

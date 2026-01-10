@@ -7,7 +7,7 @@ import { useNavigate} from "react-router-dom";
 
 /* ICONS */
 import starIcon from "../../../assets/star.png";
-import starIconEmpty from "../../../assets/startEmpty.png";
+// import starIconEmpty from "../../../assets/startEmpty.png";
 import locationIcon from "../../../assets/location (2).png";
 import phoneIcon from "../../../assets/phone.png";
 import calendarIcon from "../../../assets/calendar.png";
@@ -44,10 +44,10 @@ const DoctorProfile = () => {
             <p className="doctor-card__qualification">{doctor.qualification}</p>
 
             <div className="doctor-card__rating">
-              {[1, 2, 3, 4].map((i) => (
+              {[1, 2, 3, 4, 5].map((i) => (
                 <img key={i} src={starIcon} alt="rating" />
               ))}
-              <img src={starIconEmpty} alt="rating" />
+              {/* <img src={starIconEmpty} alt="rating" /> */}
               <span>{doctor.rating}</span>
             </div>
 

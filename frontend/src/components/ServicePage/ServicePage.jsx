@@ -5,10 +5,7 @@ import "./ServicePage.css";
 /* DATA */
 import serviceData from "../../data/serviceData";
 
-/* IMAGES */
-import heroImg from "../../assets/serviceHero.png";
-import contentImg1 from "../../assets/service1.png";
-import contentImg2 from "../../assets/service2.png";
+/* ICON */
 import arrowIcon from "../../assets/cuida_dropdown-outline.png";
 
 /* UTIL HELPERS */
@@ -61,7 +58,7 @@ const ServicePage = () => {
     <section className="ictc-service-page">
       {/* HERO */}
       <div className="ictc-service-hero-card">
-        <img src={heroImg} alt={data.heroTitle} />
+        <img src={data.heroImage} alt={data.heroTitle} />
         <div className="ictc-service-hero-title">
           {data.heroTitle}
         </div>
@@ -74,11 +71,24 @@ const ServicePage = () => {
 
       {/* CONTENT */}
       <div className="ictc-service-content">
-        <img src={contentImg1} alt="Treatment illustration" />
+        {/* FIRST CONTENT IMAGE */}
+        {data.contentImages?.[0] && (
+          <img
+            src={data.contentImages[0]}
+            alt={`${data.name} treatment`}
+          />
+        )}
 
         {Object.entries(data).map(([key, value]) => {
           if (
-            ["name", "heroTitle", "introduction", "faqs"].includes(key)
+            [
+              "name",
+              "heroTitle",
+              "heroImage",
+              "contentImages",
+              "introduction",
+              "faqs",
+            ].includes(key)
           )
             return null;
 
@@ -103,7 +113,13 @@ const ServicePage = () => {
           return null;
         })}
 
-        <img src={contentImg2} alt="Patient care" />
+        {/* SECOND CONTENT IMAGE */}
+        {data.contentImages?.[1] && (
+          <img
+            src={data.contentImages[1]}
+            alt={`${data.name} care`}
+          />
+        )}
       </div>
 
       {/* FAQ */}
