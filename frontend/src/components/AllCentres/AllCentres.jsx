@@ -5,7 +5,7 @@ import centerData from "../../data/centerData";
 /* ICONS */
 import callIcon from "../../assets/fluent_call-12-filled.png";
 import starIcon from "../../assets/RatingFill.png";
-import starHalfIcon from "../../assets/RatingNotFill.png";
+// import starHalfIcon from "../../assets/RatingNotFill.png";
 
 const AllCentres = () => {
   const navigate = useNavigate();
@@ -56,7 +56,8 @@ const AllCentres = () => {
         <img src={starIcon} alt="rating" />
         <img src={starIcon} alt="rating" />
         <img src={starIcon} alt="rating" />
-        <img src={starHalfIcon} alt="rating" />
+           <img src={starIcon} alt="rating" />
+       
 
         <span className="rating-score">{centre.rating}</span>
         <span className="rating-sep">|</span>

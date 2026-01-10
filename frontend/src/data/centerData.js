@@ -19,7 +19,7 @@ const centerData = {
     rating: "4.9",
     reviews: "500+ Ratings",
 
-    phone: "84510 69854 / 93249 85044",
+    phone: "93249 85044",
 
     mapQuery: "ICTC Cancer Care Centre Vashi Navi Mumbai",
     mapEmbed:
@@ -140,7 +140,7 @@ const centerData = {
     rating: "4.9",
     reviews: "100+ Ratings",
 
-    phone: "91915 56789",
+    phone: "85918 94047",
 
     mapQuery: "ICTC Cancer Care Centre Sion Mumbai",
     mapEmbed:
@@ -170,7 +170,7 @@ const centerData = {
     rating: "4.9",
     reviews: "100+ Ratings",
 
-    phone: "91915 67890",
+    phone: "93725 30800",
 
     mapQuery: "ICTC Cancer Care Centre Dadar Mumbai",
     mapEmbed:
@@ -199,7 +199,7 @@ const centerData = {
     fullName: "ICTC Goregaon Centre",
     rating: "4.9",
     reviews: "50+ Ratings",
-    phone: "+91 91915 90123",
+    phone: "98712 50784",
 
     mapQuery: "ICTC Cancer Care Centre Goregaon Mumbai",
     mapEmbed:
@@ -226,7 +226,7 @@ description: [
     rating: "4.9",
     reviews: "100+ Ratings",
 
-    phone: "91915 78901",
+    phone: "90826 64622",
 
     mapQuery: "ICTC Cancer Care Centre Ghatkopar Mumbai",
     mapEmbed:
@@ -256,7 +256,7 @@ description: [
     rating: "4.9",
     reviews: "50+ Ratings",
 
-    phone: "91915 89012",
+    phone: "91127 35218",
 
     mapQuery: "ICTC Cancer Care Centre Santacruz Mumbai",
     mapEmbed:
@@ -285,7 +285,7 @@ description: [
     fullName: "ICTC Chembur Centre",
     rating: "4.9",
     reviews: "50+ Ratings",
-    phone: "+91 91915 11223",
+    phone: "99208 14622",
 
     mapQuery: "ICTC Cancer Care Centre Chembur Mumbai",
     mapEmbed:

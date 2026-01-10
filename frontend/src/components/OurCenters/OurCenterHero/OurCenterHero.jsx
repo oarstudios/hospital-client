@@ -27,10 +27,10 @@ const OurCenterHero = () => {
         {/* RATING */}
         <div className="rating-row">
           <div className="stars">
-            {[1, 2, 3, 4].map((i) => (
+            {[1, 2, 3, 4, 5].map((i) => (
               <img key={i} src={starIcon} alt="star" />
             ))}
-            <img src={starIcon} alt="half-star" className="dim" />
+            {/* <img src={starIcon} alt="half-star" className="dim" /> */}
           </div>
 
           <span className="rating-text">
