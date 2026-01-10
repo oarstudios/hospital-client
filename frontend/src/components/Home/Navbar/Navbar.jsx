@@ -117,6 +117,7 @@ const Navbar = () => {
 
           {/* DESKTOP MENU */}
           <ul className="menu">
+              <li onClick={() => handleNavigate("/aboutUs")}>ABOUT US</li>
             <li onClick={() => toggleMenu("services")}>
               SERVICES <img src={arrow} />
             </li>
@@ -127,10 +128,10 @@ const Navbar = () => {
               CANCER TYPES <img src={arrow} />
             </li>
             <li onClick={() => handleNavigate("/ourDoctors")}>
-              DOCTORS
+              ONCOLOGIST
             </li>
             <li onClick={() => handleNavigate("/blog")}>BLOGS</li>
-            <li onClick={() => handleNavigate("/aboutUs")}>ABOUT US</li>
+          
           </ul>
 
           {/* DESKTOP BUTTON */}
@@ -159,14 +160,15 @@ const Navbar = () => {
         <div className={`mobile-menu ${mobileOpen ? "open" : ""}`}>
           <ul>
             <li onClick={() => handleNavigate("/")}>Home</li>
+              <li onClick={() => handleNavigate("/aboutUs")}>About Us</li>
             <li onClick={() => toggleMenu("services")}>Services</li>
             <li onClick={() => toggleMenu("centres")}>Our Centre</li>
             <li onClick={() => toggleMenu("cancer")}>Cancer Types</li>
               <li onClick={() => handleNavigate("/ourDoctors")}>
-              Doctors
+                   ONCOLOGIST
             </li>
             <li onClick={() => handleNavigate("/blog")}>Blogs</li>
-            <li onClick={() => handleNavigate("/aboutUs")}>About Us</li>
+          
 
             <button
               className="appointment-btn mobile-btn"

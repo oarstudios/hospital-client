@@ -109,15 +109,18 @@ const BlogPost = () => {
                   </ul>
                 );
 
-              if (block.type === "image")
-                return (
-                  <img
-                    key={index}
-                    src={block.src}
-                    alt=""
-                    className="ictc-blogpost-inline-img"
-                  />
-                );
+             if (block.type === "image")
+  return (
+    <div key={index} className="ictc-blogpost-inline-img-wrapper">
+      <img
+        src={block.src}
+        alt={block.alt || blog.title}
+        className="ictc-blogpost-inline-img"
+        loading="lazy"
+      />
+    </div>
+  );
+
 
               return null;
             })}

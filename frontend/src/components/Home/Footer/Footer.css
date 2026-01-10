@@ -221,3 +221,37 @@
     font-size: 17px;
   }
 }
+
+
+/* ================= SOCIAL MEDIA ================= */
+
+.footer-social {
+  display: flex;
+  gap: 14px;
+  margin: 20px 0px;
+}
+
+.footer-social a {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(191, 192, 204, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(105, 60, 121, 1);
+  font-size: 18px;
+  transition: all 0.25s ease;
+}
+
+.footer-social a:hover {
+  background: rgba(105, 60, 121, 0.1);
+  transform: translateY(-2px);
+}
+
+/* MOBILE CENTER */
+@media (max-width: 767px) {
+  .footer-social {
+    justify-content: center;
+  }
+}

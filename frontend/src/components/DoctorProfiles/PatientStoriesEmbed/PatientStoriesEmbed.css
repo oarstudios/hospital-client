@@ -1,10 +1,11 @@
 .ps-wrapper {
   padding: 80px 40px;
-  background: rgba(255, 255, 255, 1);
+  background: #ffffff;
   font-family: "DM Sans", sans-serif;
+  overflow: hidden;
 }
 
-/* HEADER */
+/* ================= HEADER ================= */
 .ps-header {
   display: flex;
   justify-content: space-between;
@@ -18,7 +19,7 @@
   color: rgba(105, 60, 121, 1);
 }
 
-/* NAV */
+/* ================= NAV ================= */
 .ps-nav {
   display: flex;
   gap: 12px;
@@ -32,50 +33,54 @@
   background: transparent;
   font-size: 20px;
   cursor: pointer;
+  transition: background 0.25s ease;
 }
 
-/* SLIDER */
+.ps-nav button:hover {
+  background: rgba(105, 60, 121, 0.08);
+}
+
+/* ================= SLIDER ================= */
 .ps-slider {
-  overflow: hidden;
   width: 100%;
+  overflow: hidden;
+  touch-action: pan-y;
 }
 
 .ps-track {
   display: flex;
-  transition: transform 0.6s ease;
+  transition: transform 0.45s ease-in-out;
+  will-change: transform;
 }
 
+/* ❗ DO NOT CONTROL WIDTH HERE — JS HANDLES IT */
 .ps-slide {
-  flex: 0 0 calc(100% / 3); /* 👈 SHOW ONLY 3 */
-  max-width: calc(100% / 3);
+  flex-shrink: 0;
   padding: 0 12px;
   box-sizing: border-box;
 }
 
-
-/* CARD WITH BORDER RADIUS */
+/* ================= CARD ================= */
 .ps-embed-card {
-    
+  background: #ffffff;
   border-radius: 20px;
   overflow: hidden;
-
-  background: rgba(255, 255, 255, 1);
+  height: 100%;
+  min-height: 480px; /* prevents jump */
 }
 
-/* IMPORTANT: Instagram overrides */
+/* ================= INSTAGRAM FIX ================= */
 .instagram-media {
   width: 100% !important;
-  min-width: unset !important;
   max-width: 100% !important;
+  min-width: unset !important;
   border-radius: 20px !important;
   overflow: hidden !important;
 }
 
+/* ================= RESPONSIVE ================= */
 
-
-/* ================= RESPONSIVE – PATIENT STORIES ================= */
-
-/* ---------- LARGE TABLETS / SMALL LAPTOPS ---------- */
+/* ---------- LARGE TABLETS ---------- */
 @media (max-width: 1200px) {
   .ps-wrapper {
     padding: 64px 32px;
@@ -84,19 +89,14 @@
   .ps-title {
     font-size: 34px;
   }
-
-  .ps-slide {
-    flex: 0 0 50%;
-    max-width: 50%;
-  }
 }
 
 /* ---------- TABLETS ---------- */
 @media (max-width: 992px) {
   .ps-header {
     flex-direction: column;
-    gap: 20px;
     align-items: flex-start;
+    gap: 20px;
   }
 
   .ps-title {
@@ -106,11 +106,6 @@
   .ps-nav button {
     width: 44px;
     height: 44px;
-  }
-
-  .ps-slide {
-    flex: 0 0 50%;
-    max-width: 50%;
   }
 }
 
@@ -125,18 +120,11 @@
   }
 
   .ps-slide {
-    flex: 0 0 100%;
-    max-width: 100%;
+    padding: 0 8px;
   }
 
-  .ps-nav {
-    align-self: flex-end;
-  }
-
-  .ps-nav button {
-    width: 40px;
-    height: 40px;
-    font-size: 18px;
+  .ps-embed-card {
+    min-height: 520px;
   }
 }
 
@@ -156,30 +144,15 @@
   }
 
   .ps-slide {
-    flex: 0 0 100%;
-    max-width: 100%;
     padding: 0 6px;
   }
 
   .ps-embed-card {
     border-radius: 16px;
+    min-height: 540px;
   }
 
   .instagram-media {
     border-radius: 16px !important;
   }
 }
-
-/* ---------- EXTRA SAFETY: PREVENT CUTTING / OVERFLOW ---------- */
-.ps-track {
-  will-change: transform;
-}
-
-.ps-slider {
-  overflow: hidden;
-}
-
-.ps-embed-card {
-  height: 100%;
-}
-

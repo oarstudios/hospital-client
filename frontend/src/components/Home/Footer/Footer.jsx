@@ -3,6 +3,15 @@ import logo from "../../../assets/ICTC_Logo(long).png";
 import { Link } from "react-router-dom";
 import centerData from "../../../data/centerData";
 
+/* ICONS */
+import {
+  FaInstagram,
+  FaFacebookF,
+  FaLinkedinIn,
+  FaYoutube,
+  FaXTwitter,
+} from "react-icons/fa6";
+
 /* SAME SLUGS AS NAVBAR & DATA */
 const serviceLinks = [
   { label: "Chemotherapy", slug: "chemotherapy" },
@@ -34,6 +43,25 @@ const Footer = () => {
           <Link to="/">
             <img src={logo} alt="Indian Cancer Treatment Centre" />
           </Link>
+
+          {/* SOCIAL MEDIA */}
+          <div className="footer-social">
+            <a href="https://www.instagram.com/ictcfightscancer/" target="_blank" rel="noreferrer">
+              <FaInstagram />
+            </a>
+            <a href="https://www.facebook.com/ictcfightscancer" target="_blank" rel="noreferrer">
+              <FaFacebookF />
+            </a>
+            <a href="https://www.linkedin.com/company/ictcfightscancer/" target="_blank" rel="noreferrer">
+              <FaLinkedinIn />
+            </a>
+            <a href="https://www.youtube.com/@ictcfightscancer" target="_blank" rel="noreferrer">
+              <FaYoutube />
+            </a>
+            <a href="https://x.com/ictcfightcancer" target="_blank" rel="noreferrer">
+              <FaXTwitter />
+            </a>
+          </div>
         </div>
 
         {/* COLUMNS */}
@@ -50,15 +78,13 @@ const Footer = () => {
             <ul>
               {serviceLinks.map((item) => (
                 <li key={item.slug}>
-                  <Link to={`/service/${item.slug}`}>
-                    {item.label}
-                  </Link>
+                  <Link to={`/service/${item.slug}`}>{item.label}</Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* CENTRES (NOW DYNAMIC) */}
+          {/* CENTRES */}
           <div className="footer-col">
             <h4>Centres</h4>
             <ul className="centres-list">
@@ -66,7 +92,7 @@ const Footer = () => {
                 <li key={centre.slug}>
                   <Link to={`/centre/${centre.slug}`}>
                     <span className="sp">{centre.name}</span>
-                  </Link>{" "}
+                  </Link>
                   {centre.phone}
                 </li>
               ))}
@@ -79,9 +105,7 @@ const Footer = () => {
             <ul>
               {cancerLinks.slice(0, 6).map((item) => (
                 <li key={item.slug}>
-                  <Link to={`/cancer/${item.slug}`}>
-                    {item.label}
-                  </Link>
+                  <Link to={`/cancer/${item.slug}`}>{item.label}</Link>
                 </li>
               ))}
             </ul>

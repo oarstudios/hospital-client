@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import "./Chatbot.css";
+
+/* ASSETS */
 import chatIcon from "../../assets/ChatButton.png";
 import backIcon from "../../assets/BackArrow.png";
 import sendIcon from "../../assets/Send Message icon.svg";
@@ -9,40 +11,59 @@ import WhatsappIcon from "../../assets/whatsapp-icon.png";
 import Logo from "../../assets/ICTC_Logo(long).png";
 import DownChatbot from "../../assets/DownChatbot.png";
 import UpFAQ from "../../assets/upfaq.png";
-import Close from "../../assets/CloseIcon.png";
 import DownFAQ from "../../assets/dowfaq.png";
+import Close from "../../assets/CloseIcon.png";
 
 export default function Chatbot() {
+  /* ================= STATE ================= */
   const [open, setOpen] = useState(false);
-  const [view, setView] = useState("menu");
-  const [step, setStep] = useState("");
+  const [view, setView] = useState("menu"); // menu | booking
+  const [step, setStep] = useState(""); // name | age | phone | centre | date | done
   const [openFaq, setOpenFaq] = useState(null);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+
   const msgEndRef = useRef(null);
 
+  /* ================= FORM DATA ================= */
+  const [form, setForm] = useState({
+    patientName: "",
+    age: "",
+    phone: "",
+    centre: "",
+    date: "",
+    type: "Appointment",
+  });
+
+  /* ================= EFFECTS ================= */
   useEffect(() => {
     if (view === "booking") {
       msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages, view]);
 
-  const [, setForm] = useState({
-    patientName: "",
-    phone: "",
-  });
-
+  /* ================= RESET ================= */
   function resetChat() {
     setView("menu");
     setMessages([]);
     setStep("");
-    setForm({ patientName: "", phone: "", centre: "", date: "" });
     setInput("");
-    // eslint-disable-next-line no-undef
-    setDateModal(false);
+    setForm({
+      patientName: "",
+      age: "",
+      phone: "",
+      centre: "",
+      date: "",
+      type: "Appointment",
+    });
   }
 
-  // Centres
+  function toggleOpen() {
+    setOpen(!open);
+    if (!open) resetChat();
+  }
+
+  /* ================= DATA ================= */
   const centres = [
     "Vashi",
     "Panvel",
@@ -52,19 +73,40 @@ export default function Chatbot() {
     "Dadar",
     "Ghatkopar",
     "Goregaon",
+    "Chembur",
+    "Santacruz",
   ];
 
-  function toggleOpen() {
-    setOpen(!open);
-    if (!open) resetChat();
-  }
+  const faqs = [
+    {
+      question: "Where are you located?",
+      answer: (
+        <>
+          We are present at multiple locations across Mumbai & Navi Mumbai.{" "}
+          <span
+            className="faq-link"
+            onClick={() => window.open("/allCenters", "_blank")}
+          >
+            View centres →
+          </span>
+        </>
+      ),
+    },
+    {
+      question: "Can I get a second opinion?",
+      answer:
+        "Yes, our doctors provide second opinions with complete case review.",
+    },
+    {
+      question: "What should I bring to my appointment?",
+      answer:
+        "Please bring all previous medical reports, prescriptions, and ID proof.",
+    },
+  ];
 
-  // Start booking flow
+  /* ================= BOOKING FLOW ================= */
   function startBooking() {
-    setMessages((prev) => [
-      ...prev,
-      { from: "user", text: "I want to book an appointment" },
-    ]);
+    setMessages([{ from: "user", text: "I want to book an appointment" }]);
 
     setTimeout(() => {
       setMessages((prev) => [
@@ -76,38 +118,11 @@ export default function Chatbot() {
     }, 400);
   }
 
-  const faqs = [
-    {
-      question: "Where are you located?",
-      answer: (
-        <>
-          We are present at 10 locations across Mumbai and Navi Mumbai. To know
-          more about each centre please visit{" "}
-          <span
-            className="faq-link"
-            onClick={() => window.open("/centres", "_blank")}
-          >
-            centre pages →
-          </span>
-        </>
-      ),
-    },
-    {
-      question: "Can I get a second opinion at your center?",
-      answer:
-        "Yes, our specialists provide second opinions with complete case review.",
-    },
-    {
-      question: "What should I bring to my appointment?",
-      answer:
-        "Please bring all previous medical reports, prescriptions, and ID proof.",
-    },
-  ];
-
   function toggleFaq(index) {
     setOpenFaq(openFaq === index ? null : index);
   }
 
+  /* ================= CENTRE ================= */
   function chooseCentre(c) {
     setForm((prev) => ({ ...prev, centre: c }));
 
@@ -120,7 +135,8 @@ export default function Chatbot() {
     setStep("date");
   }
 
-  function chooseDate(d) {
+  /* ================= DATE + SUBMIT ================= */
+  async function chooseDate(d) {
     if (!d) return;
 
     const today = new Date().setHours(0, 0, 0, 0);
@@ -129,70 +145,73 @@ export default function Chatbot() {
     if (selected < today) {
       setMessages((prev) => [
         ...prev,
-        { from: "bot", text: "⚠ The selected date cannot be in the past." },
+        { from: "bot", text: "⚠ Date cannot be in the past." },
+        { from: "bot", text: "Please select a valid date." },
       ]);
-
-      setTimeout(() => {
-        setMessages((prev) => [
-          ...prev,
-          { from: "bot", text: "Please select a valid appointment date." },
-        ]);
-      }, 200);
-
       return;
     }
 
-    setForm((prev) => ({ ...prev, date: d }));
+    const payload = {
+      name: form.patientName,
+      age: form.age,
+      phone: form.phone,
+      selectedCentre: form.centre,
+      date: d,
+      type: "Appointment",
+    };
 
     setMessages((prev) => [...prev, { from: "user", text: d }]);
 
-    setTimeout(() => {
+    try {
+      const response = await fetch(
+        "https://script.google.com/macros/s/AKfycby_yIfLs8GlqAlgyqHtjPFcujoIfeiYqHzFNUUJckL4FAb1z-EkbqlBW1FpkVqXFA/exec",
+        {
+          method: "POST",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      const result = await response.json();
+
+      if (result.success) {
+        setMessages((prev) => [
+          ...prev,
+          { from: "bot", text: "🎉 Appointment booked successfully!" },
+          {
+            from: "bot",
+            text:
+              "Our team will contact you shortly to confirm your appointment.",
+          },
+        ]);
+        setStep("done");
+      } else {
+        throw new Error("Sheet error");
+      }
+    } catch (err) {
+      console.error(err);
       setMessages((prev) => [
         ...prev,
-        { from: "bot", text: "🎉 Appointment booked successfully!" },
+        { from: "bot", text: "⚠ Something went wrong. Please try again." },
       ]);
-      setStep("done");
-    }, 300);
+    }
   }
 
-  // Handle sending input
+  /* ================= INPUT HANDLER ================= */
   function handleSend() {
     if (!input.trim()) return;
 
     const userMsg = input.trim();
     setMessages((prev) => [...prev, { from: "user", text: userMsg }]);
 
-    // STEP 1 — Patient Name
+    /* NAME */
     if (step === "name") {
-      if (!/^[a-zA-Z ]+$/.test(userMsg)) {
-        setInput("");
-        setMessages((prev) => [
-          ...prev,
-          {
-            from: "bot",
-            text: " ⚠ Patient's Name should only contain alphabets.",
-          },
-        ]);
-        setTimeout(() => {
-          setMessages((prev) => [
-            ...prev,
-            { from: "bot", text: "Please enter patient's name again." },
-          ]);
-        }, 200);
-        return;
-      }
-      if (userMsg.trim().length < 2) {
+      if (!/^[a-zA-Z ]+$/.test(userMsg) || userMsg.length < 2) {
         setInput("");
         setMessages((prev) => [
           ...prev,
           { from: "bot", text: "⚠ Please enter a valid full name." },
         ]);
-        setTimeout(() => {
-          setMessages((prev) => [
-            ...prev,
-            { from: "bot", text: "Please enter Patient's Name again." },
-          ]);
-        }, 200);
         return;
       }
 
@@ -202,224 +221,161 @@ export default function Chatbot() {
       setTimeout(() => {
         setMessages((prev) => [
           ...prev,
+          { from: "bot", text: "Please enter Patient's Age" },
+        ]);
+        setStep("age");
+      }, 300);
+    }
+
+    /* AGE */
+    else if (step === "age") {
+      if (!/^\d+$/.test(userMsg)) {
+        setInput("");
+        setMessages((prev) => [
+          ...prev,
+          { from: "bot", text: "⚠ Age must be a number." },
+        ]);
+        return;
+      }
+
+      const age = Number(userMsg);
+      if (age < 1 || age > 120) {
+        setInput("");
+        setMessages((prev) => [
+          ...prev,
+          { from: "bot", text: "⚠ Enter age between 1 and 120." },
+        ]);
+        return;
+      }
+
+      setForm((prev) => ({ ...prev, age }));
+      setInput("");
+
+      setTimeout(() => {
+        setMessages((prev) => [
+          ...prev,
           { from: "bot", text: "Please enter Phone Number" },
         ]);
         setStep("phone");
-      }, 400);
+      }, 300);
     }
 
-    // STEP 2 — Phone Number (digits only + must be 10 digits)
+    /* PHONE */
     else if (step === "phone") {
-      // ❌ Reject anything other than digits
-      if (!/^\d+$/.test(userMsg)) {
-        setInput("");
-        setTimeout(() => {
-          setMessages((prev) => [
-            ...prev,
-            {
-              from: "bot",
-              text: "Please enter numbers only for phone number!",
-            },
-          ]);
-        }, 300);
-        setTimeout(() => {
-          setMessages((prev) => [
-            ...prev,
-            { from: "bot", text: "Please enter phone number again." },
-          ]);
-        }, 350);
-        return;
-      }
-
-      // ❌ Reject if not exactly 10 digits
-      if (userMsg.length !== 10) {
-        setInput("");
-        setTimeout(() => {
-          setMessages((prev) => [
-            ...prev,
-            { from: "bot", text: "⚠ Phone number must be exactly 10 digits." },
-          ]);
-        }, 300);
-        setTimeout(() => {
-          setMessages((prev) => [
-            ...prev,
-            { from: "bot", text: "Please enter phone number again." },
-          ]);
-        }, 350);
-        return;
-      }
-
-      if (!/^[6-9]/.test(userMsg)) {
+      if (!/^\d{10}$/.test(userMsg) || !/^[6-9]/.test(userMsg)) {
         setInput("");
         setMessages((prev) => [
           ...prev,
-          {
-            from: "bot",
-            text: "⚠ Indian phone numbers must start with 6, 7, 8, or 9.",
-          },
+          { from: "bot", text: "⚠ Enter valid 10-digit Indian number." },
         ]);
-        setTimeout(() => {
-          setMessages((prev) => [
-            ...prev,
-            { from: "bot", text: "Please enter phone number again." },
-          ]);
-        }, 200);
         return;
       }
 
-      // ❌ Reject known invalid sequences
-      const blocked = ["1234567890", "9876543210", "0123456789"];
-      if (blocked.includes(userMsg)) {
-        setInput("");
-        setMessages((prev) => [
-          ...prev,
-          { from: "bot", text: "⚠ This phone number is not valid." },
-        ]);
-        setTimeout(() => {
-          setMessages((prev) => [
-            ...prev,
-            { from: "bot", text: "Please enter phone number again." },
-          ]);
-        }, 200);
-        return;
-      }
-
-      // ❌ Reject same-digit numbers (1111111111, 9999999999)
-      if (/^(\d)\1+$/.test(userMsg)) {
-        setInput("");
-        setMessages((prev) => [
-          ...prev,
-          {
-            from: "bot",
-            text: "⚠ Phone number cannot contain the same digit repeated.",
-          },
-        ]);
-        setTimeout(() => {
-          setMessages((prev) => [
-            ...prev,
-            { from: "bot", text: "Please enter phone number again." },
-          ]);
-        }, 200);
-        return;
-      }
-
-      // ✅ Valid number (10 digits)
       setForm((prev) => ({ ...prev, phone: userMsg }));
       setInput("");
 
       setTimeout(() => {
         setMessages((prev) => [
           ...prev,
-          { from: "bot", text: "Please select ICTC centre for appointment." },
+          { from: "bot", text: "Please select ICTC centre." },
         ]);
         setStep("centre");
       }, 300);
     }
   }
 
+  /* ================= JSX ================= */
   return (
     <>
-      {/* Floating Chat Button */}
+      {/* FLOATING BUTTON */}
       <div className="chat-float-wrapper">
         {!open && (
           <>
             <div className="chat-hover-text">
               Hi, Need Help? <br /> I'm here to assist
             </div>
-
             <button className="chat-button" onClick={toggleOpen}>
-              <img src={chatIcon} className="chat-icon" />
+              <img src={chatIcon} className="chat-icon" alt="" />
             </button>
           </>
         )}
 
         {open && (
           <button className="chat-down-btn" onClick={toggleOpen}>
-            <img src={DownChatbot} className="down-arrow-icon" />
+            <img src={DownChatbot} className="down-arrow-icon" alt="" />
           </button>
         )}
       </div>
 
       {open && (
         <div className="chat-window">
+          {/* HEADER */}
           <div className="chat-header">
-            {Logo && <img src={Logo} className="chat-logo" />}
-
+            <img src={Logo} className="chat-logo" alt="" />
             <button className="close-btn" onClick={toggleOpen}>
               <img src={Close} alt="" />
             </button>
           </div>
 
           <div className="chat-body">
-            {/* TOP BACK BUTTON */}
             {view === "booking" && (
-              <div className="back-row" onClick={() => resetChat()}>
-                <img src={backIcon} className="back-icon" />
+              <div className="back-row" onClick={resetChat}>
+                <img src={backIcon} className="back-icon" alt="" />
               </div>
             )}
 
-            {/* MENU VIEW */}
+            {/* MENU */}
             {view === "menu" && (
               <div className="menu-container">
                 <p className="hi-text">
-                  Hi there👋
-                  <br /> How can we help you?
+                  Hi there 👋 <br /> How can we help you?
                 </p>
 
                 <button className="menu-option" onClick={startBooking}>
                   <span>Book an appointment</span>
                   <span className="arrow-wrapper">
-                    <img src={DefaultArrow} className="arrow default" />
-                    <img src={VariantArrow} className="arrow hover" />
+                    <img src={DefaultArrow} className="arrow default" alt="" />
+                    <img src={VariantArrow} className="arrow hover" alt="" />
                   </span>
                 </button>
 
-                <button className="menu-option">
+                <button
+                  className="menu-option"
+                  onClick={() => window.open("tel:8858855200")}
+                >
                   <span>Call ICTC Helpline</span>
                   <span className="arrow-wrapper">
-                    <img src={DefaultArrow} className="arrow default" />
-                    <img src={VariantArrow} className="arrow hover" />
+                    <img src={DefaultArrow} className="arrow default" alt="" />
+                    <img src={VariantArrow} className="arrow hover" alt="" />
                   </span>
                 </button>
 
                 <button
                   className="menu-option whatsapp"
-                  onClick={() => window.open("https://wa.me/919999999999")}
+                  onClick={() => window.open("https://wa.me/8858855200")}
                 >
-                  <div>
-                    <span className="whatsapp-logo-msg">
-                      Reach out to us on WhatsApp{" "}
-                      <img src={WhatsappIcon} alt="whatsapp" />
-                    </span>
-                  </div>
-
-                  <span className="arrow-wrapper">
-                    <img src={DefaultArrow} className="arrow default" />
-                    <img src={VariantArrow} className="arrow hover" />
+                  <span className="whatsapp-logo-msg">
+                    Reach out to us on WhatsApp{" "}
+                    <img src={WhatsappIcon} alt="" />
                   </span>
                 </button>
 
                 <div className="faq-box">
-                  <h4 className="faq-title">FAQ's</h4>
-                  {faqs.map((faq, index) => (
+                  <h4>FAQ's</h4>
+                  {faqs.map((faq, i) => (
                     <div
-                      key={index}
-                      className={`faq-item ${
-                        openFaq === index ? "active" : ""
-                      }`}
-                      onClick={() => toggleFaq(index)}
+                      key={i}
+                      className={`faq-item ${openFaq === i ? "active" : ""}`}
+                      onClick={() => toggleFaq(i)}
                     >
                       <div className="faq-question">
-                        <span>{faq.question}</span>
-
+                        {faq.question}
                         <img
-                          src={openFaq === index ? UpFAQ : DownFAQ}
-                          className="faq-arrow"
-                          alt="arrow"
+                          src={openFaq === i ? UpFAQ : DownFAQ}
+                          alt=""
                         />
                       </div>
-
-                      {openFaq === index && (
+                      {openFaq === i && (
                         <div className="faq-answer">{faq.answer}</div>
                       )}
                     </div>
@@ -428,24 +384,23 @@ export default function Chatbot() {
               </div>
             )}
 
-            {/* CHAT MESSAGES */}
+            {/* MESSAGES */}
             <div className="msg-area">
-              {messages.map((msg, index) => (
-                <div key={index} className={`msg ${msg.from}`}>
+              {messages.map((msg, i) => (
+                <div key={i} className={`msg ${msg.from}`}>
                   {msg.text}
                 </div>
               ))}
-              {/* Auto-scroll anchor */}
-              {view === "booking" && <div ref={msgEndRef}></div>}
+              <div ref={msgEndRef} />
             </div>
           </div>
 
-          {/* Centre Selection */}
+          {/* CENTRES */}
           {step === "centre" && (
             <div className="centre-box">
-              {centres.map((c, i) => (
+              {centres.map((c) => (
                 <button
-                  key={i}
+                  key={c}
                   className="centre-btn"
                   onClick={() => chooseCentre(c)}
                 >
@@ -455,43 +410,40 @@ export default function Chatbot() {
             </div>
           )}
 
+          {/* DATE */}
           {step === "date" && (
             <div className="inline-date-box">
               <input
                 type="date"
                 className="date-picker-inline"
+                min={new Date().toISOString().split("T")[0]}
                 onChange={(e) => chooseDate(e.target.value)}
               />
             </div>
           )}
 
-          {/* INPUT AREA */}
+          {/* INPUT */}
           {view === "booking" &&
-            step !== "centre" &&
-            step !== "date" &&
-            step !== "done" && (
+            !["centre", "date", "done"].includes(step) && (
               <div className="input-row">
                 <input
                   type="text"
+                  value={input}
                   placeholder={
                     step === "name"
                       ? "Enter patient name..."
+                      : step === "age"
+                      ? "Enter patient age..."
                       : "Enter phone number..."
                   }
-                  value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      handleSend();
-                    }
-                  }}
+                  onKeyDown={(e) => e.key === "Enter" && handleSend()}
                 />
-
                 <img
                   src={sendIcon}
                   className="send-icon"
                   onClick={handleSend}
+                  alt=""
                 />
               </div>
             )}

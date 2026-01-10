@@ -1,4 +1,10 @@
 import blogImage1 from "../assets/BreastCancer-blog.jpg";
+import blogInline1 from "../assets/BreastCancer-blog.jpg";
+import blogInline2 from "../assets/BreastCancer-blog.jpg";
+import blogInline3 from "../assets/BreastCancer-blog.jpg";
+import blogInline4 from "../assets/BreastCancer-blog.jpg";
+
+
 import blogImage2 from "../assets/CancerFatigue-blog.jpg";
 import blogImage3 from "../assets/CancerFood-blog.jpg";
 import blogImage4 from "../assets/GI_Cancer-blog.jpg";
@@ -33,7 +39,11 @@ const blogData = {
       text:
         "Breast Cancer Awareness Month is an important global initiative dedicated to spreading awareness about early detection, screening, and timely treatment of breast cancer. At ICTC, we believe that knowledge, early diagnosis, and access to expert cancer care can save lives. Through this initiative, we aim to empower individuals with the right information and provide accessible cancer care across Mumbai."
     },
-
+      {
+    type: "image",
+    src: blogInline1,
+    alt: "Breast cancer awareness screening"
+  },
     {
       type: "heading",
       text: "Understanding Breast Cancer"
@@ -43,6 +53,11 @@ const blogData = {
       text:
         "Breast cancer occurs when abnormal cells in the breast grow uncontrollably, forming a lump or mass. There are multiple types of breast cancer, including HER2-positive breast cancer, triple-negative breast cancer, inflammatory breast cancer, and hormone receptor–positive breast cancer. In some cases, cancer cells may spread to nearby lymph nodes or distant organs, resulting in metastatic breast cancer."
     },
+      {
+    type: "image",
+    src: blogInline2,
+    alt: "Types of breast cancer"
+  },
     {
       type: "paragraph",
       text:
@@ -69,6 +84,11 @@ const blogData = {
         "Persistent pain in the breast or chest area"
       ]
     },
+     {
+    type: "image",
+    src: blogInline3,
+    alt: "Breast cancer symptoms illustration"
+  },
     {
       type: "paragraph",
       text:
@@ -99,7 +119,11 @@ const blogData = {
       text:
         "Treatment options may include breast cancer surgery, mastectomy, chemotherapy, radiation therapy, hormonal therapy, targeted therapy, or immunotherapy depending on the stage and type of breast cancer."
     },
-
+    {
+    type: "image",
+    src: blogInline4,
+    alt: "Mammography screening process"
+  },
     {
       type: "heading",
       text: "Importance of Breast Cancer Screening"

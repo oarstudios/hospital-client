@@ -342,7 +342,10 @@
   border-radius: 8px;
   padding: 10px;
 }
-
+.faq-box h4{
+  font-size: 16px;
+  color: #b053e7;
+}
 .faq-title {
   color: rgba(48, 45, 49, 1);
   font-weight: 700;
