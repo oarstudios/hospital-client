@@ -33,10 +33,26 @@ const [isSubmitted, setIsSubmitted] = useState(false);
 
 
   /* INPUT CHANGE */
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+const handleChange = (e) => {
+  const { name, value } = e.target;
+
+  if (name === "date") {
+    const selectedDate = new Date(value);
+
+    // Block Sunday selection immediately
+    if (selectedDate.getDay() === 0) {
+      setErrors((prev) => ({
+        ...prev,
+        date: "Appointments are not available on Sundays",
+      }));
+      return;
+    }
+  }
+
+  setErrors({});
+  setFormData({ ...formData, [name]: value });
+};
+
 
   /* SINGLE CENTRE SELECT */
   const handleCentreChange = (centre) => {
@@ -47,26 +63,47 @@ const [isSubmitted, setIsSubmitted] = useState(false);
   };
 
   /* VALIDATION */
-  const validate = () => {
-    const newErrors = {};
+const validate = () => {
+  const newErrors = {};
 
-    if (!formData.name.trim()) newErrors.name = "Name is required";
+  if (!formData.name.trim()) newErrors.name = "Name is required";
 
-    if (!formData.age || formData.age < 1 || formData.age > 120)
-      newErrors.age = "Enter valid age";
+  if (!formData.age || formData.age < 1 || formData.age > 120)
+    newErrors.age = "Enter valid age";
 
-    if (!/^\d{10}$/.test(formData.phone))
-      newErrors.phone = "Enter valid 10-digit phone number";
+  if (!/^\d{10}$/.test(formData.phone))
+    newErrors.phone = "Enter valid 10-digit phone number";
 
-    if (!formData.selectedCentre)
-      newErrors.centres = "Select one centre";
+  if (!formData.selectedCentre)
+    newErrors.centres = "Select one centre";
 
-    if (!formData.date)
-      newErrors.date = "Please select appointment date";
+  if (!formData.date) {
+    newErrors.date = "Please select appointment date";
+  } else {
+    const selectedDate = new Date(formData.date);
+    const today = new Date();
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+    // ❌ Sunday check
+    if (selectedDate.getDay() === 0) {
+      newErrors.date = "Appointments are not available on Sundays";
+    }
+
+    // ❌ Same-day after 12 PM check
+    const isSameDay =
+      selectedDate.toDateString() === today.toDateString();
+
+    const currentHour = today.getHours();
+
+    if (isSameDay && currentHour >= 12) {
+      newErrors.date =
+        "Same-day appointments must be booked before 12 PM";
+    }
+  }
+
+  setErrors(newErrors);
+  return Object.keys(newErrors).length === 0;
+};
+
 
   /* SUBMIT → GOOGLE SHEETS */
 const handleSubmit = async () => {
@@ -188,13 +225,15 @@ const handleSubmit = async () => {
               Please Click below to select Date
             </p>
             <input
-              type="date"
-              name="date"
-              className="date-input"
-              value={formData.date}
-              onChange={handleChange}
-              min={new Date().toISOString().split("T")[0]}
-            />
+  type="date"
+  name="date"
+  className="date-input"
+  value={formData.date}
+  onChange={handleChange}
+  min={new Date().toISOString().split("T")[0]}
+  onKeyDown={(e) => e.preventDefault()}
+/>
+
             {errors.date && <span className="error">{errors.date}</span>}
           </div>
 
