@@ -11,6 +11,9 @@ const doctorData = {
   slug: "salil-patkar",
   name: "Dr. Salil Vijay Patkar",
   image: doc1, // replace with correct imported image
+  stories: [
+   "https://www.instagram.com/reel/DST-mcRDCC1/", "https://www.instagram.com/reel/DTHYcKMCnnA/", "https://www.instagram.com/reel/DRjo6xWDKOa/", "https://www.instagram.com/reel/DQ35e-LjETs/", "https://www.instagram.com/reel/DQbW9nTDIAu/", "https://www.instagram.com/reel/DP09jgBDGk-/", "https://www.instagram.com/reel/DGFk51sNhcK/"
+  ],
   designation: "Cancer Specialist & Medical Oncologist",
   qualification:
     "MBBS, MD Internal Medicine, DM Medical Oncology, Certified in Immuno-Oncology and Precision Oncology (Harvard Medical School)",
@@ -144,6 +147,9 @@ const doctorData = {
   slug: "amit-ghanekar",
   name: "Dr. Amit Ghanekar",
   image: doc2, // replace with correct imported image
+  stories: [
+   "https://www.instagram.com/reel/DST-mcRDCC1/", "https://www.instagram.com/reel/DTHYcKMCnnA/", "https://www.instagram.com/reel/DRjo6xWDKOa/", "https://www.instagram.com/reel/DQ35e-LjETs/", "https://www.instagram.com/reel/DQbW9nTDIAu/", "https://www.instagram.com/reel/DP09jgBDGk-/", "https://www.instagram.com/reel/DGFk51sNhcK/"
+  ],
   designation:
     "Medical Oncologist, Cancer Specialist, Bone Marrow & Immunotherapy Expert",
   qualification:
@@ -262,6 +268,9 @@ const doctorData = {
   slug: "rohit-pai",
   name: "Dr. Rohit Pai",
   image: doc3, // replace if needed
+  stories: [
+   "https://www.instagram.com/reel/DST-mcRDCC1/", "https://www.instagram.com/reel/DTHYcKMCnnA/", "https://www.instagram.com/reel/DRjo6xWDKOa/", "https://www.instagram.com/reel/DQ35e-LjETs/", "https://www.instagram.com/reel/DQbW9nTDIAu/", "https://www.instagram.com/reel/DP09jgBDGk-/", "https://www.instagram.com/reel/DGFk51sNhcK/"
+  ],
   designation: "Medico Oncologist & Hemato Oncologist",
   qualification:
     "MBBS, MD Internal Medicine (AIIMS), DM Medical Oncology (AIIMS), MRCP (UK), DNB, ECMO",
@@ -368,6 +377,9 @@ const doctorData = {
   slug: "viraj-nevrekar",
   name: "Dr. Viraj Nevrekar",
   image: doc4, // replace with correct imported image
+  stories: [
+   "https://www.instagram.com/reel/DST-mcRDCC1/", "https://www.instagram.com/reel/DTHYcKMCnnA/", "https://www.instagram.com/reel/DRjo6xWDKOa/", "https://www.instagram.com/reel/DQ35e-LjETs/", "https://www.instagram.com/reel/DQbW9nTDIAu/", "https://www.instagram.com/reel/DP09jgBDGk-/", "https://www.instagram.com/reel/DGFk51sNhcK/"
+  ],
   designation: "Cancer Specialist & Medical Oncologist",
   qualification:
     "MBBS, MD Internal Medicine (AIIMS), DM Medical Oncology (AIIMS), MRCP (UK), ECMO",
@@ -482,6 +494,9 @@ const doctorData = {
   slug: "kunal-goyal",
   name: "Dr. Kunal Goyal",
   image: doc5, // replace with correct imported image
+  stories: [
+   "https://www.instagram.com/reel/DST-mcRDCC1/", "https://www.instagram.com/reel/DTHYcKMCnnA/", "https://www.instagram.com/reel/DRjo6xWDKOa/", "https://www.instagram.com/reel/DQ35e-LjETs/", "https://www.instagram.com/reel/DQbW9nTDIAu/", "https://www.instagram.com/reel/DP09jgBDGk-/", "https://www.instagram.com/reel/DGFk51sNhcK/"
+  ],
   designation:
     "Hematologist, Bone Marrow Transplant & Cellular Therapy Specialist",
   qualification:
@@ -609,6 +624,9 @@ const doctorData = {
   slug: "deep-vora",
   name: "Dr. Deep Vora",
   image: doc6, // replace with correct imported image
+  stories: [
+   "https://www.instagram.com/reel/DST-mcRDCC1/", "https://www.instagram.com/reel/DTHYcKMCnnA/", "https://www.instagram.com/reel/DRjo6xWDKOa/", "https://www.instagram.com/reel/DQ35e-LjETs/", "https://www.instagram.com/reel/DQbW9nTDIAu/", "https://www.instagram.com/reel/DP09jgBDGk-/", "https://www.instagram.com/reel/DGFk51sNhcK/"
+  ],
   designation: "Oncologist & Hemato-Oncologist, Immuno-Oncologist",
   qualification:
     "MBBS, DNB Internal Medicine, DM Medical Oncology (Tata Memorial Hospital), MRCP SCE (UK), ESMO Certified, Certification in Advanced Oncology (Harvard Medical School)",
@@ -727,6 +745,9 @@ const doctorData = {
   slug: "shreya-gattani",
   name: "Dr. Shreya Gattani",
   image: doc7, // replace with correct imported image
+  stories: [
+   "https://www.instagram.com/reel/DST-mcRDCC1/", "https://www.instagram.com/reel/DTHYcKMCnnA/", "https://www.instagram.com/reel/DRjo6xWDKOa/", "https://www.instagram.com/reel/DQ35e-LjETs/", "https://www.instagram.com/reel/DQbW9nTDIAu/", "https://www.instagram.com/reel/DP09jgBDGk-/", "https://www.instagram.com/reel/DGFk51sNhcK/"
+  ],
   designation: "Medical and Hemato-Oncologist",
   qualification:
     "MBBS, MD, DM Medical Oncology (GCRI), Fellowship in Geriatric Oncology (Tata Memorial Hospital, Mumbai)",

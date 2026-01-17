@@ -14,11 +14,13 @@
 
 .pt-left img {
   width: 250px;
+  max-width: 100%;
 }
 
 /* RIGHT */
 .pt-right {
   flex: 1;
+  padding: 10px;
   position: relative;
   overflow-x: hidden;
   overflow-y: visible;
@@ -33,10 +35,10 @@
 }
 
 /* SLIDE */
-/* 🔥 1.5 CARD LOGIC */
 .pt-slide {
   flex: 0 0 70%;
-  padding-bottom: 70px; /* space for badges */
+  padding-bottom: 70px;
+  overflow: visible;
 }
 
 /* CARD WRAPPER */
@@ -49,8 +51,8 @@
   background: #ffffff;
   border-radius: 32px;
   padding: 48px;
-  height: 18rem;
-  box-shadow: 0px 3.7px 19px rgba(0, 0, 0, 0.1);
+  min-height: 18rem; /* 🔥 flexible height */
+  border: 2px solid var(--grey-100, rgba(228, 227, 229, 1));
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -74,16 +76,23 @@
 .pt-badges {
   position: absolute;
   left: 40px;
-  bottom: -40px;
+  bottom: -30px;
   display: flex;
   gap: 16px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .pt-google {
   background: #fafafa;
-  padding: 12px;
+  border: 2px solid var(--grey-100, rgba(228, 227, 229, 1));
+  padding: 2px;
+  height: 60px;
+  width: 60px;
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .pt-google img {
@@ -111,6 +120,7 @@
   .pt-wrapper {
     flex-direction: column;
     gap: 48px;
+    padding: 80px 32px;
   }
 
   .pt-left {
@@ -118,7 +128,7 @@
   }
 
   .pt-slide {
-    flex: 0 0 80%; /* 🔥 1.2 cards */
+    flex: 0 0 80%;
   }
 }
 
@@ -134,11 +144,16 @@
 
   .pt-card {
     padding: 32px;
-    height: auto;
+    min-height: auto;
   }
 
   .pt-text {
     font-size: 15px;
+  }
+
+  .pt-badges {
+    left: 24px;
+    bottom: -34px;
   }
 }
 
@@ -146,10 +161,12 @@
 @media (max-width: 480px) {
   .pt-wrapper {
     padding: 48px 16px;
+    gap: 32px;
   }
 
   .pt-slide {
-    flex: 0 0 100%; /* 🔥 full card */
+    flex: 0 0 100%;
+    padding-bottom: 90px;
   }
 
   .pt-card {
@@ -157,20 +174,23 @@
   }
 
   .pt-badges {
-    left: 20px;
-    bottom: -36px;
-    flex-wrap: wrap;
-    gap: 5px;
+    left: 16px;
+    bottom: -24px;
+    gap: 8px;
+  }
+
+  .pt-google {
+    height: 44px;
+    width: 44px;
   }
 
   .pt-google img {
-    width: 34px;
+    width: 30px;
   }
 
   .pt-location {
     font-size: 12px;
-    padding: 8px 10px;
-    
+    padding: 8px 12px;
   }
 
   .pt-left img {

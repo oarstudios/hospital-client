@@ -1,30 +1,31 @@
 import "./DoctorProfile.css";
-import { useParams } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import doctorData from "../../../data/doctorData";
-import { useNavigate} from "react-router-dom";
-
 
 /* ICONS */
 import starIcon from "../../../assets/star.png";
-// import starIconEmpty from "../../../assets/startEmpty.png";
 import locationIcon from "../../../assets/location (2).png";
 import phoneIcon from "../../../assets/phone.png";
 import calendarIcon from "../../../assets/calendar.png";
 import languageIcon from "../../../assets/language.png";
 import userss from "../../../assets/Container.png";
+
 import BookAppointment from "../../Home/BookAppointment/BookAppointment";
-// import tickIcon from "../../../assets/Vector (8).png";
+
+/* Helper: Convert centre name to URL slug */
+const centreToSlug = (centre) =>
+  centre
+    .toLowerCase()
+    .replace("ictc ", "")
+    .replace(/\s+/g, "-");
 
 const DoctorProfile = () => {
   const navigate = useNavigate();
-
-  const [showFullSummary, setShowFullSummary] = useState(false);
-
   const { slug } = useParams();
-  const doctor = doctorData[slug];
 
-  const [selectedCentre] = useState(doctor?.centres[0]);
+  const doctor = doctorData[slug];
+  const [showFullSummary, setShowFullSummary] = useState(false);
 
   if (!doctor) return null;
 
@@ -40,27 +41,38 @@ const DoctorProfile = () => {
 
             <h2 className="doctor-card__name">{doctor.name}</h2>
             <p className="doctor-card__designation">{doctor.designation}</p>
-
-            <p className="doctor-card__qualification">{doctor.qualification}</p>
+            <p className="doctor-card__qualification">
+              {doctor.qualification}
+            </p>
 
             <div className="doctor-card__rating">
               {[1, 2, 3, 4, 5].map((i) => (
                 <img key={i} src={starIcon} alt="rating" />
               ))}
-              {/* <img src={starIconEmpty} alt="rating" /> */}
               <span>{doctor.rating}</span>
             </div>
 
             <p className="doctor-card__reviews">{doctor.reviews}</p>
           </div>
 
-          {/* CONTACT */}
+          {/* CONTACT INFORMATION */}
           <div className="doctor-info-card">
             <h3>Contact Information</h3>
 
+            {/* CENTRES – CLICKABLE */}
             <div className="info-row">
               <img src={locationIcon} alt="location" />
-              <span>{selectedCentre}</span>
+              <div className="centres-list">
+                {doctor.centres.map((centre, index) => (
+                  <Link
+                    key={index}
+                    to={`/centre/${centreToSlug(centre)}`}
+                    className="centre-link"
+                  >
+                    {centre}
+                  </Link>
+                ))}
+              </div>
             </div>
 
             <div className="info-row">
@@ -68,20 +80,18 @@ const DoctorProfile = () => {
               <span>{doctor.phone}</span>
             </div>
 
-           <button
-  className="info-row info-cta"
-  onClick={() => navigate("/BookAppoinment")}
->
-  <img src={calendarIcon} alt="calendar" />
-  Book an Appointment
-</button>
-
+            <button
+              className="info-row info-cta"
+              onClick={() => navigate("/BookAppoinment")}
+            >
+              <img src={calendarIcon} alt="calendar" />
+              Book an Appointment
+            </button>
           </div>
 
           {/* LANGUAGES */}
           <div className="doctor-info-card">
             <h3>Languages Spoken</h3>
-
             {doctor.languages.map((lang) => (
               <div className="info-row" key={lang}>
                 <img src={languageIcon} alt="lang" />
@@ -96,9 +106,11 @@ const DoctorProfile = () => {
           <section className="doctor-section">
             <h2>Professional Summary</h2>
 
-            <p className={`summary-text ${showFullSummary ? "expanded" : ""}`}>
-              {doctor.summary}
-            </p>
+            <div className={`summary-text ${showFullSummary ? "expanded" : ""}`}>
+              {doctor.summary.split("\n\n").map((para, index) => (
+                <p key={index}>{para}</p>
+              ))}
+            </div>
 
             {doctor.summary.length > 300 && (
               <button
@@ -117,7 +129,6 @@ const DoctorProfile = () => {
               <p className="details-text">{doctor.philosophy}</p>
             </div>
 
-            {/* EXPERTISE */}
             {/* EXPERTISE */}
             <div className="details-block">
               <h3 className="details-title">Expertise</h3>
@@ -150,9 +161,7 @@ const DoctorProfile = () => {
                     <span className="dot"></span>
                     <div>
                       <strong>{edu.title}</strong>
-                      <p>
-                        {edu.place} – {edu.year}
-                      </p>
+                      <p>{edu.place}</p>
                     </div>
                   </div>
                 ))}
@@ -187,56 +196,11 @@ const DoctorProfile = () => {
                 ))}
               </div>
             </div>
-
-            {/* BOOK APPOINTMENT */}
-            {/* <div className="appointment-box">
-      <h3 className="appointment-title">
-        Book an Appointment with {doctor.name}
-      </h3>
-
-      <h6 className="appointment-subtitle">Patient Details</h6>
-
-      <div className="appointment-form-grid">
-        <input type="text" placeholder="Name" />
-        <input type="number" placeholder="Age" />
-
-        <input
-          type="text"
-          placeholder="Phone Number"
-          className="full-width"
-        />
-      </div>
-
-      <h6 className="appointment-subtitle">
-        Select ICTC Centre for Appointment
-      </h6>
-
-      <div className="appointment-centre-row">
-        {doctor.centres.map((centre) => (
-          <div
-            key={centre}
-            className={`centre-checkbox ${
-              selectedCentre === centre ? "active" : ""
-            }`}
-            onClick={() => setSelectedCentre(centre)}
-          >
-            <img src={tickIcon} alt="checked" />
-            <span>{centre}</span>
-          </div>
-        ))}
-
-        <input
-          type="date"
-          className="appointment-date"
-          placeholder="Select appointment date"
-        />
-      </div>
-
-      <button className="book-btn">Book Appointment</button>
-    </div> */}
           </section>
         </main>
       </section>
+
+      {/* BOOK APPOINTMENT SECTION */}
       <BookAppointment />
     </>
   );

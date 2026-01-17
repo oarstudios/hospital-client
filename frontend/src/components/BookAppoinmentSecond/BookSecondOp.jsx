@@ -28,6 +28,10 @@ const BookSecondOp = () => {
 
   const [errors, setErrors] = useState({});
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+const [isSubmitted, setIsSubmitted] = useState(false);
+
+
   /* INPUT CHANGE */
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -65,42 +69,50 @@ const BookSecondOp = () => {
   };
 
   /* SUBMIT → GOOGLE SHEETS */
-  const handleSubmit = async () => {
-    if (!validate()) return;
+const handleSubmit = async () => {
+  if (!validate()) return;
 
-    try {
-      const response = await fetch(
-        "https://script.google.com/macros/s/AKfycby_yIfLs8GlqAlgyqHtjPFcujoIfeiYqHzFNUUJckL4FAb1z-EkbqlBW1FpkVqXFA/exec",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "text/plain",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+  setIsSubmitting(true);
+  setIsSubmitted(false);
 
-      const result = await response.json();
+  try {
+    const response = await fetch(
+      "https://script.google.com/macros/s/AKfycby_yIfLs8GlqAlgyqHtjPFcujoIfeiYqHzFNUUJckL4FAb1z-EkbqlBW1FpkVqXFA/exec",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain",
+        },
+        body: JSON.stringify(formData),
+      }
+    );
 
-      if (result.success) {
-        alert("Second opinion request submitted successfully!");
+    const result = await response.json();
 
+    if (result.success) {
+      setIsSubmitted(true);
+
+      setTimeout(() => {
         setFormData({
           name: "",
           age: "",
           phone: "",
           date: "",
           selectedCentre: "",
-          type: "Second Opinion",
+          type: formData.type,
         });
-      } else {
-        alert("Failed to save data");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Network error");
+        setIsSubmitted(false);
+      }, 2500);
+    } else {
+      alert("Failed to save data");
     }
-  };
+  } catch {
+    alert("Network error");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
 
   return (
     <section className="appointment-wrapper">
@@ -185,9 +197,22 @@ const BookSecondOp = () => {
             {errors.date && <span className="error">{errors.date}</span>}
           </div>
 
-          <button className="book-btn" onClick={handleSubmit}>
-            Request Second Opinion
-          </button>
+          
+
+          <button
+  className={`book-btn ${isSubmitting ? "loading" : ""} ${
+    isSubmitted ? "success" : ""
+  }`}
+  onClick={handleSubmit}
+  disabled={isSubmitting || isSubmitted}
+>
+  {isSubmitting
+    ? "Submitting..."
+    : isSubmitted
+    ? "Submitted ✓"
+    : "Request Second Opinion"}
+</button>
+
         </div>
 
         {/* RIGHT IMAGE */}

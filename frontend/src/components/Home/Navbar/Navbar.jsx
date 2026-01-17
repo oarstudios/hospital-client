@@ -161,7 +161,7 @@ const Navbar = () => {
             <li onClick={() => toggleMenu("centres")}>Our Centre</li>
             <li onClick={() => toggleMenu("cancer")}>Cancer Types</li>
             <li onClick={() => handleNavigate("/ourDoctors")}>
-              ONCOLOGIST
+              Oncologist
             </li>
             <li onClick={() => handleNavigate("/blog")}>Blogs</li>
 

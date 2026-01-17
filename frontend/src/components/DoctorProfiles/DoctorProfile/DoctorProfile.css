@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: 320px 1fr;
   gap: 40px;
-  padding: 80px 40px;
+  padding: 40px 40px;
   background: rgba(250, 250, 250, 1);
   font-family: "DM Sans", sans-serif;
 }
@@ -87,7 +87,7 @@
 
 .info-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
   margin-top: 14px;
 }
@@ -595,4 +595,18 @@ border: 1px solid var(--grey-200, rgba(189, 187, 191, 1));
 
 .read-more-btn:hover {
   background: rgba(176, 104, 205, 0.15);
+}
+
+
+.summary-text p {
+  margin-bottom: 16px;
+}
+
+.summary-text p:last-child {
+  margin-bottom: 0;
+}
+.centres-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }

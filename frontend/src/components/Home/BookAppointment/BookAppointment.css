@@ -316,3 +316,18 @@ border: 1px solid rgba(228, 227, 229, 1);
     padding: 56px;
   }
 }
+.book-btn.loading {
+  background: #9b7aa9;
+  cursor: not-allowed;
+  opacity: 0.9;
+}
+
+.book-btn.success {
+  background: #2ecc71;
+  cursor: default;
+}
+
+/* Optional smooth effect */
+.book-btn {
+  transition: all 0.3s ease;
+}

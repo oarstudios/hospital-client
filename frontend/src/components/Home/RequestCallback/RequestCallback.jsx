@@ -7,8 +7,12 @@ const RequestCallback = () => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // ✅ important
+
     if (!name.trim()) {
       setError("Please enter your name");
       return;
@@ -20,14 +24,56 @@ const RequestCallback = () => {
     }
 
     setError("");
-    alert("Callback request submitted successfully");
+    setIsSubmitting(true);
+    setIsSubmitted(false);
+
+    try {
+      
+      const response = await fetch(
+  "https://script.google.com/macros/s/AKfycbziTLfF2tWloC-WaTA2EC-rp-lH2UI2NS_6PrvacVIT3Y1CeycnWfUUuC52c9amSzd6/exec",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8",
+    },
+    body: JSON.stringify({
+      name,
+      phone,
+      type: "Callback",
+    }),
+  }
+);
+
+
+      if (!response.ok) {
+        throw new Error("Server error");
+      }
+
+      const result = await response.json();
+
+      if (result.success) {
+        setIsSubmitted(true);
+        setError("");
+
+        setTimeout(() => {
+          setName("");
+          setPhone("");
+          setIsSubmitted(false);
+        }, 2500);
+      } else {
+        setError(result.error || "Something went wrong. Try again.");
+      }
+    } catch {
+      setError("Network error. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <section className="callback-wrapper">
-      {/* LEFT CARD */}
       <div className="callback-card">
-        <div className="callback-form">
+        <form className="callback-form" onSubmit={handleSubmit}>
           <h2>Request a Call Back</h2>
 
           <input
@@ -35,6 +81,7 @@ const RequestCallback = () => {
             placeholder="Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            disabled={isSubmitting}
           />
 
           <input
@@ -42,22 +89,35 @@ const RequestCallback = () => {
             placeholder="Phone Number"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
+            disabled={isSubmitting}
           />
 
           {error && <p className="error-text">{error}</p>}
 
-          <button onClick={handleSubmit}>Submit Details</button>
-        </div>
+          <button
+            type="submit"
+            disabled={isSubmitting || isSubmitted}
+            className={`callback-btn ${isSubmitting ? "loading" : ""} ${
+              isSubmitted ? "success" : ""
+            }`}
+          >
+            {isSubmitting
+              ? "Submitting..."
+              : isSubmitted
+              ? "Submitted ✓"
+              : "Submit Details"}
+          </button>
+        </form>
 
-        {/* DOCTOR IMAGE */}
         <div className="callback-image">
           <img src={doctorImg} alt="Doctor" />
         </div>
       </div>
 
-      {/* RIGHT SUPPORT CARD */}
       <div className="support-card">
-        <h3>Need Support? <br /> We're Here:</h3>
+        <h3>
+          Need Support? <br /> We're Here:
+        </h3>
 
         <p className="support-label">ICTC Helpline:</p>
 

@@ -28,6 +28,10 @@ const BookAppointment = () => {
 
   const [errors, setErrors] = useState({});
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+const [isSubmitted, setIsSubmitted] = useState(false);
+
+
   /* INPUT CHANGE */
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -65,42 +69,51 @@ const BookAppointment = () => {
   };
 
   /* SUBMIT → GOOGLE SHEETS */
-  const handleSubmit = async () => {
-    if (!validate()) return;
+const handleSubmit = async () => {
+  if (!validate()) return;
 
-    try {
-      const response = await fetch(
-        "https://script.google.com/macros/s/AKfycby_yIfLs8GlqAlgyqHtjPFcujoIfeiYqHzFNUUJckL4FAb1z-EkbqlBW1FpkVqXFA/exec",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "text/plain",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+  setIsSubmitting(true);
+  setIsSubmitted(false);
 
-      const result = await response.json();
+  try {
+    const response = await fetch(
+      "https://script.google.com/macros/s/AKfycby_yIfLs8GlqAlgyqHtjPFcujoIfeiYqHzFNUUJckL4FAb1z-EkbqlBW1FpkVqXFA/exec",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain",
+        },
+        body: JSON.stringify(formData),
+      }
+    );
 
-      if (result.success) {
-        alert("Appointment booked successfully!");
+    const result = await response.json();
 
+    if (result.success) {
+      setIsSubmitted(true);
+
+      setTimeout(() => {
         setFormData({
           name: "",
           age: "",
           phone: "",
           date: "",
           selectedCentre: "",
-          type: "Appointment", // ✅ KEEP AFTER RESET
+          type: formData.type,
         });
-      } else {
-        alert("Failed to save data");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Network error");
+        setIsSubmitted(false);
+      }, 2500);
+    } else {
+      alert("Failed to save data");
     }
-  };
+  } catch {
+  alert("Network error");
+}
+ finally {
+    setIsSubmitting(false);
+  }
+};
+
 
   return (
     <section className="appointment-wrapper">
@@ -185,9 +198,20 @@ const BookAppointment = () => {
             {errors.date && <span className="error">{errors.date}</span>}
           </div>
 
-          <button className="book-btn" onClick={handleSubmit}>
-            Book Appointment
-          </button>
+          <button
+  className={`book-btn ${isSubmitting ? "loading" : ""} ${
+    isSubmitted ? "success" : ""
+  }`}
+  onClick={handleSubmit}
+  disabled={isSubmitting || isSubmitted}
+>
+  {isSubmitting
+    ? "Submitting..."
+    : isSubmitted
+    ? "Submitted ✓"
+    : "Book Appointment"}
+</button>
+
         </div>
 
         {/* RIGHT IMAGE */}

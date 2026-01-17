@@ -1,21 +1,21 @@
 import { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 import "./PatientStoriesEmbed.css";
 import NewsFromExperts from "../../Home/NewsFromExperts/NewsFromExperts";
-
-const posts = [
-  "https://www.instagram.com/reel/DST-mcRDCC1/",
-  "https://www.instagram.com/reel/DTHYcKMCnnA/",
-  "https://www.instagram.com/reel/DRjo6xWDKOa/",
-  "https://www.instagram.com/reel/DQ35e-LjETs/",
-  "https://www.instagram.com/reel/DQbW9nTDIAu/",
-  "https://www.instagram.com/reel/DP09jgBDGk-/",
-  "https://www.instagram.com/reel/DGFk51sNhcK/"
-];
+import doctorData from "../../../data/doctorData";
 
 const PatientStoriesEmbed = () => {
+  const { slug } = useParams();
+  const doctor = doctorData[slug];
+
+  const posts = doctor?.stories || [];
+
   const [index, setIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(3);
   const startX = useRef(0);
+
+  /* If no stories, don't render section */
+  if (!posts.length) return null;
 
   /* Responsive visible slides */
   useEffect(() => {
@@ -54,7 +54,13 @@ const PatientStoriesEmbed = () => {
     <>
       <section className="ps-wrapper">
         <div className="ps-header">
-          <h2 className="ps-title">Patient Stories</h2>
+          {/* <h2 className="ps-title">
+            Patient Stories with {doctor.name}
+          </h2> */}
+          <h2 className="ps-title">
+            Patient Stories 
+          </h2>
+
           <div className="ps-nav">
             <button onClick={prev}>←</button>
             <button onClick={next}>→</button>
