@@ -604,3 +604,29 @@ display: none;
     border-radius: 10px;
   }
 }
+
+
+/* ================= MOBILE SIDEBAR ORDER FIX ================= */
+@media (max-width: 1024px) {
+  .ictc-blogpost-sidebar {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Move CTA to top */
+  .ictc-blogpost-cta {
+    order: -1;
+    margin-bottom: 24px;
+  }
+
+  /* Similar blogs come after CTA */
+  .ictc-blogpost-sidebar-title,
+  .ictc-blogpost-similar-card {
+    order: 1;
+  }
+}
+@media (max-width: 1024px) {
+  .ictc-blogpost-cta {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  }
+}

@@ -136,66 +136,103 @@ export default function Chatbot() {
   }
 
   /* ================= DATE + SUBMIT ================= */
-  async function chooseDate(d) {
-    if (!d) return;
+ async function chooseDate(d) {
+  if (!d) return;
 
-    const today = new Date().setHours(0, 0, 0, 0);
-    const selected = new Date(d).setHours(0, 0, 0, 0);
+  const selectedDate = new Date(d);
+  const today = new Date();
 
-    if (selected < today) {
-      setMessages((prev) => [
-        ...prev,
-        { from: "bot", text: "⚠ Date cannot be in the past." },
-        { from: "bot", text: "Please select a valid date." },
-      ]);
-      return;
-    }
+  // Normalize dates
+  selectedDate.setHours(0, 0, 0, 0);
+  today.setHours(0, 0, 0, 0);
 
-    const payload = {
-      name: form.patientName,
-      age: form.age,
-      phone: form.phone,
-      selectedCentre: form.centre,
-      date: d,
-      type: "Appointment",
-    };
-
-    setMessages((prev) => [...prev, { from: "user", text: d }]);
-
-    try {
-      const response = await fetch(
-        "https://script.google.com/macros/s/AKfycby_yIfLs8GlqAlgyqHtjPFcujoIfeiYqHzFNUUJckL4FAb1z-EkbqlBW1FpkVqXFA/exec",
-        {
-          method: "POST",
-          headers: { "Content-Type": "text/plain" },
-          body: JSON.stringify(payload),
-        }
-      );
-
-      const result = await response.json();
-
-      if (result.success) {
-        setMessages((prev) => [
-          ...prev,
-          { from: "bot", text: "🎉 Appointment booked successfully!" },
-          {
-            from: "bot",
-            text:
-              "Our team will contact you shortly to confirm your appointment.",
-          },
-        ]);
-        setStep("done");
-      } else {
-        throw new Error("Sheet error");
-      }
-    } catch (err) {
-      console.error(err);
-      setMessages((prev) => [
-        ...prev,
-        { from: "bot", text: "⚠ Something went wrong. Please try again." },
-      ]);
-    }
+  /* ❌ Past date not allowed */
+  if (selectedDate < today) {
+    setMessages((prev) => [
+      ...prev,
+      { from: "bot", text: "⚠ Date cannot be in the past." },
+      { from: "bot", text: "Please select a valid date." },
+    ]);
+    return;
   }
+
+  /* ❌ Sunday not allowed */
+  if (new Date(d).getDay() === 0) {
+    setMessages((prev) => [
+      ...prev,
+      {
+        from: "bot",
+        text: "⚠ Consultations are not available on Sundays.",
+      },
+      { from: "bot", text: "Please select another date." },
+    ]);
+    return;
+  }
+
+  /* ❌ Same-day booking after 12 PM */
+  const isSameDay =
+    new Date(d).toDateString() === new Date().toDateString();
+
+  if (isSameDay && new Date().getHours() >= 12) {
+    setMessages((prev) => [
+      ...prev,
+      {
+        from: "bot",
+        text:
+          "⚠ Same-day consultation must be booked before 12 PM.",
+      },
+      { from: "bot", text: "Please choose another date." },
+    ]);
+    return;
+  }
+
+  /* ✅ SUBMIT */
+  const payload = {
+    name: form.patientName,
+    age: form.age,
+    phone: form.phone,
+    selectedCentre: form.centre,
+    date: d,
+    type: "Appointment",
+  };
+
+  setMessages((prev) => [...prev, { from: "user", text: d }]);
+
+  try {
+    const response = await fetch(
+      "https://script.google.com/macros/s/AKfycby_yIfLs8GlqAlgyqHtjPFcujoIfeiYqHzFNUUJckL4FAb1z-EkbqlBW1FpkVqXFA/exec",
+      {
+        method: "POST",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify(payload),
+      }
+    );
+
+    const result = await response.json();
+
+    if (result.success) {
+      setMessages((prev) => [
+        ...prev,
+        { from: "bot", text: "🎉 Appointment booked successfully!" },
+        {
+          from: "bot",
+          text:
+            "Our team will contact you shortly to confirm your appointment.",
+        },
+      ]);
+      setStep("done");
+    } else {
+      throw new Error("Sheet error");
+    }
+  } catch (err) {
+    console.error(err);
+    setMessages((prev) => [
+      ...prev,
+      { from: "bot", text: "⚠ Something went wrong. Please try again." },
+    ]);
+  }
+}
+
 
   /* ================= INPUT HANDLER ================= */
   function handleSend() {
