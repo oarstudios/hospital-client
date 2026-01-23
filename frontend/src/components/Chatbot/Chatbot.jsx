@@ -77,6 +77,20 @@ export default function Chatbot() {
     "Santacruz",
   ];
 
+  const centreSlugMap = {
+  Vashi: "vashi",
+  Panvel: "panvel",
+  Kalyan: "kalyan",
+  Dombivli: "dombivli",
+  Sion: "sion",
+  Dadar: "dadar",
+  Ghatkopar: "ghatkopar",
+  Goregaon: "goregaon",
+  Chembur: "chembur",
+  Santacruz: "santacruz",
+};
+
+
   const faqs = [
     {
       question: "Where are you located?",
@@ -173,18 +187,46 @@ export default function Chatbot() {
   const isSameDay =
     new Date(d).toDateString() === new Date().toDateString();
 
-  if (isSameDay && new Date().getHours() >= 12) {
-    setMessages((prev) => [
-      ...prev,
-      {
-        from: "bot",
-        text:
-          "⚠ Same-day consultation must be booked before 12 PM.",
-      },
-      { from: "bot", text: "Please choose another date." },
-    ]);
-    return;
-  }
+ if (isSameDay && new Date().getHours() >= 12) {
+  const slug = centreSlugMap[form.centre];
+  const centreLink = slug
+    ? `/centre/${slug}`
+    : null;
+
+  setMessages((prev) => [
+    ...prev,
+    {
+      from: "bot",
+      text:
+        "⏰ Same-day appointments close at 12:00 PM.",
+    },
+    {
+      from: "bot",
+      text: centreLink ? (
+        <>
+          You can still check today’s availability at{" "}
+          <span
+            className="faq-link"
+            onClick={() =>
+              window.open(centreLink, "_blank")
+            }
+          >
+            {form.centre} ICTC Centre.
+          </span>
+        </>
+      ) : (
+        "You can contact the selected ICTC centre for availability."
+      ),
+    },
+    {
+      from: "bot",
+      text: "Please choose another date.",
+    },
+  ]);
+
+  return;
+}
+
 
   /* ✅ SUBMIT */
   const payload = {

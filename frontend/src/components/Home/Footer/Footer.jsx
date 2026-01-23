@@ -87,7 +87,7 @@ const Footer = () => {
           {/* CENTRES */}
           <div className="footer-col">
             <h4>Centres</h4>
-            <ul className="centres-list">
+            <ul className="centres-list-footer">
               {Object.values(centerData).map((centre) => (
                 <li key={centre.slug}>
                   <Link to={`/centre/${centre.slug}`}>

@@ -46,19 +46,19 @@
 
 
 /* CENTRES */
-.centres-list {
+.centres-list-footer {
   display: grid;
   grid-template-columns: repeat(2, minmax(135px, 1fr));
   column-gap: 28px;
   row-gap: 16px;
 }
 
-.centres-list li {
+.centres-list-footer li {
   display: flex;
   flex-direction: column;
 }
 
-.centres-list li .sp {
+.centres-list-footer li .sp {
   font-weight: 600;
   font-size: 16px;
   color: rgba(149, 88, 172, 1);
@@ -105,7 +105,7 @@
     font-size: 15px;
   }
 
-  .centres-list {
+  .centres-list-footer {
     grid-template-columns: repeat(2, 1fr);
     row-gap: 14px;
   }
@@ -155,7 +155,7 @@
     font-size: 15px;
   }
 
-  .centres-list {
+  .centres-list-footer {
     grid-template-columns: 1fr;
     row-gap: 12px;
   }
@@ -183,7 +183,7 @@
     font-size: 14px;
   }
 
-  .centres-list li .sp {
+  .centres-list-footer li .sp {
     font-size: 14px;
   }
 }
