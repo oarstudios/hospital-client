@@ -12,7 +12,10 @@ const PatientStoriesEmbed = () => {
 
   const [index, setIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(3);
+
   const startX = useRef(0);
+  const autoPlayRef = useRef(null);
+  const isPaused = useRef(false);
 
   /* If no stories, don't render section */
   if (!posts.length) return null;
@@ -42,6 +45,15 @@ const PatientStoriesEmbed = () => {
   const next = () => setIndex((i) => (i >= maxIndex ? 0 : i + 1));
   const prev = () => setIndex((i) => (i <= 0 ? maxIndex : i - 1));
 
+  /* Auto scroll */
+  useEffect(() => {
+    autoPlayRef.current = setInterval(() => {
+      if (!isPaused.current) next();
+    }, 4000);
+
+    return () => clearInterval(autoPlayRef.current);
+  }, [visibleCount, maxIndex]);
+
   /* Touch swipe */
   const onTouchStart = (e) => (startX.current = e.touches[0].clientX);
   const onTouchEnd = (e) => {
@@ -54,12 +66,7 @@ const PatientStoriesEmbed = () => {
     <>
       <section className="ps-wrapper">
         <div className="ps-header">
-          {/* <h2 className="ps-title">
-            Patient Stories with {doctor.name}
-          </h2> */}
-          <h2 className="ps-title">
-            Patient Stories 
-          </h2>
+          <h2 className="ps-title">Patient Stories</h2>
 
           <div className="ps-nav">
             <button onClick={prev}>←</button>
@@ -69,8 +76,16 @@ const PatientStoriesEmbed = () => {
 
         <div
           className="ps-slider"
-          onTouchStart={onTouchStart}
-          onTouchEnd={onTouchEnd}
+          onMouseEnter={() => (isPaused.current = true)}
+          onMouseLeave={() => (isPaused.current = false)}
+          onTouchStart={(e) => {
+            isPaused.current = true;
+            onTouchStart(e);
+          }}
+          onTouchEnd={(e) => {
+            isPaused.current = false;
+            onTouchEnd(e);
+          }}
         >
           <div
             className="ps-track"
@@ -95,6 +110,17 @@ const PatientStoriesEmbed = () => {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Progress Dots */}
+        <div className="ps-dots">
+          {Array.from({ length: maxIndex + 1 }).map((_, i) => (
+            <button
+              key={i}
+              className={i === index ? "active" : ""}
+              onClick={() => setIndex(i)}
+            />
+          ))}
         </div>
       </section>
 

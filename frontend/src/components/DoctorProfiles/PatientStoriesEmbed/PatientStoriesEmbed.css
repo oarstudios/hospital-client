@@ -29,15 +29,18 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  border: 1px solid rgba(191, 192, 204, 1);
-  background: transparent;
+  border: none;
+  background: rgba(105, 60, 121, 0.1);
+  color: rgba(105, 60, 121, 1);
   font-size: 20px;
   cursor: pointer;
-  transition: background 0.25s ease;
+  transition: all 0.25s ease;
+
 }
 
 .ps-nav button:hover {
-  background: rgba(105, 60, 121, 0.08);
+  background: rgba(105, 60, 121, 0.18);
+  transform: scale(1.08);
 }
 
 /* ================= SLIDER ================= */
@@ -49,11 +52,10 @@
 
 .ps-track {
   display: flex;
-  transition: transform 0.45s ease-in-out;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
 }
 
-/* ❗ DO NOT CONTROL WIDTH HERE — JS HANDLES IT */
 .ps-slide {
   flex-shrink: 0;
   padding: 0 12px;
@@ -65,8 +67,8 @@
   background: #ffffff;
   border-radius: 20px;
   overflow: hidden;
-  height: 100%;
-  min-height: 480px; /* prevents jump */
+  min-height: 480px;
+
 }
 
 /* ================= INSTAGRAM FIX ================= */
@@ -78,9 +80,31 @@
   overflow: hidden !important;
 }
 
-/* ================= RESPONSIVE ================= */
+/* ================= DOTS ================= */
+.ps-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
+}
 
-/* ---------- LARGE TABLETS ---------- */
+.ps-dots button {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(105, 60, 121, 0.25);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.ps-dots button.active {
+  width: 22px;
+  border-radius: 20px;
+  background: rgba(105, 60, 121, 1);
+}
+
+/* ================= RESPONSIVE ================= */
 @media (max-width: 1200px) {
   .ps-wrapper {
     padding: 64px 32px;
@@ -91,7 +115,6 @@
   }
 }
 
-/* ---------- TABLETS ---------- */
 @media (max-width: 992px) {
   .ps-header {
     flex-direction: column;
@@ -102,14 +125,8 @@
   .ps-title {
     font-size: 30px;
   }
-
-  .ps-nav button {
-    width: 44px;
-    height: 44px;
-  }
 }
 
-/* ---------- SMALL TABLETS ---------- */
 @media (max-width: 768px) {
   .ps-wrapper {
     padding: 48px 24px;
@@ -128,7 +145,6 @@
   }
 }
 
-/* ---------- MOBILE ---------- */
 @media (max-width: 480px) {
   .ps-wrapper {
     padding: 40px 16px;

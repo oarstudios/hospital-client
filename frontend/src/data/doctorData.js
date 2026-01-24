@@ -14,9 +14,9 @@ const doctorData = {
   stories: [
    "https://www.instagram.com/reel/DST-mcRDCC1/", "https://www.instagram.com/reel/DTHYcKMCnnA/", "https://www.instagram.com/reel/DRjo6xWDKOa/", "https://www.instagram.com/reel/DQ35e-LjETs/", "https://www.instagram.com/reel/DQbW9nTDIAu/", "https://www.instagram.com/reel/DP09jgBDGk-/", "https://www.instagram.com/reel/DGFk51sNhcK/"
   ],
-  designation: "Cancer Specialist & Medical Oncologist",
+  designation: "Oncologist & Hemato-Oncologist, Immuno-Oncologist",
   qualification:
-    "MBBS, MD Internal Medicine, DM Medical Oncology, Certified in Immuno-Oncology and Precision Oncology (Harvard Medical School)",
+    "MD Internal Medicine, DM Medical Oncology, Certified in Immuno-Oncology and Precision Oncology (Harvard Medical School)",
 
   rating: "4.9",
   reviews: "900+ Ratings",
@@ -101,6 +101,10 @@ const doctorData = {
 
   education: [
     {
+      title: "Certificate in Cancer Genomics, Precision Oncology & Immuno-Oncology",
+      place: "Harvard Medical School",
+    },
+    {
       title: "DM Medical Oncology",
       place: "Gujarat Cancer & Research Institute (GCRI), Ahmedabad",
     },
@@ -132,7 +136,6 @@ const doctorData = {
   ],
 
   achievements: [
-    "Certified in Cancer Genomics, Precision Oncology & Immuno-Oncology – Harvard Medical School",
     "Postgraduate Academic Program – Johns Hopkins School of Medicine (Affiliated)",
     "Co-investigator – PROMISE Clinical Registry, GCRI",
     "Member – European Society of Medical Oncology (ESMO)",
@@ -151,9 +154,9 @@ const doctorData = {
    "https://www.instagram.com/reel/DST-mcRDCC1/", "https://www.instagram.com/reel/DTHYcKMCnnA/", "https://www.instagram.com/reel/DRjo6xWDKOa/", "https://www.instagram.com/reel/DQ35e-LjETs/", "https://www.instagram.com/reel/DQbW9nTDIAu/", "https://www.instagram.com/reel/DP09jgBDGk-/", "https://www.instagram.com/reel/DGFk51sNhcK/"
   ],
   designation:
-    "Medical Oncologist, Cancer Specialist, Bone Marrow & Immunotherapy Expert",
+    "Oncologist & Hemato-Oncologist, Immuno-Oncologist",
   qualification:
-    "MBBS, MD Internal Medicine, DNB Medical Oncology, Fellowship in Oncology & Bone Marrow Transplantation, ESMO Certified Oncologist",
+    "MD Internal Medicine, DNB Medical Oncology, Fellowship in Oncology & Bone Marrow Transplantation, ESMO Certified Oncologist",
 
   rating: "4.9",
   reviews: "500+ Ratings",
@@ -271,9 +274,9 @@ const doctorData = {
   stories: [
    "https://www.instagram.com/reel/DST-mcRDCC1/", "https://www.instagram.com/reel/DTHYcKMCnnA/", "https://www.instagram.com/reel/DRjo6xWDKOa/", "https://www.instagram.com/reel/DQ35e-LjETs/", "https://www.instagram.com/reel/DQbW9nTDIAu/", "https://www.instagram.com/reel/DP09jgBDGk-/", "https://www.instagram.com/reel/DGFk51sNhcK/"
   ],
-  designation: "Medico Oncologist & Hemato Oncologist",
+  designation: "Oncologist & Hemato-Oncologist, Immuno-Oncologist",
   qualification:
-    "MBBS, MD Internal Medicine (AIIMS), DM Medical Oncology (AIIMS), MRCP (UK), DNB, ECMO",
+    "MD Internal Medicine (AIIMS), DM Medical Oncology (AIIMS), DNB, MRCP (UK) Certified, ESMO Certified Oncologist",
 
   rating: "4.9",
   reviews: "200+ Ratings",
@@ -380,9 +383,9 @@ const doctorData = {
   stories: [
    "https://www.instagram.com/reel/DST-mcRDCC1/", "https://www.instagram.com/reel/DTHYcKMCnnA/", "https://www.instagram.com/reel/DRjo6xWDKOa/", "https://www.instagram.com/reel/DQ35e-LjETs/", "https://www.instagram.com/reel/DQbW9nTDIAu/", "https://www.instagram.com/reel/DP09jgBDGk-/", "https://www.instagram.com/reel/DGFk51sNhcK/"
   ],
-  designation: "Cancer Specialist & Medical Oncologist",
+  designation: "Oncologist & Hemato-Oncologist, Immuno-Oncologist",
   qualification:
-    "MBBS, MD Internal Medicine (AIIMS), DM Medical Oncology (AIIMS), MRCP (UK), ECMO",
+    "MD Internal Medicine (AIIMS), DM Medical Oncology (AIIMS),  MRCP (UK) Certified, ESMO Certified Oncologist",
 
   rating: "4.9",
   reviews: "100+ Ratings",
@@ -500,7 +503,7 @@ const doctorData = {
   designation:
     "Hematologist, Bone Marrow Transplant & Cellular Therapy Specialist",
   qualification:
-    "MBBS, MD, DM Clinical Hematology, Haemato-Oncologist, BMT & CAR-T Specialist, ex-TATA ACTREC",
+    "MD, DM Clinical Hematology, Haemato-Oncologist, BMT & CAR-T Specialist, ex-TATA ACTREC",
 
   rating: "5.0",
   reviews: "100+ Ratings",
@@ -629,7 +632,7 @@ const doctorData = {
   ],
   designation: "Oncologist & Hemato-Oncologist, Immuno-Oncologist",
   qualification:
-    "MBBS, DNB Internal Medicine, DM Medical Oncology (Tata Memorial Hospital), MRCP SCE (UK), ESMO Certified, Certification in Advanced Oncology (Harvard Medical School)",
+    "DNB Internal Medicine, DM Medical Oncology, MRCP SCE (UK) | ESMO Certified, Certification in Advanced Oncology (Harvard Medical School)",
 
   rating: "4.9",
   reviews: "100+ Ratings",
@@ -748,9 +751,9 @@ const doctorData = {
   stories: [
    "https://www.instagram.com/reel/DST-mcRDCC1/", "https://www.instagram.com/reel/DTHYcKMCnnA/", "https://www.instagram.com/reel/DRjo6xWDKOa/", "https://www.instagram.com/reel/DQ35e-LjETs/", "https://www.instagram.com/reel/DQbW9nTDIAu/", "https://www.instagram.com/reel/DP09jgBDGk-/", "https://www.instagram.com/reel/DGFk51sNhcK/"
   ],
-  designation: "Medical and Hemato-Oncologist",
+  designation: "Oncologist & Hemato-Oncologist, Immuno-Oncologist",
   qualification:
-    "MBBS, MD, DM Medical Oncology (GCRI), Fellowship in Geriatric Oncology (Tata Memorial Hospital, Mumbai)",
+    "MD, DM Medical Oncology (GCRI), Fellowship in Geriatric Oncology (Tata Memorial Hospital, Mumbai)",
 
   rating: "4.9",
   reviews: "100+ Ratings",

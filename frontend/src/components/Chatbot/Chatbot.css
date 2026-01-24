@@ -1,7 +1,7 @@
 .chat-button {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 10px;
+  right: 10px;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -170,8 +170,8 @@
 
 .chat-float-wrapper {
   position: fixed;
-  bottom: 36px;
-  right: 20px;
+  bottom: 22px;
+  right: 16px;
   display: flex;
   align-items: center;
   margin-right: 70px;
@@ -181,23 +181,26 @@
 
 /* Hover bubble */
 .chat-hover-text {
-  background: white;
-  border: 1px solid #b053e7;
-  color: #333;
-  padding: 2px 14px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid var(--primary-200, rgba(209, 176, 224, 1));
+  color: rgba(63, 34, 74, 1);
+  padding: 6px 14px;
   border-radius: 18px;
   font-size: 14px;
+  font-weight: 600;
   white-space: nowrap;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4px);
 
-  opacity: 0;
-  transform: translateX(10px);
-  transition: all 0.3s ease;
+  /* ✅ ALWAYS VISIBLE ON DESKTOP */
+  opacity: 1;
+  transform: translateX(0);
   pointer-events: none;
 }
 
+
 /* Show text on hover */
-.chat-float-wrapper:hover .chat-hover-text {
+.chat-float-wrapper .chat-hover-text {
   opacity: 1;
   transform: translateX(0);
   background: rgba(255, 255, 255, 0.78);
@@ -481,14 +484,14 @@
   }
 
   .chat-float-wrapper {
-    bottom: 24px;
-    right: 16px;
+    bottom: 18px;
+    right: 68px;
     margin-right: 0;
   }
 
   .chat-button {
-    bottom: 16px;
-    right: 16px;
+    bottom: 10px;
+    right: 10px;
   }
 
   .chat-down-btn {
@@ -570,5 +573,68 @@
 
   .hi-text {
     font-size: 18px;
+  }
+}
+
+
+/* ================================================= */
+/* CHAT HOVER TEXT – FINAL OVERRIDES (SAFE ADDITION) */
+/* ================================================= */
+
+/* -------- DESKTOP & LARGE DEVICES -------- */
+/* Always visible */
+.chat-hover-text {
+  opacity: 1 !important;
+  transform: translateX(0) !important;
+  display: block !important;
+}
+
+/* -------- TABLET & MOBILE -------- */
+/* Show for 20 seconds, then hide */
+@media (max-width: 1024px) {
+  .chat-hover-text {
+    display: block !important;
+    opacity: 1;
+    animation: chatTextHideAfter20s 20s ease forwards;
+  }
+}
+
+/* -------- AUTO-HIDE ANIMATION -------- */
+@keyframes chatTextHideAfter20s {
+  0% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+
+/* =============================================== */
+/* FIX: ALLOW MOBILE ANIMATION TO ACTUALLY HIDE IT */
+/* =============================================== */
+
+@media (max-width: 1024px) {
+  .chat-hover-text {
+    opacity: 1 !important;        /* visible initially */
+    animation: chatTextHideAfter20s 20s ease forwards;
+  }
+}
+
+/* Animation MUST win at the end */
+@keyframes chatTextHideAfter20s {
+  0% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
   }
 }

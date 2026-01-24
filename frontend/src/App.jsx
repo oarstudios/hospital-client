@@ -58,6 +58,7 @@ import AllCancerDetBreadcrumb from "./components/CancerDetails/AllCancerDetBread
 import AllServiceBreadcrumb from "./components/ServicePage/AllServiceBreadcrumb";
 import ScrollToTop from "./components/Common/ScrollToTop";
 import NotFound from "./components/Common/NotFound";
+import WhatsAppFloat from "./components/WhatsAppFloat/WhatsAppFloat";
 
 function App() {
   return (
@@ -259,6 +260,7 @@ function App() {
         <Route path="*" element={<NotFound/>} />
       </Routes>
 </main>
+<WhatsAppFloat />
       <Chatbot />
       <Footer />
     </>

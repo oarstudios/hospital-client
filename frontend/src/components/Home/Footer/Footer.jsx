@@ -118,7 +118,6 @@ const Footer = () => {
               <li><Link to="/blog">ICTC Blogs</Link></li>
               <li>ICTC Newsletter</li>
               <li>Privacy Policy</li>
-              <li>Contact Us</li>
             </ul>
           </div>
         </div>

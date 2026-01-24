@@ -26,6 +26,7 @@ const slides = [
 
 const HeroCarousel = () => {
   const [current, setCurrent] = useState(0);
+  const [showCTA, setShowCTA] = useState(true);   // 👈 new
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,39 +46,37 @@ const HeroCarousel = () => {
           className={`hero-image ${index === current ? "active" : ""}`}
         >
           {/* MOBILE */}
-          <source
-            media="(max-width: 767px)"
-            srcSet={slide.mobile}
-          />
+          <source media="(max-width: 767px)" srcSet={slide.mobile} />
 
           {/* TABLET */}
-          <source
-            media="(max-width: 1024px)"
-            srcSet={slide.tablet}
-          />
+          <source media="(max-width: 1024px)" srcSet={slide.tablet} />
 
           {/* DESKTOP */}
-          <img
-            src={slide.desktop}
-            alt={`Hero slide ${index + 1}`}
-          />
+          <img src={slide.desktop} alt={`Hero slide ${index + 1}`} />
         </picture>
       ))}
 
       {/* QUICK CTA */}
-      <div className="quick-cta">
-        <button className="cta-btn light" onClick={() => navigate("/allCenters")}>
-          Locate Centre <span>→</span>
-        </button>
+      {showCTA && (
+        <div className="quick-cta">
+          {/* CUT BUTTON */}
+          <button className="cta-close" onClick={() => setShowCTA(false)}>
+            ✕
+          </button>
 
-        <button className="cta-btn white" onClick={() => navigate("/BookAppoinment")}>
-          Book an Appointment <span>→</span>
-        </button>
+          <button className="cta-btn light" onClick={() => navigate("/allCenters")}>
+            Locate Centre <span>→</span>
+          </button>
 
-        <button className="cta-btn grey" onClick={() => navigate("/BookSecondOpinion")}>
-          Get Second Opinion <span>→</span>
-        </button>
-      </div>
+          <button className="cta-btn white" onClick={() => navigate("/BookAppoinment")}>
+            Book an Appointment <span>→</span>
+          </button>
+
+          <button className="cta-btn grey" onClick={() => navigate("/BookSecondOpinion")}>
+            Get Second Opinion <span>→</span>
+          </button>
+        </div>
+      )}
     </section>
   );
 };

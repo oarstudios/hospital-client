@@ -26,9 +26,9 @@ const centerData = {
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3412.3515059166466!2d72.99670582466513!3d19.073796452042792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c12e366befd9%3A0x422a83b108bd2893!2sDr%20Salil%20Patkar%20%2C%20Cancer%20Specialist%20in%20Vashi%20Navi%20Mumbai%2C%20Best%20Oncologist%20in%20Vashi%2C%20Navi%20Mumbai%20Oncologist%20%7C%20ICTC%20Vashi!5e1!3m2!1sen!2sin!4v1767514911613!5m2!1sen!2sin",
 
     address:
-      "3rd Floor, Mahavir Center, Sector 17, Vashi, Navi Mumbai – 400703",
+      "47/48 3rd floor, Mahavir Center, above Golden Punjab Restaurant, Sector 17, Vashi, Navi Mumbai, Maharashtra 400703",
 
-    timing: "Mon – Sat 9:00 a.m. to 7:00 p.m.",
+    timing: "Mon – Sat 9:00 a.m. to 9:00 p.m.",
 
     heroBg,
 
@@ -56,9 +56,9 @@ const centerData = {
     mapEmbed:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3414.0496613381006!2d73.11214447466304!3d18.991160854631566!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7e94576a0d73b%3A0x36d856b6c2f8066a!2sDr%20Salil%20Patkar%2C%20Cancer%20Specialist%20Panvel%20Navi%20Mumbai%2C%20Oncologist%20in%20Navi%20Mumbai%20%7C%20ICTC!5e1!3m2!1sen!2sin!4v1767515000407!5m2!1sen!2sin",
 
-    address: "Yashodhara Building, Line Ali, Old Panvel – 410206",
+    address: "Trimurti Hospital, Road, above ketki Hotel, Line Ali, Old Panvel, Panvel, Navi Mumbai, Maharashtra 410206",
 
-    timing: "Mon – Sat 9:00 a.m. to 7:00 p.m.",
+    timing: "Mon – Sat 9:00 a.m. to 9:00 p.m.",
 
     heroBg,
 
@@ -86,9 +86,9 @@ const centerData = {
     mapEmbed:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13635.221670262083!2d73.11858564253039!3d19.245254470594404!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be795d1b4ecdb4f%3A0x854c3b30dc3b1775!2sDr%20Amit%20Ghanekar%20%7C%20ICTC%2C%20Kalyan%20%7C%20Best%20Oncologist%20in%20Kalyan%2C%20Cancer%20Specialist%2C%20Hemat-Oncologist%20Kalyan!5e1!3m2!1sen!2sin!4v1767515047123!5m2!1sen!2sin",
 
-    address: "G Business Park, Khadakpada, Kalyan West – 421301",
+    address: "G Business Centre, 401-404, Khadakpada Rd, next to Honda showroom, Wayle Nagar, West, Beturkar Pada, Kalyan, Maharashtra 421301",
 
-    timing: "Mon – Sat 9:00 a.m. to 7:00 p.m.",
+    timing: "Mon – Sat 9:00 a.m. to 9:00 p.m.",
 
     heroBg,
 
@@ -116,9 +116,9 @@ const centerData = {
     mapEmbed:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3409.4320164288247!2d73.08609417715512!3d19.21506470125195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be79593301ee44f%3A0x820a319785e46b87!2sDr%20Amit%20Ghanekar%20Cancer%20Specialist%20in%20Dombivli%2C%20Best%20Oncologist%20in%20Dombivli%2C%20Top%20Cancer%20Treatment%2C%20Hemat-Oncologist%20%7C%20ICTC!5e1!3m2!1sen!2sin!4v1767515112368!5m2!1sen!2sin",
 
-    address: "Vaibhav Building, Ramnagar, Dombivli East",
+    address: "1st Floor, C wing, Vaibhav Bldg, opp. Kasturi Plaza, next to Modern pride hotel, Krishna Radha Society, Dombivli East, Dombivli, Maharashtra 421201",
 
-    timing: "Mon – Sat 9:00 a.m. to 7:00 p.m.",
+    timing: "Mon – Sat 9:00 a.m. to 9:00 p.m.",
 
     heroBg,
 
@@ -146,9 +146,9 @@ const centerData = {
     mapEmbed:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3413.097349783561!2d72.85946797466435!3d19.037544753179688!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7cf112e225555%3A0xe06806556362a1c1!2sDr.%20Rohit%20Pai%20%7C%20ICTC%2C%20Sion%20%7C%20Cancer%20Specialist%20in%20Sion%20Mumbai%2C%20Best%20Oncologist%20in%20Mumbai%2C%20Hematologist!5e1!3m2!1sen!2sin!4v1767515143953!5m2!1sen!2sin",
 
-    address: "Sion, Mumbai",
+    address: "Rammillan G, Block No.1, Ram Niwas, Plot No.226/227, Shukla Marg, near Guru Tekbahadur Station, Sion East, Mumbai, Maharashtra 400022",
 
-    timing: "Mon – Sat 9:00 a.m. to 7:00 p.m.",
+    timing: "Mon – Sat 9:00 a.m. to 9:00 p.m.",
 
     heroBg,
 
@@ -176,9 +176,9 @@ const centerData = {
     mapEmbed:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3413.5202766536772!2d72.82636857466377!3d19.0169588538245!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7cf005a0bf0e3%3A0x1292cb1e39e131c5!2sDr%20Viraj%20Nevrekar%20-%20Best%20Cancer%20Specialist%20in%20Mumbai%2C%20Oncologist%20in%20Dadar%20%7C%20ICTC%20Dadar!5e1!3m2!1sen!2sin!4v1767515175555!5m2!1sen!2sin",
 
-    address: "Dadar, Mumbai",
+    address: "Ground Floor, PRABHADEVI INDUSTRIAL ESTATE, Unit No. 10, 19/21, Swatantryaveer Savarkar Rd, opp. Siddhivinayak Temple, Prabhadevi, Mumbai, Maharashtra 400025",
 
-    timing: "Mon – Sat 9:00 a.m. to 7:00 p.m.",
+    timing: "Mon – Sat 9:00 a.m. to 9:00 p.m.",
 
     heroBg,
 
@@ -204,8 +204,8 @@ const centerData = {
     mapQuery: "ICTC Cancer Care Centre Goregaon Mumbai",
     mapEmbed:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d218401.40800536098!2d72.66141144915886!3d19.065515444445786!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b767bb650fe3%3A0x8be5e9f8d1667916!2sDr%20Viraj%20Nevrekar%20-%20Best%20Cancer%20Specialist%20in%20Goregaon%2C%20Oncologist%20in%20Goregaon%2C%20Cancer%20Hospital%20%26%20Treatment!5e1!3m2!1sen!2sin!4v1767515244982!5m2!1sen!2sin",
-    address: "Goregaon, Mumbai",
-    timing: "Mon – Sat 9:00 a.m. to 7:00 p.m.",
+    address: "Gala - 3, 2nd Floor, Allure 36 SV Road, Goregaon West, Goregaon, Mumbai, Maharashtra 400104",
+    timing: "Mon – Sat 9:00 a.m. to 9:00 p.m.",
     heroBg,
 description: [
   "ICTC Indian Cancer Treatment Centre – Goregaon is a state-of-the-art Day Care Chemotherapy Centre dedicated to delivering advanced, patient-centric oncology services with a strong focus on day-care chemotherapy. Conveniently located in Goregaon, the centre serves patients from Malad, Jogeshwari, Andheri, Oshiwara, Borivali, and surrounding western suburbs of Mumbai, ensuring easy access to high-quality cancer care close to home.",
@@ -232,9 +232,9 @@ description: [
     mapEmbed:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3412.038431756734!2d72.90438177466551!3d19.088993651565527!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c707f2273c3f%3A0x31d18eff35f5fe0a!2sDr.%20Deep%20Vora%20%7C%20Cancer%20Specialist%20in%20Ghatkopar%2C%20Best%20Oncologist%20in%20Ghatkopar%2C%20Top%20Cancer%20Treatment%20%7C%20ICTC%20Ghatkopar!5e1!3m2!1sen!2sin!4v1767515322582!5m2!1sen!2sin",
 
-    address: "Ghatkopar, Mumbai",
+    address: "2nd Floor, Trimurti Arcade, 203A/205, Lal Bahadur Shastri Marg, nr. Sarvodaya Hospital, Gandhi Nagar, Kirti Vihar, Ghatkopar West, Mumbai, Maharashtra 400086",
 
-    timing: "Mon – Sat 9:00 a.m. to 7:00 p.m.",
+    timing: "Mon – Sat 9:00 a.m. to 9:00 p.m.",
 
     heroBg,
 
@@ -262,9 +262,9 @@ description: [
     mapEmbed:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3412.0309507385036!2d72.83512587466552!3d19.08935665155413!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c98168ba27ad%3A0x3ba3b1b97d371202!2sDr%20Shreya%20Gattani%20%7C%20Cancer%20Specialist%20in%20Santacruz%2C%20Best%20Oncologist%20in%20Santacruz%20Mumbai%20-%20ICTC!5e1!3m2!1sen!2sin!4v1767515390936!5m2!1sen!2sin",
 
-    address: "Santacruz, Mumbai",
+    address: "A-Wing, Acme Mall, RIZVI PARK, Unit No. 102/103, near Reliance Digital, Rizvi Nagar, Khira Nagar, Santacruz (West), Mumbai, Maharashtra 400054",
 
-    timing: "Mon – Sat 9:00 a.m. to 7:00 p.m.",
+    timing: "Mon – Sat 9:00 a.m. to 9:00 p.m.",
 
     heroBg,
 
@@ -288,10 +288,9 @@ description: [
     phone: "99208 14622",
 
     mapQuery: "ICTC Cancer Care Centre Chembur Mumbai",
-    mapEmbed:
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3412.3515059166466!2d72.99670582466513!3d19.073796452042792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c12e366befd9%3A0x422a83b108bd2893!2sDr%20Salil%20Patkar%20%2C%20Cancer%20Specialist%20in%20Vashi%20Navi%20Mumbai%2C%20Best%20Oncologist%20in%20Vashi%2C%20Navi%20Mumbai%20Oncologist%20%7C%20ICTC%20Vashi!5e1!3m2!1sen!2sin!4v1767514911613!5m2!1sen!2sin",
-    address: "Chembur, Mumbai",
-    timing: "Mon – Sat 9:00 a.m. to 7:00 p.m.",
+    mapEmbed:"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4473.346593213944!2d72.8877512758059!3d19.05653635258214!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c9000a95dfdb%3A0x2a286683fc41ceda!2sDr%20Deep%20Vora!5e1!3m2!1sen!2sin!4v1769246845893!5m2!1sen!2sin",
+    address: "2nd Floor, Mangal Anand Hospital, Pt CR Vyas Marg, Swastik Park, Chembur, Mumbai, Maharashtra 400071",
+    timing: "Mon – Sat 9:00 a.m. to 9:00 p.m.",
     heroBg,
 
  description: [
