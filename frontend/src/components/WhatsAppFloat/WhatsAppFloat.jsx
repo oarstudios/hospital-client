@@ -13,7 +13,7 @@ const WhatsAppFloat = () => {
 
   return (
     <a
-      href={`https://wa.me/8858855200?text=${message}`}
+      href={`https://wa.me/+918858855200?text=${message}`}
       target="_blank"
       rel="noopener noreferrer"
       className="whatsapp-float"
