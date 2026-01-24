@@ -1,3 +1,5 @@
+/* ================= WHY CHOOSE ICTC ================= */
+
 .why-ictc {
   background: rgba(48, 45, 49, 1);
   padding: 80px 40px;
@@ -8,52 +10,55 @@
   color: rgba(236, 223, 242, 1);
   font-size: 40px;
   font-weight: 700;
-  margin-bottom: 40px;
+  margin-bottom: 48px;
   font-family: "DM Sans", sans-serif;
 }
 
-/* GRID */
+/* ================= GRID ================= */
+
 .why-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 1fr); /* LAPTOP & DESKTOP */
   gap: 24px;
 }
 
-/* CARD */
+/* ================= CARD ================= */
+
 .why-card {
   background: rgba(252, 245, 255, 1);
   border-radius: 24px;
   display: flex;
   flex-direction: column;
-
-  height: 90%;
+  height: 100%; /* key for equal height */
+  overflow: hidden;
 }
 
-/* TEXT */
+/* ================= TEXT ================= */
+
 .why-card-content {
   padding: 28px;
 }
 
 .why-card-content h3 {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
   color: rgba(63, 34, 74, 1);
-  margin-bottom: 16px;
-
-    font-family: "DM Sans", sans-serif;
+  margin-bottom: 12px;
+  font-family: "DM Sans", sans-serif;
 }
 
 .why-card-content p {
   font-size: 14px;
-  font-weight: 400;
   line-height: 1.6;
   color: rgba(48, 45, 49, 1);
-    font-family: "DM Sans", sans-serif;
+  font-family: "DM Sans", sans-serif;
 }
 
-/* IMAGE */
+/* ================= IMAGE ================= */
+
 .why-card-image {
-  margin-top: auto;
+  margin-top: auto; /* pushes image to bottom */
+  height: 180px; /* FIXED image height for alignment */
 }
 
 .why-card-image img {
@@ -64,61 +69,32 @@
   border-bottom-right-radius: 24px;
 }
 
-/* ================= RESPONSIVE WHY CHOOSE ICTC ================= */
+/* ================= RESPONSIVE ================= */
 
-/* Large Laptops & Small Desktops */
-@media (max-width: 1440px) {
+/* Tablets + Large Tablets */
+@media (max-width: 1199px) {
+  .why-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 PER ROW */
+  }
+
   .why-ictc {
-    padding: 72px 32px;
+    padding: 64px 32px;
   }
 
   .why-title {
-    font-size: 36px;
-  }
-
-  .why-card-content h3 {
-    font-size: 22px;
-  }
-}
-
-/* Tablets & Large Tablets */
-@media (max-width: 1199px) {
-  .why-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  
-
-  .why-card-content {
-    padding: 24px;
+    font-size: 34px;
   }
 
   .why-card-content h3 {
     font-size: 20px;
   }
 
-  .why-card-content p {
-    font-size: 14px;
+  .why-card-image {
+    height: 170px;
   }
 }
 
-/* Tablets */
-@media (max-width: 1023px) {
-  .why-ictc {
-    padding: 64px 24px;
-  }
-
-  .why-title {
-    font-size: 32px;
-    margin-bottom: 32px;
-  }
-
-  .why-grid {
-    gap: 20px;
-  }
-}
-
-/* Large Mobile / iPhone / Nothing */
+/* Mobile */
 @media (max-width: 767px) {
   .why-ictc {
     padding: 48px 20px;
@@ -130,8 +106,7 @@
   }
 
   .why-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 16px;
   }
 
   .why-card-content {
@@ -143,48 +118,33 @@
   }
 
   .why-card-content p {
-    font-size: 15px;
+    font-size: 14px;
   }
 
- 
+  .why-card-image {
+    height: 150px;
+  }
 }
 
 /* Small Mobile */
 @media (max-width: 480px) {
-  .why-ictc {
-    padding: 40px 16px;
-  }
-
   .why-title {
     font-size: 24px;
   }
 
   .why-card-content h3 {
-    font-size: 17px;
+    font-size: 15px;
   }
 
-  .why-card-content p {
-    font-size: 14px;
-  }
-
- 
-}
-
-/* Very Small Devices */
-@media (max-width: 360px) {
-  .why-title {
-    font-size: 22px;
-  }
-
-  .why-card-content p {
-    font-size: 13px;
+  .why-card-image {
+    height: 140px;
   }
 }
 
-/* Large Desktop / Wide Screens */
+/* Very Large Screens */
 @media (min-width: 1680px) {
   .why-ictc {
-    padding: 96px 40px;
+    padding: 96px 48px;
   }
 
   .why-title {
@@ -198,5 +158,8 @@
   .why-card-content p {
     font-size: 16px;
   }
-}
 
+  .why-card-image {
+    height: 200px;
+  }
+}

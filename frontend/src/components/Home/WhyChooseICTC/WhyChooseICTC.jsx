@@ -6,26 +6,24 @@ import imgExpertise from "../../../assets/whyUs3.png";
 import imgPatient from "../../../assets/whyUs4.png";
 
 const cards = [
+  
   {
-    title: "Affordable\nCancer Care",
-    text: "We are founded on the principle that high-quality cancer care should be within everyone's reach.",
-    image: imgAffordable,
-  },
-  {
-    title: "Mumbai's Largest and Most Accessible Cancer Care Chain.",
-    text: "With an extensive network of centres across Mumbai, ICTC brings world-class cancer care closer to you.",
-    image: imgLargest,
-  },
-  {
-    title: "Unmatched Expertise from Premier Institutions.",
-    text: "Our team is led by distinguished oncologists with training and experience from India's top institutions.",
-    image: imgExpertise,
-  },
-  {
-    title: "Patient-Centric Care.",
-    text: "We go beyond just medical treatment, providing complete patient support including diagnostics, chemotherapy, counselling, and nutritional advice.",
-    image: imgPatient,
-  },
+  title: "Mumbai’s Largest Accessible Cancer Care",
+  image: imgLargest,
+},
+{
+  title: "Unmatched Expertise From Premier Institutions",
+  image: imgExpertise,
+},
+{
+  title: "Affordable And Compassionate Cancer Care",
+  image: imgAffordable,
+},
+{
+  title: "Patient Centric And Holistic Care",
+  image: imgPatient,
+},
+
 ];
 
 const WhyChooseICTC = () => {
