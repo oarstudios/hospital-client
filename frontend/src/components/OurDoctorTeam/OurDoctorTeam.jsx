@@ -74,7 +74,14 @@ const OurDoctorTeam = () => {
             {/* CONTENT */}
             <div className="doctor-content">
               <h3>{doc.name}</h3>
-              <p>{doc.qualification}</p>
+          <p className="doctor-qualification">
+  {doc.qualification.split(",").map((item, index) => (
+    <span key={index}>
+      {item.trim()}
+      <br />
+    </span>
+  ))}
+</p>
             </div>
 
             {/* TAG */}

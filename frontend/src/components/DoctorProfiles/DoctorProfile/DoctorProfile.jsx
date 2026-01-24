@@ -42,7 +42,12 @@ const DoctorProfile = () => {
             <h2 className="doctor-card__name">{doctor.name}</h2>
             <p className="doctor-card__designation">{doctor.designation}</p>
             <p className="doctor-card__qualification">
-              {doctor.qualification}
+             {doctor.qualification.split(",").map((item, index) => (
+    <span key={index}>
+      {item.trim()}
+      <br />
+    </span>
+  ))}
             </p>
 
             <div className="doctor-card__rating">
