@@ -1,4 +1,4 @@
-import { useEffect, useState} from "react";
+import { useEffect, useState, useRef } from "react";
 import "./CancerDetails.css";
 import MeetOurExperts from "../Home/MeetOurExperts/MeetOurExperts";
 import { useParams } from "react-router-dom";
@@ -66,7 +66,7 @@ const CancerDetails = () => {
   const { slug } = useParams();
   const data = cancerData[slug];
 
-
+  const tabsRef = useRef(null);
 
   const [activeTab, setActiveTab] = useState(() => {
     const savedTab = localStorage.getItem("ictc-active-tab");
@@ -85,19 +85,13 @@ const CancerDetails = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  /* Reset tab if slug changes and saved tab is invalid */
+  /* Reset tab on slug change */
   useEffect(() => {
     const savedTab = localStorage.getItem("ictc-active-tab");
     if (!TABS.includes(savedTab)) {
-      // Defer state update to avoid cascading renders
-      Promise.resolve().then(() => {
-        setActiveTab("Overview");
-        localStorage.setItem("ictc-active-tab", "Overview");
-      });
+      localStorage.setItem("ictc-active-tab", "Overview");
     }
   }, [slug]);
-
- 
 
   if (!data) {
     return (
@@ -113,7 +107,6 @@ const CancerDetails = () => {
   return (
     <>
       <section className="ictc-cancer-details">
-
         {/* INTRO */}
         <div className="ictc-cancer-intro-block">
           <h1 className="ictc-cancer-title">{data.Name}</h1>
@@ -122,8 +115,9 @@ const CancerDetails = () => {
           )}
         </div>
 
-        {/* STICKY BAR */}
+        {/* STICKY TABS */}
         <div
+          ref={tabsRef}
           className={`ictc-cancer-sticky-bar ${
             isScrolled ? "scrolled" : ""
           }`}
@@ -138,6 +132,20 @@ const CancerDetails = () => {
                 onClick={() => {
                   setActiveTab(tab);
                   localStorage.setItem("ictc-active-tab", tab);
+
+                  // ✅ Scroll ONLY on tab click
+                  if (tabsRef.current) {
+                    const offset = 100; // header height
+                    const top =
+                      tabsRef.current.getBoundingClientRect().top +
+                      window.pageYOffset -
+                      offset;
+
+                    window.scrollTo({
+                      top,
+                      behavior: "smooth",
+                    });
+                  }
                 }}
               >
                 {tab}
@@ -147,11 +155,7 @@ const CancerDetails = () => {
         </div>
 
         {/* TAB CONTENT */}
-        <article
-   
-          className="ictc-cancer-content"
-        >
-
+        <article className="ictc-cancer-content">
           {activeTab === "Overview" && (
             <>
               <h2>Overview</h2>
@@ -205,7 +209,6 @@ const CancerDetails = () => {
               ))}
             </>
           )}
-
         </article>
       </section>
 
