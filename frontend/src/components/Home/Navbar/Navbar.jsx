@@ -238,7 +238,8 @@ const Navbar = () => {
             <div className="column">
               {cancers.slice(0, 4).map(([slug, cancer]) => (
                 <p key={slug} onClick={() => handleNavigate(`/cancer/${slug}`)}>
-                  {cancer.name}
+               {cancer.name || cancer.Name}
+
                 </p>
               ))}
             </div>
@@ -246,7 +247,8 @@ const Navbar = () => {
             <div className="column">
               {cancers.slice(4).map(([slug, cancer]) => (
                 <p key={slug} onClick={() => handleNavigate(`/cancer/${slug}`)}>
-                  {cancer.name}
+               {cancer.name || cancer.Name}
+
                 </p>
               ))}
             </div>
