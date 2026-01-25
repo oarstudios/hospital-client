@@ -1,7 +1,11 @@
 import "./Footer.css";
 import logo from "../../../assets/ICTC_Logo(long).png";
 import { Link } from "react-router-dom";
+
+/* DATA */
 import centerData from "../../../data/centerData";
+import serviceData from "../../../data/serviceData";
+import cancerData from "../../../data/cancerData";
 
 /* ICONS */
 import {
@@ -12,29 +16,19 @@ import {
   FaXTwitter,
 } from "react-icons/fa6";
 
-/* SAME SLUGS AS NAVBAR & DATA */
-const serviceLinks = [
-  { label: "Chemotherapy", slug: "chemotherapy" },
-  { label: "Immunotherapy", slug: "immunotherapy" },
-  { label: "Cancer Surgery", slug: "cancer-surgery" },
-  { label: "Radiation Therapy", slug: "radiation-therapy" },
-  { label: "Targeted Therapy", slug: "targeted-therapy" },
-  { label: "Bone Marrow Transplant", slug: "bone-marrow-transplant" },
-  { label: "CAR-T Cellular Therapy", slug: "car-t-therapy" },
-];
-
-const cancerLinks = [
-  { label: "Breast Cancer", slug: "breast-cancer" },
-  { label: "Lung Cancer", slug: "lung-cancer" },
-  { label: "Blood Cancer", slug: "blood-cancer" },
-  { label: "Brain Cancer", slug: "brain-cancer" },
-  { label: "Gastrointestinal Cancer", slug: "gastrointestinal-cancer" },
-  { label: "Gynecological Cancer", slug: "gynecological-cancer" },
-  { label: "Urological Cancer", slug: "urological-cancer" },
-  { label: "Bone & Soft Tissue Cancer", slug: "bone-soft-tissue-cancer" },
-];
-
 const Footer = () => {
+  /* 🔹 DYNAMIC SERVICES */
+  const services = Object.entries(serviceData).map(([slug, service]) => ({
+    slug,
+    label: service.name,
+  }));
+
+  /* 🔹 DYNAMIC CANCERS */
+  const cancers = Object.entries(cancerData).map(([slug, cancer]) => ({
+    slug,
+    label: cancer.Name || cancer.name,
+  }));
+
   return (
     <footer className="footer">
       <div className="footer-container">
@@ -46,19 +40,39 @@ const Footer = () => {
 
           {/* SOCIAL MEDIA */}
           <div className="footer-social">
-            <a href="https://www.instagram.com/ictcfightscancer/" target="_blank" rel="noreferrer">
+            <a
+              href="https://www.instagram.com/ictcfightscancer/"
+              target="_blank"
+              rel="noreferrer"
+            >
               <FaInstagram />
             </a>
-            <a href="https://www.facebook.com/ictcfightscancer" target="_blank" rel="noreferrer">
+            <a
+              href="https://www.facebook.com/ictcfightscancer"
+              target="_blank"
+              rel="noreferrer"
+            >
               <FaFacebookF />
             </a>
-            <a href="https://www.linkedin.com/company/ictcfightscancer/" target="_blank" rel="noreferrer">
+            <a
+              href="https://www.linkedin.com/company/ictcfightscancer/"
+              target="_blank"
+              rel="noreferrer"
+            >
               <FaLinkedinIn />
             </a>
-            <a href="https://www.youtube.com/@ictcfightscancer" target="_blank" rel="noreferrer">
+            <a
+              href="https://www.youtube.com/@ictcfightscancer"
+              target="_blank"
+              rel="noreferrer"
+            >
               <FaYoutube />
             </a>
-            <a href="https://x.com/ictcfightcancer" target="_blank" rel="noreferrer">
+            <a
+              href="https://x.com/ictcfightcancer"
+              target="_blank"
+              rel="noreferrer"
+            >
               <FaXTwitter />
             </a>
           </div>
@@ -66,19 +80,25 @@ const Footer = () => {
 
         {/* COLUMNS */}
         <div className="footer-columns">
-          {/* ABOUT */}
+          {/* ABOUT + SERVICES */}
           <div className="footer-col">
             <h4>About Us</h4>
             <ul>
-              <li><Link to="/aboutUs">About ICTC</Link></li>
-              <li><Link to="/ourDoctors">Our Team</Link></li>
+              <li>
+                <Link to="/aboutUs">About ICTC</Link>
+              </li>
+              <li>
+                <Link to="/ourDoctors">Our Team</Link>
+              </li>
             </ul>
 
             <h4 className="mt">Services</h4>
             <ul>
-              {serviceLinks.map((item) => (
+              {services.map((item) => (
                 <li key={item.slug}>
-                  <Link to={`/service/${item.slug}`}>{item.label}</Link>
+                  <Link to={`/service/${item.slug}`}>
+                    {item.label}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -103,9 +123,11 @@ const Footer = () => {
           <div className="footer-col">
             <h4>Cancers We Treat</h4>
             <ul>
-              {cancerLinks.slice(0, 6).map((item) => (
+              {cancers.map((item) => (
                 <li key={item.slug}>
-                  <Link to={`/cancer/${item.slug}`}>{item.label}</Link>
+                  <Link to={`/cancer/${item.slug}`}>
+                    {item.label}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -115,7 +137,9 @@ const Footer = () => {
           <div className="footer-col">
             <h4>Useful Link</h4>
             <ul>
-              <li><Link to="/blog">ICTC Blogs</Link></li>
+              <li>
+                <Link to="/blog">ICTC Blogs</Link>
+              </li>
               <li>ICTC Newsletter</li>
               <li>Privacy Policy</li>
             </ul>
