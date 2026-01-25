@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState} from "react";
 import "./CancerDetails.css";
 import MeetOurExperts from "../Home/MeetOurExperts/MeetOurExperts";
 import { useParams } from "react-router-dom";
@@ -66,10 +66,11 @@ const CancerDetails = () => {
   const { slug } = useParams();
   const data = cancerData[slug];
 
-  const contentRef = useRef(null);
+
 
   const [activeTab, setActiveTab] = useState(() => {
-    return localStorage.getItem("ictc-active-tab") || "Overview";
+    const savedTab = localStorage.getItem("ictc-active-tab");
+    return TABS.includes(savedTab) ? savedTab : "Overview";
   });
 
   const [isScrolled, setIsScrolled] = useState(false);
@@ -84,21 +85,19 @@ const CancerDetails = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  /* Reset tab if slug changes */
+  /* Reset tab if slug changes and saved tab is invalid */
   useEffect(() => {
     const savedTab = localStorage.getItem("ictc-active-tab");
-    setActiveTab(savedTab || "Overview");
-  }, [slug]);
-
-  /* 🔥 Scroll to top on tab change */
-  useEffect(() => {
-    if (contentRef.current) {
-      contentRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
+    if (!TABS.includes(savedTab)) {
+      // Defer state update to avoid cascading renders
+      Promise.resolve().then(() => {
+        setActiveTab("Overview");
+        localStorage.setItem("ictc-active-tab", "Overview");
       });
     }
-  }, [activeTab]);
+  }, [slug]);
+
+ 
 
   if (!data) {
     return (
@@ -149,7 +148,7 @@ const CancerDetails = () => {
 
         {/* TAB CONTENT */}
         <article
-          ref={contentRef}
+   
           className="ictc-cancer-content"
         >
 
