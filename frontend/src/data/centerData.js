@@ -4,11 +4,38 @@ import heroBg from "../assets/Frame 87.png";
 import defaultImg from "../assets/image 5.png";
 
 /* GALLERY */
-import g1 from "../assets/Rectangle 6.png";
-import g2 from "../assets/Rectangle 6.png";
-import g3 from "../assets/Rectangle 6.png";
-import g4 from "../assets/Rectangle 6.png";
-import g5 from "../assets/Rectangle 6.png";
+import p1 from "../assets/p1 (1).webp";
+import p2 from "../assets/p1 (2).webp";
+import p3 from "../assets/p1 (3).webp";
+import p4 from "../assets/p1 (4).webp";
+import p5 from "../assets/p1 (5).webp";
+import p6 from "../assets/p1 (6).webp";
+import p7 from "../assets/p1 (7).webp";
+import p8 from "../assets/p1 (8).webp";
+import p9 from "../assets/p1 (9).webp";
+import p10 from "../assets/p1 (10).webp";
+import p11 from "../assets/p1 (11).webp";
+import p12 from "../assets/p1 (12).webp";
+
+import s1 from "../assets/s1 (1).webp";
+import s2 from "../assets/s1 (2).webp";
+import s3 from "../assets/s1 (3).webp";
+import s4 from "../assets/s1 (4).webp";
+import s5 from "../assets/s1 (5).webp";
+import s6 from "../assets/s1 (6).webp";
+import s7 from "../assets/s1 (7).webp";
+import s8 from "../assets/s1 (8).webp";
+
+import gh1 from "../assets/g1 (1).webp";
+import gh2 from "../assets/g1 (2).webp";
+import gh3 from "../assets/g1 (3).webp";
+import gh4 from "../assets/g1 (4).webp";
+
+/* GALLERY - ALTERNATE IMAGES */
+import g1 from "../assets/p1 (1).webp";
+import g2 from "../assets/p1 (2).webp";
+import g3 from "../assets/p1 (3).webp";
+import g4 from "../assets/p1 (4).webp";
 
 const centerData = {
   /* ===================== VASHI ===================== */
@@ -24,6 +51,8 @@ const centerData = {
     mapQuery: "ICTC Cancer Care Centre Vashi Navi Mumbai",
     mapEmbed:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3412.3515059166466!2d72.99670582466513!3d19.073796452042792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c12e366befd9%3A0x422a83b108bd2893!2sDr%20Salil%20Patkar%20%2C%20Cancer%20Specialist%20in%20Vashi%20Navi%20Mumbai%2C%20Best%20Oncologist%20in%20Vashi%2C%20Navi%20Mumbai%20Oncologist%20%7C%20ICTC%20Vashi!5e1!3m2!1sen!2sin!4v1767514911613!5m2!1sen!2sin",
+    lat: 19.0738,
+lng: 72.9967,
 
     address:
       "47/48 3rd floor, Mahavir Center, above Golden Punjab Restaurant, Sector 17, Vashi, Navi Mumbai, Maharashtra 400703",
@@ -39,7 +68,7 @@ const centerData = {
     ],
 
     image: defaultImg,
-    gallery: [g1, g2, g3, g4, g5],
+    gallery: [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12],
   },
 
   /* ===================== PANVEL ===================== */
@@ -55,6 +84,8 @@ const centerData = {
     mapQuery: "ICTC Cancer Care Centre Panvel Navi Mumbai",
     mapEmbed:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3414.0496613381006!2d73.11214447466304!3d18.991160854631566!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7e94576a0d73b%3A0x36d856b6c2f8066a!2sDr%20Salil%20Patkar%2C%20Cancer%20Specialist%20Panvel%20Navi%20Mumbai%2C%20Oncologist%20in%20Navi%20Mumbai%20%7C%20ICTC!5e1!3m2!1sen!2sin!4v1767515000407!5m2!1sen!2sin",
+lat: 18.9912,
+lng: 73.1121,
 
     address: "Trimurti Hospital, Road, above ketki Hotel, Line Ali, Old Panvel, Panvel, Navi Mumbai, Maharashtra 410206",
 
@@ -85,6 +116,8 @@ const centerData = {
     mapQuery: "ICTC Cancer Care Centre Kalyan West",
     mapEmbed:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13635.221670262083!2d73.11858564253039!3d19.245254470594404!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be795d1b4ecdb4f%3A0x854c3b30dc3b1775!2sDr%20Amit%20Ghanekar%20%7C%20ICTC%2C%20Kalyan%20%7C%20Best%20Oncologist%20in%20Kalyan%2C%20Cancer%20Specialist%2C%20Hemat-Oncologist%20Kalyan!5e1!3m2!1sen!2sin!4v1767515047123!5m2!1sen!2sin",
+lat: 19.2453,
+lng: 73.1186,
 
     address: "G Business Centre, 401-404, Khadakpada Rd, next to Honda showroom, Wayle Nagar, West, Beturkar Pada, Kalyan, Maharashtra 421301",
 
@@ -115,6 +148,8 @@ const centerData = {
     mapQuery: "ICTC Cancer Care Centre Dombivli East",
     mapEmbed:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3409.4320164288247!2d73.08609417715512!3d19.21506470125195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be79593301ee44f%3A0x820a319785e46b87!2sDr%20Amit%20Ghanekar%20Cancer%20Specialist%20in%20Dombivli%2C%20Best%20Oncologist%20in%20Dombivli%2C%20Top%20Cancer%20Treatment%2C%20Hemat-Oncologist%20%7C%20ICTC!5e1!3m2!1sen!2sin!4v1767515112368!5m2!1sen!2sin",
+lat: 19.2151,
+lng: 73.0861,
 
     address: "1st Floor, C wing, Vaibhav Bldg, opp. Kasturi Plaza, next to Modern pride hotel, Krishna Radha Society, Dombivli East, Dombivli, Maharashtra 421201",
 
@@ -145,6 +180,8 @@ const centerData = {
     mapQuery: "ICTC Cancer Care Centre Sion Mumbai",
     mapEmbed:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3413.097349783561!2d72.85946797466435!3d19.037544753179688!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7cf112e225555%3A0xe06806556362a1c1!2sDr.%20Rohit%20Pai%20%7C%20ICTC%2C%20Sion%20%7C%20Cancer%20Specialist%20in%20Sion%20Mumbai%2C%20Best%20Oncologist%20in%20Mumbai%2C%20Hematologist!5e1!3m2!1sen!2sin!4v1767515143953!5m2!1sen!2sin",
+lat: 19.0375,
+lng: 72.8595,
 
     address: "Rammillan G, Block No.1, Ram Niwas, Plot No.226/227, Shukla Marg, near Guru Tekbahadur Station, Sion East, Mumbai, Maharashtra 400022",
 
@@ -175,6 +212,8 @@ const centerData = {
     mapQuery: "ICTC Cancer Care Centre Dadar Mumbai",
     mapEmbed:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3413.5202766536772!2d72.82636857466377!3d19.0169588538245!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7cf005a0bf0e3%3A0x1292cb1e39e131c5!2sDr%20Viraj%20Nevrekar%20-%20Best%20Cancer%20Specialist%20in%20Mumbai%2C%20Oncologist%20in%20Dadar%20%7C%20ICTC%20Dadar!5e1!3m2!1sen!2sin!4v1767515175555!5m2!1sen!2sin",
+lat: 19.0170,
+lng: 72.8264,
 
     address: "Ground Floor, PRABHADEVI INDUSTRIAL ESTATE, Unit No. 10, 19/21, Swatantryaveer Savarkar Rd, opp. Siddhivinayak Temple, Prabhadevi, Mumbai, Maharashtra 400025",
 
@@ -204,7 +243,10 @@ const centerData = {
     mapQuery: "ICTC Cancer Care Centre Goregaon Mumbai",
     mapEmbed:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d218401.40800536098!2d72.66141144915886!3d19.065515444445786!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b767bb650fe3%3A0x8be5e9f8d1667916!2sDr%20Viraj%20Nevrekar%20-%20Best%20Cancer%20Specialist%20in%20Goregaon%2C%20Oncologist%20in%20Goregaon%2C%20Cancer%20Hospital%20%26%20Treatment!5e1!3m2!1sen!2sin!4v1767515244982!5m2!1sen!2sin",
-    address: "Gala - 3, 2nd Floor, Allure 36 SV Road, Goregaon West, Goregaon, Mumbai, Maharashtra 400104",
+    lat: 19.1547,
+lng: 72.8486,
+
+      address: "Gala - 3, 2nd Floor, Allure 36 SV Road, Goregaon West, Goregaon, Mumbai, Maharashtra 400104",
     timing: "Mon – Sat 9:00 a.m. to 9:00 p.m.",
     heroBg,
 description: [
@@ -231,6 +273,8 @@ description: [
     mapQuery: "ICTC Cancer Care Centre Ghatkopar Mumbai",
     mapEmbed:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3412.038431756734!2d72.90438177466551!3d19.088993651565527!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c707f2273c3f%3A0x31d18eff35f5fe0a!2sDr.%20Deep%20Vora%20%7C%20Cancer%20Specialist%20in%20Ghatkopar%2C%20Best%20Oncologist%20in%20Ghatkopar%2C%20Top%20Cancer%20Treatment%20%7C%20ICTC%20Ghatkopar!5e1!3m2!1sen!2sin!4v1767515322582!5m2!1sen!2sin",
+lat: 19.0890,
+lng: 72.9044,
 
     address: "2nd Floor, Trimurti Arcade, 203A/205, Lal Bahadur Shastri Marg, nr. Sarvodaya Hospital, Gandhi Nagar, Kirti Vihar, Ghatkopar West, Mumbai, Maharashtra 400086",
 
@@ -245,7 +289,7 @@ description: [
     ],
 
     image: defaultImg,
-    gallery: [g1, g2, g3],
+    gallery: [gh1, gh2, gh3, gh4],
   },
 
   /* ===================== SANTACRUZ ===================== */
@@ -261,6 +305,8 @@ description: [
     mapQuery: "ICTC Cancer Care Centre Santacruz Mumbai",
     mapEmbed:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3412.0309507385036!2d72.83512587466552!3d19.08935665155413!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c98168ba27ad%3A0x3ba3b1b97d371202!2sDr%20Shreya%20Gattani%20%7C%20Cancer%20Specialist%20in%20Santacruz%2C%20Best%20Oncologist%20in%20Santacruz%20Mumbai%20-%20ICTC!5e1!3m2!1sen!2sin!4v1767515390936!5m2!1sen!2sin",
+lat: 19.0894,
+lng: 72.8351,
 
     address: "A-Wing, Acme Mall, RIZVI PARK, Unit No. 102/103, near Reliance Digital, Rizvi Nagar, Khira Nagar, Santacruz (West), Mumbai, Maharashtra 400054",
 
@@ -275,7 +321,7 @@ description: [
     ],
 
     image: defaultImg,
-    gallery: [g1, g2, g3],
+    gallery: [s1, s2, s3, s4, s5, s6, s7, s8],
   },
 
   /* ===================== CHEMBUR ===================== */
@@ -288,8 +334,12 @@ description: [
     phone: "99208 14622",
 
     mapQuery: "ICTC Cancer Care Centre Chembur Mumbai",
-    mapEmbed:"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4473.346593213944!2d72.8877512758059!3d19.05653635258214!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c9000a95dfdb%3A0x2a286683fc41ceda!2sDr%20Deep%20Vora!5e1!3m2!1sen!2sin!4v1769246845893!5m2!1sen!2sin",
-    address: "2nd Floor, Mangal Anand Hospital, Pt CR Vyas Marg, Swastik Park, Chembur, Mumbai, Maharashtra 400071",
+    
+  mapEmbed:"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4473.346593213944!2d72.8877512758059!3d19.05653635258214!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c9000a95dfdb%3A0x2a286683fc41ceda!2sDr%20Deep%20Vora!5e1!3m2!1sen!2sin!4v1769246845893!5m2!1sen!2sin",
+    lat: 19.0565,
+lng: 72.8878,
+
+  address: "2nd Floor, Mangal Anand Hospital, Pt CR Vyas Marg, Swastik Park, Chembur, Mumbai, Maharashtra 400071",
     timing: "Mon – Sat 9:00 a.m. to 9:00 p.m.",
     heroBg,
 

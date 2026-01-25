@@ -326,3 +326,11 @@
 
 
 
+.dropdown-section-title{
+  margin-top: 12px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(176, 104, 205, 1);
+  cursor: pointer;
+}

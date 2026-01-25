@@ -1551,7 +1551,6 @@ const cancerData = {
   ]
 },
 
-
 };
 
 export default cancerData;

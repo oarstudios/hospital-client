@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./CancerDetails.css";
 import MeetOurExperts from "../Home/MeetOurExperts/MeetOurExperts";
 import { useParams } from "react-router-dom";
@@ -41,10 +41,8 @@ const renderObjectSections = (obj) => {
       <div key={key} className="ictc-section-block">
         <h3>{formatTitle(key)}</h3>
 
-        {/* Array */}
         {Array.isArray(value) && renderList(value)}
 
-        {/* Nested Object */}
         {typeof value === "object" &&
           !Array.isArray(value) &&
           Object.entries(value).map(([subKey, subValue]) => {
@@ -65,11 +63,43 @@ const renderObjectSections = (obj) => {
 /* ---------- COMPONENT ---------- */
 
 const CancerDetails = () => {
-  const [activeTab, setActiveTab] = useState("Overview");
   const { slug } = useParams();
   const data = cancerData[slug];
 
-  /* SAFETY CHECK */
+  const contentRef = useRef(null);
+
+  const [activeTab, setActiveTab] = useState(() => {
+    return localStorage.getItem("ictc-active-tab") || "Overview";
+  });
+
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  /* Sticky bar shadow */
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  /* Reset tab if slug changes */
+  useEffect(() => {
+    const savedTab = localStorage.getItem("ictc-active-tab");
+    setActiveTab(savedTab || "Overview");
+  }, [slug]);
+
+  /* 🔥 Scroll to top on tab change */
+  useEffect(() => {
+    if (contentRef.current) {
+      contentRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [activeTab]);
+
   if (!data) {
     return (
       <section className="ictc-cancer-details">
@@ -84,32 +114,45 @@ const CancerDetails = () => {
   return (
     <>
       <section className="ictc-cancer-details">
-        {/* TITLE */}
-        <h1 className="ictc-cancer-title">{data.Name}</h1>
 
-        {/* INTRODUCTION */}
-        {data.Introduction && (
-          <p className="ictc-cancer-intro">{data.Introduction}</p>
-        )}
+        {/* INTRO */}
+        <div className="ictc-cancer-intro-block">
+          <h1 className="ictc-cancer-title">{data.Name}</h1>
+          {data.Introduction && (
+            <p className="ictc-cancer-intro">{data.Introduction}</p>
+          )}
+        </div>
 
-        {/* TABS */}
-        <nav className="ictc-cancer-tabs">
-          {TABS.map((tab) => (
-            <button
-              key={tab}
-              className={`ictc-cancer-tab ${
-                activeTab === tab ? "active" : ""
-              }`}
-              onClick={() => setActiveTab(tab)}
-            >
-              {tab}
-            </button>
-          ))}
-        </nav>
+        {/* STICKY BAR */}
+        <div
+          className={`ictc-cancer-sticky-bar ${
+            isScrolled ? "scrolled" : ""
+          }`}
+        >
+          <nav className="ictc-cancer-tabs">
+            {TABS.map((tab) => (
+              <button
+                key={tab}
+                className={`ictc-cancer-tab ${
+                  activeTab === tab ? "active" : ""
+                }`}
+                onClick={() => {
+                  setActiveTab(tab);
+                  localStorage.setItem("ictc-active-tab", tab);
+                }}
+              >
+                {tab}
+              </button>
+            ))}
+          </nav>
+        </div>
 
-        {/* CONTENT */}
-        <article className="ictc-cancer-content">
-          {/* OVERVIEW */}
+        {/* TAB CONTENT */}
+        <article
+          ref={contentRef}
+          className="ictc-cancer-content"
+        >
+
           {activeTab === "Overview" && (
             <>
               <h2>Overview</h2>
@@ -117,7 +160,6 @@ const CancerDetails = () => {
             </>
           )}
 
-          {/* RISK FACTORS */}
           {activeTab === "Risk Factors" && (
             <>
               <h2>Risk Factors</h2>
@@ -125,7 +167,6 @@ const CancerDetails = () => {
             </>
           )}
 
-          {/* SYMPTOMS */}
           {activeTab === "Symptoms" && (
             <>
               <h2>Symptoms</h2>
@@ -133,7 +174,6 @@ const CancerDetails = () => {
             </>
           )}
 
-          {/* DIAGNOSIS */}
           {activeTab === "Diagnosis" && (
             <>
               <h2>Diagnosis</h2>
@@ -141,7 +181,6 @@ const CancerDetails = () => {
             </>
           )}
 
-          {/* TREATMENT */}
           {activeTab === "Treatment" && (
             <>
               <h2>Treatment</h2>
@@ -149,7 +188,6 @@ const CancerDetails = () => {
             </>
           )}
 
-          {/* DO'S & DON'TS */}
           {activeTab === "Do’s & Don’ts" && (
             <>
               <h2>Do’s & Don’ts</h2>
@@ -157,7 +195,6 @@ const CancerDetails = () => {
             </>
           )}
 
-          {/* FAQ */}
           {activeTab === "FAQ’s" && (
             <>
               <h2>Frequently Asked Questions</h2>
@@ -169,6 +206,7 @@ const CancerDetails = () => {
               ))}
             </>
           )}
+
         </article>
       </section>
 

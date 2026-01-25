@@ -7,29 +7,8 @@ import arrow from "../../../assets/dropDownIcon.png";
 
 /* 🔹 DATA */
 import centerData from "../../../data/centerData";
-
-/* CANCERS */
-const cancerMenu = [
-  { label: "Breast Cancer", slug: "breast-cancer" },
-  { label: "Lung Cancer", slug: "lung-cancer" },
-  { label: "Blood Cancer", slug: "blood-cancer" },
-  { label: "Brain Cancer", slug: "brain-cancer" },
-  { label: "Gastrointestinal Cancer", slug: "gastrointestinal-cancer" },
-  { label: "Gynecological Cancer", slug: "gynecological-cancer" },
-  { label: "Urological Cancer", slug: "urological-cancer" },
-  { label: "Bone & Soft Tissue Cancer", slug: "bone-soft-tissue-cancer" },
-];
-
-/* SERVICES */
-const serviceMenu = [
-  { label: "Chemotherapy", slug: "chemotherapy" },
-  { label: "Immunotherapy", slug: "immunotherapy" },
-  { label: "Cancer Surgery", slug: "cancer-surgery" },
-  { label: "Radiation Therapy", slug: "radiation-therapy" },
-  { label: "Targeted Therapy", slug: "targeted-therapy" },
-  { label: "Bone Marrow Transplant", slug: "bone-marrow-transplant" },
-  { label: "CAR–T Cellular Therapy", slug: "car-t-therapy" },
-];
+import serviceData from "../../../data/serviceData";
+import cancerData from "../../../data/cancerData";
 
 const Navbar = () => {
   const [activeMenu, setActiveMenu] = useState(null);
@@ -50,8 +29,10 @@ const Navbar = () => {
     setMobileOpen(false);
   };
 
-  /* 🔹 CENTRES ARRAY */
+  /* 🔹 DYNAMIC ARRAYS */
   const centres = Object.values(centerData);
+
+  const cancers = Object.entries(cancerData);
 
   /* 🔹 STICKY NAVBAR */
   useEffect(() => {
@@ -69,9 +50,20 @@ const Navbar = () => {
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () =>
-      document.removeEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const groupedServices = Object.entries(serviceData).reduce(
+    (acc, [slug, service]) => {
+      const category = service.category || "Other Services";
+
+      if (!acc[category]) acc[category] = [];
+      acc[category].push({ slug, name: service.name });
+
+      return acc;
+    },
+    {},
+  );
 
   return (
     <>
@@ -80,8 +72,7 @@ const Navbar = () => {
       {/* TOP BAR */}
       <div className="top-bar">
         <span>
-          Mail Us at:{" "}
-          <a href="mailto:info@ictconco.org">info@ictconco.org</a>
+          Mail Us at: <a href="mailto:info@ictconco.org">info@ictconco.org</a>
         </span>
 
         <span>
@@ -93,10 +84,7 @@ const Navbar = () => {
       </div>
 
       {/* NAVBAR */}
-      <div
-        className={`navbar-wrapper ${sticky ? "sticky" : ""}`}
-        ref={navRef}
-      >
+      <div className={`navbar-wrapper ${sticky ? "sticky" : ""}`} ref={navRef}>
         <nav className="navbar">
           {/* LOGO */}
           <div
@@ -123,9 +111,7 @@ const Navbar = () => {
               CANCER TYPES <img src={arrow} />
             </li>
 
-            <li onClick={() => handleNavigate("/ourDoctors")}>
-              ONCOLOGIST
-            </li>
+            <li onClick={() => handleNavigate("/ourDoctors")}>ONCOLOGIST</li>
 
             <li onClick={() => handleNavigate("/blog")}>BLOGS</li>
           </ul>
@@ -160,9 +146,7 @@ const Navbar = () => {
             <li onClick={() => toggleMenu("services")}>Services</li>
             <li onClick={() => toggleMenu("centres")}>Our Centre</li>
             <li onClick={() => toggleMenu("cancer")}>Cancer Types</li>
-            <li onClick={() => handleNavigate("/ourDoctors")}>
-              Oncologist
-            </li>
+            <li onClick={() => handleNavigate("/ourDoctors")}>Oncologist</li>
             <li onClick={() => handleNavigate("/blog")}>Blogs</li>
 
             <button
@@ -175,39 +159,36 @@ const Navbar = () => {
         </div>
 
         {/* SERVICES DROPDOWN */}
-        {activeMenu === "services" && (
-          <MegaDropdown
-            heading="SERVICES"
-            headingRoute="/AllService"
-            onNavigate={handleNavigate}
-          >
-            <div className="column">
-              {serviceMenu.slice(0, 4).map((item) => (
-                <p
-                  key={item.slug}
-                  onClick={() =>
-                    handleNavigate(`/service/${item.slug}`)
-                  }
-                >
-                  {item.label}
-                </p>
-              ))}
-            </div>
+     
+{activeMenu === "services" && (
+  <MegaDropdown
+    heading="SERVICES"
+    headingRoute="/AllService"
+    onNavigate={handleNavigate}
+  >
+    {Object.entries(groupedServices).map(([section, items]) => (
+      <div className="column" key={section}>
+        {/* SECTION HEADING */}
+        <h4 className="dropdown-section-title">
+          {section}
+        </h4>
 
-            <div className="column">
-              {serviceMenu.slice(4).map((item) => (
-                <p
-                  key={item.slug}
-                  onClick={() =>
-                    handleNavigate(`/service/${item.slug}`)
-                  }
-                >
-                  {item.label}
-                </p>
-              ))}
-            </div>
-          </MegaDropdown>
-        )}
+        {/* SECTION ITEMS */}
+        {items.map((item) => (
+          <p
+            key={item.slug}
+            onClick={() =>
+              handleNavigate(`/service/${item.slug}`)
+            }
+          >
+            {item.name}
+          </p>
+        ))}
+      </div>
+    ))}
+  </MegaDropdown>
+)}
+
 
         {/* CENTRES DROPDOWN */}
         {activeMenu === "centres" && (
@@ -224,9 +205,7 @@ const Navbar = () => {
                     {centres.slice(0, mid).map((center) => (
                       <p
                         key={center.slug}
-                        onClick={() =>
-                          handleNavigate(`/centre/${center.slug}`)
-                        }
+                        onClick={() => handleNavigate(`/centre/${center.slug}`)}
                       >
                         {center.name}
                       </p>
@@ -237,9 +216,7 @@ const Navbar = () => {
                     {centres.slice(mid).map((center) => (
                       <p
                         key={center.slug}
-                        onClick={() =>
-                          handleNavigate(`/centre/${center.slug}`)
-                        }
+                        onClick={() => handleNavigate(`/centre/${center.slug}`)}
                       >
                         {center.name}
                       </p>
@@ -259,27 +236,17 @@ const Navbar = () => {
             onNavigate={handleNavigate}
           >
             <div className="column">
-              {cancerMenu.slice(0, 4).map((item) => (
-                <p
-                  key={item.slug}
-                  onClick={() =>
-                    handleNavigate(`/cancer/${item.slug}`)
-                  }
-                >
-                  {item.label}
+              {cancers.slice(0, 4).map(([slug, cancer]) => (
+                <p key={slug} onClick={() => handleNavigate(`/cancer/${slug}`)}>
+                  {cancer.name}
                 </p>
               ))}
             </div>
 
             <div className="column">
-              {cancerMenu.slice(4).map((item) => (
-                <p
-                  key={item.slug}
-                  onClick={() =>
-                    handleNavigate(`/cancer/${item.slug}`)
-                  }
-                >
-                  {item.label}
+              {cancers.slice(4).map(([slug, cancer]) => (
+                <p key={slug} onClick={() => handleNavigate(`/cancer/${slug}`)}>
+                  {cancer.name}
                 </p>
               ))}
             </div>
@@ -291,21 +258,15 @@ const Navbar = () => {
 };
 
 /* MEGA DROPDOWN */
-const MegaDropdown = ({
-  heading,
-  headingRoute,
-  children,
-  onNavigate,
-}) => (
+const MegaDropdown = ({ heading, headingRoute, children, onNavigate }) => (
   <div className="mega-dropdown slide-down">
     <div className="dropdown-grid">
       <div className="dropdown-left">
-        {/* CLICKABLE HEADING */}
         <div
           className="dropdown-heading clickable"
           onClick={() => onNavigate(headingRoute)}
         >
-          {heading} 
+          {heading}
         </div>
 
         <div className="dropdown-content">{children}</div>

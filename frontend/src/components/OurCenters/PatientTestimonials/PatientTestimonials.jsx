@@ -138,7 +138,7 @@ const PatientTestimonials = () => {
       <div className="pt-header">
         <span className="pt-pill">Patient Stories</span>
         <h2>
-          Compassionate Care, <span>Trusted by Families</span>
+          Compassionate Care, <br /><span>Trusted by Families</span>
         </h2>
         <p>
           Honest words from patients and caregivers who experienced care at ICTC
