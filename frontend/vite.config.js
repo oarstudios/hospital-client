@@ -16,6 +16,7 @@ export default defineConfig({
   build: {
     target: ['es2015'],        // iPhone Safari safe
     cssTarget: 'chrome61',     // prevents CSS crash on iOS
+     sourcemap: false,
   },
 
   esbuild: {
