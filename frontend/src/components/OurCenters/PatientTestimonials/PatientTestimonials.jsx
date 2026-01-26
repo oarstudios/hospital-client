@@ -77,11 +77,7 @@ const PatientTestimonials = () => {
   const endX = useRef(0);
 
   const [index, setIndex] = useState(0);
-  const [shuffledTestimonials, setShuffledTestimonials] = useState([]);
-
-  useEffect(() => {
-    setShuffledTestimonials(shuffleArray(testimonials));
-  }, []);
+  const [shuffledTestimonials] = useState(() => shuffleArray(testimonials));
 
   const goNext = () => {
     setIndex((prev) =>
@@ -173,6 +169,22 @@ const PatientTestimonials = () => {
           ))}
         </div>
       </div>
+            {/* NAVIGATION DOTS */}
+      <div className="pt-dots">
+        {shuffledTestimonials.map((_, i) => (
+          <button
+            key={i}
+            className={`pt-dot ${index === i ? "active" : ""}`}
+            onClick={() => {
+              stopAutoSlide();
+              setIndex(i);
+              startAutoSlide();
+            }}
+            aria-label={`Go to testimonial ${i + 1}`}
+          />
+        ))}
+      </div>
+
     </section>
   );
 };

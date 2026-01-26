@@ -131,3 +131,41 @@
   transition: transform 0.6s ease;
 }
 }
+
+/* ========================= */
+/* NAVIGATION DOTS */
+/* ========================= */
+
+.pt-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 40px;
+}
+
+.pt-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #d9cde2;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pt-dot.active {
+  width: 28px;
+  border-radius: 999px;
+  background: #9558ac;
+}
+
+.pt-dot:hover {
+  background: #b58ac9;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .pt-dots {
+    margin-top: 32px;
+  }
+}

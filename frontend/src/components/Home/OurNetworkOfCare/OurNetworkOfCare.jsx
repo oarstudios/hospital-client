@@ -142,7 +142,7 @@ const OurNetworkOfCare = () => {
                     sortedCentres[0].slug && (
                     <span className="nearest-text">
                       {" "}
-                      Nearest
+                      *
                     </span>
                   )}
               </button>

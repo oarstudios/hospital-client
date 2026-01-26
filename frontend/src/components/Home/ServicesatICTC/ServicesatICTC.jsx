@@ -2,15 +2,24 @@ import "./ServicesAtICTC.css";
 import { useNavigate } from "react-router-dom";
 import serviceData from "../../../data/serviceData";
 
+const ALLOWED_CATEGORIES = [
+  "Treatment Modalities",
+  "Diagnostic & Support Services",
+];
+
 const ServicesAtICTC = () => {
   const navigate = useNavigate();
+
+  const filteredServices = Object.entries(serviceData).filter(
+    ([, service]) => ALLOWED_CATEGORIES.includes(service.category)
+  );
 
   return (
     <section className="services-ictc">
       <h2 className="services-title">Services Offered at ICTC</h2>
 
       <div className="services-grid">
-        {Object.entries(serviceData).map(([slug, service]) => (
+        {filteredServices.map(([slug, service]) => (
           <div
             key={slug}
             className="service-card"

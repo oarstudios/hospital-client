@@ -56,7 +56,14 @@ const ExpertsAtICTC = () => {
               </div>
 
               <h3>{doc.name}</h3>
-              <p className="expert-short">{doc.qualification}</p>
+             <p className="expert-short">
+  {doc.qualification.split(",").map((item, index) => (
+    <span key={index}>
+      {item.trim()}
+      <br />
+    </span>
+  ))}
+</p>
 
               <div className="expert-tag">
                 {doc.designation}

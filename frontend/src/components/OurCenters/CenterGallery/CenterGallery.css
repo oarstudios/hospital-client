@@ -110,3 +110,91 @@
     font-size: 28px;
   }
 }
+/* ========================= */
+/* LIGHTBOX MODAL */
+/* ========================= */
+
+.gallery-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.gallery-modal__content {
+  position: relative;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+}
+
+.gallery-modal__image {
+  width: 100%;
+  height: auto;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 16px;
+  background: #000;
+}
+
+/* CLOSE BUTTON */
+.gallery-modal__close {
+  position: absolute;
+  top: -48px;
+  right: 0;
+
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 36px;
+  cursor: pointer;
+}
+
+/* NAV BUTTONS */
+.gallery-modal__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+  background: rgba(0, 0, 0, 0.6);
+  border: none;
+  color: #fff;
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery-modal__nav.left {
+  left: -64px;
+}
+
+.gallery-modal__nav.right {
+  right: -64px;
+}
+
+/* MOBILE ADJUSTMENTS */
+@media (max-width: 768px) {
+  .gallery-modal__nav.left {
+    left: 8px;
+  }
+
+  .gallery-modal__nav.right {
+    right: 8px;
+  }
+
+  .gallery-modal__close {
+    top: -40px;
+    font-size: 32px;
+  }
+}
