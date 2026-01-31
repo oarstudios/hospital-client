@@ -238,7 +238,7 @@ lng: 72.8264,
     fullName: "ICTC Goregaon Centre",
     rating: "4.9",
     reviews: "50+ Ratings",
-    phone: "98712 50784",
+    phone: "93266 02073",
 
     mapQuery: "ICTC Cancer Care Centre Goregaon Mumbai",
     mapEmbed:

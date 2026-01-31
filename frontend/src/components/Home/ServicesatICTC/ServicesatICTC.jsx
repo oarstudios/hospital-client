@@ -35,6 +35,13 @@ const ServicesAtICTC = () => {
           </div>
         ))}
       </div>
+
+      <button
+        className="view-all all-services-btn"
+        onClick={() => navigate("/blog")}
+      >
+        View All <span>→</span>
+      </button>
     </section>
   );
 };

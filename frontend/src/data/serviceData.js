@@ -10,13 +10,8 @@ import immunoHero from "../assets/Immunotherapy.webp";
 import immuno1 from "../assets/px-conversions/immuno1.webp";
 import immuno2 from "../assets/px-conversions/immuno2.webp";
 
-/* ================= CANCER SURGERY ================= */
-// import surgeryHero from "../assets/Cancer Surgery.webp";
-// import surgery1 from "../assets/service1.png";
-// import surgery2 from "../assets/service2.png";
-
 /* ================= RADIATION THERAPY ================= */
-import radiationIcon from "../assets/Ellipse 1 (3).png";
+import radiationIcon from "../assets/Services Icons/Services Icons/Radiation Oncology.webp";
 import radiationHero from "../assets/Radiation Therapy.webp";
 import radiation1 from "../assets/px-conversions/radiation1.webp";
 import radiation2 from "../assets/px-conversions/radiation2.webp";
@@ -39,35 +34,82 @@ import cartHero from "../assets/CART Cell Therapy.webp";
 import cart1 from "../assets/px-conversions/cart 1.webp";
 import cart2 from "../assets/px-conversions/cart 2.webp";
 
-import boneMarrowIcon from "../assets/Ellipse 1 (5).png";
-import boneMarrowHero from "../assets/px-conversions/BMP1.webp";
+import boneMarrowIcon from "../assets/Services Icons/Services Icons/Bone Marrow Procedures.webp";
+import boneMarrowHero from "../assets/Services Images/Services Images/Bone Marrow Procedures.webp";
 import boneMarrow1 from "../assets/px-conversions/BMP1.webp";
 import boneMarrow2 from "../assets/px-conversions/BMP2.webp";
 
-import nutritionIcon from "../assets/Ellipse 1 (1).png";
-import nutritionHero from "../assets/px-conversions/diet1.webp";
+import nutritionIcon from "../assets/Services Icons/Services Icons/Diet & Nutrition.webp";
+import nutritionHero from "../assets/Services Images/Services Images/Diet & Nutrition.webp";
 import nutrition1 from "../assets/px-conversions/diet1.webp";
 import nutrition2 from "../assets/px-conversions/diet2.webp";
 
-import molecularIcon from "../assets/Ellipse 1 (2).png";
-import molecularHero from "../assets/px-conversions/genetic1.webp";
+import molecularIcon from "../assets/Services Icons/Services Icons/Molecular & Genetic Testing.webp";
+import molecularHero from "../assets/Services Images/Services Images/Molecular & Genetic Testing.webp";
 import molecular1 from "../assets/px-conversions/genetic1.webp";
 import molecular2 from "../assets/px-conversions/genetic2.webp";
 
-import hormonalIcon from "../assets/Ellipse 1 (3).png";
+import hormonalIcon from "../assets/Services Icons/Services Icons/Hormonal Therapy.webp";
 import hormonalHero from "../assets/px-conversions/hormon1.webp";
 import hormonal1 from "../assets/px-conversions/hormon1.webp";
 import hormonal2 from "../assets/px-conversions/hormon2.webp";
 
-import palliativeIcon from "../assets/Ellipse 1 (4).png";
-import palliativeHero from "../assets/px-conversions/PainPall1.webp";
+import palliativeIcon from "../assets/Services Icons/Services Icons/Palliative & Supportive Care.webp";
+import palliativeHero from "../assets/Services Images/Services Images/Palliative & Supportive Care.webp";
 import palliative1 from "../assets/px-conversions/PainPall1.webp";
 import palliative2 from "../assets/px-conversions/PainPall2.webp";
 
-import screeningIcon from "../assets/Ellipse 1 (6).png";
-import screeningHero from "../assets/px-conversions/vacc1.webp";
+import screeningIcon from "../assets/Services Icons/Services Icons/Cancer Vaccination & Screening.webp";
+import screeningHero from "../assets/Services Images/Services Images/Cancer Vaccination & Screening.webp";
 import screening1 from "../assets/px-conversions/vacc1.webp";
 import screening2 from "../assets/px-conversions/vacc2.webp";
+
+
+
+
+
+import medicalOncologyIcon from "../assets/Services Icons/Services Icons/Medical Oncology.webp";
+import medicalOncologyHero from "../assets/Services Images/Services Images/Medical Oncology.webp";
+import medicalOncology1 from "../assets/Services Images/Services Images/Medical Oncology1.webp";
+import medicalOncology2 from "../assets/Services Images/Services Images/Medical Oncology2.webp";
+
+
+import surgicalOncologyIcon from "../assets/Services Icons/Services Icons/Surgical Oncology.webp";
+import surgicalOncologyHero from "../assets/Services Images/Services Images/Surgical Oncology.webp";
+import surgicalOncology1 from "../assets/Services Images/Services Images/Surgical Oncology1.webp";
+import surgicalOncology2 from "../assets/Services Images/Services Images/Surgical Oncology2.webp";
+
+import radiationOncologyIcon from "../assets/Services Icons/Services Icons/Radiation Oncology.webp";
+import radiationOncologyHero from "../assets/Services Images/Services Images/Radiation Oncology.webp";
+import radiationOncology1 from "../assets/px-conversions/radiation1.webp";
+import radiationOncology2 from "../assets/px-conversions/radiation2.webp";
+
+import hematoOncologyIcon from "../assets/Services Icons/Services Icons/Hemato-Oncology.webp";
+import hematoOncologyHero from "../assets/Services Images/Services Images/Hemato-Oncology.webp";
+import hematoOncology1 from "../assets/Services Images/Services Images/Hemato-Oncology1.webp";
+import hematoOncology2 from "../assets/Services Images/Services Images/Hemato-Oncology2.webp";
+
+import pediatricOncologyIcon from "../assets/Services Icons/Services Icons/Pediatric Oncology.webp";
+import pediatricOncologyHero from "../assets/Services Images/Services Images/Pediatric Oncology.webp";
+import pediatricOncology1 from "../assets/Services Images/Services Images/Pediatric Oncology1.webp";
+import pediatricOncology2 from "../assets/Services Images/Services Images/Pediatric Oncology2.webp";
+
+import pharmacyIcon from "../assets/Services Icons/Services Icons/ICTC Pharmacy.webp";
+import pharmacyHero from "../assets/Services Images/Services Images/ICTC Pharmacy.webp";
+import pharmacy1 from "../assets/Services Images/Services Images/ICTC Pharmacy.webp";
+import pharmacy2 from "../assets/Services Images/Services Images/ICTC Pharmacy.webp";
+
+import deaddictionIcon from "../assets/Services Icons/Services Icons/ICTC Tobacco & Alcohol De-Addiction Centre.webp";
+import deaddictionHero from "../assets/Services Images/Services Images/ICTC Tobacco & Alcohol De-Addiction Centre.webp";
+import deaddiction1 from "../assets/Services Images/Services Images/ICTC Tobacco & Alcohol De-Addiction Centre1.webp";
+import deaddiction2 from "../assets/Services Images/Services Images/ICTC Tobacco & Alcohol De-Addiction Centre2.webp";
+
+import scalpCoolingIcon from "../assets/Services Icons/Services Icons/Scalp Cooling (Anti Hair fall).webp";
+import scalpCoolingHero from "../assets/Services Images/Services Images/Scalp Cooling (Anti Hair fall).webp";
+import scalpCooling1 from "../assets/Services Images/Services Images/scalp cooling1.webp";
+import scalpCooling2 from "../assets/Services Images/Services Images/scalp cooling2.webp";
+
+
 
 const serviceData = {
   "chemotherapy": {
@@ -1899,1421 +1941,1267 @@ const serviceData = {
 
 
 
+
+
+
+
   
 
-  // "medical-oncology": {
-  //   name: "Medical Oncology",
-  // category: "Core Oncology Services",
-  //   heroTitle: "Medical Oncology At ICTC",
-
-  //   heroImage: medicalOncologyHero,
-  //   contentImages: [medicalOncology1, medicalOncology2],
-
-  //   introduction:
-  //     "Medical oncology is a core branch of cancer care that focuses on treating cancer using medicines. These treatments travel throughout the body to target cancer cells wherever they may be present. Medical oncologists design personalized treatment plans using chemotherapy, immunotherapy, targeted therapy, hormonal therapy, and supportive medications based on cancer type, stage, and molecular profile.",
-
-  //   overview: [
-  //     "Medical oncology treats cancer using systemic therapies.",
-  //     "Treatment plans are customized for each patient.",
-  //     "It plays a role in early, advanced, and metastatic cancers.",
-  //     "Medical oncology works closely with surgical and radiation oncology.",
-  //     "Ongoing monitoring ensures treatment effectiveness and safety."
-  //   ],
-
-  //   roleOfMedicalOncologist: [
-  //     "Diagnoses and stages cancer in collaboration with other specialists.",
-  //     "Creates individualized treatment plans.",
-  //     "Administers cancer-fighting medications.",
-  //     "Manages treatment-related side effects.",
-  //     "Provides long-term follow-up and survivorship care."
-  //   ],
-
-  //   treatmentModalities: {
-  //     Chemotherapy: [
-  //       "Uses drugs to destroy rapidly dividing cancer cells.",
-  //       "May be given before surgery (neoadjuvant) or after surgery (adjuvant).",
-  //       "Can be curative or palliative depending on cancer stage."
-  //     ],
-  //     Immunotherapy: [
-  //       "Stimulates the immune system to recognize and attack cancer cells.",
-  //       "Used in selected cancers based on biomarkers.",
-  //       "May provide long-lasting responses in some patients."
-  //     ],
-  //     TargetedTherapy: [
-  //       "Targets specific genetic or molecular abnormalities in cancer cells.",
-  //       "Requires molecular or genetic testing.",
-  //       "Often causes fewer side effects than traditional chemotherapy."
-  //     ],
-  //     HormonalTherapy: [
-  //       "Blocks or reduces hormones that fuel certain cancers.",
-  //       "Commonly used in breast and prostate cancers.",
-  //       "Often taken over long periods."
-  //     ],
-  //     SupportiveMedications: [
-  //       "Prevent nausea, infections, and anemia.",
-  //       "Help patients tolerate cancer treatment better.",
-  //       "Improve overall quality of life during therapy."
-  //     ]
-  //   },
-
-  //   cancersTreated: {
-  //     Overview: [
-  //       "Medical oncology treats most solid tumors and blood cancers.",
-  //       "Therapy selection depends on cancer biology and patient health."
-  //     ],
-  //     Examples: [
-  //       "Breast Cancer",
-  //       "Lung Cancer",
-  //       "Colorectal Cancer",
-  //       "Head And Neck Cancer",
-  //       "Ovarian Cancer",
-  //       "Prostate Cancer",
-  //       "Leukemia",
-  //       "Lymphoma",
-  //       "Multiple Myeloma"
-  //     ]
-  //   },
-
-  //   treatmentPlanning: {
-  //     Assessment: [
-  //       "Detailed medical history and physical examination.",
-  //       "Imaging studies and pathology review.",
-  //       "Molecular and genetic testing when required."
-  //     ],
-  //     Personalization: [
-  //       "Treatment selected based on cancer type and stage.",
-  //       "Patient age, fitness, and preferences are considered.",
-  //       "Multidisciplinary tumor board discussions guide decisions."
-  //     ]
-  //   },
-
-  //   methodsOfAdministration: {
-  //     IntravenousTherapy: [
-  //       "Drugs administered through IV infusion.",
-  //       "Given in chemotherapy day-care units.",
-  //       "Duration varies from minutes to several hours."
-  //     ],
-  //     OralTherapy: [
-  //       "Tablets or capsules taken at home.",
-  //       "Requires strict adherence to dosage schedules.",
-  //       "Regular follow-up ensures safety and effectiveness."
-  //     ],
-  //     Injections: [
-  //       "Some drugs are given as subcutaneous or intramuscular injections.",
-  //       "May be administered weekly or monthly."
-  //     ]
-  //   },
-
-  //   sideEffectsManagement: {
-  //     CommonSideEffects: [
-  //       "Nausea And Vomiting",
-  //       "Hair Loss",
-  //       "Fatigue",
-  //       "Low Blood Counts",
-  //       "Infections",
-  //       "Appetite Changes"
-  //     ],
-  //     ManagementApproach: [
-  //       "Preventive medications are given before treatment.",
-  //       "Dose adjustments when required.",
-  //       "Supportive care and counseling are provided."
-  //     ]
-  //   },
-
-  //   benefits: [
-  //     "Treats cancer throughout the body.",
-  //     "Improves survival and disease control.",
-  //     "Can shrink tumors and relieve symptoms.",
-  //     "Allows combination with surgery and radiation.",
-  //     "Supports long-term cancer management."
-  //   ],
-
-  //   limitations: [
-  //     "Side effects may occur depending on treatment type.",
-  //     "Some cancers may develop resistance to drugs.",
-  //     "Requires regular monitoring and follow-ups."
-  //   ],
-
-  //   postTreatmentCare: [
-  //     "Regular follow-up visits and imaging.",
-  //     "Monitoring for long-term side effects.",
-  //     "Survivorship care and lifestyle guidance."
-  //   ],
-
-  //   dosAndDonts: {
-  //     Dos: [
-  //       "Follow Treatment Schedule Strictly",
-  //       "Report Side Effects Early",
-  //       "Maintain Proper Nutrition And Hydration",
-  //       "Attend All Follow-Up Appointments"
-  //     ],
-  //     Donts: [
-  //       "Do Not Skip Medications Without Advice",
-  //       "Avoid Self-Medicating",
-  //       "Do Not Ignore New Symptoms"
-  //     ]
-  //   },
-
-  //   faqs: [
-  //     {
-  //       question: "Is Medical Oncology Only Chemotherapy?",
-  //       answer:
-  //         "No, medical oncology includes chemotherapy, immunotherapy, targeted therapy, hormonal therapy, and supportive medications."
-  //     },
-  //     {
-  //       question: "How Is Treatment Effectiveness Monitored?",
-  //       answer:
-  //         "Doctors monitor response through scans, blood tests, physical examinations, and symptom improvement."
-  //     }
-  //   ]
-  // },
-
-  // "surgical-oncology": {
-  //   name: "Surgical Oncology",
-  // category: "Core Oncology Services",
-  //   heroTitle: "Surgical Oncology At ICTC",
-
-  //   heroImage: surgicalOncologyHero,
-  //   contentImages: [surgicalOncology1, surgicalOncology2],
-
-  //   introduction:
-  //     "Surgical oncology is a core cancer treatment specialty focused on the diagnosis, staging, and removal of cancer through surgery. It plays a critical role in early-stage cancers, helps relieve symptoms in advanced disease, and is often combined with chemotherapy, radiation therapy, or other treatments for optimal outcomes.",
-
-  //   overview: [
-  //     "Surgical oncology involves removal of tumors and surrounding tissues.",
-  //     "It is used for diagnosis, staging, treatment, and symptom relief.",
-  //     "Surgery is often the primary treatment for localized cancers.",
-  //     "Advanced techniques allow precise tumor removal while preserving healthy tissue.",
-  //     "Multidisciplinary planning ensures safe and effective surgical care."
-  //   ],
-
-  //   roleOfSurgicalOncologist: [
-  //     "Confirms cancer diagnosis through biopsy and surgical evaluation.",
-  //     "Determines cancer stage during surgery.",
-  //     "Removes primary tumors and affected lymph nodes.",
-  //     "Performs reconstructive procedures when required.",
-  //     "Collaborates with medical and radiation oncologists for comprehensive care."
-  //   ],
-
-  //   typesOfCancerSurgery: {
-  //     CurativeSurgery: [
-  //       "Aims to completely remove cancer from the body.",
-  //       "Most effective in early-stage cancers.",
-  //       "Often followed by additional therapy to reduce recurrence risk."
-  //     ],
-  //     DebulkingSurgery: [
-  //       "Removes as much tumor as possible when complete removal is not feasible.",
-  //       "Helps improve effectiveness of chemotherapy or radiation therapy.",
-  //       "Commonly used in ovarian and advanced abdominal cancers."
-  //     ],
-  //     PalliativeSurgery: [
-  //       "Relieves symptoms caused by tumors.",
-  //       "Improves comfort and quality of life.",
-  //       "Does not aim to cure cancer."
-  //     ],
-  //     PreventiveSurgery: [
-  //       "Removes tissue at high risk of developing cancer.",
-  //       "Used in patients with inherited cancer risk.",
-  //       "Helps reduce future cancer occurrence."
-  //     ]
-  //   },
-
-  //   surgicalTechniques: {
-  //     OpenSurgery: [
-  //       "Traditional approach with a larger incision.",
-  //       "Used for complex or advanced tumors.",
-  //       "Allows direct access to organs and tissues."
-  //     ],
-  //     MinimallyInvasiveSurgery: [
-  //       "Includes laparoscopic and robotic-assisted surgery.",
-  //       "Uses small incisions and specialized instruments.",
-  //       "Leads to faster recovery and less postoperative pain."
-  //     ],
-  //     ReconstructiveSurgery: [
-  //       "Restores appearance and function after cancer removal.",
-  //       "Common in breast, head, and neck cancers.",
-  //       "Improves physical and emotional well-being."
-  //     ]
-  //   },
-
-  //   cancersTreated: {
-  //     Overview: [
-  //       "Surgical oncology treats a wide range of solid tumors.",
-  //       "Surgery may be used alone or with other treatments."
-  //     ],
-  //     Examples: [
-  //       "Breast Cancer",
-  //       "Head And Neck Cancer",
-  //       "Colorectal Cancer",
-  //       "Lung Cancer",
-  //       "Gastrointestinal Cancers",
-  //       "Gynecological Cancers",
-  //       "Soft Tissue Tumors",
-  //       "Skin Cancer"
-  //     ]
-  //   },
-
-  //   treatmentPlanning: {
-  //     PreSurgicalAssessment: [
-  //       "Detailed clinical evaluation and imaging studies.",
-  //       "Biopsy confirmation of cancer.",
-  //       "Assessment of overall fitness for surgery."
-  //     ],
-  //     MultidisciplinaryApproach: [
-  //       "Tumor board discussions guide surgical decisions.",
-  //       "Coordination with medical and radiation oncology teams.",
-  //       "Personalized treatment planning."
-  //     ]
-  //   },
-
-  //   perioperativeCare: {
-  //     BeforeSurgery: [
-  //       "Pre-anesthesia evaluation and blood tests.",
-  //       "Patient counseling and consent.",
-  //       "Instructions regarding fasting and medications."
-  //     ],
-  //     AfterSurgery: [
-  //       "Pain management and wound care.",
-  //       "Early mobilization and physiotherapy.",
-  //       "Monitoring for complications."
-  //     ]
-  //   },
-
-  //   benefits: [
-  //     "Provides potential cure for early-stage cancers.",
-  //     "Removes bulk of cancer from the body.",
-  //     "Helps relieve cancer-related symptoms.",
-  //     "Allows accurate cancer staging.",
-  //     "Improves effectiveness of additional treatments."
-  //   ],
-
-  //   risksAndLimitations: [
-  //     "Risk of bleeding or infection.",
-  //     "Postoperative pain and recovery time.",
-  //     "Not suitable for all advanced cancers.",
-  //     "May require additional therapies after surgery."
-  //   ],
-
-  //   postTreatmentCare: [
-  //     "Regular follow-up visits and imaging.",
-  //     "Monitoring for recurrence.",
-  //     "Rehabilitation and lifestyle guidance."
-  //   ],
-
-  //   dosAndDonts: {
-  //     Dos: [
-  //       "Follow Pre And Post Surgery Instructions",
-  //       "Maintain Proper Wound Care",
-  //       "Attend Scheduled Follow-Ups",
-  //       "Report Any Unusual Symptoms Early"
-  //     ],
-  //     Donts: [
-  //       "Do Not Ignore Postoperative Pain Or Fever",
-  //       "Avoid Heavy Lifting Without Medical Advice",
-  //       "Do Not Skip Follow-Up Appointments"
-  //     ]
-  //   },
-
-  //   faqs: [
-  //     {
-  //       question: "Is Surgery Always Required For Cancer Treatment?",
-  //       answer:
-  //         "Not all cancers require surgery. Treatment decisions depend on cancer type, stage, and overall patient health."
-  //     },
-  //     {
-  //       question: "How Long Is Recovery After Cancer Surgery?",
-  //       answer:
-  //         "Recovery time varies based on the type of surgery, cancer location, and individual healing capacity."
-  //     }
-  //   ]
-  // },
-
-  // "radiation-oncology": {
-  //   name: "Radiation Oncology",
-  // category: "Core Oncology Services",
-  //   heroTitle: "Radiation Oncology At ICTC",
-
-  //   heroImage: radiationOncologyHero,
-  //   contentImages: [radiationOncology1, radiationOncology2],
-
-  //   introduction:
-  //     "Radiation oncology is a core cancer treatment specialty that uses high-energy radiation to destroy cancer cells and shrink tumors. Radiation therapy is a highly targeted treatment that damages the DNA of cancer cells, preventing them from growing and dividing. It may be used alone or in combination with surgery, chemotherapy, immunotherapy, or targeted therapy for effective cancer control.",
-
-  //   overview: [
-  //     "Radiation therapy uses precisely controlled high-energy beams.",
-  //     "It targets cancer cells while sparing surrounding healthy tissue.",
-  //     "Radiation oncology plays a role in both curative and palliative treatment.",
-  //     "Advanced technologies allow accurate tumor targeting.",
-  //     "Treatment plans are personalized for each patient."
-  //   ],
-
-  //   roleOfRadiationOncologist: [
-  //     "Evaluates patients to determine suitability for radiation therapy.",
-  //     "Designs individualized radiation treatment plans.",
-  //     "Determines radiation dose and treatment schedule.",
-  //     "Monitors patient response and side effects.",
-  //     "Coordinates care with medical and surgical oncology teams."
-  //   ],
-
-  //   typesOfRadiationTherapy: {
-  //     ExternalBeamRadiationTherapy: [
-  //       "Radiation delivered from outside the body using a machine.",
-  //       "Most commonly used form of radiation therapy.",
-  //       "Treatments are given over multiple sessions."
-  //     ],
-  //     Brachytherapy: [
-  //       "Radiation source placed inside or near the tumor.",
-  //       "Delivers high radiation doses directly to cancer cells.",
-  //       "Commonly used in cervical, prostate, and head and neck cancers."
-  //     ],
-  //     StereotacticRadiotherapy: [
-  //       "Delivers very high doses of radiation with extreme precision.",
-  //       "Requires fewer treatment sessions.",
-  //       "Used for small, well-defined tumors."
-  //     ]
-  //   },
-
-  //   advancedRadiationTechniques: {
-  //     IMRT: [
-  //       "Intensity-Modulated Radiation Therapy shapes radiation beams.",
-  //       "Reduces exposure to nearby healthy organs.",
-  //       "Improves treatment accuracy and safety."
-  //     ],
-  //     IGRT: [
-  //       "Image-Guided Radiation Therapy uses imaging before each session.",
-  //       "Ensures precise tumor targeting.",
-  //       "Adjusts for daily changes in patient positioning."
-  //     ],
-  //     VMAT: [
-  //       "Volumetric Modulated Arc Therapy delivers radiation in continuous arcs.",
-  //       "Shortens treatment time.",
-  //       "Maintains high precision."
-  //     ]
-  //   },
-
-  //   cancersTreated: {
-  //     Overview: [
-  //       "Radiation oncology treats a wide range of cancers.",
-  //       "It may be used alone or as part of combined treatment."
-  //     ],
-  //     Examples: [
-  //       "Head And Neck Cancer",
-  //       "Breast Cancer",
-  //       "Prostate Cancer",
-  //       "Lung Cancer",
-  //       "Cervical Cancer",
-  //       "Brain Tumors",
-  //       "Rectal Cancer",
-  //       "Esophageal Cancer"
-  //     ]
-  //   },
-
-  //   treatmentPlanning: {
-  //     SimulationAndPlanning: [
-  //       "CT simulation to map tumor location.",
-  //       "Creation of custom immobilization devices.",
-  //       "Advanced software planning for dose accuracy."
-  //     ],
-  //     Personalization: [
-  //       "Dose and schedule based on cancer type and stage.",
-  //       "Consideration of surrounding healthy organs.",
-  //       "Multidisciplinary tumor board input."
-  //     ]
-  //   },
-
-  //   treatmentDelivery: {
-  //     Process: [
-  //       "Treatment is delivered in daily sessions called fractions.",
-  //       "Each session lasts only a few minutes.",
-  //       "Total treatment duration may span several weeks."
-  //     ],
-  //     PatientExperience: [
-  //       "Painless procedure.",
-  //       "Patient lies still during treatment.",
-  //       "No radiation remains in the body after external therapy."
-  //     ]
-  //   },
-
-  //   sideEffects: {
-  //     CommonSideEffects: [
-  //       "Skin Redness Or Irritation",
-  //       "Fatigue",
-  //       "Hair Loss In Treated Area",
-  //       "Mild Swelling",
-  //       "Temporary Discomfort"
-  //     ],
-  //     LongTermEffects: [
-  //       "Tissue Stiffness",
-  //       "Changes In Skin Texture",
-  //       "Rare Organ-Specific Effects"
-  //     ]
-  //   },
-
-  //   benefits: [
-  //     "Highly targeted cancer treatment.",
-  //     "Preserves surrounding healthy tissue.",
-  //     "Effective for both early and advanced cancers.",
-  //     "Can relieve pain and symptoms.",
-  //     "Non-invasive treatment option."
-  //   ],
-
-  //   limitations: [
-  //     "Requires multiple treatment sessions.",
-  //     "Side effects depend on treated area.",
-  //     "Not suitable for all cancer types."
-  //   ],
-
-  //   postTreatmentCare: [
-  //     "Regular follow-up appointments.",
-  //     "Monitoring for delayed side effects.",
-  //     "Supportive care for skin and fatigue management."
-  //   ],
-
-  //   dosAndDonts: {
-  //     Dos: [
-  //       "Follow Radiation Schedule Strictly",
-  //       "Care For Treated Skin As Advised",
-  //       "Maintain Proper Nutrition And Rest",
-  //       "Report Side Effects Early"
-  //     ],
-  //     Donts: [
-  //       "Do Not Skip Radiation Sessions",
-  //       "Avoid Applying Products On Treated Skin Without Advice",
-  //       "Do Not Ignore Persistent Symptoms"
-  //     ]
-  //   },
-
-  //   faqs: [
-  //     {
-  //       question: "Is Radiation Therapy Painful?",
-  //       answer:
-  //         "Radiation therapy itself is painless, though some side effects may develop during or after treatment."
-  //     },
-  //     {
-  //       question: "Will I Be Radioactive After Treatment?",
-  //       answer:
-  //         "No, external beam radiation does not make patients radioactive after treatment."
-  //     }
-  //   ]
-  // },
-
-  // "hemato-oncology": {
-  //   name: "Hemato-Oncology",
-  // category: "Core Oncology Services",
-  //   heroTitle: "Hemato-Oncology At ICTC",
-
-  //   heroImage: hematoOncologyHero,
-  //   contentImages: [hematoOncology1, hematoOncology2],
-
-  //   introduction:
-  //     "Hemato-oncology is a specialized branch of oncology focused on the diagnosis and treatment of cancers and disorders of the blood, bone marrow, and lymphatic system. It includes conditions such as leukemia, lymphoma, and multiple myeloma, as well as certain non-cancerous blood disorders. Hemato-oncologists use advanced diagnostic tools and personalized treatment strategies to manage these complex diseases.",
-
-  //   overview: [
-  //     "Hemato-oncology deals with blood-related cancers and disorders.",
-  //     "These conditions affect bone marrow, blood cells, and lymph nodes.",
-  //     "Treatment often involves systemic therapies rather than surgery.",
-  //     "Care requires long-term monitoring and follow-up.",
-  //     "Multidisciplinary coordination is essential for optimal outcomes."
-  //   ],
-
-  //   roleOfHematoOncologist: [
-  //     "Diagnoses blood cancers and related disorders.",
-  //     "Interprets specialized blood and bone marrow tests.",
-  //     "Designs personalized treatment protocols.",
-  //     "Manages complications such as infections and anemia.",
-  //     "Provides long-term follow-up and survivorship care."
-  //   ],
-
-  //   diseasesTreated: {
-  //     BloodCancers: [
-  //       "Leukemia",
-  //       "Lymphoma",
-  //       "Multiple Myeloma",
-  //       "Myelodysplastic Syndromes",
-  //       "Myeloproliferative Disorders"
-  //     ],
-  //     NonCancerousBloodDisorders: [
-  //       "Aplastic Anemia",
-  //       "Thalassemia",
-  //       "Sickle Cell Disease",
-  //       "Severe Anemia",
-  //       "Immune Thrombocytopenia"
-  //     ]
-  //   },
-
-  //   diagnosticApproach: {
-  //     LaboratoryTests: [
-  //       "Complete blood count and peripheral smear analysis.",
-  //       "Advanced blood chemistry and immunological tests.",
-  //       "Tumor marker and protein studies."
-  //     ],
-  //     BoneMarrowEvaluation: [
-  //       "Bone marrow aspiration and biopsy.",
-  //       "Cytogenetic and molecular analysis.",
-  //       "Assessment of marrow function and disease extent."
-  //     ],
-  //     AdvancedDiagnostics: [
-  //       "Flow cytometry for cell characterization.",
-  //       "Molecular and genetic testing.",
-  //       "Imaging studies for lymph node involvement."
-  //     ]
-  //   },
-
-  //   treatmentModalities: {
-  //     Chemotherapy: [
-  //       "Primary treatment for many blood cancers.",
-  //       "May be given in cycles over several months.",
-  //       "Administered intravenously or orally."
-  //     ],
-  //     Immunotherapy: [
-  //       "Uses the immune system to target abnormal blood cells.",
-  //       "Includes monoclonal antibodies and immune modulators.",
-  //       "Often used in lymphomas and leukemias."
-  //     ],
-  //     TargetedTherapy: [
-  //       "Targets specific genetic or molecular abnormalities.",
-  //       "Requires molecular testing before initiation.",
-  //       "Often better tolerated than conventional chemotherapy."
-  //     ],
-  //     BoneMarrowTransplantation: [
-  //       "Replaces diseased bone marrow with healthy stem cells.",
-  //       "May be autologous or allogeneic.",
-  //       "Offers curative potential in selected patients."
-  //     ],
-  //     SupportiveCare: [
-  //       "Blood transfusions and growth factors.",
-  //       "Infection prevention and management.",
-  //       "Nutritional and psychological support."
-  //     ]
-  //   },
-
-  //   treatmentPlanning: {
-  //     Assessment: [
-  //       "Detailed evaluation of disease type and stage.",
-  //       "Assessment of patient fitness and comorbidities.",
-  //       "Review of molecular and genetic findings."
-  //     ],
-  //     Personalization: [
-  //       "Treatment tailored to disease biology.",
-  //       "Risk stratification guides intensity of therapy.",
-  //       "Regular reassessment during treatment."
-  //     ]
-  //   },
-
-  //   sideEffectsManagement: {
-  //     CommonSideEffects: [
-  //       "Low Blood Counts",
-  //       "Infections",
-  //       "Fatigue",
-  //       "Bleeding Or Bruising",
-  //       "Nausea And Appetite Changes"
-  //     ],
-  //     ManagementApproach: [
-  //       "Preventive antibiotics and growth factors.",
-  //       "Dose modifications when necessary.",
-  //       "Close monitoring and early intervention."
-  //     ]
-  //   },
-
-  //   benefits: [
-  //     "Specialized care for complex blood disorders.",
-  //     "Access to advanced diagnostics and therapies.",
-  //     "Personalized treatment approaches.",
-  //     "Improved survival and disease control.",
-  //     "Comprehensive long-term follow-up."
-  //   ],
-
-  //   limitations: [
-  //     "Treatment duration may be prolonged.",
-  //     "Risk of infections due to low immunity.",
-  //     "Some conditions require lifelong monitoring."
-  //   ],
-
-  //   postTreatmentCare: [
-  //     "Regular blood tests and clinical evaluations.",
-  //     "Monitoring for relapse or late effects.",
-  //     "Vaccinations and infection prevention guidance."
-  //   ],
-
-  //   dosAndDonts: {
-  //     Dos: [
-  //       "Attend All Scheduled Appointments",
-  //       "Report Fever Or Infections Immediately",
-  //       "Maintain Good Hygiene",
-  //       "Follow Medication Instructions Carefully"
-  //     ],
-  //     Donts: [
-  //       "Do Not Ignore Signs Of Infection",
-  //       "Avoid Self-Medicating",
-  //       "Do Not Skip Follow-Up Visits"
-  //     ]
-  //   },
-
-  //   faqs: [
-  //     {
-  //       question: "Are Blood Cancers Curable?",
-  //       answer:
-  //         "Many blood cancers are highly treatable, and some can be cured depending on the type, stage, and response to therapy."
-  //     },
-  //     {
-  //       question: "Is Bone Marrow Transplant Required For All Patients?",
-  //       answer:
-  //         "No, bone marrow transplant is recommended only for selected patients based on disease type and risk factors."
-  //     }
-  //   ]
-  // },
-
-  // "pediatric-oncology": {
-  //   name: "Pediatric Oncology",
-  // category: "Core Oncology Services",
-  //   heroTitle: "Pediatric Oncology At ICTC",
-
-  //   heroImage: pediatricOncologyHero,
-  //   contentImages: [pediatricOncology1, pediatricOncology2],
-
-  //   introduction:
-  //     "Pediatric oncology is a specialized field of cancer care dedicated to diagnosing and treating cancers in infants, children, and adolescents. Childhood cancers differ significantly from adult cancers in biology, behavior, and response to treatment. Pediatric oncology focuses on cure-oriented, age-appropriate, and compassionate care while supporting the child’s physical, emotional, and developmental needs.",
-
-  //   overview: [
-  //     "Childhood cancers are rare but often highly treatable.",
-  //     "Treatment protocols are specifically designed for growing bodies.",
-  //     "Care emphasizes long-term survival and quality of life.",
-  //     "Family-centered care is a key component of pediatric oncology.",
-  //     "Multidisciplinary teams ensure comprehensive treatment and support."
-  //   ],
-
-  //   roleOfPediatricOncologist: [
-  //     "Diagnoses cancer in children and adolescents.",
-  //     "Develops age-appropriate, individualized treatment plans.",
-  //     "Monitors growth, development, and treatment response.",
-  //     "Manages short-term and long-term treatment side effects.",
-  //     "Provides long-term survivorship and follow-up care."
-  //   ],
-
-  //   cancersTreated: {
-  //     Overview: [
-  //       "Pediatric oncology treats both solid tumors and blood cancers.",
-  //       "Cancer types in children differ from those seen in adults."
-  //     ],
-  //     Examples: [
-  //       "Leukemia",
-  //       "Lymphoma",
-  //       "Brain And Spinal Cord Tumors",
-  //       "Neuroblastoma",
-  //       "Wilms Tumor",
-  //       "Bone Tumors",
-  //       "Soft Tissue Sarcomas",
-  //       "Retinoblastoma"
-  //     ]
-  //   },
-
-  //   diagnosticApproach: {
-  //     ClinicalEvaluation: [
-  //       "Detailed medical history and physical examination.",
-  //       "Assessment of growth and developmental milestones.",
-  //       "Evaluation of symptoms such as unexplained fever or weight loss."
-  //     ],
-  //     LaboratoryAndImagingTests: [
-  //       "Blood tests and bone marrow examination.",
-  //       "Imaging studies such as MRI, CT, and ultrasound.",
-  //       "Biopsy for definitive diagnosis."
-  //     ],
-  //     AdvancedDiagnostics: [
-  //       "Molecular and genetic testing.",
-  //       "Risk stratification and staging studies.",
-  //       "Minimal residual disease assessment in select cancers."
-  //     ]
-  //   },
-
-  //   treatmentModalities: {
-  //     Chemotherapy: [
-  //       "Primary treatment for many childhood cancers.",
-  //       "Given in carefully calculated doses.",
-  //       "Administered intravenously or orally."
-  //     ],
-  //     RadiationTherapy: [
-  //       "Used selectively to minimize long-term side effects.",
-  //       "Highly precise techniques protect developing tissues.",
-  //       "Often combined with chemotherapy or surgery."
-  //     ],
-  //     Surgery: [
-  //       "Used to remove solid tumors when feasible.",
-  //       "Performed with focus on organ preservation.",
-  //       "Often part of combined treatment strategies."
-  //     ],
-  //     TargetedAndImmunotherapy: [
-  //       "Used in selected pediatric cancers.",
-  //       "Based on molecular and genetic findings.",
-  //       "May reduce toxicity compared to conventional therapy."
-  //     ],
-  //     BoneMarrowTransplantation: [
-  //       "Used in high-risk or relapsed cancers.",
-  //       "Includes autologous and allogeneic transplants.",
-  //       "Offers curative potential in selected cases."
-  //     ]
-  //   },
-
-  //   supportiveAndPsychosocialCare: {
-  //     ChildSupport: [
-  //       "Pain and symptom management.",
-  //       "Nutritional and developmental support.",
-  //       "Psychological counseling for children."
-  //     ],
-  //     FamilySupport: [
-  //       "Parental counseling and education.",
-  //       "Support for siblings and caregivers.",
-  //       "Guidance for home care and schooling."
-  //     ]
-  //   },
-
-  //   treatmentPlanning: {
-  //     RiskBasedApproach: [
-  //       "Treatment intensity based on disease risk.",
-  //       "Minimizes long-term toxicity when possible.",
-  //       "Regular reassessment during therapy."
-  //     ],
-  //     MultidisciplinaryCare: [
-  //       "Coordination between oncologists, surgeons, and radiologists.",
-  //       "Input from nutritionists, psychologists, and physiotherapists.",
-  //       "Holistic care planning."
-  //     ]
-  //   },
-
-  //   sideEffectsManagement: {
-  //     CommonSideEffects: [
-  //       "Fatigue",
-  //       "Infections",
-  //       "Hair Loss",
-  //       "Nausea And Vomiting",
-  //       "Low Blood Counts"
-  //     ],
-  //     LongTermMonitoring: [
-  //       "Growth and hormonal changes.",
-  //       "Learning or cognitive effects.",
-  //       "Organ function and fertility preservation."
-  //     ]
-  //   },
-
-  //   benefits: [
-  //     "High cure rates for many childhood cancers.",
-  //     "Specialized care tailored for children.",
-  //     "Focus on long-term health and development.",
-  //     "Strong family and psychosocial support.",
-  //     "Comprehensive survivorship care."
-  //   ],
-
-  //   limitations: [
-  //     "Treatment may be intensive and prolonged.",
-  //     "Risk of long-term side effects.",
-  //     "Requires extended follow-up into adulthood."
-  //   ],
-
-  //   survivorshipCare: [
-  //     "Long-term follow-up after treatment completion.",
-  //     "Monitoring for late effects of therapy.",
-  //     "Support for return to school and normal activities."
-  //   ],
-
-  //   dosAndDonts: {
-  //     Dos: [
-  //       "Attend All Scheduled Appointments",
-  //       "Report Fever Or Infections Immediately",
-  //       "Ensure Proper Nutrition And Hydration",
-  //       "Follow Medication And Care Instructions Carefully"
-  //     ],
-  //     Donts: [
-  //       "Do Not Delay Medical Attention For Symptoms",
-  //       "Avoid Exposure To Infections",
-  //       "Do Not Miss Follow-Up Visits"
-  //     ]
-  //   },
-
-  //   faqs: [
-  //     {
-  //       question: "Are Childhood Cancers Curable?",
-  //       answer:
-  //         "Yes, many childhood cancers have high cure rates when diagnosed early and treated with specialized pediatric oncology care."
-  //     },
-  //     {
-  //       question: "Will Cancer Treatment Affect My Child’s Growth?",
-  //       answer:
-  //         "Some treatments may affect growth or development, which is why careful monitoring and long-term follow-up are essential."
-  //     }
-  //   ]
-  // },
-
-  // "ictc-pharmacy": {
-  //   name: "ICTC Pharmacy",
-  // category: "Other Services",
-  //   heroTitle: "ICTC Pharmacy Services",
-
-  //   heroImage: pharmacyHero,
-  //   contentImages: [pharmacy1, pharmacy2],
-
-  //   introduction:
-  //     "The ICTC Pharmacy is an integral part of comprehensive cancer care, providing safe, accurate, and timely access to oncology medications and supportive drugs. It supports patients throughout their cancer journey by ensuring the availability of high-quality medicines, expert guidance, and strict safety standards.",
-
-  //   overview: [
-  //     "ICTC Pharmacy specializes in oncology and supportive care medications.",
-  //     "Ensures safe handling and dispensing of cancer drugs.",
-  //     "Works closely with oncologists and nursing teams.",
-  //     "Maintains strict quality and storage standards.",
-  //     "Supports both inpatient and outpatient cancer care."
-  //   ],
-
-  //   roleOfPharmacy: [
-  //     "Dispenses chemotherapy, targeted therapy, and immunotherapy drugs.",
-  //     "Provides oral cancer medications and supportive medicines.",
-  //     "Ensures correct dosage, labeling, and patient instructions.",
-  //     "Monitors drug interactions and safety.",
-  //     "Supports treatment adherence and continuity of care."
-  //   ],
-
-  //   medicationsAvailable: {
-  //     OncologyMedications: [
-  //       "Chemotherapy Drugs",
-  //       "Targeted Therapy Medications",
-  //       "Immunotherapy Drugs",
-  //       "Hormonal Therapy Medications"
-  //     ],
-  //     SupportiveCareMedications: [
-  //       "Anti-Nausea And Anti-Vomiting Drugs",
-  //       "Pain Management Medications",
-  //       "Growth Factors And Blood Support Drugs",
-  //       "Antibiotics And Infection Control Medications",
-  //       "Nutritional Supplements"
-  //     ]
-  //   },
-
-  //   pharmacyServices: {
-  //     ChemotherapyPreparation: [
-  //       "Safe preparation of chemotherapy drugs.",
-  //       "Use of sterile environments and safety cabinets.",
-  //       "Strict adherence to dosing protocols."
-  //     ],
-  //     OralMedicationCounseling: [
-  //       "Guidance on correct medication usage.",
-  //       "Education on dosage timing and adherence.",
-  //       "Counseling on possible side effects."
-  //     ],
-  //     DrugSafetyAndMonitoring: [
-  //       "Review of prescriptions for accuracy.",
-  //       "Monitoring for drug interactions.",
-  //       "Coordination with oncologists for dose adjustments."
-  //     ]
-  //   },
-
-  //   qualityAndSafety: {
-  //     StorageAndHandling: [
-  //       "Temperature-controlled storage facilities.",
-  //       "Proper segregation of high-risk medications.",
-  //       "Regular stock and quality checks."
-  //     ],
-  //     SafetyProtocols: [
-  //       "Strict infection control measures.",
-  //       "Use of personal protective equipment.",
-  //       "Compliance with national and international pharmacy standards."
-  //     ]
-  //   },
-
-  //   patientSupport: {
-  //     Education: [
-  //       "Clear instructions on medication intake.",
-  //       "Side effect awareness and management tips.",
-  //       "Importance of treatment adherence."
-  //     ],
-  //     Accessibility: [
-  //       "Easy access for both inpatients and outpatients.",
-  //       "Timely availability of prescribed medicines.",
-  //       "Coordination with care teams for refill planning."
-  //     ]
-  //   },
-
-  //   benefits: [
-  //     "Ensures uninterrupted cancer treatment.",
-  //     "Improves medication safety and accuracy.",
-  //     "Provides expert pharmaceutical guidance.",
-  //     "Enhances patient confidence and adherence.",
-  //     "Supports overall treatment effectiveness."
-  //   ],
-
-  //   limitations: [
-  //     "Certain specialized drugs may require prior ordering.",
-  //     "Availability depends on prescription and treatment plan."
-  //   ],
-
-  //   dosAndDonts: {
-  //     Dos: [
-  //       "Take Medications Exactly As Prescribed",
-  //       "Store Medicines As Advised",
-  //       "Inform Pharmacist About Other Medications",
-  //       "Report Any Side Effects Promptly"
-  //     ],
-  //     Donts: [
-  //       "Do Not Skip Or Alter Dosages Without Advice",
-  //       "Avoid Sharing Medications With Others",
-  //       "Do Not Store Medicines Improperly"
-  //     ]
-  //   },
-
-  //   faqs: [
-  //     {
-  //       question: "Can I Get All Cancer Medicines At ICTC Pharmacy?",
-  //       answer:
-  //         "ICTC Pharmacy provides a wide range of oncology and supportive care medications. Availability of specific drugs depends on your treatment plan and prescription."
-  //     },
-  //     {
-  //       question: "Will I Receive Guidance On How To Take My Medicines?",
-  //       answer:
-  //         "Yes, trained pharmacy staff provide detailed counseling on medication usage, side effects, and safety."
-  //     }
-  //   ]
-  // },
-
-  // "tobacco-alcohol-deaddiction": {
-  //   name: "ICTC Tobacco & Alcohol De-Addiction Centre",
-  // category: "Other Services",
-  //   heroTitle: "Tobacco & Alcohol De-Addiction Centre At ICTC",
-
-  //   heroImage: deaddictionHero,
-  //   contentImages: [deaddiction1, deaddiction2],
-
-  //   introduction:
-  //     "The ICTC Tobacco & Alcohol De-Addiction Centre is dedicated to helping individuals overcome addiction to tobacco and alcohol through structured medical, psychological, and behavioral support. These substances are major risk factors for several cancers and chronic diseases. The centre focuses on prevention, cessation, and long-term recovery to improve overall health and reduce cancer risk.",
-
-  //   overview: [
-  //     "Tobacco and alcohol use are leading preventable causes of cancer.",
-  //     "Addiction is a medical condition that requires professional care.",
-  //     "Early cessation significantly reduces cancer and health risks.",
-  //     "De-addiction programs are personalized for each individual.",
-  //     "Support continues beyond quitting to prevent relapse."
-  //   ],
-
-  //   servicesOffered: {
-  //     TobaccoCessation: [
-  //       "Smoking and smokeless tobacco cessation programs.",
-  //       "Assessment of nicotine dependence.",
-  //       "Structured quit plans with medical support."
-  //     ],
-  //     AlcoholDeAddiction: [
-  //       "Assessment of alcohol dependence severity.",
-  //       "Medically supervised withdrawal when required.",
-  //       "Long-term relapse prevention strategies."
-  //     ]
-  //   },
-
-  //   treatmentApproach: {
-  //     MedicalManagement: [
-  //       "Medications to reduce cravings and withdrawal symptoms.",
-  //       "Management of physical health complications.",
-  //       "Regular medical monitoring."
-  //     ],
-  //     BehavioralTherapy: [
-  //       "Individual counseling sessions.",
-  //       "Cognitive behavioral therapy for habit change.",
-  //       "Motivational interviewing techniques."
-  //     ],
-  //     PsychologicalSupport: [
-  //       "Stress and anxiety management.",
-  //       "Support for depression and emotional triggers.",
-  //       "Family involvement when appropriate."
-  //     ]
-  //   },
-
-  //   cancersAndHealthRisksReduced: {
-  //     Overview: [
-  //       "Cessation lowers the risk of multiple cancers and chronic illnesses.",
-  //       "Benefits increase with sustained abstinence."
-  //     ],
-  //     Examples: [
-  //       "Oral And Throat Cancer",
-  //       "Lung Cancer",
-  //       "Esophageal Cancer",
-  //       "Liver Cancer",
-  //       "Pancreatic Cancer",
-  //       "Heart And Lung Diseases"
-  //     ]
-  //   },
-
-  //   whoCanBenefit: [
-  //     "Individuals using tobacco in any form.",
-  //     "People with harmful or dependent alcohol use.",
-  //     "Cancer patients advised to stop substance use.",
-  //     "Individuals with family history of cancer.",
-  //     "Those seeking preventive healthcare."
-  //   ],
-
-  //   benefits: [
-  //     "Reduces cancer risk and improves treatment outcomes.",
-  //     "Improves overall physical and mental health.",
-  //     "Enhances quality of life and longevity.",
-  //     "Provides professional and confidential support.",
-  //     "Encourages long-term healthy lifestyle changes."
-  //   ],
-
-  //   challengesAndLimitations: [
-  //     "Relapse risk exists without continued support.",
-  //     "Behavioral change requires motivation and commitment.",
-  //     "Multiple sessions may be needed for sustained success."
-  //   ],
-
-  //   programStructure: {
-  //     AssessmentPhase: [
-  //       "Detailed addiction and medical history.",
-  //       "Evaluation of dependence severity.",
-  //       "Goal setting and treatment planning."
-  //     ],
-  //     InterventionPhase: [
-  //       "Medical and counseling interventions.",
-  //       "Behavioral modification strategies.",
-  //       "Lifestyle and stress management guidance."
-  //     ],
-  //     FollowUpPhase: [
-  //       "Regular follow-up sessions.",
-  //       "Monitoring for relapse signs.",
-  //       "Long-term support and reinforcement."
-  //     ]
-  //   },
-
-  //   postProgramSupport: [
-  //     "Continued counseling as needed.",
-  //     "Support groups and peer encouragement.",
-  //     "Guidance on maintaining a substance-free lifestyle."
-  //   ],
-
-  //   dosAndDonts: {
-  //     Dos: [
-  //       "Seek Help Early",
-  //       "Follow Prescribed Treatment Plans",
-  //       "Attend Counseling And Follow-Up Sessions",
-  //       "Engage Family Support If Recommended"
-  //     ],
-  //     Donts: [
-  //       "Do Not Attempt Sudden Withdrawal Without Medical Advice",
-  //       "Avoid High-Risk Situations And Triggers",
-  //       "Do Not Ignore Relapse Warning Signs"
-  //     ]
-  //   },
-
-  //   faqs: [
-  //     {
-  //       question: "Is De-Addiction Treatment Confidential?",
-  //       answer:
-  //         "Yes, all consultations and treatments at the ICTC De-Addiction Centre are handled with complete confidentiality."
-  //     },
-  //     {
-  //       question: "Can Quitting Tobacco Or Alcohol Reduce Cancer Risk?",
-  //       answer:
-  //         "Yes, quitting significantly reduces the risk of developing cancer and improves outcomes in patients undergoing cancer treatment."
-  //     }
-  //   ]
-  // },
-
-  // "scalp-cooling": {
-  //   name: "Scalp Cooling (Anti Hairfall)",
-  // category: "Other Services",
-  //   heroTitle: "Scalp Cooling (Anti Hairfall) At ICTC",
-
-  //   heroImage: scalpCoolingHero,
-  //   contentImages: [scalpCooling1, scalpCooling2],
-
-  //   introduction:
-  //     "Scalp cooling is an advanced supportive care technique used during chemotherapy to reduce hair loss. It works by lowering the temperature of the scalp, which reduces blood flow to hair follicles and limits the amount of chemotherapy drugs reaching them. This helps preserve hair and improves emotional well-being during cancer treatment.",
-
-  //   overview: [
-  //     "Hair loss is a common and distressing side effect of chemotherapy.",
-  //     "Scalp cooling is used before, during, and after chemotherapy sessions.",
-  //     "It helps protect hair follicles from chemotherapy damage.",
-  //     "The effectiveness depends on chemotherapy type and dosage.",
-  //     "Scalp cooling improves patient confidence and quality of life."
-  //   ],
-
-  //   howItWorks: {
-  //     Mechanism: [
-  //       "Cooling causes blood vessels in the scalp to constrict.",
-  //       "Reduced blood flow limits chemotherapy exposure to hair follicles.",
-  //       "Lower scalp temperature slows follicle cell activity.",
-  //       "Together, these effects reduce chemotherapy-induced hair loss."
-  //     ],
-  //     Timing: [
-  //       "Cooling starts before chemotherapy begins.",
-  //       "Continues during drug administration.",
-  //       "Extended for a period after chemotherapy completion."
-  //     ]
-  //   },
-
-  //   typesOfScalpCooling: {
-  //     ManualColdCaps: [
-  //       "Gel-filled caps pre-cooled in specialized freezers.",
-  //       "Caps are changed at regular intervals to maintain temperature.",
-  //       "Requires trained staff for proper use."
-  //     ],
-  //     AutomatedScalpCoolingSystems: [
-  //       "Computer-controlled cooling devices.",
-  //       "Maintain consistent scalp temperature throughout treatment.",
-  //       "More comfortable and widely used in modern oncology centers."
-  //     ]
-  //   },
-
-  //   patientsWhoMayBenefit: {
-  //     Overview: [
-  //       "Scalp cooling is suitable for many patients receiving chemotherapy.",
-  //       "Best results are seen in certain cancer types and drug regimens."
-  //     ],
-  //     Examples: [
-  //       "Breast Cancer Patients",
-  //       "Ovarian Cancer Patients",
-  //       "Patients Receiving Taxane-Based Chemotherapy",
-  //       "Patients Receiving Anthracycline-Based Regimens (Selective Use)"
-  //     ]
-  //   },
-
-  //   benefits: [
-  //     "Significantly reduces chemotherapy-related hair loss.",
-  //     "Helps patients maintain their appearance and self-esteem.",
-  //     "Improves emotional and psychological well-being.",
-  //     "Allows patients to continue social and professional activities with confidence.",
-  //     "Non-invasive and safe when properly supervised."
-  //   ],
-
-  //   limitations: [
-  //     "Does not guarantee complete hair preservation.",
-  //     "Effectiveness varies based on chemotherapy drugs used.",
-  //     "May not be suitable for all cancer types.",
-  //     "Requires additional time before and after chemotherapy sessions."
-  //   ],
-
-  //   procedureDetails: {
-  //     Preparation: [
-  //       "Hair should be clean and free of styling products.",
-  //       "Patients are advised to avoid hair coloring during treatment.",
-  //       "Medical team evaluates suitability before starting scalp cooling."
-  //     ],
-  //     DuringTreatment: [
-  //       "Cooling cap is fitted securely to the scalp.",
-  //       "Temperature is gradually reduced for patient comfort.",
-  //       "Continuous monitoring ensures safety and effectiveness."
-  //     ],
-  //     AfterTreatment: [
-  //       "Cooling continues for a set time after chemotherapy.",
-  //       "Cap is removed once scalp temperature normalizes."
-  //     ]
-  //   },
-
-  //   sideEffects: {
-  //     CommonSideEffects: [
-  //       "Cold Sensation On The Scalp",
-  //       "Headache Or Mild Discomfort",
-  //       "Scalp Tightness",
-  //       "Chills During Initial Cooling"
-  //     ],
-  //     AdditionalNotes: [
-  //       "Most side effects are temporary and manageable.",
-  //       "Discomfort usually decreases after the first few sessions."
-  //     ]
-  //   },
-
-  //   safetyConsiderations: [
-  //     "Scalp cooling is not recommended in certain blood cancers.",
-  //     "Careful monitoring is required for patients with cold sensitivity.",
-  //     "Oncologist approval is necessary before starting scalp cooling."
-  //   ],
-
-  //   postTreatmentCare: [
-  //     "Use mild, sulfate-free shampoos.",
-  //     "Avoid excessive heat styling and tight hairstyles.",
-  //     "Handle hair gently to reduce breakage.",
-  //     "Continue gentle hair care for several weeks after chemotherapy."
-  //   ],
-
-  //   dosAndDonts: {
-  //     Dos: [
-  //       "Follow Scalp Cooling Schedule As Advised",
-  //       "Use Gentle Hair Care Products",
-  //       "Protect Hair From Sun And Heat",
-  //       "Report Any Discomfort To Medical Staff"
-  //     ],
-  //     Donts: [
-  //       "Do Not Use Hair Dryers Or Straighteners Frequently",
-  //       "Avoid Chemical Hair Treatments",
-  //       "Do Not Skip Cooling Sessions Without Medical Advice"
-  //     ]
-  //   },
-
-  //   faqs: [
-  //     {
-  //       question: "Does Scalp Cooling Completely Prevent Hair Loss?",
-  //       answer:
-  //         "Scalp cooling significantly reduces hair loss in many patients, but results vary depending on chemotherapy type and individual response."
-  //     },
-  //     {
-  //       question: "Is Scalp Cooling Safe?",
-  //       answer:
-  //         "Yes, scalp cooling is generally safe when used under medical supervision and is widely practiced in oncology centers worldwide."
-  //     }
-  //   ]
-  // },
-
-  // "cancer-surgery": {
-  //   name: "Cancer Surgery",
-  // category: "Other Services",
-  //   heroTitle: "Cancer Surgery At ICTC",
-
-  //   heroImage: surgeryHero,
-  // contentImages: [surgery1, surgery2],
-
-  //   introduction:
-  //     "Cancer surgery is a treatment in which a surgeon removes cancerous tissue from the body. It is one of the oldest and most effective methods of treating cancer, especially when the disease is localized. Surgery may be used alone or in combination with chemotherapy, radiation therapy, targeted therapy, or immunotherapy depending on the type and stage of cancer.",
-
-  //   overview: [
-  //     "Cancer surgery aims to remove the tumor along with a margin of healthy tissue.",
-  //     "It is most effective for cancers that have not spread extensively.",
-  //     "Surgery can be used for diagnosis, treatment, staging, or symptom relief.",
-  //     "Advances in surgical techniques have improved precision, safety, and recovery.",
-  //     "A multidisciplinary cancer care team determines the role of surgery in treatment."
-  //   ],
-
-  //   typesOfSurgery: {
-  //     CurativeSurgery: [
-  //       "Performed to completely remove cancer from the body.",
-  //       "Most effective when cancer is detected early."
-  //     ],
-  //     DiagnosticSurgery: [
-  //       "Used to obtain tissue for biopsy and confirm cancer diagnosis."
-  //     ],
-  //     StagingSurgery: [
-  //       "Helps determine the extent or spread of cancer.",
-  //       "May involve checking lymph nodes or nearby organs."
-  //     ],
-  //     DebulkingSurgery: [
-  //       "Removes as much of the tumor as possible when complete removal is not feasible.",
-  //       "Often followed by chemotherapy or radiation therapy."
-  //     ],
-  //     PalliativeSurgery: [
-  //       "Used to relieve symptoms such as pain, bleeding, or obstruction.",
-  //       "Improves quality of life in advanced cancer."
-  //     ],
-  //     ReconstructiveSurgery: [
-  //       "Restores appearance or function after cancer removal.",
-  //       "Commonly used after breast, head and neck, or limb surgeries."
-  //     ]
-  //   },
-
-  //   cancersTreated: [
-  //     "Breast Cancer",
-  //     "Lung Cancer",
-  //     "Gastrointestinal Cancers",
-  //     "Head And Neck Cancer",
-  //     "Gynecological Cancers",
-  //     "Urological Cancers",
-  //     "Brain Tumors",
-  //     "Bone And Soft Tissue Tumors"
-  //   ],
-
-  //   benefits: [
-  //     "Can completely remove cancer in early stages.",
-  //     "Provides accurate staging and diagnosis.",
-  //     "Relieves symptoms caused by tumor pressure or obstruction.",
-  //     "Can improve survival when combined with other therapies.",
-  //     "Advances in minimally invasive surgery reduce recovery time."
-  //   ],
-
-  //   downsides: [
-  //     "Not suitable for cancers that have widely spread.",
-  //     "Carries risks associated with anesthesia and surgery.",
-  //     "Recovery time may vary depending on surgery type.",
-  //     "May require additional treatments after surgery."
-  //   ],
-
-  //   surgicalApproaches: {
-  //     OpenSurgery: [
-  //       "Traditional surgery involving a larger incision.",
-  //       "Used when wide access is required."
-  //     ],
-  //     MinimallyInvasiveSurgery: [
-  //       "Includes laparoscopic and thoracoscopic surgery.",
-  //       "Uses smaller incisions with faster recovery."
-  //     ],
-  //     RoboticSurgery: [
-  //       "Uses robotic-assisted systems for greater precision.",
-  //       "Allows better visualization and control during surgery."
-  //     ],
-  //     EndoscopicSurgery: [
-  //       "Uses flexible scopes inserted through natural openings.",
-  //       "Commonly used in gastrointestinal and airway cancers."
-  //     ]
-  //   },
-
-  //   preSurgeryPreparation: [
-  //     "Detailed evaluation including blood tests and imaging studies.",
-  //     "Assessment of fitness for anesthesia and surgery.",
-  //     "Discussion of risks, benefits, and alternatives.",
-  //     "Instructions regarding fasting and medications.",
-  //     "Psychological counseling and patient education when required."
-  //   ],
-
-  //   sideEffectsAndRisks: {
-  //     CommonRisks: [
-  //       "Pain Or Discomfort At Surgical Site",
-  //       "Bleeding",
-  //       "Infection",
-  //       "Delayed Wound Healing"
-  //     ],
-  //     OrganSpecificRisks: [
-  //       "Changes In Organ Function Depending On Surgery Location",
-  //       "Temporary Or Permanent Functional Limitations"
-  //     ],
-  //     AdditionalNotes: [
-  //       "Most surgical risks are manageable with modern care and monitoring."
-  //     ]
-  //   },
-
-  //   postSurgeryCare: [
-  //     "Pain management and wound care.",
-  //     "Early mobilization to prevent complications.",
-  //     "Physiotherapy or rehabilitation as required.",
-  //     "Nutritional support for recovery.",
-  //     "Regular follow-up to monitor healing and detect recurrence."
-  //   ],
-
-  //   dosAndDonts: {
-  //     Dos: [
-  //       "Follow Post-Operative Instructions Carefully",
-  //       "Keep Surgical Wound Clean And Dry",
-  //       "Attend All Follow-Up Appointments",
-  //       "Maintain A Healthy Diet To Support Healing"
-  //     ],
-  //     Donts: [
-  //       "Do Not Ignore Fever Or Signs Of Infection",
-  //       "Avoid Heavy Lifting Without Medical Approval",
-  //       "Do Not Resume Smoking Or Alcohol Early After Surgery",
-  //       "Do Not Skip Recommended Rehabilitation"
-  //     ]
-  //   },
-
-  //   faqs: [
-  //     {
-  //       question: "Can Surgery Cure Cancer?",
-  //       answer:
-  //         "Yes. Surgery can cure many cancers when detected early and completely removed."
-  //     },
-  //     {
-  //       question: "Is Surgery Always Required For Cancer?",
-  //       answer:
-  //         "No. The need for surgery depends on cancer type, stage, and treatment goals."
-  //     },
-  //     {
-  //       question: "Will I Need Chemotherapy Or Radiation After Surgery?",
-  //       answer:
-  //         "Some patients require additional treatment to reduce recurrence risk."
-  //     },
-  //     {
-  //       question: "How Long Is Recovery After Cancer Surgery?",
-  //       answer:
-  //         "Recovery varies depending on surgery type and individual health, ranging from weeks to months."
-  //     }
-  //   ]
-  // },
+  "medical-oncology": {
+    name: "Medical Oncology",
+  category: "Core Oncology Services",
+    heroTitle: "Medical Oncology At ICTC",
+    icon: medicalOncologyIcon,
+
+    heroImage: medicalOncologyHero,
+    contentImages: [medicalOncology1, medicalOncology2],
+
+    introduction:
+      "Medical oncology is a core branch of cancer care that focuses on treating cancer using medicines. These treatments travel throughout the body to target cancer cells wherever they may be present. Medical oncologists design personalized treatment plans using chemotherapy, immunotherapy, targeted therapy, hormonal therapy, and supportive medications based on cancer type, stage, and molecular profile.",
+
+    overview: [
+      "Medical oncology treats cancer using systemic therapies.",
+      "Treatment plans are customized for each patient.",
+      "It plays a role in early, advanced, and metastatic cancers.",
+      "Medical oncology works closely with surgical and radiation oncology.",
+      "Ongoing monitoring ensures treatment effectiveness and safety."
+    ],
+
+    roleOfMedicalOncologist: [
+      "Diagnoses and stages cancer in collaboration with other specialists.",
+      "Creates individualized treatment plans.",
+      "Administers cancer-fighting medications.",
+      "Manages treatment-related side effects.",
+      "Provides long-term follow-up and survivorship care."
+    ],
+
+    treatmentModalities: {
+      Chemotherapy: [
+        "Uses drugs to destroy rapidly dividing cancer cells.",
+        "May be given before surgery (neoadjuvant) or after surgery (adjuvant).",
+        "Can be curative or palliative depending on cancer stage."
+      ],
+      Immunotherapy: [
+        "Stimulates the immune system to recognize and attack cancer cells.",
+        "Used in selected cancers based on biomarkers.",
+        "May provide long-lasting responses in some patients."
+      ],
+      TargetedTherapy: [
+        "Targets specific genetic or molecular abnormalities in cancer cells.",
+        "Requires molecular or genetic testing.",
+        "Often causes fewer side effects than traditional chemotherapy."
+      ],
+      HormonalTherapy: [
+        "Blocks or reduces hormones that fuel certain cancers.",
+        "Commonly used in breast and prostate cancers.",
+        "Often taken over long periods."
+      ],
+      SupportiveMedications: [
+        "Prevent nausea, infections, and anemia.",
+        "Help patients tolerate cancer treatment better.",
+        "Improve overall quality of life during therapy."
+      ]
+    },
+
+    cancersTreated: {
+      Overview: [
+        "Medical oncology treats most solid tumors and blood cancers.",
+        "Therapy selection depends on cancer biology and patient health."
+      ],
+      Examples: [
+        "Breast Cancer",
+        "Lung Cancer",
+        "Colorectal Cancer",
+        "Head And Neck Cancer",
+        "Ovarian Cancer",
+        "Prostate Cancer",
+        "Leukemia",
+        "Lymphoma",
+        "Multiple Myeloma"
+      ]
+    },
+
+    treatmentPlanning: {
+      Assessment: [
+        "Detailed medical history and physical examination.",
+        "Imaging studies and pathology review.",
+        "Molecular and genetic testing when required."
+      ],
+      Personalization: [
+        "Treatment selected based on cancer type and stage.",
+        "Patient age, fitness, and preferences are considered.",
+        "Multidisciplinary tumor board discussions guide decisions."
+      ]
+    },
+
+    methodsOfAdministration: {
+      IntravenousTherapy: [
+        "Drugs administered through IV infusion.",
+        "Given in chemotherapy day-care units.",
+        "Duration varies from minutes to several hours."
+      ],
+      OralTherapy: [
+        "Tablets or capsules taken at home.",
+        "Requires strict adherence to dosage schedules.",
+        "Regular follow-up ensures safety and effectiveness."
+      ],
+      Injections: [
+        "Some drugs are given as subcutaneous or intramuscular injections.",
+        "May be administered weekly or monthly."
+      ]
+    },
+
+    sideEffectsManagement: {
+      CommonSideEffects: [
+        "Nausea And Vomiting",
+        "Hair Loss",
+        "Fatigue",
+        "Low Blood Counts",
+        "Infections",
+        "Appetite Changes"
+      ],
+      ManagementApproach: [
+        "Preventive medications are given before treatment.",
+        "Dose adjustments when required.",
+        "Supportive care and counseling are provided."
+      ]
+    },
+
+    benefits: [
+      "Treats cancer throughout the body.",
+      "Improves survival and disease control.",
+      "Can shrink tumors and relieve symptoms.",
+      "Allows combination with surgery and radiation.",
+      "Supports long-term cancer management."
+    ],
+
+    limitations: [
+      "Side effects may occur depending on treatment type.",
+      "Some cancers may develop resistance to drugs.",
+      "Requires regular monitoring and follow-ups."
+    ],
+
+    postTreatmentCare: [
+      "Regular follow-up visits and imaging.",
+      "Monitoring for long-term side effects.",
+      "Survivorship care and lifestyle guidance."
+    ],
+
+    dosAndDonts: {
+      Dos: [
+        "Follow Treatment Schedule Strictly",
+        "Report Side Effects Early",
+        "Maintain Proper Nutrition And Hydration",
+        "Attend All Follow-Up Appointments"
+      ],
+      Donts: [
+        "Do Not Skip Medications Without Advice",
+        "Avoid Self-Medicating",
+        "Do Not Ignore New Symptoms"
+      ]
+    },
+
+    faqs: [
+      {
+        question: "Is Medical Oncology Only Chemotherapy?",
+        answer:
+          "No, medical oncology includes chemotherapy, immunotherapy, targeted therapy, hormonal therapy, and supportive medications."
+      },
+      {
+        question: "How Is Treatment Effectiveness Monitored?",
+        answer:
+          "Doctors monitor response through scans, blood tests, physical examinations, and symptom improvement."
+      }
+    ]
+  },
+
+  "surgical-oncology": {
+    name: "Surgical Oncology",
+  category: "Core Oncology Services",
+    heroTitle: "Surgical Oncology At ICTC",
+    icon: surgicalOncologyIcon,
+    heroImage: surgicalOncologyHero,
+    contentImages: [surgicalOncology1, surgicalOncology2],
+
+    introduction:
+      "Surgical oncology is a core cancer treatment specialty focused on the diagnosis, staging, and removal of cancer through surgery. It plays a critical role in early-stage cancers, helps relieve symptoms in advanced disease, and is often combined with chemotherapy, radiation therapy, or other treatments for optimal outcomes.",
+
+    overview: [
+      "Surgical oncology involves removal of tumors and surrounding tissues.",
+      "It is used for diagnosis, staging, treatment, and symptom relief.",
+      "Surgery is often the primary treatment for localized cancers.",
+      "Advanced techniques allow precise tumor removal while preserving healthy tissue.",
+      "Multidisciplinary planning ensures safe and effective surgical care."
+    ],
+
+    roleOfSurgicalOncologist: [
+      "Confirms cancer diagnosis through biopsy and surgical evaluation.",
+      "Determines cancer stage during surgery.",
+      "Removes primary tumors and affected lymph nodes.",
+      "Performs reconstructive procedures when required.",
+      "Collaborates with medical and radiation oncologists for comprehensive care."
+    ],
+
+    typesOfCancerSurgery: {
+      CurativeSurgery: [
+        "Aims to completely remove cancer from the body.",
+        "Most effective in early-stage cancers.",
+        "Often followed by additional therapy to reduce recurrence risk."
+      ],
+      DebulkingSurgery: [
+        "Removes as much tumor as possible when complete removal is not feasible.",
+        "Helps improve effectiveness of chemotherapy or radiation therapy.",
+        "Commonly used in ovarian and advanced abdominal cancers."
+      ],
+      PalliativeSurgery: [
+        "Relieves symptoms caused by tumors.",
+        "Improves comfort and quality of life.",
+        "Does not aim to cure cancer."
+      ],
+      PreventiveSurgery: [
+        "Removes tissue at high risk of developing cancer.",
+        "Used in patients with inherited cancer risk.",
+        "Helps reduce future cancer occurrence."
+      ]
+    },
+
+    surgicalTechniques: {
+      OpenSurgery: [
+        "Traditional approach with a larger incision.",
+        "Used for complex or advanced tumors.",
+        "Allows direct access to organs and tissues."
+      ],
+      MinimallyInvasiveSurgery: [
+        "Includes laparoscopic and robotic-assisted surgery.",
+        "Uses small incisions and specialized instruments.",
+        "Leads to faster recovery and less postoperative pain."
+      ],
+      ReconstructiveSurgery: [
+        "Restores appearance and function after cancer removal.",
+        "Common in breast, head, and neck cancers.",
+        "Improves physical and emotional well-being."
+      ]
+    },
+
+    cancersTreated: {
+      Overview: [
+        "Surgical oncology treats a wide range of solid tumors.",
+        "Surgery may be used alone or with other treatments."
+      ],
+      Examples: [
+        "Breast Cancer",
+        "Head And Neck Cancer",
+        "Colorectal Cancer",
+        "Lung Cancer",
+        "Gastrointestinal Cancers",
+        "Gynecological Cancers",
+        "Soft Tissue Tumors",
+        "Skin Cancer"
+      ]
+    },
+
+    treatmentPlanning: {
+      PreSurgicalAssessment: [
+        "Detailed clinical evaluation and imaging studies.",
+        "Biopsy confirmation of cancer.",
+        "Assessment of overall fitness for surgery."
+      ],
+      MultidisciplinaryApproach: [
+        "Tumor board discussions guide surgical decisions.",
+        "Coordination with medical and radiation oncology teams.",
+        "Personalized treatment planning."
+      ]
+    },
+
+    perioperativeCare: {
+      BeforeSurgery: [
+        "Pre-anesthesia evaluation and blood tests.",
+        "Patient counseling and consent.",
+        "Instructions regarding fasting and medications."
+      ],
+      AfterSurgery: [
+        "Pain management and wound care.",
+        "Early mobilization and physiotherapy.",
+        "Monitoring for complications."
+      ]
+    },
+
+    benefits: [
+      "Provides potential cure for early-stage cancers.",
+      "Removes bulk of cancer from the body.",
+      "Helps relieve cancer-related symptoms.",
+      "Allows accurate cancer staging.",
+      "Improves effectiveness of additional treatments."
+    ],
+
+    risksAndLimitations: [
+      "Risk of bleeding or infection.",
+      "Postoperative pain and recovery time.",
+      "Not suitable for all advanced cancers.",
+      "May require additional therapies after surgery."
+    ],
+
+    postTreatmentCare: [
+      "Regular follow-up visits and imaging.",
+      "Monitoring for recurrence.",
+      "Rehabilitation and lifestyle guidance."
+    ],
+
+    dosAndDonts: {
+      Dos: [
+        "Follow Pre And Post Surgery Instructions",
+        "Maintain Proper Wound Care",
+        "Attend Scheduled Follow-Ups",
+        "Report Any Unusual Symptoms Early"
+      ],
+      Donts: [
+        "Do Not Ignore Postoperative Pain Or Fever",
+        "Avoid Heavy Lifting Without Medical Advice",
+        "Do Not Skip Follow-Up Appointments"
+      ]
+    },
+
+    faqs: [
+      {
+        question: "Is Surgery Always Required For Cancer Treatment?",
+        answer:
+          "Not all cancers require surgery. Treatment decisions depend on cancer type, stage, and overall patient health."
+      },
+      {
+        question: "How Long Is Recovery After Cancer Surgery?",
+        answer:
+          "Recovery time varies based on the type of surgery, cancer location, and individual healing capacity."
+      }
+    ]
+  },
+
+  "radiation-oncology": {
+    name: "Radiation Oncology",
+  category: "Core Oncology Services",
+    heroTitle: "Radiation Oncology At ICTC",
+icon: radiationOncologyIcon,
+    heroImage: radiationOncologyHero,
+    contentImages: [radiationOncology1, radiationOncology2],
+
+    introduction:
+      "Radiation oncology is a core cancer treatment specialty that uses high-energy radiation to destroy cancer cells and shrink tumors. Radiation therapy is a highly targeted treatment that damages the DNA of cancer cells, preventing them from growing and dividing. It may be used alone or in combination with surgery, chemotherapy, immunotherapy, or targeted therapy for effective cancer control.",
+
+    overview: [
+      "Radiation therapy uses precisely controlled high-energy beams.",
+      "It targets cancer cells while sparing surrounding healthy tissue.",
+      "Radiation oncology plays a role in both curative and palliative treatment.",
+      "Advanced technologies allow accurate tumor targeting.",
+      "Treatment plans are personalized for each patient."
+    ],
+
+    roleOfRadiationOncologist: [
+      "Evaluates patients to determine suitability for radiation therapy.",
+      "Designs individualized radiation treatment plans.",
+      "Determines radiation dose and treatment schedule.",
+      "Monitors patient response and side effects.",
+      "Coordinates care with medical and surgical oncology teams."
+    ],
+
+    typesOfRadiationTherapy: {
+      ExternalBeamRadiationTherapy: [
+        "Radiation delivered from outside the body using a machine.",
+        "Most commonly used form of radiation therapy.",
+        "Treatments are given over multiple sessions."
+      ],
+      Brachytherapy: [
+        "Radiation source placed inside or near the tumor.",
+        "Delivers high radiation doses directly to cancer cells.",
+        "Commonly used in cervical, prostate, and head and neck cancers."
+      ],
+      StereotacticRadiotherapy: [
+        "Delivers very high doses of radiation with extreme precision.",
+        "Requires fewer treatment sessions.",
+        "Used for small, well-defined tumors."
+      ]
+    },
+
+    advancedRadiationTechniques: {
+      IMRT: [
+        "Intensity-Modulated Radiation Therapy shapes radiation beams.",
+        "Reduces exposure to nearby healthy organs.",
+        "Improves treatment accuracy and safety."
+      ],
+      IGRT: [
+        "Image-Guided Radiation Therapy uses imaging before each session.",
+        "Ensures precise tumor targeting.",
+        "Adjusts for daily changes in patient positioning."
+      ],
+      VMAT: [
+        "Volumetric Modulated Arc Therapy delivers radiation in continuous arcs.",
+        "Shortens treatment time.",
+        "Maintains high precision."
+      ]
+    },
+
+    cancersTreated: {
+      Overview: [
+        "Radiation oncology treats a wide range of cancers.",
+        "It may be used alone or as part of combined treatment."
+      ],
+      Examples: [
+        "Head And Neck Cancer",
+        "Breast Cancer",
+        "Prostate Cancer",
+        "Lung Cancer",
+        "Cervical Cancer",
+        "Brain Tumors",
+        "Rectal Cancer",
+        "Esophageal Cancer"
+      ]
+    },
+
+    treatmentPlanning: {
+      SimulationAndPlanning: [
+        "CT simulation to map tumor location.",
+        "Creation of custom immobilization devices.",
+        "Advanced software planning for dose accuracy."
+      ],
+      Personalization: [
+        "Dose and schedule based on cancer type and stage.",
+        "Consideration of surrounding healthy organs.",
+        "Multidisciplinary tumor board input."
+      ]
+    },
+
+    treatmentDelivery: {
+      Process: [
+        "Treatment is delivered in daily sessions called fractions.",
+        "Each session lasts only a few minutes.",
+        "Total treatment duration may span several weeks."
+      ],
+      PatientExperience: [
+        "Painless procedure.",
+        "Patient lies still during treatment.",
+        "No radiation remains in the body after external therapy."
+      ]
+    },
+
+    sideEffects: {
+      CommonSideEffects: [
+        "Skin Redness Or Irritation",
+        "Fatigue",
+        "Hair Loss In Treated Area",
+        "Mild Swelling",
+        "Temporary Discomfort"
+      ],
+      LongTermEffects: [
+        "Tissue Stiffness",
+        "Changes In Skin Texture",
+        "Rare Organ-Specific Effects"
+      ]
+    },
+
+    benefits: [
+      "Highly targeted cancer treatment.",
+      "Preserves surrounding healthy tissue.",
+      "Effective for both early and advanced cancers.",
+      "Can relieve pain and symptoms.",
+      "Non-invasive treatment option."
+    ],
+
+    limitations: [
+      "Requires multiple treatment sessions.",
+      "Side effects depend on treated area.",
+      "Not suitable for all cancer types."
+    ],
+
+    postTreatmentCare: [
+      "Regular follow-up appointments.",
+      "Monitoring for delayed side effects.",
+      "Supportive care for skin and fatigue management."
+    ],
+
+    dosAndDonts: {
+      Dos: [
+        "Follow Radiation Schedule Strictly",
+        "Care For Treated Skin As Advised",
+        "Maintain Proper Nutrition And Rest",
+        "Report Side Effects Early"
+      ],
+      Donts: [
+        "Do Not Skip Radiation Sessions",
+        "Avoid Applying Products On Treated Skin Without Advice",
+        "Do Not Ignore Persistent Symptoms"
+      ]
+    },
+
+    faqs: [
+      {
+        question: "Is Radiation Therapy Painful?",
+        answer:
+          "Radiation therapy itself is painless, though some side effects may develop during or after treatment."
+      },
+      {
+        question: "Will I Be Radioactive After Treatment?",
+        answer:
+          "No, external beam radiation does not make patients radioactive after treatment."
+      }
+    ]
+  },
+
+  "hemato-oncology": {
+    name: "Hemato-Oncology",
+  category: "Core Oncology Services",
+    heroTitle: "Hemato-Oncology At ICTC",
+icon: hematoOncologyIcon,
+    heroImage: hematoOncologyHero,
+    contentImages: [hematoOncology1, hematoOncology2],
+
+    introduction:
+      "Hemato-oncology is a specialized branch of oncology focused on the diagnosis and treatment of cancers and disorders of the blood, bone marrow, and lymphatic system. It includes conditions such as leukemia, lymphoma, and multiple myeloma, as well as certain non-cancerous blood disorders. Hemato-oncologists use advanced diagnostic tools and personalized treatment strategies to manage these complex diseases.",
+
+    overview: [
+      "Hemato-oncology deals with blood-related cancers and disorders.",
+      "These conditions affect bone marrow, blood cells, and lymph nodes.",
+      "Treatment often involves systemic therapies rather than surgery.",
+      "Care requires long-term monitoring and follow-up.",
+      "Multidisciplinary coordination is essential for optimal outcomes."
+    ],
+
+    roleOfHematoOncologist: [
+      "Diagnoses blood cancers and related disorders.",
+      "Interprets specialized blood and bone marrow tests.",
+      "Designs personalized treatment protocols.",
+      "Manages complications such as infections and anemia.",
+      "Provides long-term follow-up and survivorship care."
+    ],
+
+    diseasesTreated: {
+      BloodCancers: [
+        "Leukemia",
+        "Lymphoma",
+        "Multiple Myeloma",
+        "Myelodysplastic Syndromes",
+        "Myeloproliferative Disorders"
+      ],
+      NonCancerousBloodDisorders: [
+        "Aplastic Anemia",
+        "Thalassemia",
+        "Sickle Cell Disease",
+        "Severe Anemia",
+        "Immune Thrombocytopenia"
+      ]
+    },
+
+    diagnosticApproach: {
+      LaboratoryTests: [
+        "Complete blood count and peripheral smear analysis.",
+        "Advanced blood chemistry and immunological tests.",
+        "Tumor marker and protein studies."
+      ],
+      BoneMarrowEvaluation: [
+        "Bone marrow aspiration and biopsy.",
+        "Cytogenetic and molecular analysis.",
+        "Assessment of marrow function and disease extent."
+      ],
+      AdvancedDiagnostics: [
+        "Flow cytometry for cell characterization.",
+        "Molecular and genetic testing.",
+        "Imaging studies for lymph node involvement."
+      ]
+    },
+
+    treatmentModalities: {
+      Chemotherapy: [
+        "Primary treatment for many blood cancers.",
+        "May be given in cycles over several months.",
+        "Administered intravenously or orally."
+      ],
+      Immunotherapy: [
+        "Uses the immune system to target abnormal blood cells.",
+        "Includes monoclonal antibodies and immune modulators.",
+        "Often used in lymphomas and leukemias."
+      ],
+      TargetedTherapy: [
+        "Targets specific genetic or molecular abnormalities.",
+        "Requires molecular testing before initiation.",
+        "Often better tolerated than conventional chemotherapy."
+      ],
+      BoneMarrowTransplantation: [
+        "Replaces diseased bone marrow with healthy stem cells.",
+        "May be autologous or allogeneic.",
+        "Offers curative potential in selected patients."
+      ],
+      SupportiveCare: [
+        "Blood transfusions and growth factors.",
+        "Infection prevention and management.",
+        "Nutritional and psychological support."
+      ]
+    },
+
+    treatmentPlanning: {
+      Assessment: [
+        "Detailed evaluation of disease type and stage.",
+        "Assessment of patient fitness and comorbidities.",
+        "Review of molecular and genetic findings."
+      ],
+      Personalization: [
+        "Treatment tailored to disease biology.",
+        "Risk stratification guides intensity of therapy.",
+        "Regular reassessment during treatment."
+      ]
+    },
+
+    sideEffectsManagement: {
+      CommonSideEffects: [
+        "Low Blood Counts",
+        "Infections",
+        "Fatigue",
+        "Bleeding Or Bruising",
+        "Nausea And Appetite Changes"
+      ],
+      ManagementApproach: [
+        "Preventive antibiotics and growth factors.",
+        "Dose modifications when necessary.",
+        "Close monitoring and early intervention."
+      ]
+    },
+
+    benefits: [
+      "Specialized care for complex blood disorders.",
+      "Access to advanced diagnostics and therapies.",
+      "Personalized treatment approaches.",
+      "Improved survival and disease control.",
+      "Comprehensive long-term follow-up."
+    ],
+
+    limitations: [
+      "Treatment duration may be prolonged.",
+      "Risk of infections due to low immunity.",
+      "Some conditions require lifelong monitoring."
+    ],
+
+    postTreatmentCare: [
+      "Regular blood tests and clinical evaluations.",
+      "Monitoring for relapse or late effects.",
+      "Vaccinations and infection prevention guidance."
+    ],
+
+    dosAndDonts: {
+      Dos: [
+        "Attend All Scheduled Appointments",
+        "Report Fever Or Infections Immediately",
+        "Maintain Good Hygiene",
+        "Follow Medication Instructions Carefully"
+      ],
+      Donts: [
+        "Do Not Ignore Signs Of Infection",
+        "Avoid Self-Medicating",
+        "Do Not Skip Follow-Up Visits"
+      ]
+    },
+
+    faqs: [
+      {
+        question: "Are Blood Cancers Curable?",
+        answer:
+          "Many blood cancers are highly treatable, and some can be cured depending on the type, stage, and response to therapy."
+      },
+      {
+        question: "Is Bone Marrow Transplant Required For All Patients?",
+        answer:
+          "No, bone marrow transplant is recommended only for selected patients based on disease type and risk factors."
+      }
+    ]
+  },
+
+  "pediatric-oncology": {
+    name: "Pediatric Oncology",
+  category: "Core Oncology Services",
+    heroTitle: "Pediatric Oncology At ICTC",
+icon: pediatricOncologyIcon,
+    heroImage: pediatricOncologyHero,
+    contentImages: [pediatricOncology1, pediatricOncology2],
+
+    introduction:
+      "Pediatric oncology is a specialized field of cancer care dedicated to diagnosing and treating cancers in infants, children, and adolescents. Childhood cancers differ significantly from adult cancers in biology, behavior, and response to treatment. Pediatric oncology focuses on cure-oriented, age-appropriate, and compassionate care while supporting the child’s physical, emotional, and developmental needs.",
+
+    overview: [
+      "Childhood cancers are rare but often highly treatable.",
+      "Treatment protocols are specifically designed for growing bodies.",
+      "Care emphasizes long-term survival and quality of life.",
+      "Family-centered care is a key component of pediatric oncology.",
+      "Multidisciplinary teams ensure comprehensive treatment and support."
+    ],
+
+    roleOfPediatricOncologist: [
+      "Diagnoses cancer in children and adolescents.",
+      "Develops age-appropriate, individualized treatment plans.",
+      "Monitors growth, development, and treatment response.",
+      "Manages short-term and long-term treatment side effects.",
+      "Provides long-term survivorship and follow-up care."
+    ],
+
+    cancersTreated: {
+      Overview: [
+        "Pediatric oncology treats both solid tumors and blood cancers.",
+        "Cancer types in children differ from those seen in adults."
+      ],
+      Examples: [
+        "Leukemia",
+        "Lymphoma",
+        "Brain And Spinal Cord Tumors",
+        "Neuroblastoma",
+        "Wilms Tumor",
+        "Bone Tumors",
+        "Soft Tissue Sarcomas",
+        "Retinoblastoma"
+      ]
+    },
+
+    diagnosticApproach: {
+      ClinicalEvaluation: [
+        "Detailed medical history and physical examination.",
+        "Assessment of growth and developmental milestones.",
+        "Evaluation of symptoms such as unexplained fever or weight loss."
+      ],
+      LaboratoryAndImagingTests: [
+        "Blood tests and bone marrow examination.",
+        "Imaging studies such as MRI, CT, and ultrasound.",
+        "Biopsy for definitive diagnosis."
+      ],
+      AdvancedDiagnostics: [
+        "Molecular and genetic testing.",
+        "Risk stratification and staging studies.",
+        "Minimal residual disease assessment in select cancers."
+      ]
+    },
+
+    treatmentModalities: {
+      Chemotherapy: [
+        "Primary treatment for many childhood cancers.",
+        "Given in carefully calculated doses.",
+        "Administered intravenously or orally."
+      ],
+      RadiationTherapy: [
+        "Used selectively to minimize long-term side effects.",
+        "Highly precise techniques protect developing tissues.",
+        "Often combined with chemotherapy or surgery."
+      ],
+      Surgery: [
+        "Used to remove solid tumors when feasible.",
+        "Performed with focus on organ preservation.",
+        "Often part of combined treatment strategies."
+      ],
+      TargetedAndImmunotherapy: [
+        "Used in selected pediatric cancers.",
+        "Based on molecular and genetic findings.",
+        "May reduce toxicity compared to conventional therapy."
+      ],
+      BoneMarrowTransplantation: [
+        "Used in high-risk or relapsed cancers.",
+        "Includes autologous and allogeneic transplants.",
+        "Offers curative potential in selected cases."
+      ]
+    },
+
+    supportiveAndPsychosocialCare: {
+      ChildSupport: [
+        "Pain and symptom management.",
+        "Nutritional and developmental support.",
+        "Psychological counseling for children."
+      ],
+      FamilySupport: [
+        "Parental counseling and education.",
+        "Support for siblings and caregivers.",
+        "Guidance for home care and schooling."
+      ]
+    },
+
+    treatmentPlanning: {
+      RiskBasedApproach: [
+        "Treatment intensity based on disease risk.",
+        "Minimizes long-term toxicity when possible.",
+        "Regular reassessment during therapy."
+      ],
+      MultidisciplinaryCare: [
+        "Coordination between oncologists, surgeons, and radiologists.",
+        "Input from nutritionists, psychologists, and physiotherapists.",
+        "Holistic care planning."
+      ]
+    },
+
+    sideEffectsManagement: {
+      CommonSideEffects: [
+        "Fatigue",
+        "Infections",
+        "Hair Loss",
+        "Nausea And Vomiting",
+        "Low Blood Counts"
+      ],
+      LongTermMonitoring: [
+        "Growth and hormonal changes.",
+        "Learning or cognitive effects.",
+        "Organ function and fertility preservation."
+      ]
+    },
+
+    benefits: [
+      "High cure rates for many childhood cancers.",
+      "Specialized care tailored for children.",
+      "Focus on long-term health and development.",
+      "Strong family and psychosocial support.",
+      "Comprehensive survivorship care."
+    ],
+
+    limitations: [
+      "Treatment may be intensive and prolonged.",
+      "Risk of long-term side effects.",
+      "Requires extended follow-up into adulthood."
+    ],
+
+    survivorshipCare: [
+      "Long-term follow-up after treatment completion.",
+      "Monitoring for late effects of therapy.",
+      "Support for return to school and normal activities."
+    ],
+
+    dosAndDonts: {
+      Dos: [
+        "Attend All Scheduled Appointments",
+        "Report Fever Or Infections Immediately",
+        "Ensure Proper Nutrition And Hydration",
+        "Follow Medication And Care Instructions Carefully"
+      ],
+      Donts: [
+        "Do Not Delay Medical Attention For Symptoms",
+        "Avoid Exposure To Infections",
+        "Do Not Miss Follow-Up Visits"
+      ]
+    },
+
+    faqs: [
+      {
+        question: "Are Childhood Cancers Curable?",
+        answer:
+          "Yes, many childhood cancers have high cure rates when diagnosed early and treated with specialized pediatric oncology care."
+      },
+      {
+        question: "Will Cancer Treatment Affect My Child’s Growth?",
+        answer:
+          "Some treatments may affect growth or development, which is why careful monitoring and long-term follow-up are essential."
+      }
+    ]
+  },
+
+  "ictc-pharmacy": {
+    name: "ICTC Pharmacy",
+  category: "Other Services",
+    heroTitle: "ICTC Pharmacy Services",
+icon: pharmacyIcon,
+    heroImage: pharmacyHero,
+    contentImages: [pharmacy1, pharmacy2],
+
+    introduction:
+      "The ICTC Pharmacy is an integral part of comprehensive cancer care, providing safe, accurate, and timely access to oncology medications and supportive drugs. It supports patients throughout their cancer journey by ensuring the availability of high-quality medicines, expert guidance, and strict safety standards.",
+
+    overview: [
+      "ICTC Pharmacy specializes in oncology and supportive care medications.",
+      "Ensures safe handling and dispensing of cancer drugs.",
+      "Works closely with oncologists and nursing teams.",
+      "Maintains strict quality and storage standards.",
+      "Supports both inpatient and outpatient cancer care."
+    ],
+
+    roleOfPharmacy: [
+      "Dispenses chemotherapy, targeted therapy, and immunotherapy drugs.",
+      "Provides oral cancer medications and supportive medicines.",
+      "Ensures correct dosage, labeling, and patient instructions.",
+      "Monitors drug interactions and safety.",
+      "Supports treatment adherence and continuity of care."
+    ],
+
+    medicationsAvailable: {
+      OncologyMedications: [
+        "Chemotherapy Drugs",
+        "Targeted Therapy Medications",
+        "Immunotherapy Drugs",
+        "Hormonal Therapy Medications"
+      ],
+      SupportiveCareMedications: [
+        "Anti-Nausea And Anti-Vomiting Drugs",
+        "Pain Management Medications",
+        "Growth Factors And Blood Support Drugs",
+        "Antibiotics And Infection Control Medications",
+        "Nutritional Supplements"
+      ]
+    },
+
+    pharmacyServices: {
+      ChemotherapyPreparation: [
+        "Safe preparation of chemotherapy drugs.",
+        "Use of sterile environments and safety cabinets.",
+        "Strict adherence to dosing protocols."
+      ],
+      OralMedicationCounseling: [
+        "Guidance on correct medication usage.",
+        "Education on dosage timing and adherence.",
+        "Counseling on possible side effects."
+      ],
+      DrugSafetyAndMonitoring: [
+        "Review of prescriptions for accuracy.",
+        "Monitoring for drug interactions.",
+        "Coordination with oncologists for dose adjustments."
+      ]
+    },
+
+    qualityAndSafety: {
+      StorageAndHandling: [
+        "Temperature-controlled storage facilities.",
+        "Proper segregation of high-risk medications.",
+        "Regular stock and quality checks."
+      ],
+      SafetyProtocols: [
+        "Strict infection control measures.",
+        "Use of personal protective equipment.",
+        "Compliance with national and international pharmacy standards."
+      ]
+    },
+
+    patientSupport: {
+      Education: [
+        "Clear instructions on medication intake.",
+        "Side effect awareness and management tips.",
+        "Importance of treatment adherence."
+      ],
+      Accessibility: [
+        "Easy access for both inpatients and outpatients.",
+        "Timely availability of prescribed medicines.",
+        "Coordination with care teams for refill planning."
+      ]
+    },
+
+    benefits: [
+      "Ensures uninterrupted cancer treatment.",
+      "Improves medication safety and accuracy.",
+      "Provides expert pharmaceutical guidance.",
+      "Enhances patient confidence and adherence.",
+      "Supports overall treatment effectiveness."
+    ],
+
+    limitations: [
+      "Certain specialized drugs may require prior ordering.",
+      "Availability depends on prescription and treatment plan."
+    ],
+
+    dosAndDonts: {
+      Dos: [
+        "Take Medications Exactly As Prescribed",
+        "Store Medicines As Advised",
+        "Inform Pharmacist About Other Medications",
+        "Report Any Side Effects Promptly"
+      ],
+      Donts: [
+        "Do Not Skip Or Alter Dosages Without Advice",
+        "Avoid Sharing Medications With Others",
+        "Do Not Store Medicines Improperly"
+      ]
+    },
+
+    faqs: [
+      {
+        question: "Can I Get All Cancer Medicines At ICTC Pharmacy?",
+        answer:
+          "ICTC Pharmacy provides a wide range of oncology and supportive care medications. Availability of specific drugs depends on your treatment plan and prescription."
+      },
+      {
+        question: "Will I Receive Guidance On How To Take My Medicines?",
+        answer:
+          "Yes, trained pharmacy staff provide detailed counseling on medication usage, side effects, and safety."
+      }
+    ]
+  },
+
+  "tobacco-alcohol-deaddiction": {
+    name: "ICTC Tobacco & Alcohol De-Addiction Centre",
+  category: "Other Services",
+    heroTitle: "Tobacco & Alcohol De-Addiction Centre At ICTC",
+icon: deaddictionIcon,
+    heroImage: deaddictionHero,
+    contentImages: [deaddiction1, deaddiction2],
+
+    introduction:
+      "The ICTC Tobacco & Alcohol De-Addiction Centre is dedicated to helping individuals overcome addiction to tobacco and alcohol through structured medical, psychological, and behavioral support. These substances are major risk factors for several cancers and chronic diseases. The centre focuses on prevention, cessation, and long-term recovery to improve overall health and reduce cancer risk.",
+
+    overview: [
+      "Tobacco and alcohol use are leading preventable causes of cancer.",
+      "Addiction is a medical condition that requires professional care.",
+      "Early cessation significantly reduces cancer and health risks.",
+      "De-addiction programs are personalized for each individual.",
+      "Support continues beyond quitting to prevent relapse."
+    ],
+
+    servicesOffered: {
+      TobaccoCessation: [
+        "Smoking and smokeless tobacco cessation programs.",
+        "Assessment of nicotine dependence.",
+        "Structured quit plans with medical support."
+      ],
+      AlcoholDeAddiction: [
+        "Assessment of alcohol dependence severity.",
+        "Medically supervised withdrawal when required.",
+        "Long-term relapse prevention strategies."
+      ]
+    },
+
+    treatmentApproach: {
+      MedicalManagement: [
+        "Medications to reduce cravings and withdrawal symptoms.",
+        "Management of physical health complications.",
+        "Regular medical monitoring."
+      ],
+      BehavioralTherapy: [
+        "Individual counseling sessions.",
+        "Cognitive behavioral therapy for habit change.",
+        "Motivational interviewing techniques."
+      ],
+      PsychologicalSupport: [
+        "Stress and anxiety management.",
+        "Support for depression and emotional triggers.",
+        "Family involvement when appropriate."
+      ]
+    },
+
+    cancersAndHealthRisksReduced: {
+      Overview: [
+        "Cessation lowers the risk of multiple cancers and chronic illnesses.",
+        "Benefits increase with sustained abstinence."
+      ],
+      Examples: [
+        "Oral And Throat Cancer",
+        "Lung Cancer",
+        "Esophageal Cancer",
+        "Liver Cancer",
+        "Pancreatic Cancer",
+        "Heart And Lung Diseases"
+      ]
+    },
+
+    whoCanBenefit: [
+      "Individuals using tobacco in any form.",
+      "People with harmful or dependent alcohol use.",
+      "Cancer patients advised to stop substance use.",
+      "Individuals with family history of cancer.",
+      "Those seeking preventive healthcare."
+    ],
+
+    benefits: [
+      "Reduces cancer risk and improves treatment outcomes.",
+      "Improves overall physical and mental health.",
+      "Enhances quality of life and longevity.",
+      "Provides professional and confidential support.",
+      "Encourages long-term healthy lifestyle changes."
+    ],
+
+    challengesAndLimitations: [
+      "Relapse risk exists without continued support.",
+      "Behavioral change requires motivation and commitment.",
+      "Multiple sessions may be needed for sustained success."
+    ],
+
+    programStructure: {
+      AssessmentPhase: [
+        "Detailed addiction and medical history.",
+        "Evaluation of dependence severity.",
+        "Goal setting and treatment planning."
+      ],
+      InterventionPhase: [
+        "Medical and counseling interventions.",
+        "Behavioral modification strategies.",
+        "Lifestyle and stress management guidance."
+      ],
+      FollowUpPhase: [
+        "Regular follow-up sessions.",
+        "Monitoring for relapse signs.",
+        "Long-term support and reinforcement."
+      ]
+    },
+
+    postProgramSupport: [
+      "Continued counseling as needed.",
+      "Support groups and peer encouragement.",
+      "Guidance on maintaining a substance-free lifestyle."
+    ],
+
+    dosAndDonts: {
+      Dos: [
+        "Seek Help Early",
+        "Follow Prescribed Treatment Plans",
+        "Attend Counseling And Follow-Up Sessions",
+        "Engage Family Support If Recommended"
+      ],
+      Donts: [
+        "Do Not Attempt Sudden Withdrawal Without Medical Advice",
+        "Avoid High-Risk Situations And Triggers",
+        "Do Not Ignore Relapse Warning Signs"
+      ]
+    },
+
+    faqs: [
+      {
+        question: "Is De-Addiction Treatment Confidential?",
+        answer:
+          "Yes, all consultations and treatments at the ICTC De-Addiction Centre are handled with complete confidentiality."
+      },
+      {
+        question: "Can Quitting Tobacco Or Alcohol Reduce Cancer Risk?",
+        answer:
+          "Yes, quitting significantly reduces the risk of developing cancer and improves outcomes in patients undergoing cancer treatment."
+      }
+    ]
+  },
+
+  "scalp-cooling": {
+    name: "Scalp Cooling (Anti Hairfall)",
+  category: "Other Services",
+    heroTitle: "Scalp Cooling (Anti Hairfall) At ICTC",
+icon: scalpCoolingIcon,
+    heroImage: scalpCoolingHero,
+    contentImages: [scalpCooling1, scalpCooling2],
+
+    introduction:
+      "Scalp cooling is an advanced supportive care technique used during chemotherapy to reduce hair loss. It works by lowering the temperature of the scalp, which reduces blood flow to hair follicles and limits the amount of chemotherapy drugs reaching them. This helps preserve hair and improves emotional well-being during cancer treatment.",
+
+    overview: [
+      "Hair loss is a common and distressing side effect of chemotherapy.",
+      "Scalp cooling is used before, during, and after chemotherapy sessions.",
+      "It helps protect hair follicles from chemotherapy damage.",
+      "The effectiveness depends on chemotherapy type and dosage.",
+      "Scalp cooling improves patient confidence and quality of life."
+    ],
+
+    howItWorks: {
+      Mechanism: [
+        "Cooling causes blood vessels in the scalp to constrict.",
+        "Reduced blood flow limits chemotherapy exposure to hair follicles.",
+        "Lower scalp temperature slows follicle cell activity.",
+        "Together, these effects reduce chemotherapy-induced hair loss."
+      ],
+      Timing: [
+        "Cooling starts before chemotherapy begins.",
+        "Continues during drug administration.",
+        "Extended for a period after chemotherapy completion."
+      ]
+    },
+
+    typesOfScalpCooling: {
+      ManualColdCaps: [
+        "Gel-filled caps pre-cooled in specialized freezers.",
+        "Caps are changed at regular intervals to maintain temperature.",
+        "Requires trained staff for proper use."
+      ],
+      AutomatedScalpCoolingSystems: [
+        "Computer-controlled cooling devices.",
+        "Maintain consistent scalp temperature throughout treatment.",
+        "More comfortable and widely used in modern oncology centers."
+      ]
+    },
+
+    patientsWhoMayBenefit: {
+      Overview: [
+        "Scalp cooling is suitable for many patients receiving chemotherapy.",
+        "Best results are seen in certain cancer types and drug regimens."
+      ],
+      Examples: [
+        "Breast Cancer Patients",
+        "Ovarian Cancer Patients",
+        "Patients Receiving Taxane-Based Chemotherapy",
+        "Patients Receiving Anthracycline-Based Regimens (Selective Use)"
+      ]
+    },
+
+    benefits: [
+      "Significantly reduces chemotherapy-related hair loss.",
+      "Helps patients maintain their appearance and self-esteem.",
+      "Improves emotional and psychological well-being.",
+      "Allows patients to continue social and professional activities with confidence.",
+      "Non-invasive and safe when properly supervised."
+    ],
+
+    limitations: [
+      "Does not guarantee complete hair preservation.",
+      "Effectiveness varies based on chemotherapy drugs used.",
+      "May not be suitable for all cancer types.",
+      "Requires additional time before and after chemotherapy sessions."
+    ],
+
+    procedureDetails: {
+      Preparation: [
+        "Hair should be clean and free of styling products.",
+        "Patients are advised to avoid hair coloring during treatment.",
+        "Medical team evaluates suitability before starting scalp cooling."
+      ],
+      DuringTreatment: [
+        "Cooling cap is fitted securely to the scalp.",
+        "Temperature is gradually reduced for patient comfort.",
+        "Continuous monitoring ensures safety and effectiveness."
+      ],
+      AfterTreatment: [
+        "Cooling continues for a set time after chemotherapy.",
+        "Cap is removed once scalp temperature normalizes."
+      ]
+    },
+
+    sideEffects: {
+      CommonSideEffects: [
+        "Cold Sensation On The Scalp",
+        "Headache Or Mild Discomfort",
+        "Scalp Tightness",
+        "Chills During Initial Cooling"
+      ],
+      AdditionalNotes: [
+        "Most side effects are temporary and manageable.",
+        "Discomfort usually decreases after the first few sessions."
+      ]
+    },
+
+    safetyConsiderations: [
+      "Scalp cooling is not recommended in certain blood cancers.",
+      "Careful monitoring is required for patients with cold sensitivity.",
+      "Oncologist approval is necessary before starting scalp cooling."
+    ],
+
+    postTreatmentCare: [
+      "Use mild, sulfate-free shampoos.",
+      "Avoid excessive heat styling and tight hairstyles.",
+      "Handle hair gently to reduce breakage.",
+      "Continue gentle hair care for several weeks after chemotherapy."
+    ],
+
+    dosAndDonts: {
+      Dos: [
+        "Follow Scalp Cooling Schedule As Advised",
+        "Use Gentle Hair Care Products",
+        "Protect Hair From Sun And Heat",
+        "Report Any Discomfort To Medical Staff"
+      ],
+      Donts: [
+        "Do Not Use Hair Dryers Or Straighteners Frequently",
+        "Avoid Chemical Hair Treatments",
+        "Do Not Skip Cooling Sessions Without Medical Advice"
+      ]
+    },
+
+    faqs: [
+      {
+        question: "Does Scalp Cooling Completely Prevent Hair Loss?",
+        answer:
+          "Scalp cooling significantly reduces hair loss in many patients, but results vary depending on chemotherapy type and individual response."
+      },
+      {
+        question: "Is Scalp Cooling Safe?",
+        answer:
+          "Yes, scalp cooling is generally safe when used under medical supervision and is widely practiced in oncology centers worldwide."
+      }
+    ]
+  },
+
+  
 };
 
 export default serviceData;

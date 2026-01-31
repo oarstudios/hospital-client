@@ -111,7 +111,7 @@ const Navbar = () => {
               CANCER TYPES <img src={arrow} />
             </li>
 
-            <li onClick={() => handleNavigate("/ourDoctors")}>ONCOLOGIST</li>
+            <li onClick={() => handleNavigate("/ourDoctors")}>OUR DOCTORS</li>
 
             <li onClick={() => handleNavigate("/blog")}>BLOGS</li>
           </ul>
@@ -146,7 +146,7 @@ const Navbar = () => {
             <li onClick={() => toggleMenu("services")}>Services</li>
             <li onClick={() => toggleMenu("centres")}>Our Centre</li>
             <li onClick={() => toggleMenu("cancer")}>Cancer Types</li>
-            <li onClick={() => handleNavigate("/ourDoctors")}>Oncologist</li>
+            <li onClick={() => handleNavigate("/ourDoctors")}>Our Doctors</li>
             <li onClick={() => handleNavigate("/blog")}>Blogs</li>
 
             <button

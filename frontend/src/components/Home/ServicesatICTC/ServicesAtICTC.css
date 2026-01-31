@@ -164,3 +164,9 @@
     font-size: 12px;
   }
 }
+
+
+.all-services-btn {
+  margin: 40px auto 0 auto;
+  display: block;
+}

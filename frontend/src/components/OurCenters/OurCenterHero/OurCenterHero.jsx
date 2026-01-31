@@ -42,19 +42,30 @@ const OurCenterHero = () => {
 
         {/* PHONE */}
         <div className="contact-row">
-          <img src={phoneIcon} alt="phone" />
-          <span className="phone">{center.phone}</span>
-        </div>
+  <img src={phoneIcon} alt="phone" />
+  <a href={`tel:${center.phone}`} className="phone">
+    {center.phone}
+  </a>
+</div>
+
 
         {/* ADDRESS */}
         <div className="address-block">
-          <div className="address-title">
-            <img src={locationIcon} alt="location" />
-            <span className="addTitle">Address:</span>
-          </div>
+  <div className="address-title">
+    <img src={locationIcon} alt="location" />
+    <span className="addTitle">Address:</span>
+  </div>
 
-          <p className="address-text">{center.address}</p>
-        </div>
+  <a
+    href={`https://www.google.com/maps?q=${center.lat},${center.lng}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="address-text"
+  >
+    {center.address}
+  </a>
+</div>
+
 
         {/* TIMING */}
         <p className="timing">{center.timing}</p>

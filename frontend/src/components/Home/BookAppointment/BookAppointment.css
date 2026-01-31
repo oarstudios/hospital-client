@@ -354,11 +354,10 @@ border: 1px solid rgba(228, 227, 229, 1);
   color: rgba(176, 104, 205, 1);
   font-weight: 700;
   text-decoration: none;
+    text-decoration: underline;
 }
 
-.centre-link-BA:hover {
-  text-decoration: underline;
-}
+
 
 /* DATE + BUTTON STACK FIX */
 .date-section {
