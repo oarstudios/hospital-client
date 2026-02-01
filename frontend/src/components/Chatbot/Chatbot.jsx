@@ -14,15 +14,27 @@ import UpFAQ from "../../assets/upfaq.png";
 import DownFAQ from "../../assets/dowfaq.png";
 import Close from "../../assets/CloseIcon.png";
 
+/* ============================
+   AREA → CENTER MAP
+============================ */
+const areacenterMap = {
+  Mumbai: ["Sion", "Dadar", "Ghatkopar", "Goregaon", "Chembur", "Santacruz"],
+  "Navi Mumbai": ["Vashi", "Panvel"],
+  Thane: ["Kalyan", "Dombivli"],
+};
+
 export default function Chatbot() {
   /* ================= STATE ================= */
   const [open, setOpen] = useState(false);
   const [view, setView] = useState("menu"); // menu | booking
-  const [step, setStep] = useState(""); // name | age | phone | centre | date | done
+  const [step, setStep] = useState(""); // name | age | phone | area | center | date | done
   const [openFaq, setOpenFaq] = useState(null);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
 
+  /* ================= REFS ================= */
+  const selectedcenterRef = useRef("");
+  const isSubmittingRef = useRef(false);
   const msgEndRef = useRef(null);
 
   /* ================= FORM DATA ================= */
@@ -30,7 +42,8 @@ export default function Chatbot() {
     patientName: "",
     age: "",
     phone: "",
-    centre: "",
+    area: "",
+    center: "",
     date: "",
     type: "Appointment",
   });
@@ -48,11 +61,14 @@ export default function Chatbot() {
     setMessages([]);
     setStep("");
     setInput("");
+    selectedcenterRef.current = "";
+    isSubmittingRef.current = false;
     setForm({
       patientName: "",
       age: "",
       phone: "",
-      centre: "",
+      area: "",
+      center: "",
       date: "",
       type: "Appointment",
     });
@@ -64,32 +80,18 @@ export default function Chatbot() {
   }
 
   /* ================= DATA ================= */
-  const centres = [
-    "Vashi",
-    "Panvel",
-    "Kalyan",
-    "Dombivli",
-    "Sion",
-    "Dadar",
-    "Ghatkopar",
-    "Goregaon",
-    "Chembur",
-    "Santacruz",
-  ];
-
-  const centreSlugMap = {
-  Vashi: "vashi",
-  Panvel: "panvel",
-  Kalyan: "kalyan",
-  Dombivli: "dombivli",
-  Sion: "sion",
-  Dadar: "dadar",
-  Ghatkopar: "ghatkopar",
-  Goregaon: "goregaon",
-  Chembur: "chembur",
-  Santacruz: "santacruz",
-};
-
+  const centerSlugMap = {
+    Vashi: "vashi",
+    Panvel: "panvel",
+    Kalyan: "kalyan",
+    Dombivli: "dombivli",
+    Sion: "sion",
+    Dadar: "dadar",
+    Ghatkopar: "ghatkopar",
+    Goregaon: "goregaon",
+    Chembur: "chembur",
+    Santacruz: "santacruz",
+  };
 
   const faqs = [
     {
@@ -101,7 +103,7 @@ export default function Chatbot() {
             className="faq-link"
             onClick={() => window.open("/allCenters", "_blank")}
           >
-            View centres →
+            View centers →
           </span>
         </>
       ),
@@ -136,9 +138,30 @@ export default function Chatbot() {
     setOpenFaq(openFaq === index ? null : index);
   }
 
-  /* ================= CENTRE ================= */
-  function chooseCentre(c) {
-    setForm((prev) => ({ ...prev, centre: c }));
+  /* ================= AREA ================= */
+  function chooseArea(area) {
+    setForm((prev) => ({
+      ...prev,
+      area,
+      center: "",
+    }));
+
+    selectedcenterRef.current = "";
+
+    setMessages((prev) => [
+      ...prev,
+      { from: "user", text: area },
+      { from: "bot", text: "Please select ICTC center." },
+    ]);
+
+    setStep("center");
+  }
+
+  /* ================= CENTER ================= */
+  function choosecenter(c) {
+    selectedcenterRef.current = c;
+
+    setForm((prev) => ({ ...prev, center: c }));
 
     setMessages((prev) => [
       ...prev,
@@ -150,131 +173,92 @@ export default function Chatbot() {
   }
 
   /* ================= DATE + SUBMIT ================= */
- async function chooseDate(d) {
-  if (!d) return;
+  async function chooseDate(d) {
+    if (!d || isSubmittingRef.current) return;
+    isSubmittingRef.current = true;
 
-  const selectedDate = new Date(d);
-  const today = new Date();
+    const selectedDate = new Date(d);
+    const today = new Date();
+    selectedDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
 
-  // Normalize dates
-  selectedDate.setHours(0, 0, 0, 0);
-  today.setHours(0, 0, 0, 0);
-
-  /* ❌ Past date not allowed */
-  if (selectedDate < today) {
-    setMessages((prev) => [
-      ...prev,
-      { from: "bot", text: "⚠ Date cannot be in the past." },
-      { from: "bot", text: "Please select a valid date." },
-    ]);
-    return;
-  }
-
-  /* ❌ Sunday not allowed */
-  if (new Date(d).getDay() === 0) {
-    setMessages((prev) => [
-      ...prev,
-      {
-        from: "bot",
-        text: "⚠ Consultations are not available on Sundays.",
-      },
-      { from: "bot", text: "Please select another date." },
-    ]);
-    return;
-  }
-
-  /* ❌ Same-day booking after 12 PM */
-  const isSameDay =
-    new Date(d).toDateString() === new Date().toDateString();
-
- if (isSameDay && new Date().getHours() >= 12) {
-  const slug = centreSlugMap[form.centre];
-  const centreLink = slug
-    ? `/centre/${slug}`
-    : null;
-
-  setMessages((prev) => [
-    ...prev,
-    {
-      from: "bot",
-      text:
-        "⏰ Same-day appointments close at 12:00 PM.",
-    },
-    {
-      from: "bot",
-      text: centreLink ? (
-        <>
-          You can still check today’s availability at{" "}
-          <span
-            className="faq-link"
-            onClick={() =>
-              window.open(centreLink, "_blank")
-            }
-          >
-            {form.centre} ICTC Centre.
-          </span>
-        </>
-      ) : (
-        "You can contact the selected ICTC centre for availability."
-      ),
-    },
-    {
-      from: "bot",
-      text: "Please choose another date.",
-    },
-  ]);
-
-  return;
-}
-
-
-  /* ✅ SUBMIT */
-  const payload = {
-    name: form.patientName,
-    age: form.age,
-    phone: form.phone,
-    selectedCentre: form.centre,
-    date: d,
-    type: "Appointment",
-  };
-
-  setMessages((prev) => [...prev, { from: "user", text: d }]);
-
-  try {
-    const response = await fetch(
-      "https://script.google.com/macros/s/AKfycby_yIfLs8GlqAlgyqHtjPFcujoIfeiYqHzFNUUJckL4FAb1z-EkbqlBW1FpkVqXFA/exec",
-      {
-        method: "POST",
-        headers: { "Content-Type": "text/plain" },
-        body: JSON.stringify(payload),
-      }
-    );
-
-    const result = await response.json();
-
-    if (result.success) {
+    if (selectedDate < today) {
+      isSubmittingRef.current = false;
       setMessages((prev) => [
         ...prev,
-        { from: "bot", text: "🎉 Appointment booked successfully!" },
-        {
-          from: "bot",
-          text:
-            "Our team will contact you shortly to confirm your appointment.",
-        },
+        { from: "bot", text: "⚠ Date cannot be in the past." },
       ]);
-      setStep("done");
-    } else {
-      throw new Error("Sheet error");
+      return;
     }
-  } catch (err) {
-    console.error(err);
-    setMessages((prev) => [
-      ...prev,
-      { from: "bot", text: "⚠ Something went wrong. Please try again." },
-    ]);
-  }
-}
 
+    if (new Date(d).getDay() === 0) {
+      isSubmittingRef.current = false;
+      setMessages((prev) => [
+        ...prev,
+        { from: "bot", text: "⚠ Consultations are not available on Sundays." },
+      ]);
+      return;
+    }
+
+    if (!form.area || !selectedcenterRef.current) {
+      isSubmittingRef.current = false;
+      setMessages((prev) => [
+        ...prev,
+        { from: "bot", text: "⚠ Please select area and center properly." },
+      ]);
+      return;
+    }
+
+    const payload = {
+      patientname: form.patientName,
+      age: form.age,
+      phone: form.phone,
+      area: form.area,
+      center: selectedcenterRef.current,
+      date: d,
+      source: "Chatbot",
+    };
+
+    setMessages((prev) => [...prev, { from: "user", text: d }]);
+
+    try {
+      const response = await fetch(
+        "https://script.google.com/macros/s/AKfycbwvMAutv6LdpzjigmueH0mBXUXNBn0YYh7zhQgLl4BoJ6fldYbuFH_SSBqB4-5U44aw/exec",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      const result = await response.json();
+
+      if (result.success) {
+        setMessages((prev) => [
+          ...prev,
+          { from: "bot", text: "🎉 Appointment booked successfully!" },
+          {
+            from: "bot",
+            text:
+              "Our team will contact you shortly to confirm your appointment.",
+          },
+        ]);
+        setStep("done");
+      } else {
+        throw new Error("Script returned failure");
+      }
+    } catch (err) {
+      console.error("Booking error:", err);
+      setMessages((prev) => [
+        ...prev,
+        { from: "bot", text: "⚠ Something went wrong. Please try again." },
+      ]);
+    } finally {
+      isSubmittingRef.current = false;
+    }
+  }
 
   /* ================= INPUT HANDLER ================= */
   function handleSend() {
@@ -283,7 +267,6 @@ export default function Chatbot() {
     const userMsg = input.trim();
     setMessages((prev) => [...prev, { from: "user", text: userMsg }]);
 
-    /* NAME */
     if (step === "name") {
       if (!/^[a-zA-Z ]+$/.test(userMsg) || userMsg.length < 2) {
         setInput("");
@@ -304,21 +287,9 @@ export default function Chatbot() {
         ]);
         setStep("age");
       }, 300);
-    }
-
-    /* AGE */
-    else if (step === "age") {
-      if (!/^\d+$/.test(userMsg)) {
-        setInput("");
-        setMessages((prev) => [
-          ...prev,
-          { from: "bot", text: "⚠ Age must be a number." },
-        ]);
-        return;
-      }
-
+    } else if (step === "age") {
       const age = Number(userMsg);
-      if (age < 1 || age > 120) {
+      if (!age || age < 1 || age > 120) {
         setInput("");
         setMessages((prev) => [
           ...prev,
@@ -333,19 +304,19 @@ export default function Chatbot() {
       setTimeout(() => {
         setMessages((prev) => [
           ...prev,
-          { from: "bot", text: "Please enter Phone Number" },
+          { from: "bot", text: "Please enter WhatsApp Number" },
         ]);
         setStep("phone");
       }, 300);
-    }
-
-    /* PHONE */
-    else if (step === "phone") {
-      if (!/^\d{10}$/.test(userMsg) || !/^[6-9]/.test(userMsg)) {
+    } else if (step === "phone") {
+      if (
+        !/^[6-9]\d{9}$/.test(userMsg) ||
+        /^(\d)\1{9}$/.test(userMsg)
+      ) {
         setInput("");
         setMessages((prev) => [
           ...prev,
-          { from: "bot", text: "⚠ Enter valid 10-digit Indian number." },
+          { from: "bot", text: "⚠ Enter valid Indian WhatsApp number." },
         ]);
         return;
       }
@@ -356,9 +327,9 @@ export default function Chatbot() {
       setTimeout(() => {
         setMessages((prev) => [
           ...prev,
-          { from: "bot", text: "Please select ICTC centre." },
+          { from: "bot", text: "Please select area." },
         ]);
-        setStep("centre");
+        setStep("area");
       }, 300);
     }
   }
@@ -444,7 +415,9 @@ export default function Chatbot() {
                   {faqs.map((faq, i) => (
                     <div
                       key={i}
-                      className={`faq-item ${openFaq === i ? "active" : ""}`}
+                      className={`faq-item ${
+                        openFaq === i ? "active" : ""
+                      }`}
                       onClick={() => toggleFaq(i)}
                     >
                       <div className="faq-question">
@@ -474,14 +447,29 @@ export default function Chatbot() {
             </div>
           </div>
 
-          {/* CENTRES */}
-          {step === "centre" && (
-            <div className="centre-box">
-              {centres.map((c) => (
+          {/* AREA */}
+          {step === "area" && (
+            <div className="center-box">
+              {Object.keys(areacenterMap).map((a) => (
+                <button
+                  key={a}
+                  className="center-btn"
+                  onClick={() => chooseArea(a)}
+                >
+                  {a}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* CENTERS */}
+          {step === "center" && (
+            <div className="center-box">
+              {areacenterMap[form.area].map((c) => (
                 <button
                   key={c}
-                  className="centre-btn"
-                  onClick={() => chooseCentre(c)}
+                  className="center-btn"
+                  onClick={() => choosecenter(c)}
                 >
                   {c}
                 </button>
@@ -503,7 +491,7 @@ export default function Chatbot() {
 
           {/* INPUT */}
           {view === "booking" &&
-            !["centre", "date", "done"].includes(step) && (
+            !["area", "center", "date", "done"].includes(step) && (
               <div className="input-row">
                 <input
                   type="text"
@@ -513,7 +501,7 @@ export default function Chatbot() {
                       ? "Enter patient name..."
                       : step === "age"
                       ? "Enter patient age..."
-                      : "Enter phone number..."
+                      : "Enter WhatsApp number..."
                   }
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleSend()}

@@ -3,41 +3,27 @@ import "./BookAppointment.css";
 import doctorImg from "../../../assets/ICTC female doctor 1.png";
 import tickIcon from "../../../assets/Vector (8).png";
 
-const centres = [
-  "Vashi",
-  "Panvel",
-  "Kalyan",
-  "Dombivli",
-  "Sion",
-  "Dadar",
-  "Ghatkopar",
-  "Santacruz",
-  "Goregaon",
-  "Chembur",
-];
-
-/* Centre → slug mapping */
-const centreSlugMap = {
-  Vashi: "vashi",
-  Panvel: "panvel",
-  Kalyan: "kalyan",
-  Dombivli: "dombivli",
-  Sion: "sion",
-  Dadar: "dadar",
-  Ghatkopar: "ghatkopar",
-  Santacruz: "santacruz",
-  Goregaon: "goregaon",
-  Chembur: "chembur",
+/* ============================
+   AREA → CENTERS MAPPING
+============================ */
+const areaCentreMap = {
+  Mumbai: ["Sion", "Dadar", "Ghatkopar", "Santacruz", "Goregaon", "Chembur"],
+  "Navi Mumbai": ["Vashi", "Panvel"],
+  Thane: ["Kalyan", "Dombivli"],
 };
 
 const BookAppointment = () => {
+  /* ============================
+     STATE
+  ============================ */
   const [formData, setFormData] = useState({
-    name: "",
+    patientname: "",
     age: "",
     phone: "",
+    area: "",
+    center: "",
     date: "",
-    selectedCentre: "",
-    type: "Appointment",
+    source: "Website_Form",
   });
 
   const [errors, setErrors] = useState({});
@@ -45,13 +31,9 @@ const BookAppointment = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [showSameDayNotice, setShowSameDayNotice] = useState(false);
 
-  const selectedCentreSlug = centreSlugMap[formData.selectedCentre];
-
-  const centrePageUrl = selectedCentreSlug
-    ? `/centre/${selectedCentreSlug}`
-    : null;
-
-  /* INPUT CHANGE */
+  /* ============================
+     INPUT CHANGE HANDLER
+  ============================ */
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -59,12 +41,9 @@ const BookAppointment = () => {
       const selectedDate = new Date(value);
       const today = new Date();
 
-      const isSameDay =
-        selectedDate.toDateString() === today.toDateString();
-
+      const isSameDay = selectedDate.toDateString() === today.toDateString();
       const currentHour = today.getHours();
 
-      // ❌ Sunday block
       if (selectedDate.getDay() === 0) {
         setErrors((prev) => ({
           ...prev,
@@ -73,7 +52,6 @@ const BookAppointment = () => {
         return;
       }
 
-      // ℹ️ Show notice after 12 PM for same-day
       if (isSameDay && currentHour >= 12) {
         setShowSameDayNotice(true);
       } else {
@@ -82,31 +60,51 @@ const BookAppointment = () => {
     }
 
     setErrors({});
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  /* SINGLE CENTRE SELECT */
-  const handleCentreChange = (centre) => {
+  /* ============================
+     AREA SELECT
+  ============================ */
+  const handleAreaChange = (area) => {
     setFormData((prev) => ({
       ...prev,
-      selectedCentre: centre,
+      area,
+      center: "",
     }));
   };
 
-  /* VALIDATION */
+  /* ============================
+     CENTER SELECT
+  ============================ */
+  const handleCentreChange = (center) => {
+    setFormData((prev) => ({
+      ...prev,
+      center,
+    }));
+  };
+
+  /* ============================
+     VALIDATION
+  ============================ */
   const validate = () => {
     const newErrors = {};
 
-    if (!formData.name.trim()) newErrors.name = "Name is required";
+    if (!formData.patientname.trim())
+      newErrors.patientname = "Patient name is required";
 
     if (!formData.age || formData.age < 1 || formData.age > 120)
-      newErrors.age = "Enter valid age";
+      newErrors.age = "Enter a valid age";
 
-    if (!/^\d{10}$/.test(formData.phone))
-      newErrors.phone = "Enter valid 10-digit phone number";
+    if (!formData.phone) newErrors.phone = "WhatsApp number is required";
+    else if (!/^[6-9]\d{9}$/.test(formData.phone))
+      newErrors.phone = "Enter valid 10-digit Indian number";
+    else if (/^(\d)\1{9}$/.test(formData.phone))
+      newErrors.phone = "Invalid phone number";
 
-    if (!formData.selectedCentre)
-      newErrors.centres = "Select one centre";
+    if (!formData.area) newErrors.area = "Please select an area";
+
+    if (!formData.center) newErrors.center = "Please select a center";
 
     if (!formData.date) {
       newErrors.date = "Please select appointment date";
@@ -118,15 +116,11 @@ const BookAppointment = () => {
         newErrors.date = "Appointments are not available on Sundays";
       }
 
-      const isSameDay =
-        selectedDate.toDateString() === today.toDateString();
-
+      const isSameDay = selectedDate.toDateString() === today.toDateString();
       const currentHour = today.getHours();
 
-      // ❌ Final block (submit only)
       if (isSameDay && currentHour >= 12) {
-        newErrors.date =
-          "Same-day appointments must be booked before 12 PM";
+        newErrors.date = "Same-day appointments must be booked before 12 PM";
       }
     }
 
@@ -134,7 +128,9 @@ const BookAppointment = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  /* SUBMIT */
+  /* ============================
+     SUBMIT
+  ============================ */
   const handleSubmit = async () => {
     if (!validate()) return;
 
@@ -143,41 +139,55 @@ const BookAppointment = () => {
 
     try {
       const response = await fetch(
-        "https://script.google.com/macros/s/AKfycby_yIfLs8GlqAlgyqHtjPFcujoIfeiYqHzFNUUJckL4FAb1z-EkbqlBW1FpkVqXFA/exec",
+        "https://script.google.com/macros/s/AKfycbwvMAutv6LdpzjigmueH0mBXUXNBn0YYh7zhQgLl4BoJ6fldYbuFH_SSBqB4-5U44aw/exec",
         {
           method: "POST",
-          headers: { "Content-Type": "text/plain" },
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8",
+          },
           body: JSON.stringify(formData),
         }
       );
 
       const result = await response.json();
 
-      if (result.success) {
+      if (result.status === "success") {
         setIsSubmitted(true);
 
         setTimeout(() => {
           setFormData({
-            name: "",
+            patientname: "",
             age: "",
             phone: "",
+            area: "",
+            center: "",
             date: "",
-            selectedCentre: "",
-            type: formData.type,
+            source: "Website_Form",
           });
+          setErrors({});
           setShowSameDayNotice(false);
           setIsSubmitted(false);
         }, 2500);
       } else {
-        alert("Failed to save data");
+        alert("Failed to save appointment");
       }
-    } catch {
-      alert("Network error");
+    } catch (error) {
+      alert("Network error. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  /* ============================
+     DYNAMIC CENTERS
+  ============================ */
+  const centresForSelectedArea = formData.area
+    ? areaCentreMap[formData.area]
+    : [];
+
+  /* ============================
+     JSX
+  ============================ */
   return (
     <section className="appointment-wrapper">
       <div className="appointment-card">
@@ -189,9 +199,9 @@ const BookAppointment = () => {
           <div className="input-row">
             <input
               type="text"
-              name="name"
-              placeholder="Name"
-              value={formData.name}
+              name="patientname"
+              placeholder="Patient Name"
+              value={formData.patientname}
               onChange={handleChange}
             />
             <input
@@ -203,86 +213,106 @@ const BookAppointment = () => {
             />
           </div>
 
-          {errors.name && <span className="error">{errors.name}</span>}
+          {errors.patientname && (
+            <span className="error">{errors.patientname}</span>
+          )}
           {errors.age && <span className="error">{errors.age}</span>}
 
-          <input
-            type="text"
-            name="phone"
-            placeholder="Phone Number"
-            value={formData.phone}
-            onChange={handleChange}
-          />
+          <div className="input-row">
+            {" "}
+            <input
+              type="tel"
+              name="phone"
+              placeholder="WhatsApp Number"
+              value={formData.phone}
+              onChange={handleChange}
+              maxLength={10}
+            />
+          </div>
+
           {errors.phone && <span className="error">{errors.phone}</span>}
 
-          <p className="section-label">
-            Select ICTC Centre and Date of Appointment
-          </p>
+          <p className="section-label">Select Area</p>
 
           <div className="centres-grid">
-            {centres.map((centre, index) => (
-              <label key={index} className="centre-chip">
+            {Object.keys(areaCentreMap).map((area) => (
+              <label key={area} className="centre-chip">
                 <input
                   type="checkbox"
-                  checked={formData.selectedCentre === centre}
-                  onChange={() => handleCentreChange(centre)}
+                  checked={formData.area === area}
+                  onChange={() => handleAreaChange(area)}
                 />
                 <span className="custom-checkbox">
                   <img src={tickIcon} alt="tick" />
                 </span>
-                <span className="centre-name">{centre}</span>
+                <span className="centre-name">{area}</span>
               </label>
             ))}
           </div>
 
-          {errors.centres && (
-            <span className="error">{errors.centres}</span>
+          {errors.area && <span className="error">{errors.area}</span>}
+
+          {formData.area && (
+            <>
+              <p className="section-label">
+                Select ICTC Centre in {formData.area}
+              </p>
+
+              <div className="centres-grid">
+                {centresForSelectedArea.map((centre) => (
+                  <label key={centre} className="centre-chip">
+                    <input
+                      type="checkbox"
+                      checked={formData.center === centre}
+                      onChange={() => handleCentreChange(centre)}
+                    />
+                    <span className="custom-checkbox">
+                      <img src={tickIcon} alt="tick" />
+                    </span>
+                    <span className="centre-name">{centre}</span>
+                  </label>
+                ))}
+              </div>
+
+              {errors.center && <span className="error">{errors.center}</span>}
+            </>
           )}
 
-          <p className="section-label">
-            Please Click below to select Date
-          </p>
+          <p className="section-label">Select Appointment Date</p>
 
-          <div className="date-section">
-  <input
-    type="date"
-    name="date"
-    className="date-input"
-    value={formData.date}
-    onChange={handleChange}
-    min={new Date().toISOString().split("T")[0]}
-    onKeyDown={(e) => e.preventDefault()}
-  />
+          <div className="nicheLe">
+            <input
+              type="date"
+              name="date"
+              className="date-input"
+              value={formData.date}
+              onChange={handleChange}
+              min={new Date().toISOString().split("T")[0]}
+              onKeyDown={(e) => e.preventDefault()}
+            />
 
-  {errors.date && <span className="error">{errors.date}</span>}
+            {errors.date && <span className="error">{errors.date}</span>}
 
-  {showSameDayNotice && formData.selectedCentre && (
-    <div className="info-notice">
-      ⏰ <strong>Same-day appointments close at 12:00 PM.</strong>
-      <br />
-      You can still check today’s availability at{" "}
-      <a href={centrePageUrl} className="centre-link-BA">
-        {formData.selectedCentre} ICTC Centre
-      </a>
-      .
-    </div>
-  )}
+            {showSameDayNotice && (
+              <div className="info-notice">
+                ⏰ <strong>Same-day appointments close at 12:00 PM.</strong>
+              </div>
+            )}
 
-  <button
-    className={`book-btn ${isSubmitting ? "loading" : ""} ${
-      isSubmitted ? "success" : ""
-    }`}
-    onClick={handleSubmit}
-    disabled={isSubmitting || isSubmitted}
-  >
-    {isSubmitting
-      ? "Submitting..."
-      : isSubmitted
-      ? "Submitted ✓"
-      : "Book Appointment"}
-  </button>
-</div>
-
+            <button
+              className={`book-btn ${isSubmitting ? "loading" : ""} ${
+                isSubmitted ? "success" : ""
+              }`}
+              onClick={handleSubmit}
+              disabled={isSubmitting || isSubmitted}
+            >
+              {isSubmitting
+                ? "Submitting..."
+                : isSubmitted
+                ? "Submitted ✓"
+                : "Book Appointment"}
+            </button>
+          </div>
         </div>
 
         <div className="appointment-image">
