@@ -80,19 +80,6 @@ export default function Chatbot() {
   }
 
   /* ================= DATA ================= */
-  const centerSlugMap = {
-    Vashi: "vashi",
-    Panvel: "panvel",
-    Kalyan: "kalyan",
-    Dombivli: "dombivli",
-    Sion: "sion",
-    Dadar: "dadar",
-    Ghatkopar: "ghatkopar",
-    Goregaon: "goregaon",
-    Chembur: "chembur",
-    Santacruz: "santacruz",
-  };
-
   const faqs = [
     {
       question: "Where are you located?",
@@ -222,10 +209,11 @@ export default function Chatbot() {
     setMessages((prev) => [...prev, { from: "user", text: d }]);
 
     try {
-      const response = await fetch(
+      await fetch(
         "https://script.google.com/macros/s/AKfycbwvMAutv6LdpzjigmueH0mBXUXNBn0YYh7zhQgLl4BoJ6fldYbuFH_SSBqB4-5U44aw/exec",
         {
           method: "POST",
+          mode: "no-cors",
           headers: {
             "Content-Type": "text/plain;charset=utf-8",
           },
@@ -233,22 +221,18 @@ export default function Chatbot() {
         }
       );
 
-      const result = await response.json();
-
-      if (result.success) {
-        setMessages((prev) => [
-          ...prev,
-          { from: "bot", text: "🎉 Appointment booked successfully!" },
-          {
-            from: "bot",
-            text:
-              "Our team will contact you shortly to confirm your appointment.",
-          },
-        ]);
-        setStep("done");
-      } else {
-        throw new Error("Script returned failure");
-      }
+      // With no-cors mode, we can't read the response, so assume success
+      // if the request didn't throw an error
+      setMessages((prev) => [
+        ...prev,
+        { from: "bot", text: "🎉 Appointment booked successfully!" },
+        {
+          from: "bot",
+          text:
+            "Our team will contact you shortly to confirm your appointment.",
+        },
+      ]);
+      setStep("done");
     } catch (err) {
       console.error("Booking error:", err);
       setMessages((prev) => [

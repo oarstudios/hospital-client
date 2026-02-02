@@ -38,7 +38,7 @@ const ServicesAtICTC = () => {
 
       <button
         className="view-all all-services-btn"
-        onClick={() => navigate("/blog")}
+        onClick={() => navigate("/AllService")}
       >
         View All <span>→</span>
       </button>

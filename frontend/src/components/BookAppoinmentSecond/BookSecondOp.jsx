@@ -186,7 +186,7 @@ const BookSecondOp = () => {
       } else {
         alert("Failed to save consultation request");
       }
-    } catch (error) {
+    } catch {
       alert("Network error. Please try again.");
     } finally {
       setIsSubmitting(false);
@@ -332,7 +332,7 @@ const BookSecondOp = () => {
               ? "Submitting..."
               : isSubmitted
               ? "Submitted ✓"
-              : "Request Second Opinion"}
+              : "Book Second Opinion"}
           </button>
           </div>
         </div>

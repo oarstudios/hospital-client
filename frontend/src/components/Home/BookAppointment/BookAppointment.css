@@ -136,7 +136,7 @@ border: 1px solid rgba(228, 227, 229, 1);
   height: 100%;
   display: flex;
   align-items: flex-end;
-  padding-right: 40px;
+  /* padding-right: 40px; */
 }
 
 .appointment-image img {
