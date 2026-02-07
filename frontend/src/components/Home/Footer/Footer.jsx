@@ -140,8 +140,12 @@ const Footer = () => {
               <li>
                 <Link to="/blog">ICTC Blogs</Link>
               </li>
-              <li>ICTC Newsletter</li>
-              <li>Privacy Policy</li>
+           <li>
+      <Link to="/newsletter">ICTC Newsletter</Link>
+    </li>
+    <li>
+      <Link to="/privacy-policy">Privacy Policy</Link>
+    </li>
             </ul>
           </div>
         </div>

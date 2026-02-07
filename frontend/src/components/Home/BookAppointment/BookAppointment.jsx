@@ -12,6 +12,22 @@ const areaCentreMap = {
   Thane: ["Kalyan", "Dombivli"],
 };
 
+/* ============================
+   CENTER → SLUG MAP
+============================ */
+const centerSlugMap = {
+  Sion: "sion",
+  Dadar: "dadar",
+  Ghatkopar: "ghatkopar",
+  Santacruz: "santacruz",
+  Goregaon: "goregaon",
+  Chembur: "chembur",
+  Vashi: "vashi",
+  Panvel: "panvel",
+  Kalyan: "kalyan",
+  Dombivli: "dombivli",
+};
+
 const BookAppointment = () => {
   /* ============================
      STATE
@@ -41,13 +57,15 @@ const BookAppointment = () => {
       const selectedDate = new Date(value);
       const today = new Date();
 
-      const isSameDay = selectedDate.toDateString() === today.toDateString();
+      const isSameDay =
+        selectedDate.toDateString() === today.toDateString();
       const currentHour = today.getHours();
 
+      // 🚫 Sunday logic
       if (selectedDate.getDay() === 0) {
         setErrors((prev) => ({
           ...prev,
-          date: "Appointments are not available on Sundays",
+          date: "SUNDAY_BLOCK",
         }));
         return;
       }
@@ -96,15 +114,18 @@ const BookAppointment = () => {
     if (!formData.age || formData.age < 1 || formData.age > 120)
       newErrors.age = "Enter a valid age";
 
-    if (!formData.phone) newErrors.phone = "WhatsApp number is required";
+    if (!formData.phone)
+      newErrors.phone = "WhatsApp number is required";
     else if (!/^[6-9]\d{9}$/.test(formData.phone))
       newErrors.phone = "Enter valid 10-digit Indian number";
     else if (/^(\d)\1{9}$/.test(formData.phone))
       newErrors.phone = "Invalid phone number";
 
-    if (!formData.area) newErrors.area = "Please select an area";
+    if (!formData.area)
+      newErrors.area = "Please select an area";
 
-    if (!formData.center) newErrors.center = "Please select a center";
+    if (!formData.center)
+      newErrors.center = "Please select a center";
 
     if (!formData.date) {
       newErrors.date = "Please select appointment date";
@@ -113,14 +134,16 @@ const BookAppointment = () => {
       const today = new Date();
 
       if (selectedDate.getDay() === 0) {
-        newErrors.date = "Appointments are not available on Sundays";
+        newErrors.date = "SUNDAY_BLOCK";
       }
 
-      const isSameDay = selectedDate.toDateString() === today.toDateString();
+      const isSameDay =
+        selectedDate.toDateString() === today.toDateString();
       const currentHour = today.getHours();
 
       if (isSameDay && currentHour >= 12) {
-        newErrors.date = "Same-day appointments must be booked before 12 PM";
+        newErrors.date =
+          "Same-day appointments must be booked before 12 PM";
       }
     }
 
@@ -171,7 +194,7 @@ const BookAppointment = () => {
       } else {
         alert("Failed to save appointment");
       }
-    } catch (error) {
+    } catch {
       alert("Network error. Please try again.");
     } finally {
       setIsSubmitting(false);
@@ -219,7 +242,6 @@ const BookAppointment = () => {
           {errors.age && <span className="error">{errors.age}</span>}
 
           <div className="input-row">
-            {" "}
             <input
               type="tel"
               name="phone"
@@ -274,7 +296,9 @@ const BookAppointment = () => {
                 ))}
               </div>
 
-              {errors.center && <span className="error">{errors.center}</span>}
+              {errors.center && (
+                <span className="error">{errors.center}</span>
+              )}
             </>
           )}
 
@@ -291,7 +315,31 @@ const BookAppointment = () => {
               onKeyDown={(e) => e.preventDefault()}
             />
 
-            {errors.date && <span className="error">{errors.date}</span>}
+            {/* 🧠 Sunday message with link */}
+            {errors.date === "SUNDAY_BLOCK" && (
+              <span className="error">
+                Appointments are not available on Sundays.{" "}
+                {formData.center && (
+                  <span
+                    className="center-link"
+                    title="Go to center page"
+                    onClick={() =>
+                      window.open(
+                        `/centre/${centerSlugMap[formData.center]}`,
+                        "_self"
+                      )
+                    }
+                  >
+                    If you want to book, check directly on the center
+                  </span>
+                )}
+              </span>
+            )}
+
+            {errors.date &&
+              errors.date !== "SUNDAY_BLOCK" && (
+                <span className="error">{errors.date}</span>
+              )}
 
             {showSameDayNotice && (
               <div className="info-notice">

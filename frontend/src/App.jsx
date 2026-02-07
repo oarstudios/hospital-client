@@ -59,6 +59,7 @@ import AllServiceBreadcrumb from "./components/ServicePage/AllServiceBreadcrumb"
 import ScrollToTop from "./components/Common/ScrollToTop";
 import NotFound from "./components/Common/NotFound";
 import WhatsAppFloat from "./components/WhatsAppFloat/WhatsAppFloat";
+import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
 
 function App() {
   return (
@@ -256,6 +257,16 @@ function App() {
             </>
           }
         />
+
+        <Route
+  path="/privacy-policy"
+  element={
+    <>
+      <PrivacyPolicy />
+    </>
+  }
+/>
+
 
         <Route path="*" element={<NotFound/>} />
       </Routes>
