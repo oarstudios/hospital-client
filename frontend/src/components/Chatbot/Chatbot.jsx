@@ -26,8 +26,8 @@ const areacenterMap = {
 export default function Chatbot() {
   /* ================= STATE ================= */
   const [open, setOpen] = useState(false);
-  const [view, setView] = useState("menu"); // menu | booking
-  const [step, setStep] = useState(""); // name | age | phone | area | center | date | done
+  const [view, setView] = useState("menu");
+  const [step, setStep] = useState("");
   const [openFaq, setOpenFaq] = useState(null);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -50,10 +50,21 @@ export default function Chatbot() {
 
   /* ================= EFFECTS ================= */
   useEffect(() => {
-    if (view === "booking") {
-      msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }
+    msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, view]);
+
+  /* ================= HELPERS ================= */
+  const getNextAvailableDate = () => {
+    const d = new Date();
+    d.setDate(d.getDate() + 1);
+
+    // 🚫 Skip Sunday
+    if (d.getDay() === 0) {
+      d.setDate(d.getDate() + 1);
+    }
+
+    return d.toISOString().split("T")[0];
+  };
 
   /* ================= RESET ================= */
   function resetChat() {
@@ -159,7 +170,7 @@ export default function Chatbot() {
     setStep("date");
   }
 
-  /* ================= DATE + SUBMIT ================= */
+  /* ================= DATE (FULL FORM LOGIC) ================= */
   async function chooseDate(d) {
     if (!d || isSubmittingRef.current) return;
     isSubmittingRef.current = true;
@@ -169,6 +180,7 @@ export default function Chatbot() {
     selectedDate.setHours(0, 0, 0, 0);
     today.setHours(0, 0, 0, 0);
 
+    /* ❌ PAST DATE */
     if (selectedDate < today) {
       isSubmittingRef.current = false;
       setMessages((prev) => [
@@ -178,15 +190,63 @@ export default function Chatbot() {
       return;
     }
 
-    if (new Date(d).getDay() === 0) {
+    /* ❌ SUNDAY BLOCK */
+    if (selectedDate.getDay() === 0) {
       isSubmittingRef.current = false;
       setMessages((prev) => [
         ...prev,
-        { from: "bot", text: "⚠ Consultations are not available on Sundays." },
+        {
+          from: "bot",
+          text:
+            "❌ Appointments are not available on Sundays. All clinics are closed.",
+        },
       ]);
       return;
     }
 
+    /* ⏰ SAME DAY AFTER 12 PM */
+    const isSameDay =
+      selectedDate.toDateString() === new Date().toDateString();
+    const currentHour = new Date().getHours();
+
+    if (isSameDay && currentHour >= 12) {
+      const nextDate = getNextAvailableDate();
+      isSubmittingRef.current = false;
+
+      setMessages((prev) => [
+  ...prev,
+  {
+    from: "bot",
+    text: (
+      <>
+        ⏰ Same-day appointments are accepted only before 12:00 PM.
+        <br />
+        <br />
+        You can still connect with the centre directly —{" "}
+        <span
+          style={{ textDecoration: "underline", cursor: "pointer" }}
+          onClick={() =>
+            window.open(
+              `/centre/${selectedcenterRef.current.toLowerCase()}`,
+              "_blank"
+            )
+          }
+        >
+          visit the centre page
+        </span>
+        .
+        <br />
+        <br />
+        👉 Next available slot: <strong>{nextDate}</strong>
+      </>
+    ),
+  },
+]);
+
+      return;
+    }
+
+    /* ❌ AREA / CENTER MISSING */
     if (!form.area || !selectedcenterRef.current) {
       isSubmittingRef.current = false;
       setMessages((prev) => [
@@ -196,6 +256,7 @@ export default function Chatbot() {
       return;
     }
 
+    /* ✅ SUBMIT */
     const payload = {
       patientname: form.patientName,
       age: form.age,
@@ -221,8 +282,6 @@ export default function Chatbot() {
         }
       );
 
-      // With no-cors mode, we can't read the response, so assume success
-      // if the request didn't throw an error
       setMessages((prev) => [
         ...prev,
         { from: "bot", text: "🎉 Appointment booked successfully!" },
@@ -232,9 +291,9 @@ export default function Chatbot() {
             "Our team will contact you shortly to confirm your appointment.",
         },
       ]);
+
       setStep("done");
-    } catch (err) {
-      console.error("Booking error:", err);
+    } catch {
       setMessages((prev) => [
         ...prev,
         { from: "bot", text: "⚠ Something went wrong. Please try again." },
@@ -244,7 +303,7 @@ export default function Chatbot() {
     }
   }
 
-  /* ================= INPUT HANDLER ================= */
+  /* ================= INPUT HANDLER (UNCHANGED VALIDATION) ================= */
   function handleSend() {
     if (!input.trim()) return;
 
@@ -318,7 +377,7 @@ export default function Chatbot() {
     }
   }
 
-  /* ================= JSX ================= */
+  /* ================= JSX (UNCHANGED STRUCTURE) ================= */
   return (
     <>
       {/* FLOATING BUTTON */}
@@ -343,7 +402,6 @@ export default function Chatbot() {
 
       {open && (
         <div className="chat-window">
-          {/* HEADER */}
           <div className="chat-header">
             <img src={Logo} className="chat-logo" alt="" />
             <button className="close-btn" onClick={toggleOpen}>
@@ -358,7 +416,7 @@ export default function Chatbot() {
               </div>
             )}
 
-            {/* MENU */}
+            {/* MENU + FAQ (UNCHANGED) */}
             {view === "menu" && (
               <div className="menu-container">
                 <p className="hi-text">
@@ -446,7 +504,7 @@ export default function Chatbot() {
             </div>
           )}
 
-          {/* CENTERS */}
+          {/* CENTER */}
           {step === "center" && (
             <div className="center-box">
               {areacenterMap[form.area].map((c) => (

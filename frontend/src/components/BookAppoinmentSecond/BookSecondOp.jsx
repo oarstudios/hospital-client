@@ -7,16 +7,25 @@ import tickIcon from "../../assets/Vector (8).png";
    AREA → CENTERS MAPPING
 ============================ */
 const areaCentreMap = {
-  Mumbai: [
-    "Sion",
-    "Dadar",
-    "Ghatkopar",
-    "Santacruz",
-    "Goregaon",
-    "Chembur",
-  ],
+  Mumbai: ["Sion", "Dadar", "Ghatkopar", "Santacruz", "Goregaon", "Chembur"],
   "Navi Mumbai": ["Vashi", "Panvel"],
   Thane: ["Kalyan", "Dombivli"],
+};
+
+/* ============================
+   CENTER → SLUG MAP
+============================ */
+const centerSlugMap = {
+  Sion: "sion",
+  Dadar: "dadar",
+  Ghatkopar: "ghatkopar",
+  Santacruz: "santacruz",
+  Goregaon: "goregaon",
+  Chembur: "chembur",
+  Vashi: "vashi",
+  Panvel: "panvel",
+  Kalyan: "kalyan",
+  Dombivli: "dombivli",
 };
 
 const BookSecondOp = () => {
@@ -36,7 +45,23 @@ const BookSecondOp = () => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [showSameDayNotice, setShowSameDayNotice] = useState(false);
+  const [, setShowSameDayNotice] = useState(false);
+  const [showTomorrowHint, setShowTomorrowHint] = useState(false);
+
+  /* ============================
+     HELPERS
+  ============================ */
+  const getTomorrowDate = () => {
+    const d = new Date();
+    d.setDate(d.getDate() + 1);
+
+    // 🚫 Skip Sunday
+    if (d.getDay() === 0) {
+      d.setDate(d.getDate() + 1);
+    }
+
+    return d.toISOString().split("T")[0];
+  };
 
   /* ============================
      INPUT CHANGE HANDLER
@@ -48,24 +73,29 @@ const BookSecondOp = () => {
       const selectedDate = new Date(value);
       const today = new Date();
 
+      // 🚫 SUNDAY — ABSOLUTE BLOCK
+      if (selectedDate.getDay() === 0) {
+        setErrors({ date: "SUNDAY_BLOCK" });
+        setFormData((prev) => ({ ...prev, date: "" }));
+        setShowSameDayNotice(false);
+        setShowTomorrowHint(false);
+        return;
+      }
+
       const isSameDay =
         selectedDate.toDateString() === today.toDateString();
       const currentHour = today.getHours();
 
-      if (selectedDate.getDay() === 0) {
-        setErrors((prev) => ({
-          ...prev,
-          date:
-            "Second opinion consultations are not available on Sundays",
-        }));
+      // ⏰ SAME DAY AFTER 12 PM
+      if (isSameDay && currentHour >= 12) {
+        setErrors({ date: "SAME_DAY_BLOCK" });
+        setShowSameDayNotice(true);
+        setShowTomorrowHint(true);
         return;
       }
 
-      if (isSameDay && currentHour >= 12) {
-        setShowSameDayNotice(true);
-      } else {
-        setShowSameDayNotice(false);
-      }
+      setShowSameDayNotice(false);
+      setShowTomorrowHint(false);
     }
 
     setErrors({});
@@ -125,8 +155,7 @@ const BookSecondOp = () => {
       const today = new Date();
 
       if (selectedDate.getDay() === 0) {
-        newErrors.date =
-          "Second opinion consultations are not available on Sundays";
+        newErrors.date = "SUNDAY_BLOCK";
       }
 
       const isSameDay =
@@ -134,8 +163,7 @@ const BookSecondOp = () => {
       const currentHour = today.getHours();
 
       if (isSameDay && currentHour >= 12) {
-        newErrors.date =
-          "Same-day consultation must be booked before 12 PM";
+        newErrors.date = "SAME_DAY_BLOCK";
       }
     }
 
@@ -154,7 +182,7 @@ const BookSecondOp = () => {
 
     try {
       const response = await fetch(
-           "https://script.google.com/macros/s/AKfycbwvMAutv6LdpzjigmueH0mBXUXNBn0YYh7zhQgLl4BoJ6fldYbuFH_SSBqB4-5U44aw/exec",
+        "https://script.google.com/macros/s/AKfycbwvMAutv6LdpzjigmueH0mBXUXNBn0YYh7zhQgLl4BoJ6fldYbuFH_SSBqB4-5U44aw/exec",
         {
           method: "POST",
           headers: {
@@ -181,6 +209,7 @@ const BookSecondOp = () => {
           });
           setErrors({});
           setShowSameDayNotice(false);
+          setShowTomorrowHint(false);
           setIsSubmitted(false);
         }, 2500);
       } else {
@@ -232,20 +261,18 @@ const BookSecondOp = () => {
           )}
           {errors.age && <span className="error">{errors.age}</span>}
 
-  <div className="input-row">
-     <input
-            type="tel"
-            name="phone"
-            placeholder="WhatsApp Number"
-            value={formData.phone}
-            onChange={handleChange}
-            maxLength={10}
-          />
-  </div>
-         
-          {errors.phone && (
-            <span className="error">{errors.phone}</span>
-          )}
+          <div className="input-row">
+            <input
+              type="tel"
+              name="phone"
+              placeholder="WhatsApp Number"
+              value={formData.phone}
+              onChange={handleChange}
+              maxLength={10}
+            />
+          </div>
+
+          {errors.phone && <span className="error">{errors.phone}</span>}
 
           <p className="section-label">Select Area</p>
 
@@ -297,43 +324,68 @@ const BookSecondOp = () => {
 
           <p className="section-label">Select Consultation Date</p>
 
+          <div className="nicheLe">
+            <input
+              type="date"
+              name="date"
+              className="date-input"
+              value={formData.date}
+              onChange={handleChange}
+              min={new Date().toISOString().split("T")[0]}
+              onKeyDown={(e) => e.preventDefault()}
+            />
 
-    <div className="nicheLe">
-          <input
-            type="date"
-            name="date"
-            className="date-input"
-            value={formData.date}
-            onChange={handleChange}
-            min={new Date().toISOString().split("T")[0]}
-            onKeyDown={(e) => e.preventDefault()}
-          />
+            {errors.date === "SUNDAY_BLOCK" && (
+              <span className="error">
+                Second opinion consultations are not available on Sundays.
+              </span>
+            )}
 
-          {errors.date && <span className="error">{errors.date}</span>}
+            {errors.date === "SAME_DAY_BLOCK" && (
+              <span className="error">
+                Same-day consultations are accepted only before 12:00 PM.
+                <br />
+                {formData.center && (
+                  <>
+                    {" "}
+                    You can still connect with this centre directly —{" "}
+                    <span
+                      className="center-link"
+                      style={{ textDecoration: "underline", cursor: "pointer" }}
+                      onClick={() =>
+                        window.open(
+                          `/centre/${centerSlugMap[formData.center]}`,
+                          "_blank"
+                        )
+                      }
+                    >
+                      visit the centre page
+                    </span>
+                    .
+                  </>
+                )}
+              </span>
+            )}
 
-          {showSameDayNotice && (
-            <div className="info-notice">
-              ⏰{" "}
-              <strong>
-                Same-day second opinion consultations close at
-                12:00 PM.
-              </strong>
-            </div>
-          )}
+            {showTomorrowHint && (
+              <div className="info-notice">
+                👉 Next available slot: <strong>{getTomorrowDate()}</strong>
+              </div>
+            )}
 
-          <button
-            className={`book-btn ${isSubmitting ? "loading" : ""} ${
-              isSubmitted ? "success" : ""
-            }`}
-            onClick={handleSubmit}
-            disabled={isSubmitting || isSubmitted}
-          >
-            {isSubmitting
-              ? "Submitting..."
-              : isSubmitted
-              ? "Submitted ✓"
-              : "Book Second Opinion"}
-          </button>
+            <button
+              className={`book-btn ${isSubmitting ? "loading" : ""} ${
+                isSubmitted ? "success" : ""
+              }`}
+              onClick={handleSubmit}
+              disabled={isSubmitting || isSubmitted}
+            >
+              {isSubmitting
+                ? "Submitting..."
+                : isSubmitted
+                ? "Submitted ✓"
+                : "Book Second Opinion"}
+            </button>
           </div>
         </div>
 

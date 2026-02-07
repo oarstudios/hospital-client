@@ -45,7 +45,24 @@ const BookAppointment = () => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [showSameDayNotice, setShowSameDayNotice] = useState(false);
+  const [, setShowSameDayNotice] = useState(false);
+  const [showTomorrowHint, setShowTomorrowHint] = useState(false);
+
+  /* ============================
+     HELPERS
+  ============================ */
+ const getTomorrowDate = () => {
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+
+  // 🚫 Skip Sunday
+  if (d.getDay() === 0) {
+    d.setDate(d.getDate() + 1);
+  }
+
+  return d.toISOString().split("T")[0];
+};
+
 
   /* ============================
      INPUT CHANGE HANDLER
@@ -57,24 +74,29 @@ const BookAppointment = () => {
       const selectedDate = new Date(value);
       const today = new Date();
 
+      // 🚫 SUNDAY — ABSOLUTE BLOCK
+      if (selectedDate.getDay() === 0) {
+        setErrors({ date: "SUNDAY_BLOCK" });
+        setFormData((prev) => ({ ...prev, date: "" }));
+        setShowSameDayNotice(false);
+        setShowTomorrowHint(false);
+        return;
+      }
+
       const isSameDay =
         selectedDate.toDateString() === today.toDateString();
       const currentHour = today.getHours();
 
-      // 🚫 Sunday logic
-      if (selectedDate.getDay() === 0) {
-        setErrors((prev) => ({
-          ...prev,
-          date: "SUNDAY_BLOCK",
-        }));
+      // ⏰ SAME DAY AFTER 12 PM
+      if (isSameDay && currentHour >= 12) {
+        setErrors({ date: "SAME_DAY_BLOCK" });
+        setShowSameDayNotice(true);
+        setShowTomorrowHint(true);
         return;
       }
 
-      if (isSameDay && currentHour >= 12) {
-        setShowSameDayNotice(true);
-      } else {
-        setShowSameDayNotice(false);
-      }
+      setShowSameDayNotice(false);
+      setShowTomorrowHint(false);
     }
 
     setErrors({});
@@ -142,8 +164,7 @@ const BookAppointment = () => {
       const currentHour = today.getHours();
 
       if (isSameDay && currentHour >= 12) {
-        newErrors.date =
-          "Same-day appointments must be booked before 12 PM";
+        newErrors.date = "SAME_DAY_BLOCK";
       }
     }
 
@@ -189,6 +210,7 @@ const BookAppointment = () => {
           });
           setErrors({});
           setShowSameDayNotice(false);
+          setShowTomorrowHint(false);
           setIsSubmitted(false);
         }, 2500);
       } else {
@@ -315,35 +337,42 @@ const BookAppointment = () => {
               onKeyDown={(e) => e.preventDefault()}
             />
 
-            {/* 🧠 Sunday message with link */}
             {errors.date === "SUNDAY_BLOCK" && (
               <span className="error">
-                Appointments are not available on Sundays.{" "}
+                Appointments are not available on Sundays. All clinics are closed.
+              </span>
+            )}
+
+            {errors.date === "SAME_DAY_BLOCK" && (
+              <span className="error">
+                Same-day appointments are accepted only before 12:00 PM.
+                <br />
                 {formData.center && (
-                  <span
-                    className="center-link"
-                    title="Go to center page"
-                    onClick={() =>
-                      window.open(
-                        `/centre/${centerSlugMap[formData.center]}`,
-                        "_self"
-                      )
-                    }
-                  >
-                    If you want to book, check directly on the center
-                  </span>
+                  <>
+                    {" "}
+                    You can still connect with this centre directly —{" "}
+                    <span
+  className="center-link"
+  style={{ textDecoration: "underline", cursor: "pointer" }}
+  onClick={() =>
+    window.open(
+      `/centre/${centerSlugMap[formData.center]}`,
+      "_blank"
+    )
+  }
+>
+  visit the centre page
+</span>
+
+                    .
+                  </>
                 )}
               </span>
             )}
 
-            {errors.date &&
-              errors.date !== "SUNDAY_BLOCK" && (
-                <span className="error">{errors.date}</span>
-              )}
-
-            {showSameDayNotice && (
+            {showTomorrowHint && (
               <div className="info-notice">
-                ⏰ <strong>Same-day appointments close at 12:00 PM.</strong>
+                👉 Next available slot: <strong>{getTomorrowDate()}</strong>
               </div>
             )}
 
