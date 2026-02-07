@@ -4,7 +4,7 @@ import "./PrivacyPolicy.css";
 const PrivacyPolicy = () => {
   return (
     <div className="privacy-policy">
-      <h1>Privacy Policy for ICTCONCO</h1>
+      <h1>Privacy Policy</h1>
 
       <p>
         Welcome to https://ictconco.org/ (the “Website”). This Privacy Policy
@@ -89,7 +89,7 @@ const PrivacyPolicy = () => {
       <h2>8. Changes to this Policy</h2>
       <p>
         We may update this Privacy Policy from time to time. The updated
-        version will be indicated by an updated “Last Modified” date.
+        version will be indicated by an updated “Last Modified (7th Feb, 2026)” date.
       </p>
 
       <h2>Contact Us</h2>
