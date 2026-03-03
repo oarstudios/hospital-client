@@ -32,16 +32,16 @@ import gh3 from "../assets/g1 (3).webp";
 import gh4 from "../assets/g1 (4).webp";
 
 
-import kalyan1 from "../assets/kalyan (1).webp";
-import kalyan2 from "../assets/kalyan (2).webp";
-import kalyan3 from "../assets/kalyan (3).webp";
-import kalyan4 from "../assets/kalyan (4).webp";
-import kalyan5 from "../assets/kalyan (5).webp";
-import kalyan6 from "../assets/kalyan (6).webp";
-import kalyan7 from "../assets/kalyan (7).webp";
-import kalyan8 from "../assets/kalyan (8).webp";
-import kalyan9 from "../assets/kalyan (9).webp";
-import kalyan10 from "../assets/kalyan (10).webp";
+import kalyan1 from "../assets/Kalyan (1).webp";
+import kalyan2 from "../assets/Kalyan (2).webp";
+import kalyan3 from "../assets/Kalyan (3).webp";
+import kalyan4 from "../assets/Kalyan (4).webp";
+import kalyan5 from "../assets/Kalyan (5).webp";
+import kalyan6 from "../assets/Kalyan (6).webp";
+import kalyan7 from "../assets/Kalyan (7).webp";
+import kalyan8 from "../assets/Kalyan (8).webp";
+import kalyan9 from "../assets/Kalyan (9).webp";
+import kalyan10 from "../assets/Kalyan (10).webp";
 
 import dadar1 from "../assets/Dadar (1).webp";
 import dadar2 from "../assets/Dadar (2).webp";
