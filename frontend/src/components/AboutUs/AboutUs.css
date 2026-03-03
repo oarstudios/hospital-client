@@ -1,5 +1,5 @@
 .ictc-about {
-  padding: 80px 40px;
+  padding: 40px;
   font-family: "DM Sans", sans-serif;
   background: rgba(250, 250, 250, 1);
 }
@@ -11,7 +11,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 32px;
-  margin-bottom: 64px;
+  /* margin-bottom: 64px; */
 }
 
 /* =======================

@@ -31,6 +31,25 @@ import gh2 from "../assets/g1 (2).webp";
 import gh3 from "../assets/g1 (3).webp";
 import gh4 from "../assets/g1 (4).webp";
 
+
+import kalyan1 from "../assets/kalyan (1).webp";
+import kalyan2 from "../assets/kalyan (2).webp";
+import kalyan3 from "../assets/kalyan (3).webp";
+import kalyan4 from "../assets/kalyan (4).webp";
+import kalyan5 from "../assets/kalyan (5).webp";
+import kalyan6 from "../assets/kalyan (6).webp";
+import kalyan7 from "../assets/kalyan (7).webp";
+import kalyan8 from "../assets/kalyan (8).webp";
+import kalyan9 from "../assets/kalyan (9).webp";
+import kalyan10 from "../assets/kalyan (10).webp";
+
+import dadar1 from "../assets/Dadar (1).webp";
+import dadar2 from "../assets/Dadar (2).webp";
+import dadar3 from "../assets/Dadar (3).webp";
+import dadar4 from "../assets/Dadar (4).webp";
+import dadar5 from "../assets/Dadar (5).webp";
+import dadar6 from "../assets/Dadar (6).webp";
+
 /* GALLERY - ALTERNATE IMAGES */
 import g1 from "../assets/p1 (1).webp";
 import g2 from "../assets/p1 (2).webp";
@@ -132,7 +151,18 @@ lng: 73.1186,
     ],
 
     image: defaultImg,
-    gallery: [g1, g2, g3],
+gallery: [
+  kalyan1,
+  kalyan2,
+  kalyan3,
+  kalyan4,
+  kalyan5,
+  kalyan6,
+  kalyan7,
+  kalyan8,
+  kalyan9,
+  kalyan10,
+],
   },
 
   /* ===================== DOMBIVLI ===================== */
@@ -228,7 +258,14 @@ lng: 72.8264,
     ],
 
     image: defaultImg,
-    gallery: [g1, g2, g3],
+  gallery: [
+  dadar1,
+  dadar2,
+  dadar3,
+  dadar4,
+  dadar5,
+  dadar6,
+],
   },
 
   /* ===================== GOREGAON ===================== */
@@ -353,6 +390,43 @@ lng: 72.8878,
     image: defaultImg,
     gallery: [g1, g2, g3],
   },
+
+    /* ===================== THANE ===================== */
+  thane: {
+    slug: "thane",
+    name: "ICTC Thane",
+    fullName: "ICTC Thane Centre",
+    rating: "4.9",
+    reviews: "100+ Ratings",
+
+    phone: "+91 9699711195", // add correct number
+
+    mapQuery: "ICTC Cancer Care Centre Thane",
+    mapEmbed: "", // paste your Google map embed link here
+
+    lat: 19.2183, // update exact latitude if needed
+    lng: 72.9781, // update exact longitude if needed
+
+    address: "Thane, Maharashtra", // add full Thane address here
+
+    timing: "Mon – Sat 9:00 a.m. to 9:00 p.m.",
+
+    heroBg,
+
+    description: [
+      "ICTC Indian Cancer Treatment Centre – Thane is a modern Day Care Chemotherapy Centre dedicated to delivering advanced, patient-centric cancer care in Thane and surrounding regions. The centre provides comprehensive oncology services with a strong focus on safe and efficient day-care chemotherapy.",
+      
+      "Equipped with modern medical infrastructure and following evidence-based oncology protocols, ICTC Thane ensures precise, personalised, and high-quality cancer treatment in a comfortable outpatient setting, allowing patients to return home the same day.",
+      
+      "Led by experienced oncology specialists, ICTC Thane combines clinical expertise, advanced treatment modalities, and compassionate patient care to deliver affordable and world-class cancer treatment in a supportive environment.",
+    ],
+
+    image: defaultImg,
+    gallery: [g1, g2, g3, g4],
+  },
+
+
+
 };
 
 export default centerData;

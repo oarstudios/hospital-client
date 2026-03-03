@@ -5,6 +5,7 @@ import doc4 from "../assets/Dr. Viraj Nevrekar.png";
 import doc5 from "../assets/Dr. Kunal Goyal.png";
 import doc6 from "../assets/Dr. Deep Vora.png";
 import doc7 from "../assets/Dr. Shreya Gattani.png";
+import doc8 from "../assets/doc8.PNG";
 
 const doctorData = {
 "salil-patkar": {
@@ -835,6 +836,92 @@ const doctorData = {
     "Specialised Training in Geriatric Oncology – Tata Memorial Hospital",
     "DM Medical Oncology Graduate – Gujarat Cancer & Research Institute (GCRI)",
     "Known for Patient-Centric & Ethical Oncology Practice",
+  ],
+},
+
+"darshan-kiran-jain": {
+  slug: "darshan-kiran-jain",
+  name: "Dr. Darshan Kiran Jain",
+  image: doc8, // replace with correct imported image
+  stories: [],
+  designation: "Medical Oncologist & Hemato-Oncologist, Immuno-Oncologist",
+  qualification:
+    "DM Medical Oncology (GCRI), DNB Internal Medicine, Certified in Immuno-Oncology & Precision Oncology (Harvard Medical School)",
+
+  rating: "4.9",
+  reviews: "100+ Ratings",
+  phone: "+91 9699711195",
+
+  centres: ["ICTC Thane"],
+  languages: ["English", "Hindi", "Marathi", "Gujarati"],
+
+  summary: `Dr. Darshan Jain is a highly trained Medical and Hemato-Oncologist 
+  specialising in immuno-oncology, targeted therapy, and precision cancer care 
+  guided by molecular profiling. He completed his DM in Medical Oncology from 
+  B.J. Medical College & Gujarat Cancer & Research Institute (GCRI), Ahmedabad, 
+  and DNB in Internal Medicine from Saifee Hospital, Mumbai.
+
+  With advanced certification in Cancer Genomics, Precision Oncology, and 
+  Immuno-Oncology from Harvard Medical School, Dr. Jain has developed strong 
+  expertise in molecular diagnostics, personalised treatment strategies, and 
+  cutting-edge targeted therapies. His clinical practice spans both solid tumors 
+  and hematological malignancies, where he focuses on evidence-based and 
+  patient-centric oncology care.
+
+  Dr. Jain is actively involved in clinical research and national academic 
+  platforms. He has contributed to oncology research initiatives and has been 
+  recognised for his academic excellence. His approach combines scientific 
+  innovation with compassionate care to deliver optimal outcomes for patients 
+  undergoing cancer treatment.`,
+
+  philosophy: `My philosophy of care integrates scientific precision with 
+  compassionate patient engagement. I believe in leveraging molecular diagnostics 
+  and evidence-based protocols to design personalised cancer treatment plans 
+  that maximise effectiveness while maintaining quality of life.`,
+
+  expertise: [
+    "Immuno-Oncology",
+    "Precision Oncology",
+    "Targeted Therapy",
+    "Cancer Genomics",
+    "Solid Tumors",
+    "Hematological Malignancies",
+    "Molecular Profiling",
+  ],
+
+  education: [
+    {
+      title: "Certificate in Cancer Genomics, Precision Oncology & Immuno-Oncology",
+      place: "Harvard Medical School",
+    },
+    {
+      title: "DM Medical Oncology",
+      place: "Gujarat Cancer & Research Institute (GCRI), Ahmedabad",
+    },
+    {
+      title: "DNB Internal Medicine",
+      place: "Saifee Hospital, Mumbai",
+    },
+    {
+      title: "MBBS",
+      place: "Smt. Kashibai Navale Medical College and General Hospital, Pune, India",
+    },
+  ],
+
+  experience: [
+    {
+      role: "Consultant Medical & Hemato-Oncologist",
+      place: "Indian Cancer Treatment Centre (ICTC), Thane",
+    },
+  ],
+
+  achievements: [
+    "Finalist – ISMPO Torrent Young Scholar Award (TYSA) Oncology 2024–25",
+    "First Prize – Essence of EHA 2024, Mumbai",
+    "Co-investigator – Capmatinib Study in MET Exon 14 Skipping Mutation Positive Advanced NSCLC (India)",
+    "Research Coordinator – Freedom COVID Trial, Saifee Hospital",
+    "Member – European Society of Medical Oncology (ESMO)",
+    "Member – American Society of Clinical Oncology (ASCO)",
   ],
 },
 

@@ -8,7 +8,7 @@ import OurDoctorTeam from "../OurDoctorTeam/OurDoctorTeam";
 
 const stats = [
   {
-    value: "25000+",
+    value: "55000+",
     title: "Patients Treated",
     desc: "Largest Cancer Care Chain in Mumbai",
     showArrow: false,
@@ -21,8 +21,8 @@ const stats = [
     link: "/allCenters", // ✅ ADD
   },
   {
-    value: "12000+",
-    title: "Chemotherapies a month",
+    value: "25000+",
+    title: "Chemotherapies an year",
     desc: "Largest Cancer Care Chain in Mumbai",
     showArrow: false,
   },
