@@ -1,0 +1,63 @@
+.page-title {
+  margin-bottom: 20px;
+  font-size: 22px;
+  color: #1e293b;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+}
+
+.primary-btn {
+  padding: 8px 14px;
+  border: none;
+  background: #0ea5e9;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.primary-btn:hover {
+  background: #0284c7;
+}
+
+.delete-btn {
+  background: #ef4444;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  margin-top: 20px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.admin-table th {
+  background: #f1f5f9;
+}
+
+.admin-table tr {
+  border-bottom: 1px solid #e5e7eb;
+}

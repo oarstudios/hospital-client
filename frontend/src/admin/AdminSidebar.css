@@ -1,0 +1,39 @@
+.admin-sidebar {
+  width: 260px;
+  background: #0f172a;
+  color: white;
+  padding: 25px 20px;
+  position: fixed;
+  height: 100vh;
+  left: 0;
+  top: 0;
+}
+
+.admin-sidebar h2 {
+  color: #38bdf8;
+  margin-bottom: 30px;
+}
+
+/* Default link */
+.admin-sidebar a {
+  display: block;
+  padding: 12px 15px;
+  color: #cbd5e1;
+  text-decoration: none;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  transition: 0.3s;
+}
+
+/* Hover */
+.admin-sidebar a:hover {
+  background: #1e293b;
+  color: white;
+}
+
+/* ACTIVE LINK */
+.admin-sidebar a.active {
+  background: #0ea5e9;
+  color: white;
+  font-weight: 500;
+}
