@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { IS_DELETED } from '../../common/constants/IS_DELETED';
 
 @Entity({
   schema: 'auth',
@@ -21,7 +22,7 @@ export class User {
   @Column()
   password!: string;
 
-  @Column({ default: 0 })
+  @Column({ default: IS_DELETED.FALSE, enum: [IS_DELETED.FALSE, IS_DELETED.TRUE] })
   is_deleted!: number;
 
   @CreateDateColumn()
