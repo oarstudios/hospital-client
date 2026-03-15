@@ -1,0 +1,418 @@
+/* =========================================================
+BLOG ADMIN LAYOUT
+========================================================= */
+
+.blog-admin {
+  max-width: 850px;
+  margin: auto;
+  padding: 60px 20px;
+  font-family: Inter, sans-serif;
+}
+
+/* =========================================================
+TITLE
+========================================================= */
+
+.blog-title {
+  font-size: 42px;
+  font-weight: 700;
+  border: none;
+  width: 100%;
+  outline: none;
+  margin-bottom: 25px;
+}
+
+/* =========================================================
+HERO IMAGE
+========================================================= */
+
+.hero-upload {
+  border: 2px dashed #d1d5db;
+  padding: 30px;
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: 0.2s;
+}
+
+.hero-upload:hover {
+  background: #f9fafb;
+}
+
+.hero-preview {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+/* =========================================================
+META GRID
+========================================================= */
+
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 25px;
+}
+
+.meta-grid label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.meta-grid input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+}
+
+/* =========================================================
+TAGS
+========================================================= */
+
+.tags-section {
+  margin-bottom: 25px;
+}
+
+/* =========================================================
+EDITOR TOOLBAR
+========================================================= */
+
+.editor-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.editor-toolbar button {
+  border: none;
+  background: #f8fafc;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.editor-toolbar button:hover {
+  background: #e2e8f0;
+}
+
+.editor-toolbar select {
+  border: 1px solid #ddd;
+  padding: 5px 8px;
+  border-radius: 6px;
+  background: white;
+}
+
+.editor-toolbar input[type="color"] {
+  width: 32px;
+  height: 32px;
+  border: none;
+  cursor: pointer;
+}
+
+/* =========================================================
+EDITOR
+========================================================= */
+
+.notion-editor {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  min-height: 350px;
+  background: white;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.notion-editor p {
+  margin: 10px 0;
+}
+
+.notion-editor h1 {
+  font-size: 34px;
+  font-weight: 700;
+  margin-top: 20px;
+}
+
+.notion-editor h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-top: 18px;
+}
+
+.notion-editor h3 {
+  font-size: 22px;
+  margin-top: 15px;
+}
+
+.notion-editor ul {
+  list-style-type: disc;
+  padding-left: 25px;
+}
+
+.notion-editor ol {
+  list-style-type: decimal;
+  padding-left: 25px;
+}
+
+.notion-editor li {
+  margin: 6px 0;
+}
+
+.notion-editor img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+/* =========================================================
+SEO BOX
+========================================================= */
+
+.seo-box {
+  margin-top: 40px;
+  padding: 25px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fafafa;
+}
+
+.seo-box h3 {
+  margin-bottom: 10px;
+}
+
+.seo-box input,
+.seo-box textarea {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+}
+
+/* =========================================================
+BUTTON
+========================================================= */
+
+.publish-btn {
+  margin-top: 30px;
+  padding: 14px 26px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.publish-btn:hover {
+  background: #1d4ed8;
+}
+
+/* =========================================================
+PREVIEW MODAL
+========================================================= */
+
+.blog-preview-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0,0,0,0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+/* PREVIEW CONTAINER */
+
+.blog-preview-container {
+  background: white;
+  padding: 40px;
+  width: 100%;
+  max-width: 900px;
+  height: 90vh;
+  border-radius: 14px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+
+  overflow-y: auto;
+}
+
+.blog-preview-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.blog-preview-container::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 6px;
+}
+
+.blog-preview-container::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.preview-body ul {
+  list-style-type: disc;
+  padding-left: 24px;
+  margin-bottom: 16px;
+}
+
+.preview-body ol {
+  list-style-type: decimal;
+  padding-left: 24px;
+  margin-bottom: 16px;
+}
+
+.preview-body li {
+  margin-bottom: 6px;
+}
+
+.notion-editor ul {
+  list-style-type: disc;
+  padding-left: 24px;
+}
+
+.notion-editor ol {
+  list-style-type: decimal;
+  padding-left: 24px;
+}
+
+/* CLOSE BUTTON */
+
+.preview-close {
+  border: none;
+  background: #ef4444;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.preview-close:hover {
+  background: #dc2626;
+}
+
+/* PREVIEW HERO */
+
+.preview-hero {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+/* PREVIEW TITLE */
+
+.preview-title {
+  font-size: 34px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+/* PREVIEW META */
+
+.preview-meta {
+  color: gray;
+  font-size: 14px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 20px;
+}
+
+/* PREVIEW BODY */
+
+.preview-body {
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.preview-body p {
+  margin-bottom: 12px;
+}
+
+.preview-body h1 {
+  font-size: 34px;
+}
+
+.preview-body h2 {
+  font-size: 28px;
+}
+
+.preview-body h3 {
+  font-size: 22px;
+}
+
+.preview-body img {
+  max-width: 100%;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.preview-body ul {
+  padding-left: 25px;
+}
+
+.preview-body ol {
+  padding-left: 25px;
+}
+
+/* =========================================================
+RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .blog-title {
+    font-size: 34px;
+  }
+
+  .meta-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .blog-preview-container {
+    padding: 25px;
+  }
+
+  .preview-title {
+    font-size: 26px;
+  }
+
+}
+
+@media (max-width: 600px) {
+
+  .blog-admin {
+    padding: 40px 15px;
+  }
+
+  .blog-title {
+    font-size: 28px;
+  }
+
+  .editor-toolbar {
+    gap: 4px;
+  }
+
+  .editor-toolbar button {
+    font-size: 12px;
+    padding: 4px 6px;
+  }
+
+}
