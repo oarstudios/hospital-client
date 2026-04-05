@@ -64,15 +64,10 @@ import screeningHero from "../assets/Services Images/Services Images/Cancer Vacc
 import screening1 from "../assets/px-conversions/vacc1.webp";
 import screening2 from "../assets/px-conversions/vacc2.webp";
 
-
-
-
-
 import medicalOncologyIcon from "../assets/Services Icons/Services Icons/Medical Oncology.webp";
 import medicalOncologyHero from "../assets/Services Images/Services Images/Medical Oncology.webp";
 import medicalOncology1 from "../assets/Services Images/Services Images/Medical Oncology1.webp";
 import medicalOncology2 from "../assets/Services Images/Services Images/Medical Oncology2.webp";
-
 
 import surgicalOncologyIcon from "../assets/Services Icons/Services Icons/Surgical Oncology.webp";
 import surgicalOncologyHero from "../assets/Services Images/Services Images/Surgical Oncology.webp";
@@ -109,180 +104,165 @@ import scalpCoolingHero from "../assets/Services Images/Services Images/Scalp Co
 import scalpCooling1 from "../assets/Services Images/Services Images/scalp cooling1.webp";
 import scalpCooling2 from "../assets/Services Images/Services Images/scalp cooling2.webp";
 
-
-
 const serviceData = {
-  "chemotherapy": {
-    name: "Chemotherapy",
+  "chemotherapy-treatment": {
+    name: "Chemotherapy Treatment",
     category: "Treatment Modalities",
     icon: chemoIcon,
-    heroTitle: "Chemotherapy At ICTC",
+    heroTitle: "Chemotherapy Treatment At Indian Cancer Treatment Centre",
 
     heroImage: chemoHero,
 
     contentImages: [chemo1, chemo2],
 
     introduction:
-      "Chemotherapy is a cancer treatment that employs powerful drugs to eradicate cancer cells. It works by preventing cancer cells from multiplying, dividing, and generating new cells. Chemotherapy may also be referred to as conventional chemotherapy or cytotoxic chemotherapy.",
+      "Chemotherapy is one of the most widely used systemic therapies in cancer treatment. It involves the use of anti cancer medicines that are selected to destroy cancer cells or slow their growth. At ICTC, chemotherapy is delivered using evidence based protocols with a focus on patient safety, precision, and supportive care.",
 
     overview: [
-      "Chemotherapy has a body-wide effect, meaning it circulates throughout the body via the bloodstream.",
-      "It targets rapidly dividing cells, which is a key characteristic of cancer cells.",
-      "Cancer cells progress through the cell cycle faster than normal cells, making them more susceptible to chemotherapy drugs.",
-      "Chemotherapy drugs are strong chemicals designed to destroy malignant cells at specific stages of the cell cycle.",
-      "Many types of cancer can be treated using chemotherapy, either alone or in combination with surgery and radiation therapy.",
+      "Chemotherapy targets rapidly dividing cancer cells.",
+      "Medicines travel through the bloodstream to reach cancer cells across the body.",
+      "It may be used alone or in combination with surgery, radiation, targeted therapy, or immunotherapy.",
+      "Treatment plans are individualized based on clinical assessment.",
+      "Monitoring and supportive care are essential parts of therapy.",
     ],
 
     subtypesOfTherapy: {
-      AdjuvantTherapy: [
-        "Chemotherapy is used after surgery or radiation therapy to eliminate remaining cancer cells.",
+      Curative: ["To cure cancer and achieve long term remission."],
+      Adjuvant: ["Used after surgery or radiation to prevent recurrence."],
+      Neoadjuvant: [
+        "Given before surgery to shrink tumors and improve surgical outcomes.",
       ],
-      CurativeTherapy: [
-        "Chemotherapy is used to completely eradicate cancer and prevent recurrence.",
-        "It may be combined with surgery and/or radiation therapy.",
-      ],
-      NeoadjuvantTherapy: [
-        "Chemotherapy is given before surgery or radiation therapy to shrink tumors.",
-      ],
-      PalliativeTherapy: [
-        "Chemotherapy cannot cure cancer in this setting but helps shrink tumors and relieve symptoms.",
+      Palliative: [
+        "To control symptoms, slow disease progression, and improve quality of life.",
       ],
     },
 
     cancersTreated: {
-      PrimaryCancer: ["Cancer that has not spread to other parts of the body."],
-      MetastasizedCancer: [
-        "Cancer that has spread to other organs or body parts.",
+      Overview: [
+        "Chemotherapy is used in the treatment of multiple cancer types.",
       ],
-      AdditionalNotes: [
-        "Response to chemotherapy depends on cancer type, stage, and individual patient factors.",
+      Examples: [
+        "Breast cancer",
+        "Lung cancer",
+        "Gastrointestinal cancers",
+        "Gynecological cancers",
+        "Head and neck cancers",
+        "Leukemia",
+        "Lymphoma",
+        "Myeloma",
+        "Pediatric cancers",
       ],
     },
 
     benefits: [
-      "Chemotherapy can reduce tumor size or stop cancer growth.",
-      "It can extend survival and improve quality of life.",
-      "Chemotherapy may shrink tumors enough to make surgical removal possible.",
-      "After surgery, chemotherapy can reduce the risk of cancer recurrence.",
+      "Helps destroy or control cancer cells.",
+      "Can shrink tumors before surgery.",
+      "Reduces risk of cancer recurrence.",
+      "Improves survival and symptom control.",
+      "Works in combination with other therapies.",
     ],
 
     downsides: [
-      "Chemotherapy can cause both short-term and long-term side effects.",
-      "Frequent hospital visits for treatment, tests, and follow-ups may be tiring.",
-      "Chemotherapy affects each individual differently.",
-      "Some cancers may not respond effectively to chemotherapy.",
+      "May cause side effects depending on drugs used.",
+      "Requires repeated hospital visits for cycles.",
+      "Response varies based on cancer type and patient condition.",
     ],
 
     methodsOfAdministration: {
       IntravenousInfusion: [
-        "Most commonly administered through a vein using an IV line.",
-        "A tube with a needle may be placed in a vein in the arm or chest.",
+        "Administered through a vein under clinical supervision.",
       ],
-      OralChemotherapy: [
-        "Some chemotherapy drugs are available as tablets or capsules.",
-      ],
-      Injections: [
-        "Chemotherapy can be given as injections similar to a shot.",
-      ],
-      TopicalChemotherapy: [
-        "Creams or gels containing chemotherapy drugs are used for certain skin cancers.",
-      ],
-      RegionalChemotherapy: [
-        "Chemotherapy drugs can be delivered directly to a specific body part.",
-        "This includes intraperitoneal (abdomen), intrapleural (chest cavity), and intrathecal (central nervous system) chemotherapy.",
-      ],
-      DirectTumorAdministration: [
-        "Chemotherapy may be administered directly to the tumor or surgical site.",
+      OralChemotherapy: ["Given as tablets or capsules."],
+      Injections: ["Administered as injections when required."],
+      RegionalDelivery: [
+        "Targeted delivery to specific body areas when clinically appropriate.",
       ],
     },
 
     sideEffects: {
       CommonSideEffects: [
-        "Hair Loss",
-        "Loss Of Appetite",
-        "Nausea And Vomiting",
+        "Nausea",
         "Fatigue",
-        "Constipation Or Diarrhea",
+        "Infection risk",
+        "Loss of appetite",
+        "Weakness",
       ],
       SeriousSideEffects: [
-        "Excessive Bleeding",
-        "Breathing Issues",
-        "Mouth Sores",
-        "Hypersensitivity Reactions",
-        "Weak Immune System",
+        "Low blood counts",
+        "Organ function impact",
+        "Increased infection risk",
       ],
       AdditionalNotes: [
-        "Side effects vary depending on the drug or drug combination used.",
+        "Supportive care and preventive medications are used to manage side effects.",
       ],
     },
 
     chemotherapyDrugs: {
       Overview: [
-        "More than 100 chemotherapy drugs are used in cancer treatment.",
-        "All chemotherapy drugs cause cell death but act at different stages of the cell cycle.",
-        "Combining multiple drugs can improve treatment effectiveness.",
+        "Chemotherapy drugs are selected based on cancer type and patient condition.",
+        "Treatment may involve single or combination drug regimens.",
       ],
       DrugCategories: [
-        "Alkylating Agents",
-        "Antimetabolites",
-        "Anti-Tumor Antibiotics",
-        "Topoisomerase Inhibitors",
-        "Mitotic Inhibitors",
-        "Plant Alkaloids",
+        "Cytotoxic Drugs",
+        "Combination Regimens",
+        "Protocol Based Drug Selection",
       ],
     },
 
     precautions: [
-      "Avoid contact with bodily fluids after therapy.",
-      "Do not exceed physical limits during treatment.",
-      "Take measures to prevent infections.",
-      "Use a separate toilet or sit while using the toilet to prevent splashing.",
-      "Wash clothes, bedding, and fabrics separately using a washing machine and detergent.",
-      "Wash hands thoroughly with warm water and soap, then dry with paper towels.",
+      "Regular blood tests to monitor counts and organ function.",
+      "Infection prevention measures are important.",
+      "Follow medical advice during treatment cycles.",
     ],
 
     postTreatmentCare: [
-      "Follow-up care is essential after chemotherapy.",
-      "Regular physical examinations and diagnostic tests help detect late or new side effects.",
-      "Your medical team will monitor long-term recovery and overall health.",
+      "Regular follow up to assess treatment response.",
+      "Monitoring for delayed side effects.",
+      "Supportive care including nutrition and counseling.",
     ],
 
     dosAndDonts: {
       Dos: [
-        "Keep Yourself Hydrated",
-        "Maintain Proper Hygiene",
-        "Apply Sunscreen While Going Outside",
+        "Follow Treatment Schedule Strictly",
+        "Maintain Nutrition And Hydration",
+        "Report Side Effects Early",
+        "Attend All Follow Ups",
       ],
       Donts: [
-        "Avoid Large Meals",
-        "Avoid Contact With People Who Have Infections",
-        "Avoid Eating Raw Or Undercooked Food",
+        "Avoid Missing Treatment Cycles",
+        "Do Not Ignore Symptoms",
+        "Avoid Self Medication",
       ],
     },
 
     faqs: [
       {
-        question: "Can Chemotherapy Be Used To Treat Cancer?",
+        question: "Is Chemotherapy Painful?",
         answer:
-          "Yes. Chemotherapy can completely cure certain types of cancer that are highly sensitive to it.",
+          "The chemotherapy process itself is not painful. Some side effects may occur and are managed by the care team.",
       },
       {
-        question: "Does Receiving Chemotherapy Hurt?",
+        question: "How Long Does Chemotherapy Treatment Last?",
         answer:
-          "Chemotherapy itself is usually not painful, but side effects may cause discomfort depending on the drugs used.",
+          "Duration depends on cancer type and treatment goals. It may range from weeks to months.",
       },
       {
-        question: "At What Stage Of Cancer Is Chemotherapy Given?",
+        question: "Can I Continue Daily Activities During Chemotherapy?",
         answer:
-          "Chemotherapy can be used at any stage of cancer, depending on treatment goals such as cure, control, or symptom relief.",
+          "Most patients can continue daily activities with some adjustments depending on side effects.",
+      },
+      {
+        question: "Are Side Effects Permanent?",
+        answer:
+          "Most side effects are temporary and improve after treatment, though some long term effects may occur in certain cases.",
       },
     ],
   },
 
-  "immunotherapy": {
-    name: "Immunotherapy",
+  "immunotherapy-treatment": {
+    name: "Immunotherapy Treatment",
     category: "Treatment Modalities",
-    heroTitle: "Immunotherapy At ICTC",
+    heroTitle: "Immunotherapy Treatment At Indian Cancer Treatment Centre",
     icon: immunoIcon,
 
     heroImage: immunoHero,
@@ -290,553 +270,494 @@ const serviceData = {
     contentImages: [immuno1, immuno2],
 
     introduction:
-      "Immunotherapy is a broad term used for a class of cancer treatments that activate the body’s immune system to fight cancer cells. While healthy cells naturally die off, cancer cells continue to grow uncontrollably. Immunotherapy helps the immune system recognize and destroy these abnormal cells.",
+      "Immunotherapy is a modern cancer treatment that works by strengthening or modifying the body’s immune system to detect and destroy cancer cells. At ICTC, immunotherapy is provided only after proper clinical and diagnostic assessment and is guided by scientific evidence and established clinical guidelines.",
 
     overview: [
-      "Cancer cells often escape immune detection by mutating or altering their structure.",
-      "The immune system normally protects the body from infections and disease but may fail to recognize cancer cells.",
-      "Immunotherapy drugs are designed to alert the immune system to the presence of cancer cells.",
-      "Once activated, the immune system can identify and destroy these altered cells.",
-      "Immunotherapy can be used alone or combined with treatments such as chemotherapy.",
+      "Immunotherapy helps the immune system recognize and fight cancer cells.",
+      "It does not directly kill tumor cells like chemotherapy.",
+      "Treatment depends on tumor biology, biomarkers, and patient condition.",
+      "Not all patients or cancers are suitable for immunotherapy.",
+      "Clinical evaluation determines treatment eligibility.",
     ],
 
     subtypesOfTherapy: {
-      CheckpointInhibitors: [
-        "Checkpoint proteins control signals that tell T-cells when to turn on and off.",
-        "T-cells attack cancer cells when activated and switch off to protect healthy cells.",
-        "Checkpoint inhibitors remove these brakes, allowing T-cells to eliminate malignant cells.",
+      Types: [
+        "Immune checkpoint inhibitors",
+        "Monoclonal antibodies",
+        "Immune modulating agents",
       ],
-      AdoptiveCellTherapy: [
-        "Also known as T-cell transfer therapy.",
-        "Patient’s T-cells are modified to become more effective cancer-fighting cells.",
-        "CAR T-cell therapy is a specialized form of adoptive cell therapy.",
+    },
+
+    cancersTreated: {
+      Overview: [
+        "Immunotherapy is used in selected cancer types based on clinical indication.",
       ],
-      CancerVaccines: [
-        "Vaccines help protect the body against infections.",
-        "The same concept is used to help the immune system target certain cancers such as prostate cancer.",
-      ],
-      ImmuneSystemModulators: [
-        "Also called biologic response modifiers.",
-        "These drugs adjust immune responses to help destroy specific cancer cells.",
+      Examples: [
+        "Lung cancer",
+        "Melanoma",
+        "Head and neck cancers",
+        "Kidney cancer",
+        "Gastrointestinal cancers",
+        "Hematological malignancies",
       ],
     },
 
     benefits: [
-      "Immunotherapy is increasingly becoming an important treatment option for certain cancers.",
-      "It uses the body’s natural ability to fight cancer.",
-      "It may be more effective and less harmful compared to chemotherapy or surgery for selected cancers.",
-      "Immunotherapy can provide long-term cancer control in some patients.",
+      "Enhances the body’s immune response against cancer.",
+      "Provides targeted and evidence-based treatment.",
+      "May offer long-term disease control in selected patients.",
+      "Can be combined with other therapies when needed.",
     ],
 
     downsides: [
-      "It may take several treatment cycles before a response is seen.",
-      "Side effects may sometimes be serious due to immune activation against normal cells.",
-      "Not all patients respond to immunotherapy.",
+      "Not suitable for all patients.",
+      "Response depends on biomarkers and tumor characteristics.",
+      "May cause immune-related side effects.",
     ],
 
     methodsOfAdministration: {
-      Intravenous: ["Immunotherapy is delivered directly into a vein."],
-      Oral: ["Immunotherapy drugs may be taken as pills or capsules."],
-      Topical: [
-        "Immunotherapy creams or ointments are applied directly to the skin.",
-        "Used mainly for early-stage skin cancers.",
+      IntravenousInfusion: [
+        "Administered as intravenous infusions at scheduled intervals.",
       ],
-      Intravesical: ["Immunotherapy is infused directly into the bladder."],
+      CombinationTherapy: [
+        "May be combined with chemotherapy or targeted therapy when clinically indicated.",
+      ],
     },
 
     sideEffects: {
       Overview: [
-        "Immunotherapy can cause side effects due to immune activation against normal body cells.",
-        "Supportive care services are provided during treatment to manage side effects and improve quality of life.",
+        "Side effects occur due to immune system activation.",
+        "They differ from chemotherapy-related side effects.",
       ],
       CommonSideEffects: [
         "Fatigue",
-        "Vomiting Or Diarrhea",
-        "Oral Sores",
-        "Cough And Breathlessness",
-        "Elevated Blood Pressure",
-        "Fluid Accumulation, Especially In The Legs",
-        "Cold Or Fever",
-        "Headaches",
-        "Itching Or Skin Rashes",
-        "High Blood Sugar",
+        "Skin reactions",
+        "Inflammation of organs such as thyroid, lungs, or intestines",
       ],
     },
 
     immunotherapyMedications: {
       Overview: [
-        "Most current immunotherapy drugs target immune checkpoint receptors.",
-        "PD-1 and CTLA-4 receptors are common targets.",
-        "Development of newer immunotherapy drugs is ongoing.",
+        "Treatment is selected based on diagnostic and biomarker findings.",
+        "Evidence-based protocols guide medication use.",
       ],
       CommonDrugs: [
-        "Ipilimumab (Yervoy)",
-        "Pembrolizumab (Keytruda)",
-        "Nivolumab (Opdivo)",
-        "Atezolizumab (Tecentriq)",
+        "Checkpoint inhibitors",
+        "Monoclonal antibodies",
+        "Immune modulators",
       ],
     },
 
     postTreatmentCare: [
-      "Follow-up care is essential after immunotherapy treatment.",
-      "Doctors monitor long-term side effects and detect new symptoms early.",
-      "Follow-up care may include physical examinations, blood tests, and imaging studies.",
+      "Regular monitoring through clinical assessment and lab tests.",
+      "Early detection and management of immune-related side effects.",
+      "Continuous follow-up for treatment response.",
     ],
 
     dosAndDonts: {
       Dos: [
-        "Rest Well",
-        "Eat Wisely",
-        "Stay Active As Advised",
-        "Reduce Stress",
+        "Attend Regular Monitoring Visits",
+        "Report Symptoms Early",
+        "Follow Medical Advice",
+        "Maintain Overall Health",
       ],
-      Donts: ["Skip Large Meals", "Smoke Or Drink Alcohol"],
+      Donts: ["Do Not Ignore Side Effects", "Avoid Skipping Follow Ups"],
     },
 
     faqs: [
       {
-        question: "Can Cancer Be Cured By Immunotherapy?",
+        question: "Is Immunotherapy The Same As Chemotherapy?",
         answer:
-          "Immunotherapy may not cure cancer, but it can control disease, slow cancer growth, and extend life.",
+          "No. Immunotherapy works by activating or modifying the immune system, while chemotherapy directly targets rapidly dividing cells.",
       },
       {
-        question: "What Advantages Does Immunotherapy Have?",
+        question: "Does Immunotherapy Work For All Cancers?",
         answer:
-          "Immunotherapy uses the body’s immune system to fight cancer and may provide longer-lasting responses with fewer long-term side effects.",
+          "No. It is effective only in certain cancers and depends on biomarkers and tumor characteristics.",
       },
       {
-        question: "What Are The Dangers Or Risks Of Immunotherapy?",
+        question: "Are Immunotherapy Side Effects Serious?",
         answer:
-          "Risks include immune-related side effects where the immune system may attack healthy organs, requiring close medical monitoring.",
+          "Many side effects are manageable if detected early. Continuous monitoring is essential.",
+      },
+      {
+        question: "How Long Does Immunotherapy Treatment Last?",
+        answer:
+          "Duration depends on cancer type, response to treatment, and patient tolerance.",
       },
     ],
   },
 
-  "targeted-therapy": {
-    name: "Targeted Therapy",
+  "targeted-therapy-treatment": {
+    name: "Targeted Therapy Treatment",
     category: "Treatment Modalities",
     icon: targetedIcon,
-    heroTitle: "Targeted Therapy At ICTC",
+    heroTitle: "Targeted Therapy Treatment At Indian Cancer Treatment Centre",
 
     heroImage: targetedHero,
     contentImages: [targeted1, targeted2],
 
     introduction:
-      "Targeted therapy is a form of cancer treatment that identifies and attacks specific cancer cell types while minimizing damage to normal cells. It focuses on particular proteins or genetic changes that control cancer cell growth, division, and spread. Targeted therapy may be used alone or in combination with surgery, radiation therapy, chemotherapy, or immunotherapy.",
+      "Targeted therapy is a specialized cancer treatment that focuses on specific molecular or genetic abnormalities responsible for cancer growth. Unlike conventional chemotherapy, it selectively interferes with cancer cell processes, reducing impact on normal cells. At ICTC, targeted therapy is provided after thorough diagnostic and molecular evaluation based on evidence-based clinical guidelines.",
 
     overview: [
-      "Targeted therapy is based on the principles of precision medicine.",
-      "It targets specific DNA mutations or proteins that drive cancer growth.",
-      "Unlike chemotherapy, targeted therapy is designed to affect cancer cells more selectively.",
-      "As knowledge about cancer genetics advances, newer targeted treatments continue to be developed.",
-      "Understanding how targeted therapy works helps patients prepare for treatment and make informed decisions.",
+      "Targeted therapy works on specific proteins and genetic mutations in cancer cells.",
+      "It blocks signaling pathways that help tumors grow and survive.",
+      "Treatment is prescribed only after confirming a biological target.",
+      "Molecular profiling is essential before starting therapy.",
+      "It is a precision-based and evidence-driven treatment approach.",
     ],
 
     subtypesOfTherapy: {
-      MonoclonalAntibodies: [
-        "Monoclonal antibodies are laboratory-made proteins that attach to specific targets on cancer cells.",
-        "They can block cancer cell signals, mark cancer cells for immune destruction, or deliver drugs directly to cancer cells.",
-        "Some monoclonal antibodies also function as immunotherapies.",
-      ],
-      SmallMoleculeDrugs: [
-        "Small-molecule drugs enter cancer cells and interfere with internal signaling pathways.",
-        "They block growth, division, and survival of cancer cells.",
-        "Angiogenesis inhibitors are a subtype that prevent new blood vessel formation.",
-        "By cutting off blood supply, these drugs limit tumor growth.",
+      Mechanism: [
+        "Inhibition of proteins involved in cancer growth",
+        "Targeting genetic mutations within tumor cells",
+        "Blocking signaling pathways that promote tumor progression",
       ],
     },
 
     cancersTreated: {
       Overview: [
-        "Targeted therapy is used for many cancers with known genetic or protein alterations.",
-        "Ongoing clinical trials continue to expand its applications.",
+        "Targeted therapy is used in multiple cancers depending on molecular profile.",
       ],
       Examples: [
-        "Breast Cancer – HER2-positive tumors respond well to targeted therapies",
-        "Chronic Myeloid Leukemia – Caused by the BCR-ABL gene mutation",
-        "Non-Small Cell Lung Cancer",
-        "Colorectal Cancer",
-        "Kidney Cancer",
-        "Hepatocellular Cancer",
-        "Uterine Cancer",
-        "Thyroid Cancer",
+        "Breast cancer",
+        "Lung cancer",
+        "Colorectal cancer",
+        "Head and neck cancers",
+        "Gastrointestinal stromal tumors",
+        "Leukemia",
+        "Lymphoma",
       ],
     },
 
     benefits: [
-      "Helps the immune system eliminate cancer cells.",
-      "Blocks signals that cause uncontrolled cancer cell growth.",
-      "Prevents formation of blood vessels that supply tumors.",
-      "Delivers cancer-killing agents directly to cancer cells.",
-      "Often causes fewer side effects than conventional chemotherapy.",
+      "Provides precision-based cancer treatment.",
+      "Targets cancer cells with minimal effect on normal cells.",
+      "Guided by molecular and genetic testing.",
+      "Can be combined with other treatment modalities.",
     ],
 
     downsides: [
-      "Cancer cells may develop resistance over time.",
-      "Resistance can occur if the target protein changes or cancer cells find alternative growth pathways.",
-      "Targeted therapy is often more effective when combined with other treatments.",
-      "Drug development can be challenging due to complex cellular targets.",
+      "Applicable only when specific targets are identified.",
+      "Requires advanced diagnostic and molecular testing.",
+      "May cause specific side effects depending on drug.",
     ],
 
     methodsOfAdministration: {
+      OralTherapy: ["Given as tablets or capsules."],
       IntravenousInfusion: [
-        "Targeted therapy drugs may be administered through IV infusion.",
-        "Infusions may last from a few minutes to several hours.",
-        "An IV pump is commonly used to control the drug flow.",
-      ],
-      OralTherapy: [
-        "Targeted therapy may be taken as tablets, capsules, or liquid.",
-        "Oral therapy is usually taken at home.",
-        "Strict adherence to dosage instructions is essential for effectiveness.",
+        "Administered through IV infusion under supervision.",
       ],
     },
 
     sideEffects: {
       CommonSideEffects: [
-        "Skin Rashes Or Flaky Skin",
-        "Sensitive Skin Patches",
-        "Inflamed Or Damaged Fingernails And Cuticles",
-        "Diarrhea Or Gastrointestinal Problems",
-        "Delayed Wound Healing",
-        "Blood Clotting Issues",
-        "Elevated Blood Pressure",
+        "Skin and nail changes",
+        "Fatigue",
+        "Blood pressure variations",
+        "Gastrointestinal symptoms",
       ],
       AdditionalNotes: [
-        "Side effects vary depending on the drug and target protein.",
+        "Side effects differ from chemotherapy and are often manageable with monitoring.",
       ],
     },
 
     targetedTherapyMedications: {
       Overview: [
-        "Targeted therapy includes monoclonal antibodies and small-molecule inhibitors.",
-        "Many newer drugs are under development.",
+        "Treatment selection is based on biomarker and molecular analysis.",
+        "Drug choice follows evidence-based oncology protocols.",
       ],
       Examples: [
-        "Trastuzumab",
-        "Rituximab",
-        "Sunitinib",
-        "Axitinib",
-        "Lenvatinib",
-        "Cabozantinib",
-        "Enfortumab Vedotin",
-        "Erdafitinib",
-        "Sacituzumab Govitecan",
+        "Monoclonal antibodies",
+        "Small molecule inhibitors",
+        "Target specific agents",
       ],
     },
 
     postTreatmentCare: [
-      "Follow-up care is essential after targeted therapy.",
-      "Doctors monitor long-term side effects and treatment response.",
-      "Care may include physical exams, blood tests, and imaging studies.",
+      "Regular follow up and laboratory monitoring.",
+      "Assessment of treatment response.",
+      "Dose adjustments and supportive care when needed.",
     ],
 
     dosAndDonts: {
       Dos: [
-        "Maintain Proper Hydration",
-        "Practice Good Hygiene",
-        "Use Sunscreen When Going Outdoors",
+        "Attend Regular Follow Ups",
+        "Follow Prescribed Treatment Strictly",
+        "Report Side Effects Early",
+        "Maintain Overall Health",
       ],
-      Donts: [
-        "Do Not Skip Meals",
-        "Avoid Contact With Sick Or Infected Individuals",
-        "Avoid Large Gatherings",
-      ],
+      Donts: ["Do Not Skip Medication", "Avoid Ignoring Symptoms"],
     },
 
     faqs: [
       {
-        question: "How Does Individualized Treatment Impact Me?",
+        question: "Is Targeted Therapy The Same As Chemotherapy?",
         answer:
-          "Each patient responds differently to targeted therapy based on cancer type, stage, specific drug used, and dosage.",
+          "No. Targeted therapy focuses on specific molecular changes in cancer cells, while chemotherapy targets rapidly dividing cells more broadly.",
       },
       {
-        question: "How Will I Know If Targeted Therapy Is Effective?",
+        question: "Will All Cancer Patients Benefit From Targeted Therapy?",
         answer:
-          "Effectiveness is monitored through scans, blood tests, symptom improvement, and regular medical evaluations.",
+          "No. It is only suitable when specific molecular or genetic targets are identified through testing.",
+      },
+      {
+        question: "Is Targeted Therapy Always Given Alone?",
+        answer:
+          "No. It may be combined with chemotherapy, immunotherapy, or radiation therapy depending on clinical needs.",
+      },
+      {
+        question: "Are Targeted Therapy Side Effects Permanent?",
+        answer:
+          "Most side effects are manageable and often reversible with proper monitoring and supportive care.",
       },
     ],
   },
 
-  "hormonal-therapy": {
-    name: "Hormonal Therapy",
+  "hormonal-therapy-treatment": {
+    name: "Hormonal Therapy Treatment",
     category: "Treatment Modalities",
-    heroTitle: "Hormonal Therapy At ICTC",
+    heroTitle: "Hormonal Therapy Treatment At Indian Cancer Treatment Centre",
     icon: hormonalIcon,
     heroImage: hormonalHero,
     contentImages: [hormonal1, hormonal2],
 
     introduction:
-      "Hormonal therapy, also known as endocrine therapy, is a cancer treatment that works by blocking, lowering, or removing hormones that fuel the growth of certain hormone-sensitive cancers. It is commonly used in cancers such as breast and prostate cancer and may be given alone or in combination with surgery, radiation therapy, chemotherapy, targeted therapy, or immunotherapy.",
+      "Hormonal therapy is used to treat cancers that grow in response to natural hormones in the body. At ICTC, hormonal therapy is prescribed only after proper diagnostic testing confirms hormone sensitivity. Treatment decisions are based on scientific evidence, clinical evaluation, and patient specific needs.",
 
     overview: [
-      "Hormonal therapy is effective only for hormone-sensitive cancers.",
-      "It works by stopping the body from producing hormones or by blocking hormone action on cancer cells.",
-      "Unlike chemotherapy, hormonal therapy does not directly kill cancer cells.",
-      "It is often used as long-term treatment to prevent cancer recurrence.",
-      "Understanding hormonal therapy helps patients actively participate in treatment decisions.",
+      "Hormonal therapy works by blocking or reducing hormones that promote cancer growth.",
+      "It does not directly destroy cancer cells like chemotherapy.",
+      "It is used only for hormone sensitive cancers.",
+      "Treatment is guided by hormone receptor and biomarker testing.",
+      "It is often used as a long term therapy.",
     ],
 
     subtypesOfTherapy: {
-      HormoneBlockingTherapies: [
-        "These therapies block hormones from attaching to cancer cells.",
-        "They prevent hormone-driven cancer cell growth.",
-        "Commonly used in estrogen or androgen receptor–positive cancers.",
-      ],
-      HormoneLoweringTherapies: [
-        "These therapies reduce the amount of hormones produced in the body.",
-        "They may work by stopping hormone production at the source.",
-        "Often used in breast and prostate cancers.",
+      Types: [
+        "Hormone receptor blockers",
+        "Hormone production inhibitors",
+        "GnRH analogues or antagonists",
+        "Surgical hormone suppression",
       ],
     },
 
     cancersTreated: {
       Overview: [
-        "Hormonal therapy is used in cancers that depend on hormones to grow.",
-        "Testing is done to confirm hormone receptor positivity before treatment.",
+        "Hormonal therapy is used when cancers are confirmed to be hormone driven.",
       ],
       Examples: [
-        "Breast Cancer – Estrogen or progesterone receptor positive",
-        "Prostate Cancer – Androgen-dependent tumors",
-        "Uterine (Endometrial) Cancer",
-        "Ovarian Cancer",
-        "Thyroid Cancer (selected cases)",
+        "Breast cancer",
+        "Prostate cancer",
+        "Endometrial cancer",
+        "Ovarian cancer",
       ],
     },
 
     benefits: [
-      "Slows or stops hormone-driven cancer growth.",
-      "Reduces the risk of cancer recurrence.",
-      "Often has fewer immediate side effects than chemotherapy.",
-      "Can be used as long-term maintenance therapy.",
-      "May shrink tumors before surgery or radiation.",
+      "Targets hormone driven cancer growth.",
+      "Provides long term disease control.",
+      "Can be combined with other cancer treatments.",
+      "Often has a different side effect profile than chemotherapy.",
     ],
 
     downsides: [
-      "Treatment may need to be continued for several years.",
-      "Side effects may develop with long-term use.",
-      "Not effective for hormone receptor–negative cancers.",
-      "Cancer may become resistant over time.",
+      "Effective only in hormone sensitive cancers.",
+      "Treatment duration may extend over years.",
+      "Side effects may develop with long term use.",
     ],
 
     methodsOfAdministration: {
-      OralTherapy: [
-        "Hormonal therapy is commonly taken as tablets or capsules.",
-        "Medication is usually taken daily at home.",
-        "Consistency in dosage timing is essential.",
-      ],
-      InjectionsOrImplants: [
-        "Some hormonal therapies are given as injections.",
-        "Injections may be administered monthly or every few months.",
-        "This method is commonly used in prostate cancer treatment.",
+      OralTherapy: ["Given as daily tablets."],
+      Injections: ["Administered at scheduled intervals."],
+      CombinationTherapy: [
+        "May be combined with other cancer treatments when required.",
       ],
     },
 
     sideEffects: {
       CommonSideEffects: [
-        "Hot Flashes",
+        "Hot flashes",
         "Fatigue",
-        "Weight Gain",
-        "Mood Changes",
-        "Decreased Libido",
-        "Joint Or Muscle Pain",
-        "Bone Density Loss",
+        "Changes in bone density",
+        "Metabolic or cardiovascular effects",
+        "Sexual health related changes",
       ],
       AdditionalNotes: [
-        "Side effects depend on the type of hormone affected and treatment duration.",
+        "Side effects vary depending on medication and patient response.",
       ],
     },
 
     hormonalTherapyMedications: {
       Overview: [
-        "Hormonal therapy includes drugs that block hormone receptors or reduce hormone production.",
-        "Medication choice depends on cancer type and hormone receptor status.",
+        "Treatment is selected based on hormone receptor testing and clinical guidelines.",
+        "Medication choice depends on cancer type and patient condition.",
       ],
-      Examples: [
-        "Tamoxifen",
-        "Anastrozole",
-        "Letrozole",
-        "Exemestane",
-        "Leuprolide",
-        "Goserelin",
-        "Abiraterone",
-        "Enzalutamide",
-      ],
+      Examples: ["Hormone blockers", "Hormone inhibitors", "GnRH analogues"],
     },
 
     postTreatmentCare: [
-      "Regular follow-up visits are essential after hormonal therapy.",
-      "Doctors monitor hormone levels, bone health, and overall well-being.",
-      "Long-term monitoring helps manage delayed side effects.",
+      "Regular follow up and clinical evaluation.",
+      "Monitoring of treatment response.",
+      "Assessment and management of side effects.",
     ],
 
     dosAndDonts: {
       Dos: [
-        "Take Medications Exactly As Prescribed",
-        "Maintain A Healthy Diet",
-        "Engage In Regular Physical Activity",
-        "Attend All Follow-Up Appointments",
+        "Take Medication As Prescribed",
+        "Attend Follow Up Visits",
+        "Maintain Healthy Lifestyle",
+        "Report Side Effects Early",
       ],
       Donts: [
-        "Do Not Stop Medication Without Consulting Your Doctor",
-        "Avoid Smoking And Excess Alcohol",
-        "Do Not Ignore Persistent Side Effects",
+        "Do Not Stop Treatment Without Advice",
+        "Avoid Ignoring Symptoms",
       ],
     },
 
     faqs: [
       {
-        question: "How Long Do I Need To Take Hormonal Therapy?",
+        question: "Is Hormonal Therapy The Same As Chemotherapy?",
         answer:
-          "Treatment duration varies by cancer type and stage, but many patients take hormonal therapy for several years to reduce recurrence risk.",
+          "No. Hormonal therapy works by blocking or reducing hormones that help certain cancers grow, while chemotherapy targets rapidly dividing cells.",
       },
       {
-        question: "Will Hormonal Therapy Cure My Cancer?",
+        question: "How Long Does Hormonal Therapy Usually Last?",
         answer:
-          "Hormonal therapy helps control cancer growth and reduce recurrence but is often part of a broader treatment plan rather than a standalone cure.",
+          "Duration varies depending on cancer type and treatment goals and may continue for several years.",
+      },
+      {
+        question: "Are Side Effects Permanent?",
+        answer:
+          "Most side effects are manageable and often improve over time or with treatment adjustments.",
+      },
+      {
+        question: "Can Hormonal Therapy Cure Cancer?",
+        answer:
+          "It may help control cancer growth or reduce recurrence risk. Outcomes depend on cancer type and stage.",
       },
     ],
   },
 
-  "car-t-therapy": {
-    name: "CAR-T Cell Therapy",
+  "car-t-cell-therapy-molecular-therapy": {
+    name: "CAR-T Cell & Molecular Cancer Therapy",
     category: "Treatment Modalities",
-    heroTitle: "CAR-T Cell Therapy At ICTC",
+    heroTitle:
+      "CAR-T Cell And Molecular Cancer Therapy At Indian Cancer Treatment Centre",
     icon: cartIcon,
     heroImage: cartHero,
     contentImages: [cart1, cart2],
 
     introduction:
-      "CAR-T cell therapy, or Chimeric Antigen Receptor T-cell therapy, is an advanced form of immunotherapy that uses a patient’s own immune cells to fight cancer. In this treatment, T-cells are genetically modified in a laboratory to better recognize and destroy cancer cells, then infused back into the patient. CAR-T therapy has shown remarkable success in certain blood cancers.",
+      "CAR-T cell therapy and molecular cancer therapy are advanced forms of precision oncology that focus on the genetic and molecular characteristics of cancer. At ICTC, these therapies are considered after careful evaluation and are used in selected cases where they are clinically appropriate.",
 
     overview: [
-      "CAR-T therapy is a personalized and highly targeted cancer treatment.",
-      "It involves collecting a patient’s T-cells, modifying them, and reinfusing them.",
-      "The modified T-cells are trained to recognize specific proteins on cancer cells.",
-      "Once infused, CAR-T cells multiply in the body and attack cancer cells.",
-      "This therapy is mainly used for relapsed or treatment-resistant blood cancers.",
+      "These therapies are part of precision oncology.",
+      "Treatment decisions are based on genetic and molecular properties of cancer.",
+      "They are often considered when standard treatments are not effective.",
+      "Careful evaluation is required before recommending these therapies.",
+      "Patient safety and clinical evidence guide treatment decisions.",
     ],
 
-    howCarTWorks: [
-      "T-cells are collected from the patient through a procedure called leukapheresis.",
-      "In the laboratory, T-cells are genetically engineered to express chimeric antigen receptors.",
-      "These receptors allow T-cells to recognize cancer-specific antigens.",
-      "The modified cells are multiplied and then infused back into the patient.",
-      "CAR-T cells seek out and destroy cancer cells in the body.",
-    ],
+    subtypesOfTherapy: {
+      Types: ["CAR-T cell therapy", "Molecular cancer therapy"],
+    },
 
-    cancersTreated: [
-      "Acute Lymphoblastic Leukemia (ALL)",
-      "Diffuse Large B-Cell Lymphoma (DLBCL)",
-      "Other Aggressive B-Cell Lymphomas",
-      "Multiple Myeloma (Selected Cases)",
-    ],
+    cancersTreated: {
+      Overview: [
+        "These therapies are used in selected cancers based on clinical criteria and molecular testing.",
+      ],
+      Examples: [
+        "Leukemia",
+        "Lymphoma",
+        "Lung cancer",
+        "Breast cancer",
+        "Colorectal cancer",
+        "Blood related malignancies",
+      ],
+    },
 
     benefits: [
-      "Highly targeted treatment that spares most normal cells.",
-      "Uses the patient’s own immune system to fight cancer.",
-      "Can be effective when other treatments have failed.",
-      "May provide long-lasting remission in some patients.",
-      "Single infusion may lead to prolonged cancer control.",
+      "Provides precision based cancer treatment.",
+      "Targets cancer at the molecular or cellular level.",
+      "May be beneficial when other treatments are not effective.",
+      "Guided by genetic and molecular testing.",
     ],
 
     downsides: [
-      "Available only at specialized cancer centers.",
-      "May cause serious immune-related side effects.",
-      "Requires hospitalization and close monitoring.",
-      "Not suitable for all patients or cancer types.",
-      "Treatment preparation may take several weeks.",
+      "Not suitable for all patients.",
+      "Requires advanced diagnostic testing.",
+      "May involve complex treatment planning.",
+      "Potential for significant side effects.",
     ],
 
-    treatmentProcess: {
-      CellCollection: [
-        "T-cells are collected from the patient’s blood.",
-        "Procedure is similar to blood donation.",
+    methodsOfAdministration: {
+      CAR_T_Cell_Therapy: [
+        "T-cells are collected from the patient.",
+        "Cells are genetically modified in a laboratory.",
+        "Modified cells are infused back into the bloodstream.",
       ],
-      CellEngineering: [
-        "T-cells are modified in a laboratory to express CAR receptors.",
-        "This process takes several weeks.",
-      ],
-      ConditioningTherapy: [
-        "Low-dose chemotherapy is given before infusion.",
-        "Helps prepare the body to receive CAR-T cells.",
-      ],
-      CARInfusion: [
-        "CAR-T cells are infused through a vein.",
-        "Infusion is usually completed in one session.",
-      ],
-      MonitoringAndRecovery: [
-        "Patients are closely monitored for side effects.",
-        "Hospital stay may be required for early detection of complications.",
+      MolecularTherapy: [
+        "Treatment is selected based on molecular and genetic targets.",
+        "Therapies are administered based on specific drug protocols.",
       ],
     },
 
     sideEffectsAndRisks: {
-      CommonSideEffects: [
-        "Fever",
-        "Fatigue",
-        "Low Blood Pressure",
-        "Nausea",
-        "Loss Of Appetite",
-      ],
+      CommonSideEffects: ["Fever", "Fatigue", "Inflammation related symptoms"],
       SeriousSideEffects: [
-        "Cytokine Release Syndrome (CRS)",
-        "Neurological Symptoms Such As Confusion Or Seizures",
-        "Severe Infections Due To Low Immunity",
+        "Immune related reactions",
+        "Neurological symptoms",
+        "Infections",
       ],
       AdditionalNotes: [
-        "Most side effects are manageable with early medical intervention.",
+        "Close monitoring is required during and after treatment.",
       ],
     },
 
     precautions: [
-      "Patients must remain under close medical supervision after infusion.",
-      "Report fever or neurological symptoms immediately.",
-      "Avoid driving or operating machinery during early recovery.",
-      "Follow infection prevention guidelines strictly.",
+      "Regular clinical monitoring is required.",
+      "Report symptoms early.",
+      "Follow medical guidance strictly.",
     ],
 
     postTreatmentCare: [
-      "Regular follow-up visits and blood tests.",
-      "Monitoring for delayed side effects.",
-      "Vaccination schedule may be repeated after immune recovery.",
-      "Psychological and rehabilitation support when required.",
+      "Ongoing monitoring of treatment response.",
+      "Management of side effects.",
+      "Supportive care as needed.",
     ],
 
     dosAndDonts: {
       Dos: [
-        "Attend All Follow-Up Appointments",
-        "Maintain Strict Hygiene",
-        "Stay Hydrated And Eat Nutritious Food",
-        "Report Symptoms Early",
+        "Attend All Follow Ups",
+        "Maintain Hygiene",
+        "Report Symptoms Promptly",
+        "Follow Medical Advice",
       ],
-      Donts: [
-        "Do Not Ignore Fever Or Confusion",
-        "Avoid Crowded Places Initially",
-        "Do Not Skip Prescribed Medications",
-        "Avoid Alcohol During Recovery",
-      ],
+      Donts: ["Do Not Ignore Symptoms", "Avoid Skipping Follow Ups"],
     },
 
     faqs: [
       {
-        question: "Is CAR-T Therapy A Cure?",
+        question: "Is CAR-T Cell Therapy Suitable For All Cancer Patients?",
         answer:
-          "CAR-T therapy can lead to long-term remission and potential cure in some patients with specific blood cancers.",
+          "No. It is mainly used for certain blood cancers and only for patients who meet specific medical criteria.",
       },
       {
-        question: "Is CAR-T Therapy Painful?",
+        question: "Are Molecular Therapies The Same As Chemotherapy?",
         answer:
-          "The infusion itself is painless, but side effects may occur during the recovery phase.",
+          "No. Molecular therapies target specific genetic pathways, while chemotherapy affects rapidly dividing cells.",
       },
       {
-        question: "How Long Does CAR-T Therapy Take?",
+        question: "Do These Treatments Guarantee A Cure?",
         answer:
-          "The preparation phase may take several weeks, while the infusion is usually completed in one day.",
+          "No. Outcomes depend on cancer type and individual patient factors.",
       },
       {
-        question: "Who Is Eligible For CAR-T Therapy?",
+        question: "Are There Risks Involved With These Treatments?",
         answer:
-          "Eligibility depends on cancer type, prior treatments, overall health, and specialist evaluation.",
+          "Yes. These therapies may have significant side effects and require careful monitoring.",
       },
     ],
   },
@@ -1176,319 +1097,298 @@ const serviceData = {
     ],
   },
 
-  "bone-marrow-procedures": {
-    name: "Bone Marrow Procedures",
+  "bone-marrow-testing-biopsy": {
+    name: "Bone Marrow Testing & Biopsy",
     category: "Treatment Modalities",
-    heroTitle: "Bone Marrow Procedures At ICTC",
+    heroTitle: "Bone Marrow Testing And Biopsy At ICTC",
     icon: boneMarrowIcon,
     heroImage: boneMarrowHero,
     contentImages: [boneMarrow1, boneMarrow2],
 
     introduction:
-      "Bone marrow procedures are specialized medical techniques used to diagnose blood disorders and treat certain cancers by restoring healthy bone marrow function. These procedures include bone marrow aspiration, biopsy, and bone marrow transplantation (stem cell transplant). They play a vital role in the management of blood cancers, immune disorders, and bone marrow failure conditions.",
+      "Bone marrow testing and biopsy are essential diagnostic procedures used to evaluate blood disorders and bone marrow health. These tests help identify abnormalities in blood cell production and detect both cancerous and non-cancerous conditions affecting the bone marrow.",
 
     overview: [
-      "Bone marrow is the soft tissue inside bones where blood cells are produced.",
-      "Procedures may be diagnostic or therapeutic depending on the condition.",
-      "They help evaluate how well the bone marrow is functioning.",
-      "Bone marrow transplantation replaces damaged or diseased marrow with healthy stem cells.",
-      "Advances in transplantation techniques have significantly improved survival rates.",
+      "Bone marrow is the soft, spongy tissue inside bones responsible for blood cell production.",
+      "It produces red blood cells, white blood cells, and platelets.",
+      "Bone marrow testing helps assess abnormalities in blood cell formation.",
+      "These tests support diagnosis, staging, and treatment monitoring.",
+      "They are commonly recommended when blood reports are abnormal or unexplained symptoms exist.",
     ],
 
     subtypesOfTherapy: {
       DiagnosticProcedures: [
-        "Bone marrow aspiration involves removing a small amount of liquid marrow.",
-        "Bone marrow biopsy removes a small core of bone and marrow tissue.",
-        "These tests help diagnose cancers, infections, anemia, and marrow disorders.",
+        "Bone marrow aspiration removes a small amount of liquid marrow for cell-level analysis.",
+        "Bone marrow biopsy removes a small core of marrow tissue to study structure and composition.",
+        "Both procedures are often performed together for comprehensive evaluation.",
       ],
       TherapeuticProcedures: [
-        "Bone marrow transplantation replaces unhealthy marrow with healthy stem cells.",
-        "It may restore normal blood cell production.",
-        "Used when bone marrow is damaged by disease or intensive treatments.",
+        "Primarily diagnostic in nature and used to guide treatment decisions.",
+        "Helps monitor response to ongoing therapies.",
+        "Supports accurate clinical planning based on findings.",
       ],
     },
 
     typesOfTransplant: {
-      AutologousTransplant: [
-        "Uses the patient’s own stem cells.",
-        "Stem cells are collected, stored, and re-infused after high-dose therapy.",
-        "Commonly used in multiple myeloma and some lymphomas.",
-      ],
-      AllogeneicTransplant: [
-        "Uses stem cells from a matched donor.",
-        "Donor may be a sibling, unrelated donor, or family member.",
-        "Provides a graft-versus-cancer effect but carries higher risks.",
-      ],
-      SyngeneicTransplant: [
-        "Uses stem cells from an identical twin.",
-        "Rare but associated with fewer complications.",
+      ConditionsEvaluated: [
+        "Leukemia",
+        "Lymphoma",
+        "Multiple Myeloma",
+        "Myelodysplastic Syndromes",
+        "Aplastic Anemia",
+        "Unexplained Anemia",
+        "Leukopenia (Low White Blood Cells)",
+        "Thrombocytopenia (Low Platelets)",
+        "Persistent Fever of Unknown Origin",
       ],
     },
 
     cancersTreated: {
       Overview: [
-        "Bone marrow procedures are commonly used in blood-related cancers.",
-        "They may also be used for severe non-cancerous blood disorders.",
+        "Bone marrow testing is crucial for diagnosing blood cancers and related disorders.",
+        "It also helps evaluate non-cancerous hematological conditions.",
       ],
       Examples: [
         "Leukemia",
         "Lymphoma",
         "Multiple Myeloma",
-        "Myelodysplastic Syndromes (MDS)",
-        "Aplastic Anemia",
-        "Thalassemia",
-        "Certain Immune Deficiency Disorders",
+        "Bone Marrow Failure Disorders",
+        "Chronic Blood Disorders",
       ],
     },
 
     benefits: [
-      "Allows accurate diagnosis of blood and marrow disorders.",
-      "Can restore healthy blood cell production.",
-      "Offers a potential cure for certain cancers and blood diseases.",
-      "Enables use of high-dose chemotherapy or radiation.",
-      "Improves long-term survival in eligible patients.",
+      "Provides accurate diagnosis of blood and marrow disorders.",
+      "Helps detect cancerous and abnormal cells early.",
+      "Guides staging and treatment planning.",
+      "Monitors treatment response effectively.",
+      "Supports evidence-based clinical decisions.",
     ],
 
     risksAndChallenges: [
-      "Risk of infection due to low immunity.",
-      "Graft-versus-host disease (in allogeneic transplants).",
-      "Bleeding or pain at the procedure site.",
-      "Long recovery period may be required.",
-      "Requires close monitoring and specialized care.",
+      "Mild pain or discomfort during the procedure.",
+      "Temporary soreness or bruising at the site.",
+      "Rare risk of bleeding or infection.",
+      "Anxiety or discomfort before the procedure.",
     ],
 
     methodsOfProcedure: {
       BoneMarrowAspirationAndBiopsy: [
-        "Usually performed from the hip bone.",
-        "Local anesthesia is used to reduce discomfort.",
-        "Procedure typically takes 20–30 minutes.",
+        "Usually performed from the pelvic (hip) bone.",
+        "Local anesthesia is used to minimize pain.",
+        "Procedure takes approximately 15–30 minutes.",
+        "Patients may feel pressure during sample collection.",
       ],
-      StemCellInfusion: [
-        "Stem cells are infused through an IV line.",
-        "The process is similar to a blood transfusion.",
-        "No surgery is required for infusion.",
+      AdvancedDiagnostics: [
+        "Samples are analyzed using morphology and histopathology.",
+        "Flow cytometry and immunohistochemistry may be used.",
+        "Cytogenetic and molecular studies provide deeper insights.",
       ],
     },
 
     sideEffects: {
       CommonSideEffects: [
-        "Pain Or Soreness At The Procedure Site",
+        "Mild Pain Or Soreness At The Procedure Site",
+        "Temporary Discomfort",
+        "Minor Bruising",
         "Fatigue",
-        "Nausea",
-        "Temporary Hair Loss",
-        "Low Blood Counts",
-        "Increased Infection Risk",
       ],
       LongTermEffects: [
-        "Chronic Graft-Versus-Host Disease",
-        "Organ Damage (Rare)",
-        "Hormonal Or Fertility Changes",
+        "Complications Are Rare",
+        "Most Patients Recover Quickly Without Issues",
       ],
     },
 
     preparationAndRecovery: {
       Preparation: [
-        "Pre-transplant evaluation includes blood tests and imaging.",
-        "Donor matching is performed when required.",
-        "Patients may receive conditioning therapy before transplant.",
+        "Detailed medical history and blood test evaluation.",
+        "Assessment of medications and bleeding risks.",
+        "Explanation of procedure and consent.",
       ],
       Recovery: [
-        "Hospital stay may range from weeks to months.",
-        "Immune system recovery takes time.",
-        "Regular follow-ups are essential after discharge.",
+        "Short observation period after the procedure.",
+        "Most patients go home the same day.",
+        "Normal activities can resume soon with mild care.",
       ],
     },
 
     postTreatmentCare: [
-      "Strict infection prevention measures are required.",
-      "Long-term follow-up to monitor graft function.",
-      "Supportive care includes nutrition, physiotherapy, and counseling.",
+      "Keep the procedure site clean and dry.",
+      "Follow medical advice for pain management.",
+      "Attend follow-up consultations.",
+      "Monitor for any unusual symptoms.",
     ],
 
     dosAndDonts: {
       Dos: [
-        "Follow Infection Control Guidelines",
-        "Maintain A Nutritious Diet",
-        "Take Prescribed Medications On Time",
-        "Attend All Scheduled Follow-Ups",
+        "Follow Doctor’s Instructions Carefully",
+        "Report Any Unusual Symptoms",
+        "Attend Follow-Up Appointments",
+        "Maintain Hygiene At Procedure Site",
       ],
       Donts: [
-        "Avoid Crowded Places During Recovery",
-        "Do Not Miss Medications Or Appointments",
-        "Avoid Raw Or Uncooked Foods Initially",
+        "Avoid Heavy Physical Activity Immediately After Procedure",
+        "Do Not Ignore Pain Or Swelling",
+        "Avoid Self-Medication Without Advice",
       ],
     },
 
     faqs: [
       {
-        question: "Is Bone Marrow Transplant Painful?",
+        question: "Is A Bone Marrow Biopsy Painful?",
         answer:
-          "The transplant itself is not painful, but some discomfort may occur during preparation and recovery, which is managed with medications.",
+          "The procedure is performed under local anesthesia, so pain is minimal. Patients may feel brief pressure or discomfort during sample collection.",
       },
       {
-        question: "How Long Does Recovery Take After A Bone Marrow Transplant?",
+        question: "Are There Risks Associated With Bone Marrow Testing?",
         answer:
-          "Initial recovery may take several weeks, while full immune system recovery can take months to a year depending on the type of transplant.",
+          "Complications are rare. Some patients may experience mild soreness or bruising, which usually resolves in a few days.",
+      },
+      {
+        question: "How Long Does It Take To Get Results?",
+        answer:
+          "Initial results are usually available within a few days. Advanced molecular tests may take longer.",
+      },
+      {
+        question: "Is Hospital Admission Required?",
+        answer:
+          "No, it is typically an outpatient procedure and most patients return home the same day.",
       },
     ],
   },
 
-
-
-
-  "cancer-vaccination-screening": {
-    name: "Cancer Vaccination & Screening",
+  "cancer-screening": {
+    name: "Cancer Screening",
     category: "Diagnostic & Support Services",
-    heroTitle: "Cancer Vaccination & Screening At ICTC",
+    heroTitle: "Cancer Screening At Indian Cancer Treatment Centre",
     icon: screeningIcon,
     heroImage: screeningHero,
     contentImages: [screening1, screening2],
 
     introduction:
-      "Cancer vaccination and screening are preventive healthcare strategies aimed at reducing cancer risk and detecting cancer at an early, more treatable stage. Vaccination helps prevent certain virus-related cancers, while screening identifies abnormal changes or early cancers before symptoms appear. Together, they play a crucial role in cancer prevention and early intervention.",
+      "Cancer screening is designed to detect early changes in the body before symptoms appear. At the Indian Cancer Treatment Centre, screening is conducted with care, clarity, and professionalism using risk-based assessment, standard screening investigations, and selective use of adjunct technologies like thermal mammography.",
 
     overview: [
-      "Cancer prevention focuses on reducing risk before cancer develops.",
-      "Vaccines protect against infections known to cause certain cancers.",
-      "Screening tests detect cancer early, often before symptoms appear.",
-      "Early detection significantly improves treatment success and survival rates.",
-      "Regular screening is recommended based on age, gender, and risk factors.",
+      "Cancer may not show symptoms in early stages.",
+      "Screening helps detect changes before they become serious.",
+      "It is based on age, gender, family history, and lifestyle.",
+      "Early detection allows timely medical intervention.",
+      "Screening is a step toward informed and structured care.",
     ],
 
     vaccination: {
       Overview: [
-        "Cancer vaccines are preventive, not therapeutic.",
-        "They protect against viruses that increase cancer risk.",
-        "Vaccination is most effective when given before exposure to the virus.",
+        "Cancer screening refers to medical examinations for individuals with or without symptoms.",
+        "It helps identify early or pre-cancerous changes.",
+        "Screening is recommended based on individual risk factors.",
       ],
       TypesOfVaccines: {
-        HPVVaccine: [
-          "Protects against Human Papillomavirus (HPV).",
-          "Prevents cervical, anal, throat, and other HPV-related cancers.",
-          "Recommended for adolescents and young adults.",
-        ],
-        HepatitisBVaccine: [
-          "Protects against Hepatitis B virus infection.",
-          "Reduces the risk of chronic liver disease and liver cancer.",
-          "Recommended for infants, children, and high-risk adults.",
+        Purpose: [
+          "Detect cancer early when it is more manageable.",
+          "Identify abnormal or pre-cancerous conditions.",
+          "Stratify individuals based on cancer risk.",
         ],
       },
       benefits: [
-        "Reduces risk of virus-related cancers.",
-        "Provides long-term protection.",
-        "Safe and well-tolerated.",
-        "Contributes to population-level cancer prevention.",
+        "Enables early detection of cancer.",
+        "Helps in timely medical intervention.",
+        "Supports risk-based evaluation.",
+        "Improves clinical outcomes with early care.",
       ],
     },
 
     screening: {
       Overview: [
-        "Screening helps detect cancer early or identify precancerous changes.",
-        "It is recommended even when no symptoms are present.",
-        "Screening schedules vary by cancer type and risk profile.",
+        "Screening does not confirm diagnosis.",
+        "Abnormal findings require further diagnostic tests.",
+        "Imaging or biopsy may be needed for confirmation.",
       ],
       CommonScreeningTests: {
-        BreastCancerScreening: [
-          "Mammography detects early breast cancer.",
-          "Clinical breast examination helps identify lumps.",
-          "Recommended regularly for women above a certain age.",
-        ],
-        CervicalCancerScreening: [
-          "Pap smear detects abnormal cervical cells.",
-          "HPV testing identifies high-risk virus types.",
-          "Regular screening can prevent cervical cancer.",
-        ],
-        ColorectalCancerScreening: [
-          "Colonoscopy detects polyps and early cancer.",
-          "Stool-based tests identify hidden blood.",
-          "Recommended for adults over a certain age.",
-        ],
-        ProstateCancerScreening: [
-          "PSA blood test measures prostate-specific antigen.",
-          "Digital rectal examination evaluates prostate health.",
-          "Screening decisions are individualized.",
-        ],
-        LungCancerScreening: [
-          "Low-dose CT scan detects early lung cancer.",
-          "Recommended for high-risk individuals such as long-term smokers.",
+        CommonCancersScreened: [
+          "Breast cancer",
+          "Cervical cancer",
+          "Oral and head and neck cancers",
+          "Colorectal cancer",
+          "Prostate cancer",
+          "Lung cancer in high risk individuals",
         ],
       },
     },
 
     cancersPreventedOrDetected: {
       Overview: [
-        "Vaccination and screening reduce cancer incidence and mortality.",
-        "Some cancers can be entirely prevented through vaccination.",
+        "Screening programs are tailored based on medical guidelines.",
+        "Individual risk assessment determines screening recommendations.",
       ],
       Examples: [
-        "Cervical Cancer",
         "Breast Cancer",
+        "Cervical Cancer",
+        "Oral Cancer",
         "Colorectal Cancer",
-        "Liver Cancer",
         "Prostate Cancer",
         "Lung Cancer",
-        "Head And Neck Cancers",
       ],
     },
 
     benefits: [
-      "Detects cancer at an early and treatable stage.",
-      "Reduces cancer-related deaths.",
-      "Prevents certain cancers before they develop.",
-      "Allows less aggressive treatment when caught early.",
-      "Improves overall quality of life.",
+      "Risk-based and structured screening approach.",
+      "Selective use of advanced technologies like thermal mammography.",
+      "Guided pathway from screening to diagnosis.",
+      "Clear communication and patient understanding.",
+      "Ethical and evidence-based decision making.",
     ],
 
     limitations: [
-      "Screening tests may not detect all cancers.",
-      "False positives can cause anxiety and additional testing.",
-      "Vaccines do not protect against all cancer types.",
-      "Regular follow-up is required for effectiveness.",
+      "Screening does not guarantee diagnosis.",
+      "Normal results do not completely rule out cancer.",
+      "Further tests may be required if abnormalities are found.",
     ],
 
     preparationAndProcess: {
       Preparation: [
-        "Discuss personal and family cancer history with your doctor.",
-        "Follow pre-test instructions for screening procedures.",
-        "Vaccination schedules should be completed as advised.",
+        "Evaluation of personal and family medical history.",
+        "Assessment of lifestyle and environmental exposure.",
+        "Age-based screening eligibility review.",
       ],
       Process: [
-        "Vaccines are administered via injection.",
-        "Screening tests may involve imaging, blood tests, or sample collection.",
-        "Most screening procedures are quick and minimally invasive.",
+        "Screening consultation and counseling.",
+        "Clinical examination or imaging tests.",
+        "Thermal mammography when indicated.",
+        "Review and interpretation of results.",
+        "Further diagnostic evaluation if required.",
       ],
     },
 
     postProcedureCare: [
-      "Resume normal activities after most screening tests.",
-      "Follow medical advice if abnormal results are detected.",
-      "Maintain regular screening schedules.",
+      "Follow recommended screening schedules.",
+      "Undergo further evaluation if advised.",
+      "Maintain communication with healthcare providers.",
     ],
 
     dosAndDonts: {
       Dos: [
-        "Follow Recommended Vaccination Schedules",
-        "Attend Regular Screening Appointments",
-        "Maintain A Healthy Lifestyle",
-        "Consult Your Doctor About Risk Factors",
+        "Attend Screening Consultations",
+        "Follow Medical Advice",
+        "Ask Questions For Clarity",
+        "Complete Recommended Tests",
       ],
       Donts: [
-        "Do Not Delay Screening Due To Lack Of Symptoms",
-        "Avoid Ignoring Abnormal Test Results",
-        "Do Not Skip Follow-Up Visits",
+        "Do Not Ignore Symptoms",
+        "Do Not Assume Screening Is Final Diagnosis",
+        "Avoid Delaying Follow-Up Tests",
       ],
     },
 
     faqs: [
       {
-        question: "Are Cancer Vaccines Used To Treat Cancer?",
+        question: "Who Should Undergo Cancer Screening?",
         answer:
-          "Preventive cancer vaccines protect against cancer-causing infections but do not treat existing cancer.",
+          "Suitability depends on age, gender, family history, and risk factors. Consultation helps determine appropriate screening.",
       },
       {
-        question: "How Often Should Cancer Screening Be Done?",
+        question: "Does A Normal Screening Test Rule Out Cancer?",
         answer:
-          "Screening frequency depends on age, gender, cancer type, and individual risk factors. Your doctor will recommend an appropriate schedule.",
+          "No screening test is completely conclusive. Follow-up and medical evaluation are essential if symptoms appear later.",
       },
     ],
   },
@@ -1652,146 +1552,155 @@ const serviceData = {
     ],
   },
 
-  "palliative-supportive-care": {
-    name: "Palliative & Supportive Care",
+  "palliative-cancer-care": {
+    name: "Palliative Cancer Care",
     category: "Diagnostic & Support Services",
-    heroTitle: "Palliative & Supportive Care At ICTC",
+    heroTitle: "Palliative Cancer Care At Indian Cancer Treatment Centre",
     icon: palliativeIcon,
     heroImage: palliativeHero,
     contentImages: [palliative1, palliative2],
 
     introduction:
-      "Palliative and supportive care focuses on improving quality of life for patients living with cancer by managing symptoms, side effects, and emotional stress. It is provided alongside curative or life-prolonging treatments at any stage of cancer. The goal is to relieve suffering, support patients and families, and enhance overall well-being.",
+      "Palliative cancer care focuses on improving comfort, strength, and quality of life for patients living with cancer. At ICTC, it is integrated into the overall treatment plan to support patients physically, emotionally, and practically throughout their journey.",
 
     overview: [
-      "Palliative care addresses physical, emotional, social, and spiritual needs.",
-      "It can be started at diagnosis and continued throughout treatment.",
-      "Supportive care helps manage treatment-related side effects.",
-      "This care is not limited to end-of-life situations.",
-      "A multidisciplinary team works together to support patients and caregivers.",
+      "Palliative care helps manage symptoms and treatment side effects.",
+      "It supports emotional and psychological well being.",
+      "It is provided alongside active cancer treatment.",
+      "It focuses on patient comfort and quality of life.",
+      "It supports both patients and their families.",
     ],
 
     coreServices: {
       SymptomManagement: [
-        "Relief from pain, breathlessness, nausea, and fatigue.",
-        "Management of sleep disturbances and appetite loss.",
-        "Support for bowel, bladder, and mobility issues.",
+        "Reduction of cancer related pain",
+        "Management of breathlessness",
+        "Relief from fatigue and weakness",
+        "Control of nausea and vomiting",
+        "Management of appetite and weight changes",
       ],
       EmotionalAndPsychologicalSupport: [
-        "Counseling to manage anxiety, depression, and fear.",
-        "Support for coping with diagnosis and treatment stress.",
-        "Caregiver and family emotional support.",
+        "Support for emotional distress",
+        "Counseling for anxiety and depression",
+        "Support for patients and families",
       ],
       SupportiveMedicalCare: [
-        "Management of chemotherapy and radiation side effects.",
-        "Nutritional support to maintain strength and energy.",
-        "Blood transfusions and infection prevention when required.",
+        "Management of treatment side effects",
+        "Support during chemotherapy, immunotherapy, and radiation",
+        "Assistance in decision making and understanding treatment",
       ],
     },
 
     supportiveTherapies: {
       PainManagement: [
-        "Use of medications, nerve blocks, and other techniques.",
-        "Individualized pain control plans.",
-        "Regular assessment to ensure comfort.",
+        "Individualized pain control plans",
+        "Regular assessment and adjustment of medications",
+        "Safe and effective pain relief strategies",
       ],
       NutritionalSupport: [
-        "Diet planning tailored to patient needs.",
-        "Management of weight loss and appetite changes.",
-        "Support for tube feeding or supplements if required.",
+        "Guidance for maintaining strength and nutrition",
+        "Support for appetite and weight management",
       ],
-      RehabilitationAndPhysiotherapy: [
-        "Exercises to improve mobility and strength.",
-        "Management of fatigue and weakness.",
-        "Support for daily activity independence.",
+      RehabilitationAndSupport: [
+        "Support for daily activities",
+        "Management of fatigue",
+        "Improvement of overall comfort",
       ],
     },
 
     conditionsSupported: {
       Overview: [
-        "Palliative and supportive care is beneficial for many cancer-related conditions.",
-        "Care plans are personalized based on patient needs.",
+        "Palliative care supports patients at different stages of cancer.",
       ],
       Examples: [
-        "Advanced Or Metastatic Cancer",
-        "Cancer-Related Pain",
-        "Treatment Side Effects",
-        "Cancer-Related Fatigue",
-        "Emotional And Psychological Distress",
-        "Nutritional Deficiencies",
+        "Cancer related pain",
+        "Breathlessness",
+        "Fatigue",
+        "Nausea and vomiting",
+        "Emotional distress",
+        "Sleep disturbances",
       ],
     },
 
     benefits: [
-      "Improves quality of life.",
-      "Reduces pain and discomfort.",
-      "Supports emotional and mental well-being.",
-      "Helps patients tolerate cancer treatments better.",
-      "Provides guidance and relief for caregivers and families.",
+      "Improves quality of life",
+      "Reduces physical discomfort",
+      "Supports emotional well being",
+      "Helps patients tolerate treatment better",
+      "Provides support to families and caregivers",
     ],
 
     limitations: [
-      "Does not directly cure cancer.",
-      "Requires ongoing assessment and follow-up.",
-      "Some symptoms may fluctuate despite best care.",
+      "Does not directly treat or cure cancer",
+      "Requires continuous assessment and care",
     ],
 
     careApproach: {
       MultidisciplinaryTeam: [
-        "Oncologists, palliative care specialists, and nurses.",
-        "Psychologists, nutritionists, and physiotherapists.",
-        "Social workers and counselors.",
+        "Oncologists",
+        "Palliative care specialists",
+        "Nursing staff",
+        "Supportive care professionals",
       ],
       CareSettings: [
-        "Hospital-based care.",
-        "Outpatient clinics.",
-        "Home-based palliative care services.",
+        "Hospital based care",
+        "Outpatient services",
+        "Integrated with oncology treatment",
       ],
     },
 
     preparationAndProcess: {
       Preparation: [
-        "Initial assessment of symptoms and patient concerns.",
-        "Discussion of goals and care preferences.",
-        "Involvement of family members when appropriate.",
+        "Assessment of symptoms and concerns",
+        "Discussion of patient needs and goals",
       ],
       Process: [
-        "Personalized care plan development.",
-        "Regular symptom monitoring and adjustments.",
-        "Continuous communication with the care team.",
+        "Personalized care planning",
+        "Ongoing symptom management",
+        "Regular review and adjustment of care",
       ],
     },
 
     postCareSupport: [
-      "Ongoing symptom management and follow-up.",
-      "Emotional and psychological counseling as needed.",
-      "Guidance for home care and daily living.",
+      "Continuous monitoring and follow up",
+      "Emotional and psychological support",
+      "Guidance for home care",
     ],
 
     dosAndDonts: {
       Dos: [
         "Report Symptoms Early",
-        "Follow Prescribed Medications And Care Plans",
-        "Maintain Open Communication With Care Team",
-        "Seek Emotional And Psychological Support",
+        "Follow Care Plan",
+        "Communicate With Care Team",
+        "Seek Support When Needed",
       ],
       Donts: [
-        "Do Not Ignore Pain Or Discomfort",
-        "Avoid Self-Medicating Without Medical Advice",
+        "Do Not Ignore Pain Or Symptoms",
+        "Avoid Self Medication",
         "Do Not Hesitate To Ask For Help",
       ],
     },
 
     faqs: [
       {
-        question: "When Should Palliative Care Be Started?",
+        question: "Is Palliative Care Only For Terminal Cancer Patients?",
         answer:
-          "Palliative care can be started at any stage of cancer and is often most effective when introduced early alongside active treatment.",
+          "No. Palliative care can be introduced at any stage of cancer and can be given alongside active treatment.",
       },
       {
-        question: "Is Palliative Care Only For End-Of-Life Patients?",
+        question: "Does Palliative Care Mean Cancer Treatment Will Stop?",
         answer:
-          "No, palliative care is appropriate at any stage of cancer and focuses on improving quality of life, not just end-of-life care.",
+          "No. It supports patients during treatment and works alongside oncology therapies.",
+      },
+      {
+        question: "Can Palliative Care Help With Emotional Stress?",
+        answer:
+          "Yes. Emotional and psychological support is an important part of palliative care.",
+      },
+      {
+        question: "Does Every Cancer Patient Experience Pain?",
+        answer:
+          "Not always. However, when pain occurs, palliative care helps manage it effectively.",
       },
     ],
   },
@@ -1939,17 +1848,9 @@ const serviceData = {
     ],
   },
 
-
-
-
-
-
-
-  
-
   "medical-oncology": {
     name: "Medical Oncology",
-  category: "Core Oncology Services",
+    category: "Core Oncology Services",
     heroTitle: "Medical Oncology At ICTC",
     icon: medicalOncologyIcon,
 
@@ -1964,7 +1865,7 @@ const serviceData = {
       "Treatment plans are customized for each patient.",
       "It plays a role in early, advanced, and metastatic cancers.",
       "Medical oncology works closely with surgical and radiation oncology.",
-      "Ongoing monitoring ensures treatment effectiveness and safety."
+      "Ongoing monitoring ensures treatment effectiveness and safety.",
     ],
 
     roleOfMedicalOncologist: [
@@ -1972,41 +1873,41 @@ const serviceData = {
       "Creates individualized treatment plans.",
       "Administers cancer-fighting medications.",
       "Manages treatment-related side effects.",
-      "Provides long-term follow-up and survivorship care."
+      "Provides long-term follow-up and survivorship care.",
     ],
 
     treatmentModalities: {
       Chemotherapy: [
         "Uses drugs to destroy rapidly dividing cancer cells.",
         "May be given before surgery (neoadjuvant) or after surgery (adjuvant).",
-        "Can be curative or palliative depending on cancer stage."
+        "Can be curative or palliative depending on cancer stage.",
       ],
       Immunotherapy: [
         "Stimulates the immune system to recognize and attack cancer cells.",
         "Used in selected cancers based on biomarkers.",
-        "May provide long-lasting responses in some patients."
+        "May provide long-lasting responses in some patients.",
       ],
       TargetedTherapy: [
         "Targets specific genetic or molecular abnormalities in cancer cells.",
         "Requires molecular or genetic testing.",
-        "Often causes fewer side effects than traditional chemotherapy."
+        "Often causes fewer side effects than traditional chemotherapy.",
       ],
       HormonalTherapy: [
         "Blocks or reduces hormones that fuel certain cancers.",
         "Commonly used in breast and prostate cancers.",
-        "Often taken over long periods."
+        "Often taken over long periods.",
       ],
       SupportiveMedications: [
         "Prevent nausea, infections, and anemia.",
         "Help patients tolerate cancer treatment better.",
-        "Improve overall quality of life during therapy."
-      ]
+        "Improve overall quality of life during therapy.",
+      ],
     },
 
     cancersTreated: {
       Overview: [
         "Medical oncology treats most solid tumors and blood cancers.",
-        "Therapy selection depends on cancer biology and patient health."
+        "Therapy selection depends on cancer biology and patient health.",
       ],
       Examples: [
         "Breast Cancer",
@@ -2017,38 +1918,38 @@ const serviceData = {
         "Prostate Cancer",
         "Leukemia",
         "Lymphoma",
-        "Multiple Myeloma"
-      ]
+        "Multiple Myeloma",
+      ],
     },
 
     treatmentPlanning: {
       Assessment: [
         "Detailed medical history and physical examination.",
         "Imaging studies and pathology review.",
-        "Molecular and genetic testing when required."
+        "Molecular and genetic testing when required.",
       ],
       Personalization: [
         "Treatment selected based on cancer type and stage.",
         "Patient age, fitness, and preferences are considered.",
-        "Multidisciplinary tumor board discussions guide decisions."
-      ]
+        "Multidisciplinary tumor board discussions guide decisions.",
+      ],
     },
 
     methodsOfAdministration: {
       IntravenousTherapy: [
         "Drugs administered through IV infusion.",
         "Given in chemotherapy day-care units.",
-        "Duration varies from minutes to several hours."
+        "Duration varies from minutes to several hours.",
       ],
       OralTherapy: [
         "Tablets or capsules taken at home.",
         "Requires strict adherence to dosage schedules.",
-        "Regular follow-up ensures safety and effectiveness."
+        "Regular follow-up ensures safety and effectiveness.",
       ],
       Injections: [
         "Some drugs are given as subcutaneous or intramuscular injections.",
-        "May be administered weekly or monthly."
-      ]
+        "May be administered weekly or monthly.",
+      ],
     },
 
     sideEffectsManagement: {
@@ -2058,13 +1959,13 @@ const serviceData = {
         "Fatigue",
         "Low Blood Counts",
         "Infections",
-        "Appetite Changes"
+        "Appetite Changes",
       ],
       ManagementApproach: [
         "Preventive medications are given before treatment.",
         "Dose adjustments when required.",
-        "Supportive care and counseling are provided."
-      ]
+        "Supportive care and counseling are provided.",
+      ],
     },
 
     benefits: [
@@ -2072,19 +1973,19 @@ const serviceData = {
       "Improves survival and disease control.",
       "Can shrink tumors and relieve symptoms.",
       "Allows combination with surgery and radiation.",
-      "Supports long-term cancer management."
+      "Supports long-term cancer management.",
     ],
 
     limitations: [
       "Side effects may occur depending on treatment type.",
       "Some cancers may develop resistance to drugs.",
-      "Requires regular monitoring and follow-ups."
+      "Requires regular monitoring and follow-ups.",
     ],
 
     postTreatmentCare: [
       "Regular follow-up visits and imaging.",
       "Monitoring for long-term side effects.",
-      "Survivorship care and lifestyle guidance."
+      "Survivorship care and lifestyle guidance.",
     ],
 
     dosAndDonts: {
@@ -2092,32 +1993,32 @@ const serviceData = {
         "Follow Treatment Schedule Strictly",
         "Report Side Effects Early",
         "Maintain Proper Nutrition And Hydration",
-        "Attend All Follow-Up Appointments"
+        "Attend All Follow-Up Appointments",
       ],
       Donts: [
         "Do Not Skip Medications Without Advice",
         "Avoid Self-Medicating",
-        "Do Not Ignore New Symptoms"
-      ]
+        "Do Not Ignore New Symptoms",
+      ],
     },
 
     faqs: [
       {
         question: "Is Medical Oncology Only Chemotherapy?",
         answer:
-          "No, medical oncology includes chemotherapy, immunotherapy, targeted therapy, hormonal therapy, and supportive medications."
+          "No, medical oncology includes chemotherapy, immunotherapy, targeted therapy, hormonal therapy, and supportive medications.",
       },
       {
         question: "How Is Treatment Effectiveness Monitored?",
         answer:
-          "Doctors monitor response through scans, blood tests, physical examinations, and symptom improvement."
-      }
-    ]
+          "Doctors monitor response through scans, blood tests, physical examinations, and symptom improvement.",
+      },
+    ],
   },
 
   "surgical-oncology": {
     name: "Surgical Oncology",
-  category: "Core Oncology Services",
+    category: "Core Oncology Services",
     heroTitle: "Surgical Oncology At ICTC",
     icon: surgicalOncologyIcon,
     heroImage: surgicalOncologyHero,
@@ -2131,7 +2032,7 @@ const serviceData = {
       "It is used for diagnosis, staging, treatment, and symptom relief.",
       "Surgery is often the primary treatment for localized cancers.",
       "Advanced techniques allow precise tumor removal while preserving healthy tissue.",
-      "Multidisciplinary planning ensures safe and effective surgical care."
+      "Multidisciplinary planning ensures safe and effective surgical care.",
     ],
 
     roleOfSurgicalOncologist: [
@@ -2139,54 +2040,54 @@ const serviceData = {
       "Determines cancer stage during surgery.",
       "Removes primary tumors and affected lymph nodes.",
       "Performs reconstructive procedures when required.",
-      "Collaborates with medical and radiation oncologists for comprehensive care."
+      "Collaborates with medical and radiation oncologists for comprehensive care.",
     ],
 
     typesOfCancerSurgery: {
       CurativeSurgery: [
         "Aims to completely remove cancer from the body.",
         "Most effective in early-stage cancers.",
-        "Often followed by additional therapy to reduce recurrence risk."
+        "Often followed by additional therapy to reduce recurrence risk.",
       ],
       DebulkingSurgery: [
         "Removes as much tumor as possible when complete removal is not feasible.",
         "Helps improve effectiveness of chemotherapy or radiation therapy.",
-        "Commonly used in ovarian and advanced abdominal cancers."
+        "Commonly used in ovarian and advanced abdominal cancers.",
       ],
       PalliativeSurgery: [
         "Relieves symptoms caused by tumors.",
         "Improves comfort and quality of life.",
-        "Does not aim to cure cancer."
+        "Does not aim to cure cancer.",
       ],
       PreventiveSurgery: [
         "Removes tissue at high risk of developing cancer.",
         "Used in patients with inherited cancer risk.",
-        "Helps reduce future cancer occurrence."
-      ]
+        "Helps reduce future cancer occurrence.",
+      ],
     },
 
     surgicalTechniques: {
       OpenSurgery: [
         "Traditional approach with a larger incision.",
         "Used for complex or advanced tumors.",
-        "Allows direct access to organs and tissues."
+        "Allows direct access to organs and tissues.",
       ],
       MinimallyInvasiveSurgery: [
         "Includes laparoscopic and robotic-assisted surgery.",
         "Uses small incisions and specialized instruments.",
-        "Leads to faster recovery and less postoperative pain."
+        "Leads to faster recovery and less postoperative pain.",
       ],
       ReconstructiveSurgery: [
         "Restores appearance and function after cancer removal.",
         "Common in breast, head, and neck cancers.",
-        "Improves physical and emotional well-being."
-      ]
+        "Improves physical and emotional well-being.",
+      ],
     },
 
     cancersTreated: {
       Overview: [
         "Surgical oncology treats a wide range of solid tumors.",
-        "Surgery may be used alone or with other treatments."
+        "Surgery may be used alone or with other treatments.",
       ],
       Examples: [
         "Breast Cancer",
@@ -2196,34 +2097,34 @@ const serviceData = {
         "Gastrointestinal Cancers",
         "Gynecological Cancers",
         "Soft Tissue Tumors",
-        "Skin Cancer"
-      ]
+        "Skin Cancer",
+      ],
     },
 
     treatmentPlanning: {
       PreSurgicalAssessment: [
         "Detailed clinical evaluation and imaging studies.",
         "Biopsy confirmation of cancer.",
-        "Assessment of overall fitness for surgery."
+        "Assessment of overall fitness for surgery.",
       ],
       MultidisciplinaryApproach: [
         "Tumor board discussions guide surgical decisions.",
         "Coordination with medical and radiation oncology teams.",
-        "Personalized treatment planning."
-      ]
+        "Personalized treatment planning.",
+      ],
     },
 
     perioperativeCare: {
       BeforeSurgery: [
         "Pre-anesthesia evaluation and blood tests.",
         "Patient counseling and consent.",
-        "Instructions regarding fasting and medications."
+        "Instructions regarding fasting and medications.",
       ],
       AfterSurgery: [
         "Pain management and wound care.",
         "Early mobilization and physiotherapy.",
-        "Monitoring for complications."
-      ]
+        "Monitoring for complications.",
+      ],
     },
 
     benefits: [
@@ -2231,20 +2132,20 @@ const serviceData = {
       "Removes bulk of cancer from the body.",
       "Helps relieve cancer-related symptoms.",
       "Allows accurate cancer staging.",
-      "Improves effectiveness of additional treatments."
+      "Improves effectiveness of additional treatments.",
     ],
 
     risksAndLimitations: [
       "Risk of bleeding or infection.",
       "Postoperative pain and recovery time.",
       "Not suitable for all advanced cancers.",
-      "May require additional therapies after surgery."
+      "May require additional therapies after surgery.",
     ],
 
     postTreatmentCare: [
       "Regular follow-up visits and imaging.",
       "Monitoring for recurrence.",
-      "Rehabilitation and lifestyle guidance."
+      "Rehabilitation and lifestyle guidance.",
     ],
 
     dosAndDonts: {
@@ -2252,34 +2153,34 @@ const serviceData = {
         "Follow Pre And Post Surgery Instructions",
         "Maintain Proper Wound Care",
         "Attend Scheduled Follow-Ups",
-        "Report Any Unusual Symptoms Early"
+        "Report Any Unusual Symptoms Early",
       ],
       Donts: [
         "Do Not Ignore Postoperative Pain Or Fever",
         "Avoid Heavy Lifting Without Medical Advice",
-        "Do Not Skip Follow-Up Appointments"
-      ]
+        "Do Not Skip Follow-Up Appointments",
+      ],
     },
 
     faqs: [
       {
         question: "Is Surgery Always Required For Cancer Treatment?",
         answer:
-          "Not all cancers require surgery. Treatment decisions depend on cancer type, stage, and overall patient health."
+          "Not all cancers require surgery. Treatment decisions depend on cancer type, stage, and overall patient health.",
       },
       {
         question: "How Long Is Recovery After Cancer Surgery?",
         answer:
-          "Recovery time varies based on the type of surgery, cancer location, and individual healing capacity."
-      }
-    ]
+          "Recovery time varies based on the type of surgery, cancer location, and individual healing capacity.",
+      },
+    ],
   },
 
   "radiation-oncology": {
     name: "Radiation Oncology",
-  category: "Core Oncology Services",
+    category: "Core Oncology Services",
     heroTitle: "Radiation Oncology At ICTC",
-icon: radiationOncologyIcon,
+    icon: radiationOncologyIcon,
     heroImage: radiationOncologyHero,
     contentImages: [radiationOncology1, radiationOncology2],
 
@@ -2291,7 +2192,7 @@ icon: radiationOncologyIcon,
       "It targets cancer cells while sparing surrounding healthy tissue.",
       "Radiation oncology plays a role in both curative and palliative treatment.",
       "Advanced technologies allow accurate tumor targeting.",
-      "Treatment plans are personalized for each patient."
+      "Treatment plans are personalized for each patient.",
     ],
 
     roleOfRadiationOncologist: [
@@ -2299,49 +2200,49 @@ icon: radiationOncologyIcon,
       "Designs individualized radiation treatment plans.",
       "Determines radiation dose and treatment schedule.",
       "Monitors patient response and side effects.",
-      "Coordinates care with medical and surgical oncology teams."
+      "Coordinates care with medical and surgical oncology teams.",
     ],
 
     typesOfRadiationTherapy: {
       ExternalBeamRadiationTherapy: [
         "Radiation delivered from outside the body using a machine.",
         "Most commonly used form of radiation therapy.",
-        "Treatments are given over multiple sessions."
+        "Treatments are given over multiple sessions.",
       ],
       Brachytherapy: [
         "Radiation source placed inside or near the tumor.",
         "Delivers high radiation doses directly to cancer cells.",
-        "Commonly used in cervical, prostate, and head and neck cancers."
+        "Commonly used in cervical, prostate, and head and neck cancers.",
       ],
       StereotacticRadiotherapy: [
         "Delivers very high doses of radiation with extreme precision.",
         "Requires fewer treatment sessions.",
-        "Used for small, well-defined tumors."
-      ]
+        "Used for small, well-defined tumors.",
+      ],
     },
 
     advancedRadiationTechniques: {
       IMRT: [
         "Intensity-Modulated Radiation Therapy shapes radiation beams.",
         "Reduces exposure to nearby healthy organs.",
-        "Improves treatment accuracy and safety."
+        "Improves treatment accuracy and safety.",
       ],
       IGRT: [
         "Image-Guided Radiation Therapy uses imaging before each session.",
         "Ensures precise tumor targeting.",
-        "Adjusts for daily changes in patient positioning."
+        "Adjusts for daily changes in patient positioning.",
       ],
       VMAT: [
         "Volumetric Modulated Arc Therapy delivers radiation in continuous arcs.",
         "Shortens treatment time.",
-        "Maintains high precision."
-      ]
+        "Maintains high precision.",
+      ],
     },
 
     cancersTreated: {
       Overview: [
         "Radiation oncology treats a wide range of cancers.",
-        "It may be used alone or as part of combined treatment."
+        "It may be used alone or as part of combined treatment.",
       ],
       Examples: [
         "Head And Neck Cancer",
@@ -2351,34 +2252,34 @@ icon: radiationOncologyIcon,
         "Cervical Cancer",
         "Brain Tumors",
         "Rectal Cancer",
-        "Esophageal Cancer"
-      ]
+        "Esophageal Cancer",
+      ],
     },
 
     treatmentPlanning: {
       SimulationAndPlanning: [
         "CT simulation to map tumor location.",
         "Creation of custom immobilization devices.",
-        "Advanced software planning for dose accuracy."
+        "Advanced software planning for dose accuracy.",
       ],
       Personalization: [
         "Dose and schedule based on cancer type and stage.",
         "Consideration of surrounding healthy organs.",
-        "Multidisciplinary tumor board input."
-      ]
+        "Multidisciplinary tumor board input.",
+      ],
     },
 
     treatmentDelivery: {
       Process: [
         "Treatment is delivered in daily sessions called fractions.",
         "Each session lasts only a few minutes.",
-        "Total treatment duration may span several weeks."
+        "Total treatment duration may span several weeks.",
       ],
       PatientExperience: [
         "Painless procedure.",
         "Patient lies still during treatment.",
-        "No radiation remains in the body after external therapy."
-      ]
+        "No radiation remains in the body after external therapy.",
+      ],
     },
 
     sideEffects: {
@@ -2387,13 +2288,13 @@ icon: radiationOncologyIcon,
         "Fatigue",
         "Hair Loss In Treated Area",
         "Mild Swelling",
-        "Temporary Discomfort"
+        "Temporary Discomfort",
       ],
       LongTermEffects: [
         "Tissue Stiffness",
         "Changes In Skin Texture",
-        "Rare Organ-Specific Effects"
-      ]
+        "Rare Organ-Specific Effects",
+      ],
     },
 
     benefits: [
@@ -2401,19 +2302,19 @@ icon: radiationOncologyIcon,
       "Preserves surrounding healthy tissue.",
       "Effective for both early and advanced cancers.",
       "Can relieve pain and symptoms.",
-      "Non-invasive treatment option."
+      "Non-invasive treatment option.",
     ],
 
     limitations: [
       "Requires multiple treatment sessions.",
       "Side effects depend on treated area.",
-      "Not suitable for all cancer types."
+      "Not suitable for all cancer types.",
     ],
 
     postTreatmentCare: [
       "Regular follow-up appointments.",
       "Monitoring for delayed side effects.",
-      "Supportive care for skin and fatigue management."
+      "Supportive care for skin and fatigue management.",
     ],
 
     dosAndDonts: {
@@ -2421,34 +2322,34 @@ icon: radiationOncologyIcon,
         "Follow Radiation Schedule Strictly",
         "Care For Treated Skin As Advised",
         "Maintain Proper Nutrition And Rest",
-        "Report Side Effects Early"
+        "Report Side Effects Early",
       ],
       Donts: [
         "Do Not Skip Radiation Sessions",
         "Avoid Applying Products On Treated Skin Without Advice",
-        "Do Not Ignore Persistent Symptoms"
-      ]
+        "Do Not Ignore Persistent Symptoms",
+      ],
     },
 
     faqs: [
       {
         question: "Is Radiation Therapy Painful?",
         answer:
-          "Radiation therapy itself is painless, though some side effects may develop during or after treatment."
+          "Radiation therapy itself is painless, though some side effects may develop during or after treatment.",
       },
       {
         question: "Will I Be Radioactive After Treatment?",
         answer:
-          "No, external beam radiation does not make patients radioactive after treatment."
-      }
-    ]
+          "No, external beam radiation does not make patients radioactive after treatment.",
+      },
+    ],
   },
 
   "hemato-oncology": {
     name: "Hemato-Oncology",
-  category: "Core Oncology Services",
+    category: "Core Oncology Services",
     heroTitle: "Hemato-Oncology At ICTC",
-icon: hematoOncologyIcon,
+    icon: hematoOncologyIcon,
     heroImage: hematoOncologyHero,
     contentImages: [hematoOncology1, hematoOncology2],
 
@@ -2460,7 +2361,7 @@ icon: hematoOncologyIcon,
       "These conditions affect bone marrow, blood cells, and lymph nodes.",
       "Treatment often involves systemic therapies rather than surgery.",
       "Care requires long-term monitoring and follow-up.",
-      "Multidisciplinary coordination is essential for optimal outcomes."
+      "Multidisciplinary coordination is essential for optimal outcomes.",
     ],
 
     roleOfHematoOncologist: [
@@ -2468,7 +2369,7 @@ icon: hematoOncologyIcon,
       "Interprets specialized blood and bone marrow tests.",
       "Designs personalized treatment protocols.",
       "Manages complications such as infections and anemia.",
-      "Provides long-term follow-up and survivorship care."
+      "Provides long-term follow-up and survivorship care.",
     ],
 
     diseasesTreated: {
@@ -2477,74 +2378,74 @@ icon: hematoOncologyIcon,
         "Lymphoma",
         "Multiple Myeloma",
         "Myelodysplastic Syndromes",
-        "Myeloproliferative Disorders"
+        "Myeloproliferative Disorders",
       ],
       NonCancerousBloodDisorders: [
         "Aplastic Anemia",
         "Thalassemia",
         "Sickle Cell Disease",
         "Severe Anemia",
-        "Immune Thrombocytopenia"
-      ]
+        "Immune Thrombocytopenia",
+      ],
     },
 
     diagnosticApproach: {
       LaboratoryTests: [
         "Complete blood count and peripheral smear analysis.",
         "Advanced blood chemistry and immunological tests.",
-        "Tumor marker and protein studies."
+        "Tumor marker and protein studies.",
       ],
       BoneMarrowEvaluation: [
         "Bone marrow aspiration and biopsy.",
         "Cytogenetic and molecular analysis.",
-        "Assessment of marrow function and disease extent."
+        "Assessment of marrow function and disease extent.",
       ],
       AdvancedDiagnostics: [
         "Flow cytometry for cell characterization.",
         "Molecular and genetic testing.",
-        "Imaging studies for lymph node involvement."
-      ]
+        "Imaging studies for lymph node involvement.",
+      ],
     },
 
     treatmentModalities: {
       Chemotherapy: [
         "Primary treatment for many blood cancers.",
         "May be given in cycles over several months.",
-        "Administered intravenously or orally."
+        "Administered intravenously or orally.",
       ],
       Immunotherapy: [
         "Uses the immune system to target abnormal blood cells.",
         "Includes monoclonal antibodies and immune modulators.",
-        "Often used in lymphomas and leukemias."
+        "Often used in lymphomas and leukemias.",
       ],
       TargetedTherapy: [
         "Targets specific genetic or molecular abnormalities.",
         "Requires molecular testing before initiation.",
-        "Often better tolerated than conventional chemotherapy."
+        "Often better tolerated than conventional chemotherapy.",
       ],
       BoneMarrowTransplantation: [
         "Replaces diseased bone marrow with healthy stem cells.",
         "May be autologous or allogeneic.",
-        "Offers curative potential in selected patients."
+        "Offers curative potential in selected patients.",
       ],
       SupportiveCare: [
         "Blood transfusions and growth factors.",
         "Infection prevention and management.",
-        "Nutritional and psychological support."
-      ]
+        "Nutritional and psychological support.",
+      ],
     },
 
     treatmentPlanning: {
       Assessment: [
         "Detailed evaluation of disease type and stage.",
         "Assessment of patient fitness and comorbidities.",
-        "Review of molecular and genetic findings."
+        "Review of molecular and genetic findings.",
       ],
       Personalization: [
         "Treatment tailored to disease biology.",
         "Risk stratification guides intensity of therapy.",
-        "Regular reassessment during treatment."
-      ]
+        "Regular reassessment during treatment.",
+      ],
     },
 
     sideEffectsManagement: {
@@ -2553,13 +2454,13 @@ icon: hematoOncologyIcon,
         "Infections",
         "Fatigue",
         "Bleeding Or Bruising",
-        "Nausea And Appetite Changes"
+        "Nausea And Appetite Changes",
       ],
       ManagementApproach: [
         "Preventive antibiotics and growth factors.",
         "Dose modifications when necessary.",
-        "Close monitoring and early intervention."
-      ]
+        "Close monitoring and early intervention.",
+      ],
     },
 
     benefits: [
@@ -2567,19 +2468,19 @@ icon: hematoOncologyIcon,
       "Access to advanced diagnostics and therapies.",
       "Personalized treatment approaches.",
       "Improved survival and disease control.",
-      "Comprehensive long-term follow-up."
+      "Comprehensive long-term follow-up.",
     ],
 
     limitations: [
       "Treatment duration may be prolonged.",
       "Risk of infections due to low immunity.",
-      "Some conditions require lifelong monitoring."
+      "Some conditions require lifelong monitoring.",
     ],
 
     postTreatmentCare: [
       "Regular blood tests and clinical evaluations.",
       "Monitoring for relapse or late effects.",
-      "Vaccinations and infection prevention guidance."
+      "Vaccinations and infection prevention guidance.",
     ],
 
     dosAndDonts: {
@@ -2587,34 +2488,34 @@ icon: hematoOncologyIcon,
         "Attend All Scheduled Appointments",
         "Report Fever Or Infections Immediately",
         "Maintain Good Hygiene",
-        "Follow Medication Instructions Carefully"
+        "Follow Medication Instructions Carefully",
       ],
       Donts: [
         "Do Not Ignore Signs Of Infection",
         "Avoid Self-Medicating",
-        "Do Not Skip Follow-Up Visits"
-      ]
+        "Do Not Skip Follow-Up Visits",
+      ],
     },
 
     faqs: [
       {
         question: "Are Blood Cancers Curable?",
         answer:
-          "Many blood cancers are highly treatable, and some can be cured depending on the type, stage, and response to therapy."
+          "Many blood cancers are highly treatable, and some can be cured depending on the type, stage, and response to therapy.",
       },
       {
         question: "Is Bone Marrow Transplant Required For All Patients?",
         answer:
-          "No, bone marrow transplant is recommended only for selected patients based on disease type and risk factors."
-      }
-    ]
+          "No, bone marrow transplant is recommended only for selected patients based on disease type and risk factors.",
+      },
+    ],
   },
 
   "pediatric-oncology": {
     name: "Pediatric Oncology",
-  category: "Core Oncology Services",
+    category: "Core Oncology Services",
     heroTitle: "Pediatric Oncology At ICTC",
-icon: pediatricOncologyIcon,
+    icon: pediatricOncologyIcon,
     heroImage: pediatricOncologyHero,
     contentImages: [pediatricOncology1, pediatricOncology2],
 
@@ -2626,7 +2527,7 @@ icon: pediatricOncologyIcon,
       "Treatment protocols are specifically designed for growing bodies.",
       "Care emphasizes long-term survival and quality of life.",
       "Family-centered care is a key component of pediatric oncology.",
-      "Multidisciplinary teams ensure comprehensive treatment and support."
+      "Multidisciplinary teams ensure comprehensive treatment and support.",
     ],
 
     roleOfPediatricOncologist: [
@@ -2634,13 +2535,13 @@ icon: pediatricOncologyIcon,
       "Develops age-appropriate, individualized treatment plans.",
       "Monitors growth, development, and treatment response.",
       "Manages short-term and long-term treatment side effects.",
-      "Provides long-term survivorship and follow-up care."
+      "Provides long-term survivorship and follow-up care.",
     ],
 
     cancersTreated: {
       Overview: [
         "Pediatric oncology treats both solid tumors and blood cancers.",
-        "Cancer types in children differ from those seen in adults."
+        "Cancer types in children differ from those seen in adults.",
       ],
       Examples: [
         "Leukemia",
@@ -2650,80 +2551,80 @@ icon: pediatricOncologyIcon,
         "Wilms Tumor",
         "Bone Tumors",
         "Soft Tissue Sarcomas",
-        "Retinoblastoma"
-      ]
+        "Retinoblastoma",
+      ],
     },
 
     diagnosticApproach: {
       ClinicalEvaluation: [
         "Detailed medical history and physical examination.",
         "Assessment of growth and developmental milestones.",
-        "Evaluation of symptoms such as unexplained fever or weight loss."
+        "Evaluation of symptoms such as unexplained fever or weight loss.",
       ],
       LaboratoryAndImagingTests: [
         "Blood tests and bone marrow examination.",
         "Imaging studies such as MRI, CT, and ultrasound.",
-        "Biopsy for definitive diagnosis."
+        "Biopsy for definitive diagnosis.",
       ],
       AdvancedDiagnostics: [
         "Molecular and genetic testing.",
         "Risk stratification and staging studies.",
-        "Minimal residual disease assessment in select cancers."
-      ]
+        "Minimal residual disease assessment in select cancers.",
+      ],
     },
 
     treatmentModalities: {
       Chemotherapy: [
         "Primary treatment for many childhood cancers.",
         "Given in carefully calculated doses.",
-        "Administered intravenously or orally."
+        "Administered intravenously or orally.",
       ],
       RadiationTherapy: [
         "Used selectively to minimize long-term side effects.",
         "Highly precise techniques protect developing tissues.",
-        "Often combined with chemotherapy or surgery."
+        "Often combined with chemotherapy or surgery.",
       ],
       Surgery: [
         "Used to remove solid tumors when feasible.",
         "Performed with focus on organ preservation.",
-        "Often part of combined treatment strategies."
+        "Often part of combined treatment strategies.",
       ],
       TargetedAndImmunotherapy: [
         "Used in selected pediatric cancers.",
         "Based on molecular and genetic findings.",
-        "May reduce toxicity compared to conventional therapy."
+        "May reduce toxicity compared to conventional therapy.",
       ],
       BoneMarrowTransplantation: [
         "Used in high-risk or relapsed cancers.",
         "Includes autologous and allogeneic transplants.",
-        "Offers curative potential in selected cases."
-      ]
+        "Offers curative potential in selected cases.",
+      ],
     },
 
     supportiveAndPsychosocialCare: {
       ChildSupport: [
         "Pain and symptom management.",
         "Nutritional and developmental support.",
-        "Psychological counseling for children."
+        "Psychological counseling for children.",
       ],
       FamilySupport: [
         "Parental counseling and education.",
         "Support for siblings and caregivers.",
-        "Guidance for home care and schooling."
-      ]
+        "Guidance for home care and schooling.",
+      ],
     },
 
     treatmentPlanning: {
       RiskBasedApproach: [
         "Treatment intensity based on disease risk.",
         "Minimizes long-term toxicity when possible.",
-        "Regular reassessment during therapy."
+        "Regular reassessment during therapy.",
       ],
       MultidisciplinaryCare: [
         "Coordination between oncologists, surgeons, and radiologists.",
         "Input from nutritionists, psychologists, and physiotherapists.",
-        "Holistic care planning."
-      ]
+        "Holistic care planning.",
+      ],
     },
 
     sideEffectsManagement: {
@@ -2732,13 +2633,13 @@ icon: pediatricOncologyIcon,
         "Infections",
         "Hair Loss",
         "Nausea And Vomiting",
-        "Low Blood Counts"
+        "Low Blood Counts",
       ],
       LongTermMonitoring: [
         "Growth and hormonal changes.",
         "Learning or cognitive effects.",
-        "Organ function and fertility preservation."
-      ]
+        "Organ function and fertility preservation.",
+      ],
     },
 
     benefits: [
@@ -2746,19 +2647,19 @@ icon: pediatricOncologyIcon,
       "Specialized care tailored for children.",
       "Focus on long-term health and development.",
       "Strong family and psychosocial support.",
-      "Comprehensive survivorship care."
+      "Comprehensive survivorship care.",
     ],
 
     limitations: [
       "Treatment may be intensive and prolonged.",
       "Risk of long-term side effects.",
-      "Requires extended follow-up into adulthood."
+      "Requires extended follow-up into adulthood.",
     ],
 
     survivorshipCare: [
       "Long-term follow-up after treatment completion.",
       "Monitoring for late effects of therapy.",
-      "Support for return to school and normal activities."
+      "Support for return to school and normal activities.",
     ],
 
     dosAndDonts: {
@@ -2766,34 +2667,34 @@ icon: pediatricOncologyIcon,
         "Attend All Scheduled Appointments",
         "Report Fever Or Infections Immediately",
         "Ensure Proper Nutrition And Hydration",
-        "Follow Medication And Care Instructions Carefully"
+        "Follow Medication And Care Instructions Carefully",
       ],
       Donts: [
         "Do Not Delay Medical Attention For Symptoms",
         "Avoid Exposure To Infections",
-        "Do Not Miss Follow-Up Visits"
-      ]
+        "Do Not Miss Follow-Up Visits",
+      ],
     },
 
     faqs: [
       {
         question: "Are Childhood Cancers Curable?",
         answer:
-          "Yes, many childhood cancers have high cure rates when diagnosed early and treated with specialized pediatric oncology care."
+          "Yes, many childhood cancers have high cure rates when diagnosed early and treated with specialized pediatric oncology care.",
       },
       {
         question: "Will Cancer Treatment Affect My Child’s Growth?",
         answer:
-          "Some treatments may affect growth or development, which is why careful monitoring and long-term follow-up are essential."
-      }
-    ]
+          "Some treatments may affect growth or development, which is why careful monitoring and long-term follow-up are essential.",
+      },
+    ],
   },
 
   "ictc-pharmacy": {
     name: "ICTC Pharmacy",
-  category: "Other Services",
+    category: "Other Services",
     heroTitle: "ICTC Pharmacy Services",
-icon: pharmacyIcon,
+    icon: pharmacyIcon,
     heroImage: pharmacyHero,
     contentImages: [pharmacy1, pharmacy2],
 
@@ -2805,7 +2706,7 @@ icon: pharmacyIcon,
       "Ensures safe handling and dispensing of cancer drugs.",
       "Works closely with oncologists and nursing teams.",
       "Maintains strict quality and storage standards.",
-      "Supports both inpatient and outpatient cancer care."
+      "Supports both inpatient and outpatient cancer care.",
     ],
 
     roleOfPharmacy: [
@@ -2813,7 +2714,7 @@ icon: pharmacyIcon,
       "Provides oral cancer medications and supportive medicines.",
       "Ensures correct dosage, labeling, and patient instructions.",
       "Monitors drug interactions and safety.",
-      "Supports treatment adherence and continuity of care."
+      "Supports treatment adherence and continuity of care.",
     ],
 
     medicationsAvailable: {
@@ -2821,59 +2722,59 @@ icon: pharmacyIcon,
         "Chemotherapy Drugs",
         "Targeted Therapy Medications",
         "Immunotherapy Drugs",
-        "Hormonal Therapy Medications"
+        "Hormonal Therapy Medications",
       ],
       SupportiveCareMedications: [
         "Anti-Nausea And Anti-Vomiting Drugs",
         "Pain Management Medications",
         "Growth Factors And Blood Support Drugs",
         "Antibiotics And Infection Control Medications",
-        "Nutritional Supplements"
-      ]
+        "Nutritional Supplements",
+      ],
     },
 
     pharmacyServices: {
       ChemotherapyPreparation: [
         "Safe preparation of chemotherapy drugs.",
         "Use of sterile environments and safety cabinets.",
-        "Strict adherence to dosing protocols."
+        "Strict adherence to dosing protocols.",
       ],
       OralMedicationCounseling: [
         "Guidance on correct medication usage.",
         "Education on dosage timing and adherence.",
-        "Counseling on possible side effects."
+        "Counseling on possible side effects.",
       ],
       DrugSafetyAndMonitoring: [
         "Review of prescriptions for accuracy.",
         "Monitoring for drug interactions.",
-        "Coordination with oncologists for dose adjustments."
-      ]
+        "Coordination with oncologists for dose adjustments.",
+      ],
     },
 
     qualityAndSafety: {
       StorageAndHandling: [
         "Temperature-controlled storage facilities.",
         "Proper segregation of high-risk medications.",
-        "Regular stock and quality checks."
+        "Regular stock and quality checks.",
       ],
       SafetyProtocols: [
         "Strict infection control measures.",
         "Use of personal protective equipment.",
-        "Compliance with national and international pharmacy standards."
-      ]
+        "Compliance with national and international pharmacy standards.",
+      ],
     },
 
     patientSupport: {
       Education: [
         "Clear instructions on medication intake.",
         "Side effect awareness and management tips.",
-        "Importance of treatment adherence."
+        "Importance of treatment adherence.",
       ],
       Accessibility: [
         "Easy access for both inpatients and outpatients.",
         "Timely availability of prescribed medicines.",
-        "Coordination with care teams for refill planning."
-      ]
+        "Coordination with care teams for refill planning.",
+      ],
     },
 
     benefits: [
@@ -2881,12 +2782,12 @@ icon: pharmacyIcon,
       "Improves medication safety and accuracy.",
       "Provides expert pharmaceutical guidance.",
       "Enhances patient confidence and adherence.",
-      "Supports overall treatment effectiveness."
+      "Supports overall treatment effectiveness.",
     ],
 
     limitations: [
       "Certain specialized drugs may require prior ordering.",
-      "Availability depends on prescription and treatment plan."
+      "Availability depends on prescription and treatment plan.",
     ],
 
     dosAndDonts: {
@@ -2894,173 +2795,200 @@ icon: pharmacyIcon,
         "Take Medications Exactly As Prescribed",
         "Store Medicines As Advised",
         "Inform Pharmacist About Other Medications",
-        "Report Any Side Effects Promptly"
+        "Report Any Side Effects Promptly",
       ],
       Donts: [
         "Do Not Skip Or Alter Dosages Without Advice",
         "Avoid Sharing Medications With Others",
-        "Do Not Store Medicines Improperly"
-      ]
+        "Do Not Store Medicines Improperly",
+      ],
     },
 
     faqs: [
       {
         question: "Can I Get All Cancer Medicines At ICTC Pharmacy?",
         answer:
-          "ICTC Pharmacy provides a wide range of oncology and supportive care medications. Availability of specific drugs depends on your treatment plan and prescription."
+          "ICTC Pharmacy provides a wide range of oncology and supportive care medications. Availability of specific drugs depends on your treatment plan and prescription.",
       },
       {
         question: "Will I Receive Guidance On How To Take My Medicines?",
         answer:
-          "Yes, trained pharmacy staff provide detailed counseling on medication usage, side effects, and safety."
-      }
-    ]
+          "Yes, trained pharmacy staff provide detailed counseling on medication usage, side effects, and safety.",
+      },
+    ],
   },
 
-  "tobacco-alcohol-deaddiction": {
-    name: "ICTC Tobacco & Alcohol De-Addiction Centre",
-  category: "Other Services",
-    heroTitle: "Tobacco & Alcohol De-Addiction Centre At ICTC",
-icon: deaddictionIcon,
+  "tobacco-alcohol-deaddiction-centre": {
+    name: "ICTC Tobacco and Alcohol De-Addiction Centre",
+    category: "Other Services",
+    heroTitle: "ICTC Tobacco and Alcohol De-Addiction Centre",
+    icon: deaddictionIcon,
     heroImage: deaddictionHero,
     contentImages: [deaddiction1, deaddiction2],
 
     introduction:
-      "The ICTC Tobacco & Alcohol De-Addiction Centre is dedicated to helping individuals overcome addiction to tobacco and alcohol through structured medical, psychological, and behavioral support. These substances are major risk factors for several cancers and chronic diseases. The centre focuses on prevention, cessation, and long-term recovery to improve overall health and reduce cancer risk.",
+      "ICTC Tobacco and Alcohol De-Addiction Centre Helping People Take Back Control of Their Health Not all tobacco or alcohol users start out with the goal of becoming dependents. To others, it begins as a habit when one is stressed or when he is in social or long working days. In due course, it might slowly turn into something that can be hard to resist. Meanwhile, tobacco and alcohol are some of the most important preventable factors of cancer and numerous other severe diseases. The ICTC Tobacco and Alcohol De-Addiction Centre was established with the aim of supporting people having the desire to get off these habits and on the way to a healthier lifestyle. The centre offers systematic medical advice, supportive counselling as well as long term follow up to individuals willing to change. This support is offered privately, respectfully and non judgmental at Indian Cancer Treatment Centre (ICTC). It is neither about blame nor pressure. It occurs on getting people to know more about their habits, developing the desire to quit, and getting them the support to safely and successfully quit their habit. This is a step that makes a lot of people decide on the long term health that they make.",
 
     overview: [
-      "Tobacco and alcohol use are leading preventable causes of cancer.",
-      "Addiction is a medical condition that requires professional care.",
-      "Early cessation significantly reduces cancer and health risks.",
-      "De-addiction programs are personalized for each individual.",
-      "Support continues beyond quitting to prevent relapse."
+      "Why Tobacco and Alcohol De-Addiction Matters",
+      "Tobacco and alcohol are highly and well-established to be associated with various forms of cancer and chronic health incidents.",
+      "Repetitive use may greatly contribute to appearance of cancers including:",
+      "Oral cancer",
+      "Head and neck cancers",
+      "Lung cancer",
+      "Esophageal cancer",
+      "Liver cancer",
+      "Several gastrointestinal cancers",
+      "Stopping tobacco and alcohol use can have meaningful health benefits, even after many years of use.",
+      "Quitting may help:",
+      "Lower the risk of developing cancer in the future",
+      "Improve recovery and treatment outcomes for patients already diagnosed with cancer",
+      "Strengthen the body’s immune system",
+      "Improve overall physical and mental well being",
+      "Any move towards abstinence promotes improved health.",
     ],
 
     servicesOffered: {
       TobaccoCessation: [
-        "Smoking and smokeless tobacco cessation programs.",
-        "Assessment of nicotine dependence.",
-        "Structured quit plans with medical support."
+        "Tobacco Cessation Support",
+        "Tobacco addiction poses a challenge to many individuals to quit. It is more so when nicotine dependence is created.",
+        "The centre serves people who use:",
+        "Cigarettes",
+        "Bidis",
+        "Gutkha, khaini, and pan masala Smokeless tobacco.",
+        "Tobacco cessation services may include:",
+        "Nicotine dependence medical assessment.",
+        "Counselling behaviour to learn triggers.",
+        "Drug support where necessary.",
+        "Effective relapse prevention tactics.",
+        "The goal is to assist patients in slowly getting out of dependence cycle and developing confidence and control.",
       ],
+
       AlcoholDeAddiction: [
-        "Assessment of alcohol dependence severity.",
-        "Medically supervised withdrawal when required.",
-        "Long-term relapse prevention strategies."
-      ]
+        "Alcohol De-Addiction Support",
+        "The effect of alcohol dependency may be slow and may impact both the physical and psychological well being.",
+        "The people who have suffered adverse alcohol consumption are given systematic assistance at ICTC that can entail:",
+        "Alcohol related health risk clinical assessment.",
+        "Motivation enhancement therapy.",
+        "Behavioural change counselling sessions.",
+        "Medical assistance where appropriate.",
+        "Follow up to sustain recovery Long term follow up.",
+        "It has been aimed at assisting people to restore their balance and stability in life.",
+      ],
     },
 
     treatmentApproach: {
-      MedicalManagement: [
-        "Medications to reduce cravings and withdrawal symptoms.",
-        "Management of physical health complications.",
-        "Regular medical monitoring."
+      IndividualizedAssessment: [
+        "The De-Addiction Approach at ICTC",
+        "Relationship of every individual with tobacco or alcohol differs. Treatment plans are therefore planned individually due to this reason.",
+        "Individualized Assessment",
+        "This is started through a keen assessment that involves:",
+        "Past and present medical history and present health condition.",
+        "Psychological assessment",
+        "Assessment of substance abuse.",
+        "Cancer risk screening and other related health issues.",
+        "This aids the care team in knowing the situation of the patient completely.",
       ],
-      BehavioralTherapy: [
-        "Individual counseling sessions.",
-        "Cognitive behavioral therapy for habit change.",
-        "Motivational interviewing techniques."
-      ],
-      PsychologicalSupport: [
-        "Stress and anxiety management.",
-        "Support for depression and emotional triggers.",
-        "Family involvement when appropriate."
-      ]
-    },
 
-    cancersAndHealthRisksReduced: {
-      Overview: [
-        "Cessation lowers the risk of multiple cancers and chronic illnesses.",
-        "Benefits increase with sustained abstinence."
+      StructuredCounselling: [
+        "Structured Counselling",
+        "De-addiction care involves counselling.",
+        "Sessions are devoted to the assistance of the patients:",
+        "Identify the antecedents that cause substance use.",
+        "Know trends of dependency.",
+        "Increase incentive to quit.",
+        "Establish mechanisms of coping to avoid relapse.",
+        "It is aimed to help sustain change in behaviour as opposed to abstinence in the short term.",
       ],
-      Examples: [
-        "Oral And Throat Cancer",
-        "Lung Cancer",
-        "Esophageal Cancer",
-        "Liver Cancer",
-        "Pancreatic Cancer",
-        "Heart And Lung Diseases"
-      ]
+
+      MedicalSupport: [
+        "Medical Support When Needed",
+        "In other instances, drugs can be prescribed to assist in decreasing cravings or control the withdrawal symptoms.",
+        "Such treatments can only be given when it is medically suitable and is well-supervised so that it does not harm the patient.",
+      ],
+
+      Integration: [
+        "Integrated with Cancer Prevention and Care",
+        "The only difference that can be attributed to ICTC De-Addiction Centre is that it is closely related to cancer prevention programs.",
+        "The centre works alongside:",
+        "Cancer screening services",
+        "Immunopreventive oncology programs.",
+        "Cancer treatment teams dealing with cancer patients.",
+        "This integration enables the doctors to assist people in decreasing the risk of cancer and enhancing the effectiveness of treatment in case of the already diagnosed cancer.",
+      ],
     },
 
     whoCanBenefit: [
-      "Individuals using tobacco in any form.",
-      "People with harmful or dependent alcohol use.",
-      "Cancer patients advised to stop substance use.",
-      "Individuals with family history of cancer.",
-      "Those seeking preventive healthcare."
-    ],
-
-    benefits: [
-      "Reduces cancer risk and improves treatment outcomes.",
-      "Improves overall physical and mental health.",
-      "Enhances quality of life and longevity.",
-      "Provides professional and confidential support.",
-      "Encourages long-term healthy lifestyle changes."
-    ],
-
-    challengesAndLimitations: [
-      "Relapse risk exists without continued support.",
-      "Behavioral change requires motivation and commitment.",
-      "Multiple sessions may be needed for sustained success."
+      "Who Can Benefit from the ICTC De-Addiction Centre",
+      "The centre caters to a huge number of individuals who have the desire to enhance their health.",
+      "This may include:",
+      "Individuals wishing to stop consumption of tobacco or alcohol.",
+      "Those that are worried about having cancer.",
+      "Cancer patients interested in enhancing the recovery after the treatment.",
+      "People who are taking part in the cancer screening programs.",
+      "Family members that want to be advised regarding prevention and lifestyle changes.",
+      "Guidance is offered to all those who are willing to initiate the change process.",
     ],
 
     programStructure: {
-      AssessmentPhase: [
-        "Detailed addiction and medical history.",
-        "Evaluation of dependence severity.",
-        "Goal setting and treatment planning."
+      Journey: [
+        "The Patient Journey at ICTC",
+        "ICTC de-addiction care has a systematic yet gentle process.",
+        "Initial Consultation",
+        "Doctors and counsellors assess substance use patterns and health risks.",
+        "Personalized De-Addiction Plan",
+        "A tailored plan is created that may include counselling, behavioural strategies, and medical support.",
+        "Active Support Phase",
+        "Patients receive regular follow up visits and guidance to stay on track.",
+        "Relapse Prevention",
+        "Long term strategies help patients maintain progress and avoid returning to old habits.",
+        "Health Monitoring",
+        "Doctors may recommend cancer screening and preventive care as part of long term health protection.",
       ],
-      InterventionPhase: [
-        "Medical and counseling interventions.",
-        "Behavioral modification strategies.",
-        "Lifestyle and stress management guidance."
-      ],
-      FollowUpPhase: [
-        "Regular follow-up sessions.",
-        "Monitoring for relapse signs.",
-        "Long-term support and reinforcement."
-      ]
     },
 
-    postProgramSupport: [
-      "Continued counseling as needed.",
-      "Support groups and peer encouragement.",
-      "Guidance on maintaining a substance-free lifestyle."
+    benefits: [
+      "Why Patients Choose ICTC for De-Addiction Care",
+      "ICTC is trusted by patients and families as the approach emphasizes on caring, respect and medical knowledge.",
+      "Key strengths include:",
+      "Harmless and non judgmental attitude towards addiction.",
+      "Good relationship with early detection and cancer prevention programs.",
+      "Confidential and ethical care practices.",
+      "Proficient counsellors and clinicians.",
+      "Prolonged assistance to ensure that patients continue to improve.",
+      "This is aimed not necessarily at assisting the people in quitting bad habits but also at assisting the people to live healthier lifestyles in the future.",
     ],
-
-    dosAndDonts: {
-      Dos: [
-        "Seek Help Early",
-        "Follow Prescribed Treatment Plans",
-        "Attend Counseling And Follow-Up Sessions",
-        "Engage Family Support If Recommended"
-      ],
-      Donts: [
-        "Do Not Attempt Sudden Withdrawal Without Medical Advice",
-        "Avoid High-Risk Situations And Triggers",
-        "Do Not Ignore Relapse Warning Signs"
-      ]
-    },
 
     faqs: [
       {
-        question: "Is De-Addiction Treatment Confidential?",
+        question: "Is de-addiction treatment confidential?",
         answer:
-          "Yes, all consultations and treatments at the ICTC De-Addiction Centre are handled with complete confidentiality."
+          "Yes. All consultations and treatment plans are handled with strict confidentiality to protect patient privacy.",
       },
       {
-        question: "Can Quitting Tobacco Or Alcohol Reduce Cancer Risk?",
+        question:
+          "Do I need to stop tobacco or alcohol before coming to the centre?",
         answer:
-          "Yes, quitting significantly reduces the risk of developing cancer and improves outcomes in patients undergoing cancer treatment."
-      }
-    ]
+          "No. The process begins with evaluation and counselling. Doctors guide patients step by step toward quitting safely.",
+      },
+      {
+        question: "Is medication always required?",
+        answer:
+          "Not always. Many people benefit from counselling and behavioural support alone. Medication is recommended only when clinically appropriate.",
+      },
+      {
+        question: "Can cancer patients use this service?",
+        answer:
+          "Yes. De-addiction support is especially important for patients undergoing cancer treatment, as quitting tobacco and alcohol can improve treatment outcomes and overall health.",
+      },
+    ],
   },
 
   "scalp-cooling": {
     name: "Scalp Cooling (Anti Hairfall)",
-  category: "Other Services",
+    category: "Other Services",
     heroTitle: "Scalp Cooling (Anti Hairfall) At ICTC",
-icon: scalpCoolingIcon,
+    icon: scalpCoolingIcon,
     heroImage: scalpCoolingHero,
     contentImages: [scalpCooling1, scalpCooling2],
 
@@ -3072,7 +3000,7 @@ icon: scalpCoolingIcon,
       "Scalp cooling is used before, during, and after chemotherapy sessions.",
       "It helps protect hair follicles from chemotherapy damage.",
       "The effectiveness depends on chemotherapy type and dosage.",
-      "Scalp cooling improves patient confidence and quality of life."
+      "Scalp cooling improves patient confidence and quality of life.",
     ],
 
     howItWorks: {
@@ -3080,39 +3008,39 @@ icon: scalpCoolingIcon,
         "Cooling causes blood vessels in the scalp to constrict.",
         "Reduced blood flow limits chemotherapy exposure to hair follicles.",
         "Lower scalp temperature slows follicle cell activity.",
-        "Together, these effects reduce chemotherapy-induced hair loss."
+        "Together, these effects reduce chemotherapy-induced hair loss.",
       ],
       Timing: [
         "Cooling starts before chemotherapy begins.",
         "Continues during drug administration.",
-        "Extended for a period after chemotherapy completion."
-      ]
+        "Extended for a period after chemotherapy completion.",
+      ],
     },
 
     typesOfScalpCooling: {
       ManualColdCaps: [
         "Gel-filled caps pre-cooled in specialized freezers.",
         "Caps are changed at regular intervals to maintain temperature.",
-        "Requires trained staff for proper use."
+        "Requires trained staff for proper use.",
       ],
       AutomatedScalpCoolingSystems: [
         "Computer-controlled cooling devices.",
         "Maintain consistent scalp temperature throughout treatment.",
-        "More comfortable and widely used in modern oncology centers."
-      ]
+        "More comfortable and widely used in modern oncology centers.",
+      ],
     },
 
     patientsWhoMayBenefit: {
       Overview: [
         "Scalp cooling is suitable for many patients receiving chemotherapy.",
-        "Best results are seen in certain cancer types and drug regimens."
+        "Best results are seen in certain cancer types and drug regimens.",
       ],
       Examples: [
         "Breast Cancer Patients",
         "Ovarian Cancer Patients",
         "Patients Receiving Taxane-Based Chemotherapy",
-        "Patients Receiving Anthracycline-Based Regimens (Selective Use)"
-      ]
+        "Patients Receiving Anthracycline-Based Regimens (Selective Use)",
+      ],
     },
 
     benefits: [
@@ -3120,31 +3048,31 @@ icon: scalpCoolingIcon,
       "Helps patients maintain their appearance and self-esteem.",
       "Improves emotional and psychological well-being.",
       "Allows patients to continue social and professional activities with confidence.",
-      "Non-invasive and safe when properly supervised."
+      "Non-invasive and safe when properly supervised.",
     ],
 
     limitations: [
       "Does not guarantee complete hair preservation.",
       "Effectiveness varies based on chemotherapy drugs used.",
       "May not be suitable for all cancer types.",
-      "Requires additional time before and after chemotherapy sessions."
+      "Requires additional time before and after chemotherapy sessions.",
     ],
 
     procedureDetails: {
       Preparation: [
         "Hair should be clean and free of styling products.",
         "Patients are advised to avoid hair coloring during treatment.",
-        "Medical team evaluates suitability before starting scalp cooling."
+        "Medical team evaluates suitability before starting scalp cooling.",
       ],
       DuringTreatment: [
         "Cooling cap is fitted securely to the scalp.",
         "Temperature is gradually reduced for patient comfort.",
-        "Continuous monitoring ensures safety and effectiveness."
+        "Continuous monitoring ensures safety and effectiveness.",
       ],
       AfterTreatment: [
         "Cooling continues for a set time after chemotherapy.",
-        "Cap is removed once scalp temperature normalizes."
-      ]
+        "Cap is removed once scalp temperature normalizes.",
+      ],
     },
 
     sideEffects: {
@@ -3152,25 +3080,25 @@ icon: scalpCoolingIcon,
         "Cold Sensation On The Scalp",
         "Headache Or Mild Discomfort",
         "Scalp Tightness",
-        "Chills During Initial Cooling"
+        "Chills During Initial Cooling",
       ],
       AdditionalNotes: [
         "Most side effects are temporary and manageable.",
-        "Discomfort usually decreases after the first few sessions."
-      ]
+        "Discomfort usually decreases after the first few sessions.",
+      ],
     },
 
     safetyConsiderations: [
       "Scalp cooling is not recommended in certain blood cancers.",
       "Careful monitoring is required for patients with cold sensitivity.",
-      "Oncologist approval is necessary before starting scalp cooling."
+      "Oncologist approval is necessary before starting scalp cooling.",
     ],
 
     postTreatmentCare: [
       "Use mild, sulfate-free shampoos.",
       "Avoid excessive heat styling and tight hairstyles.",
       "Handle hair gently to reduce breakage.",
-      "Continue gentle hair care for several weeks after chemotherapy."
+      "Continue gentle hair care for several weeks after chemotherapy.",
     ],
 
     dosAndDonts: {
@@ -3178,30 +3106,28 @@ icon: scalpCoolingIcon,
         "Follow Scalp Cooling Schedule As Advised",
         "Use Gentle Hair Care Products",
         "Protect Hair From Sun And Heat",
-        "Report Any Discomfort To Medical Staff"
+        "Report Any Discomfort To Medical Staff",
       ],
       Donts: [
         "Do Not Use Hair Dryers Or Straighteners Frequently",
         "Avoid Chemical Hair Treatments",
-        "Do Not Skip Cooling Sessions Without Medical Advice"
-      ]
+        "Do Not Skip Cooling Sessions Without Medical Advice",
+      ],
     },
 
     faqs: [
       {
         question: "Does Scalp Cooling Completely Prevent Hair Loss?",
         answer:
-          "Scalp cooling significantly reduces hair loss in many patients, but results vary depending on chemotherapy type and individual response."
+          "Scalp cooling significantly reduces hair loss in many patients, but results vary depending on chemotherapy type and individual response.",
       },
       {
         question: "Is Scalp Cooling Safe?",
         answer:
-          "Yes, scalp cooling is generally safe when used under medical supervision and is widely practiced in oncology centers worldwide."
-      }
-    ]
+          "Yes, scalp cooling is generally safe when used under medical supervision and is widely practiced in oncology centers worldwide.",
+      },
+    ],
   },
-
-  
 };
 
 export default serviceData;
