@@ -1,5 +1,5 @@
 import "./ThankYouPopup.css";
-import tickIcon from "../assets/Vector (8).png";
+import tickIcon from "../assets/GroupTick.svg";
 
 const ThankYouPopup = ({ open, onClose }) => {
   if (!open) return null;
@@ -8,19 +8,14 @@ const ThankYouPopup = ({ open, onClose }) => {
     <div className="thankyou-overlay">
       <div className="thankyou-modal">
 
-        {/* CLOSE */}
-        <button className="close-btn" onClick={onClose}>
-          ✕
-        </button>
+        <button className="close-btn" onClick={onClose}>✕</button>
 
-        {/* ICON */}
         <div className="thankyou-icon">
-          <div className="icon-bg">
+          <div>
             <img src={tickIcon} alt="success" className="tick-animate" />
           </div>
         </div>
 
-        {/* TEXT */}
         <h3>Thank You!</h3>
 
         <p className="thankyou-text">
@@ -29,7 +24,6 @@ const ThankYouPopup = ({ open, onClose }) => {
           Our team will reach out to you shortly with the details.
         </p>
 
-        {/* BUTTON */}
         <button
           className="home-btn"
           onClick={() => (window.location.href = "/")}
@@ -41,6 +35,7 @@ const ThankYouPopup = ({ open, onClose }) => {
           Need help? Please contact our{" "}
           <a href="tel:8858855200" className="link">customer care</a>.
         </p>
+
       </div>
     </div>
   );

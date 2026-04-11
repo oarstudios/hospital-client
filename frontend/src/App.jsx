@@ -272,7 +272,9 @@ function App() {
                 <RequestCallback />
               </>
             }
-          />
+          >
+            <Route path="success" element={null} />
+          </Route>
 
           {/* SECOND OPINION */}
           <Route
@@ -285,7 +287,9 @@ function App() {
                 <RequestCallback />
               </>
             }
-          />
+          >
+            <Route path="success" element={null} />
+          </Route>
 
           {/* PRIVACY POLICY */}
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
@@ -309,10 +313,17 @@ function App() {
         </Routes>
       </main>
 
-      {/* Hide Website Extras in Admin */}
-      {!isAdminRoute && <WhatsAppFloat />}
-      {!isAdminRoute && <Chatbot />}
-      {!isAdminRoute && <Footer />}
+      {/* Hide Website Extras in Admin and on /success popup */}
+      {(() => {
+        const isSuccessPopup = location.pathname.endsWith("/success");
+        return (
+          <>
+            {!isAdminRoute && !isSuccessPopup && <WhatsAppFloat />}
+            {!isAdminRoute && !isSuccessPopup && <Chatbot />}
+            {!isAdminRoute && <Footer />}
+          </>
+        );
+      })()}
     </>
   );
 }

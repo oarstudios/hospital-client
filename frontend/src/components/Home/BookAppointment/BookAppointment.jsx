@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./BookAppointment.css";
 import doctorImg from "../../../assets/ICTC female doctor 1.png";
 import tickIcon from "../../../assets/Vector (8).png";
@@ -45,7 +46,7 @@ const BookAppointment = () => {
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  // Remove isSubmitted, use URL instead
   const [, setShowSameDayNotice] = useState(false);
   const [showTomorrowHint, setShowTomorrowHint] = useState(false);
 
@@ -176,11 +177,13 @@ const BookAppointment = () => {
   /* ============================
      SUBMIT
   ============================ */
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const handleSubmit = async () => {
     if (!validate()) return;
 
     setIsSubmitting(true);
-    setIsSubmitted(false);
 
     try {
       const response = await fetch(
@@ -197,7 +200,6 @@ const BookAppointment = () => {
       const result = await response.json();
 
       if (result.status === "success") {
-        setIsSubmitted(true);
         setFormData({
           patientname: "",
           age: "",
@@ -210,7 +212,8 @@ const BookAppointment = () => {
         setErrors({});
         setShowSameDayNotice(false);
         setShowTomorrowHint(false);
-        // Do NOT auto-close popup
+        // Navigate to /BookAppoinment/success to show popup
+        navigate("success", { replace: false });
       } else {
         alert("Failed to save appointment");
       }
@@ -231,11 +234,14 @@ const BookAppointment = () => {
   /* ============================
      JSX
   ============================ */
+  // Show popup if path ends with /success
+  const showThankYou = location.pathname.endsWith("/success");
+
   return (
     <>
       <ThankYouPopup
-        open={isSubmitted}
-        onClose={() => setIsSubmitted(false)}
+        open={showThankYou}
+        onClose={() => navigate("..", { replace: true, relative: "path" })}
       />
 
       <section className="appointment-wrapper">
@@ -381,17 +387,11 @@ const BookAppointment = () => {
               )}
 
               <button
-                className={`book-btn ${isSubmitting ? "loading" : ""} ${
-                  isSubmitted ? "success" : ""
-                }`}
+                className={`book-btn${isSubmitting ? " loading" : ""}`}
                 onClick={handleSubmit}
-                disabled={isSubmitting || isSubmitted}
+                disabled={isSubmitting}
               >
-                {isSubmitting
-                  ? "Submitting..."
-                  : isSubmitted
-                  ? "Submitted ✓"
-                  : "Book Appointment"}
+                {isSubmitting ? "Submitting..." : "Book Appointment"}
               </button>
             </div>
           </div>

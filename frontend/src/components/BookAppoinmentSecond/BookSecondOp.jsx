@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../Home/BookAppointment/BookAppointment.css";
 import doctorImg from "../../assets/ICTC female doctor 1.png";
 import tickIcon from "../../assets/Vector (8).png";
@@ -46,7 +47,7 @@ const BookSecondOp = () => {
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  // Remove isSubmitted state, use URL instead
   const [, setShowSameDayNotice] = useState(false);
   const [showTomorrowHint, setShowTomorrowHint] = useState(false);
 
@@ -176,11 +177,13 @@ const BookSecondOp = () => {
   /* ============================
      SUBMIT
   ============================ */
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const handleSubmit = async () => {
     if (!validate()) return;
 
     setIsSubmitting(true);
-    setIsSubmitted(false);
 
     try {
       const response = await fetch(
@@ -197,23 +200,20 @@ const BookSecondOp = () => {
       const result = await response.json();
 
       if (result.status === "success") {
-        setIsSubmitted(true);
-
-        setTimeout(() => {
-          setFormData({
-            patientname: "",
-            age: "",
-            phone: "",
-            area: "",
-            center: "",
-            date: "",
-            source: "Website_Second_Opinion",
-          });
-          setErrors({});
-          setShowSameDayNotice(false);
-          setShowTomorrowHint(false);
-          setIsSubmitted(false);
-        }, 2500);
+        setFormData({
+          patientname: "",
+          age: "",
+          phone: "",
+          area: "",
+          center: "",
+          date: "",
+          source: "Website_Second_Opinion",
+        });
+        setErrors({});
+        setShowSameDayNotice(false);
+        setShowTomorrowHint(false);
+        // Navigate to /BookSecondOpinion/success to show popup
+        navigate("success", { replace: false });
       } else {
         alert("Failed to save consultation request");
       }
@@ -233,11 +233,14 @@ const BookSecondOp = () => {
   /* ============================
      JSX
   ============================ */
+  // Show popup if path ends with /success
+  const showThankYou = location.pathname.endsWith("/success");
+
   return (
     <>
       <ThankYouPopup
-        open={isSubmitted}
-        onClose={() => setIsSubmitted(false)}
+        open={showThankYou}
+        onClose={() => navigate("..", { replace: true, relative: "path" })}
       />
       <section className="appointment-wrapper">
         <div className="appointment-card">
@@ -381,17 +384,11 @@ const BookSecondOp = () => {
               )}
 
               <button
-                className={`book-btn ${isSubmitting ? "loading" : ""} ${
-                  isSubmitted ? "success" : ""
-                }`}
+                className={`book-btn${isSubmitting ? " loading" : ""}`}
                 onClick={handleSubmit}
-                disabled={isSubmitting || isSubmitted}
+                disabled={isSubmitting}
               >
-                {isSubmitting
-                  ? "Submitting..."
-                  : isSubmitted
-                  ? "Submitted ✓"
-                  : "Book Second Opinion"}
+                {isSubmitting ? "Submitting..." : "Book Second Opinion"}
               </button>
             </div>
           </div>

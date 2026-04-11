@@ -56,9 +56,9 @@
 
 /* TICK ANIMATION */
 .tick-animate {
-  width: 36px;
+  width: 50px;
   animation: tickPop 0.5s ease;
-  filter: brightness(0) saturate(100%) invert(31%) sepia(97%) saturate(749%) hue-rotate(85deg) brightness(0.95);
+  /* filter: brightness(0) saturate(100%) invert(31%) sepia(97%) saturate(749%) hue-rotate(85deg) brightness(0.95); */
 }
 
 @keyframes tickPop {
