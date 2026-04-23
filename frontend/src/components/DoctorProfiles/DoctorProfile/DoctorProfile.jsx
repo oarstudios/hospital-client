@@ -2,6 +2,7 @@ import "./DoctorProfile.css";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import doctorData from "../../../data/doctorData";
+import centerData from "../../../data/centerData";
 
 /* ICONS */
 import starIcon from "../../../assets/star.png";
@@ -68,15 +69,22 @@ const DoctorProfile = () => {
             <div className="info-row">
               <img src={locationIcon} alt="location" />
               <div className="centres-list">
-                {doctor.centres.map((centre, index) => (
-                  <Link
-                    key={index}
-                    to={`/centre/${centreToSlug(centre)}`}
-                    className="centre-link"
-                  >
-                    {centre}
-                  </Link>
-                ))}
+                {doctor.centres.map((centre, index) => {
+                  const slug = centreToSlug(centre);
+                  const mapQuery = centerData[slug]?.mapQuery;
+
+                  return (
+                    <a
+                      key={index}
+                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="centre-link"
+                    >
+                      {centre}
+                    </a>
+                  );
+                })}
               </div>
             </div>
 

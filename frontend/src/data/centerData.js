@@ -392,39 +392,40 @@ lng: 72.8878,
   },
 
     /* ===================== THANE ===================== */
-  thane: {
-    slug: "thane",
-    name: "ICTC Thane",
-    fullName: "ICTC Thane Centre",
-    rating: "4.9",
-    reviews: "100+ Ratings",
+  
+thane: {
+  slug: "thane",
+  name: "ICTC Thane",
+  fullName: "ICTC Thane Centre",
+  rating: "4.9",
+  reviews: "100+ Ratings",
 
-    phone: "+91 9699711195", // add correct number
+  phone: "+91 9699711195",
 
-    mapQuery: "ICTC Cancer Care Centre Thane",
-    mapEmbed: "", // paste your Google map embed link here
+  mapQuery: "ICTC Cancer Care Centre Thane",
 
-    lat: 19.2183, // update exact latitude if needed
-    lng: 72.9781, // update exact longitude if needed
+  mapEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d120577.97431860023!2d72.81639699726561!3d19.192507400000007!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b916b0ddc591%3A0x438c61df5cc6530d!2sDr%20Darshan%20Jain%20%7C%20Cancer%20Specialist%20in%20Thane%2C%20Best%20Oncologist%20in%20Thane%20Mumbai%20-%20ICTC!5e0!3m2!1sen!2sin!4v1776920722144!5m2!1sen!2sin",
 
-    address: "Thane, Maharashtra", // add full Thane address here
+  lat: 19.1925,
+  lng: 72.8164,
 
-    timing: "Mon – Sat 9:00 a.m. to 9:00 p.m.",
+  address: "Office 308, Hubtown Rhythm, Madanlal Dhingra Rd, opp. Jain Mandir, Panch Pakhdi, Thane West, Thane, Maharashtra 400602",
 
-    heroBg,
+  timing: "Mon – Sat 9:00 a.m. to 9:00 p.m.",
 
-    description: [
-      "ICTC Indian Cancer Treatment Centre – Thane is a modern Day Care Chemotherapy Centre dedicated to delivering advanced, patient-centric cancer care in Thane and surrounding regions. The centre provides comprehensive oncology services with a strong focus on safe and efficient day-care chemotherapy.",
-      
-      "Equipped with modern medical infrastructure and following evidence-based oncology protocols, ICTC Thane ensures precise, personalised, and high-quality cancer treatment in a comfortable outpatient setting, allowing patients to return home the same day.",
-      
-      "Led by experienced oncology specialists, ICTC Thane combines clinical expertise, advanced treatment modalities, and compassionate patient care to deliver affordable and world-class cancer treatment in a supportive environment.",
-    ],
+  heroBg,
 
-    image: defaultImg,
-    gallery: [g1, g2, g3, g4],
-  },
+  description: [
+    "ICTC Indian Cancer Treatment Centre – Thane is a modern Day Care Chemotherapy Centre dedicated to delivering advanced, patient-centric cancer care in Thane and surrounding regions. The centre provides comprehensive oncology services with a strong focus on safe and efficient day-care chemotherapy.",
+    
+    "Equipped with modern medical infrastructure and following evidence-based oncology protocols, ICTC Thane ensures precise, personalised, and high-quality cancer treatment in a comfortable outpatient setting, allowing patients to return home the same day.",
+    
+    "Led by experienced oncology specialists, ICTC Thane combines clinical expertise, advanced treatment modalities, and compassionate patient care to deliver affordable and world-class cancer treatment in a supportive environment.",
+  ],
 
+  image: defaultImg,
+  gallery: [g1, g2, g3, g4],
+},
 
 
 };
