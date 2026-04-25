@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CentersModule } from './modules/centers/centers.module';
 
 @Module({
   imports: [
@@ -23,10 +24,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         schema: config.get('DB_SCHEMA'),
 
         autoLoadEntities: true,
-        synchronize: true,
+        synchronize: true,  // ❗ turn OFF in production
 
       }),
     }),
+
+
+
+    CentersModule
 
   ],
 })

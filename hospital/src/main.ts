@@ -1,33 +1,53 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { ConfigService } from '@nestjs/config';
 
-@Module({
-  imports: [
+import { ResponseInterceptor } from './common/interceptors/response.interceptor';
+import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+import { ValidationPipe } from '@nestjs/common';
 
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
+// ✅ Swagger imports
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
-    TypeOrmModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
 
-        type: 'postgres',
-        host: config.get('DB_HOST'),
-        port: config.get<number>('DB_PORT'),
-        username: config.get('DB_USERNAME'),
-        password: config.get('DB_PASSWORD'),
-        database: config.get('DB_NAME'),
+async function bootstrap() {
+  
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-        schema: config.get('DB_SCHEMA'),
+  const configService = app.get(ConfigService);
 
-        autoLoadEntities: true,
-        synchronize: true,
+  
+  // ✅ Serve uploads folder
+    app.useStaticAssets(join(__dirname, '..', 'uploads'), {
+    prefix: '/uploads/', // <--- Add this option
+  });
 
-      }),
-    }),
 
-  ],
-})
-export class AppModule {}
+  // ✅ Global configs
+  app.useGlobalInterceptors(new ResponseInterceptor());
+  app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalPipes(new ValidationPipe());
+
+  // ✅ Swagger setup
+  const config = new DocumentBuilder()
+    .setTitle('Hospital API')
+    .setDescription('Hospital Management Backend APIs')
+    .setVersion('1.0')
+    // .addBearerAuth() // for JWT later
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+
+  SwaggerModule.setup('api/docs', app, document);
+
+  // ✅ Port from env
+  const port = configService.get<number>('PORT', 3000);
+
+  await app.listen(port);
+
+  console.log(`🚀 Server running on port ${port}`);
+  console.log(`📄 Swagger running on http://localhost:${port}/api-docs`);
+}
+bootstrap();
