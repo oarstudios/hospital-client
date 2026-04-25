@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -7,6 +11,7 @@ import { CreateCenterDto } from './dto/create-center.dto';
 import { UpdateCenterDto } from './dto/update-center.dto';
 
 import { DB_CONSTANTS } from '../../common/constants/db.constants';
+import { deleteFiles } from '../../common/utils/file.util';
 
 @Injectable()
 export class CentersService {
@@ -17,118 +22,165 @@ export class CentersService {
 
   // ✅ CREATE
   async create(dto: CreateCenterDto, files: any) {
-    const heroImage = files?.heroImage?.[0]?.filename;
-    const centerImage = files?.centerImage?.[0]?.filename;
+    try {
+      // 🔥 Check duplicate before saving
+      const existing = await this.repo.findOne({
+        where: { slug: dto.slug },
+      });
 
-    const gallery =
-      files?.gallery?.map((file) => `/uploads/${file.filename}`) || [];
+      if (existing) {
+        deleteFiles(files);
+        throw new BadRequestException('Slug already exists');
+      }
 
-    const center = this.repo.create({
-      ...dto,
-      heroImage: heroImage ? `/uploads/${heroImage}` : null,
-      centerImage: centerImage ? `/uploads/${centerImage}` : null,
-      gallery,
-    });
+      const heroImage = files?.heroImage?.[0]?.filename;
+      const centerImage = files?.centerImage?.[0]?.filename;
 
-    await this.repo.save(center);
+      const gallery =
+        files?.gallery?.map((file) => `/uploads/${file.filename}`) || [];
 
-    return {
-      message: 'Center created successfully',
-      data: center,
-    };
+      const center = this.repo.create({
+        ...dto,
+        heroImage: heroImage ? `/uploads/${heroImage}` : null,
+        centerImage: centerImage ? `/uploads/${centerImage}` : null,
+        gallery,
+      });
+
+      await this.repo.save(center);
+
+      return {
+        message: 'Center created successfully',
+        data: center,
+      };
+    } catch (error) {
+      // ❗ cleanup uploaded files
+      deleteFiles(files);
+      throw error;
+    }
   }
 
-  // ✅ FIND ALL (with optional isDeleted filter)
+  // ✅ FIND ALL
   async findAll(isDeleted?: boolean) {
-    const whereCondition = {
-      isDeleted:
-        typeof isDeleted === 'boolean'
-          ? isDeleted
-          : DB_CONSTANTS.IS_DELETED.NO,
-    };
-
-    const data = await this.repo.find({
-      where: whereCondition,
-      order: { createdAt: 'DESC' },
-    });
-
-    return {
-      message: 'Centers fetched successfully',
-      data,
-    };
-  }
-
-  // ✅ FIND ONE
-  async findOne(id: number, isDeleted?: boolean) {
-    const center = await this.repo.findOne({
-      where: {
-        id,
+    try {
+      const whereCondition = {
         isDeleted:
           typeof isDeleted === 'boolean'
             ? isDeleted
             : DB_CONSTANTS.IS_DELETED.NO,
-      },
-    });
+      };
 
-    if (!center) throw new NotFoundException('Center not found');
+      const data = await this.repo.find({
+        where: whereCondition,
+        order: { createdAt: 'DESC' },
+      });
 
-    return {
-      message: 'Center fetched successfully',
-      data: center,
-    };
+      return {
+        message: 'Centers fetched successfully',
+        data,
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  // ✅ FIND ONE
+  async findOne(id: number, isDeleted?: boolean) {
+    try {
+      const center = await this.repo.findOne({
+        where: {
+          id,
+          isDeleted:
+            typeof isDeleted === 'boolean'
+              ? isDeleted
+              : DB_CONSTANTS.IS_DELETED.NO,
+        },
+      });
+
+      if (!center) throw new NotFoundException('Center not found');
+
+      return {
+        message: 'Center fetched successfully',
+        data: center,
+      };
+    } catch (error) {
+      throw error;
+    }
   }
 
   // ✅ UPDATE
   async update(id: number, dto: UpdateCenterDto) {
-    const center = await this.repo.findOne({
-      where: { id, isDeleted: DB_CONSTANTS.IS_DELETED.NO },
-    });
+    try {
+      const center = await this.repo.findOne({
+        where: { id, isDeleted: DB_CONSTANTS.IS_DELETED.NO },
+      });
 
-    if (!center) throw new NotFoundException('Center not found');
+      if (!center) throw new NotFoundException('Center not found');
 
-    Object.assign(center, dto);
+      // 🔥 If slug updated → check duplicate
+      if (dto.slug && dto.slug !== center.slug) {
+        const existing = await this.repo.findOne({
+          where: { slug: dto.slug },
+        });
 
-    await this.repo.save(center);
+        if (existing) {
+          throw new BadRequestException('Slug already exists');
+        }
+      }
 
-    return {
-      message: 'Center updated successfully',
-      data: center,
-    };
+      Object.assign(center, dto);
+
+      await this.repo.save(center);
+
+      return {
+        message: 'Center updated successfully',
+        data: center,
+      };
+    } catch (error) {
+      throw error;
+    }
   }
 
   // ✅ SOFT DELETE
   async remove(id: number) {
-    const center = await this.repo.findOne({
-      where: { id, isDeleted: DB_CONSTANTS.IS_DELETED.NO },
-    });
+    try {
+      const center = await this.repo.findOne({
+        where: { id, isDeleted: DB_CONSTANTS.IS_DELETED.NO },
+      });
 
-    if (!center) throw new NotFoundException('Center not found');
+      if (!center) throw new NotFoundException('Center not found');
 
-    center.isDeleted = DB_CONSTANTS.IS_DELETED.YES;
+      center.isDeleted = DB_CONSTANTS.IS_DELETED.YES;
 
-    await this.repo.save(center);
+      await this.repo.save(center);
 
-    return {
-      message: 'Center deleted successfully',
-      data: [],
-    };
+      return {
+        message: 'Center deleted successfully',
+        data: [],
+      };
+    } catch (error) {
+      throw error;
+    }
   }
 
-  // ✅ RESTORE (BONUS 🔥)
+  // ✅ RESTORE
   async restore(id: number) {
-    const center = await this.repo.findOne({
-      where: { id, isDeleted: DB_CONSTANTS.IS_DELETED.YES },
-    });
+    try {
+      const center = await this.repo.findOne({
+        where: { id, isDeleted: DB_CONSTANTS.IS_DELETED.YES },
+      });
 
-    if (!center) throw new NotFoundException('Center not found');
+      if (!center) throw new NotFoundException('Center not found');
 
-    center.isDeleted = DB_CONSTANTS.IS_DELETED.NO;
+      center.isDeleted = DB_CONSTANTS.IS_DELETED.NO;
 
-    await this.repo.save(center);
+      await this.repo.save(center);
 
-    return {
-      message: 'Center restored successfully',
-      data: center,
-    };
+      return {
+        message: 'Center restored successfully',
+        data: center,
+      };
+    } catch (error) {
+      throw error;
+    }
   }
 }

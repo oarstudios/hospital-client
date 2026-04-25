@@ -11,6 +11,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
+import * as fs from 'fs';
 
 async function bootstrap() {
   
@@ -21,8 +22,14 @@ async function bootstrap() {
   
   // ✅ Serve uploads folder
     app.useStaticAssets(join(__dirname, '..', 'uploads'), {
-    prefix: '/uploads/', // <--- Add this option
+    prefix: '/uploads/',
   });
+
+  const uploadPath = join(process.cwd(), 'uploads');
+
+  if (!fs.existsSync(uploadPath)) {
+  fs.mkdirSync(uploadPath, { recursive: true });
+}
 
 
   // ✅ Global configs
