@@ -57,7 +57,7 @@ const OurCenterHero = () => {
   </div>
 
   <a
-    href={`https://www.google.com/maps?q=${center.lat},${center.lng}`}
+href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(center.mapQuery)}`}
     target="_blank"
     rel="noopener noreferrer"
     className="address-text"

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../Home/BookAppointment/BookAppointment.css";
 import doctorImg from "../../assets/ICTC female doctor 1.png";
 import tickIcon from "../../assets/Vector (8).png";
@@ -28,6 +29,8 @@ const centerSlugMap = {
   Dombivli: "dombivli",
 };
 
+import ThankYouPopup from "../ThankYouPopup";
+
 const BookSecondOp = () => {
   /* ============================
      STATE
@@ -44,7 +47,7 @@ const BookSecondOp = () => {
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  // Remove isSubmitted state, use URL instead
   const [, setShowSameDayNotice] = useState(false);
   const [showTomorrowHint, setShowTomorrowHint] = useState(false);
 
@@ -174,11 +177,13 @@ const BookSecondOp = () => {
   /* ============================
      SUBMIT
   ============================ */
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const handleSubmit = async () => {
     if (!validate()) return;
 
     setIsSubmitting(true);
-    setIsSubmitted(false);
 
     try {
       const response = await fetch(
@@ -195,23 +200,20 @@ const BookSecondOp = () => {
       const result = await response.json();
 
       if (result.status === "success") {
-        setIsSubmitted(true);
-
-        setTimeout(() => {
-          setFormData({
-            patientname: "",
-            age: "",
-            phone: "",
-            area: "",
-            center: "",
-            date: "",
-            source: "Website_Second_Opinion",
-          });
-          setErrors({});
-          setShowSameDayNotice(false);
-          setShowTomorrowHint(false);
-          setIsSubmitted(false);
-        }, 2500);
+        setFormData({
+          patientname: "",
+          age: "",
+          phone: "",
+          area: "",
+          center: "",
+          date: "",
+          source: "Website_Second_Opinion",
+        });
+        setErrors({});
+        setShowSameDayNotice(false);
+        setShowTomorrowHint(false);
+        // Navigate to /BookSecondOpinion/success to show popup
+        navigate("success", { replace: false });
       } else {
         alert("Failed to save consultation request");
       }
@@ -231,169 +233,172 @@ const BookSecondOp = () => {
   /* ============================
      JSX
   ============================ */
+  // Show popup if path ends with /success
+  const showThankYou = location.pathname.endsWith("/success");
+
   return (
-    <section className="appointment-wrapper">
-      <div className="appointment-card">
-        <div className="appointment-form">
-          <h2>Book a Second Opinion Consultation</h2>
+    <>
+      <ThankYouPopup
+        open={showThankYou}
+        onClose={() => navigate("..", { replace: true, relative: "path" })}
+      />
+      <section className="appointment-wrapper">
+        <div className="appointment-card">
+          <div className="appointment-form">
+            <h2>Book a Second Opinion Consultation</h2>
 
-          <p className="section-label">Patient Details</p>
+            <p className="section-label">Patient Details</p>
 
-          <div className="input-row">
-            <input
-              type="text"
-              name="patientname"
-              placeholder="Patient Name"
-              value={formData.patientname}
-              onChange={handleChange}
-            />
-            <input
-              type="number"
-              name="age"
-              placeholder="Age"
-              value={formData.age}
-              onChange={handleChange}
-            />
-          </div>
+            <div className="input-row">
+              <input
+                type="text"
+                name="patientname"
+                placeholder="Patient Name"
+                value={formData.patientname}
+                onChange={handleChange}
+              />
+              <input
+                type="number"
+                name="age"
+                placeholder="Age"
+                value={formData.age}
+                onChange={handleChange}
+              />
+            </div>
 
-          {errors.patientname && (
-            <span className="error">{errors.patientname}</span>
-          )}
-          {errors.age && <span className="error">{errors.age}</span>}
-
-          <div className="input-row">
-            <input
-              type="tel"
-              name="phone"
-              placeholder="WhatsApp Number"
-              value={formData.phone}
-              onChange={handleChange}
-              maxLength={10}
-            />
-          </div>
-
-          {errors.phone && <span className="error">{errors.phone}</span>}
-
-          <p className="section-label">Select Area</p>
-
-          <div className="centres-grid">
-            {Object.keys(areaCentreMap).map((area) => (
-              <label key={area} className="centre-chip">
-                <input
-                  type="checkbox"
-                  checked={formData.area === area}
-                  onChange={() => handleAreaChange(area)}
-                />
-                <span className="custom-checkbox">
-                  <img src={tickIcon} alt="tick" />
-                </span>
-                <span className="centre-name">{area}</span>
-              </label>
-            ))}
-          </div>
-
-          {errors.area && <span className="error">{errors.area}</span>}
-
-          {formData.area && (
-            <>
-              <p className="section-label">
-                Select ICTC Centre in {formData.area}
-              </p>
-
-              <div className="centres-grid">
-                {centresForSelectedArea.map((centre) => (
-                  <label key={centre} className="centre-chip">
-                    <input
-                      type="checkbox"
-                      checked={formData.center === centre}
-                      onChange={() => handleCentreChange(centre)}
-                    />
-                    <span className="custom-checkbox">
-                      <img src={tickIcon} alt="tick" />
-                    </span>
-                    <span className="centre-name">{centre}</span>
-                  </label>
-                ))}
-              </div>
-
-              {errors.center && (
-                <span className="error">{errors.center}</span>
-              )}
-            </>
-          )}
-
-          <p className="section-label">Select Consultation Date</p>
-
-          <div className="nicheLe">
-            <input
-              type="date"
-              name="date"
-              className="date-input"
-              value={formData.date}
-              onChange={handleChange}
-              min={new Date().toISOString().split("T")[0]}
-              onKeyDown={(e) => e.preventDefault()}
-            />
-
-            {errors.date === "SUNDAY_BLOCK" && (
-              <span className="error">
-                Second opinion consultations are not available on Sundays.
-              </span>
+            {errors.patientname && (
+              <span className="error">{errors.patientname}</span>
             )}
+            {errors.age && <span className="error">{errors.age}</span>}
 
-            {errors.date === "SAME_DAY_BLOCK" && (
-              <span className="error">
-                Same-day consultations are accepted only before 12:00 PM.
-                <br />
-                {formData.center && (
-                  <>
-                    {" "}
-                    You can still connect with this centre directly —{" "}
-                    <span
-                      className="center-link"
-                      style={{ textDecoration: "underline", cursor: "pointer" }}
-                      onClick={() =>
-                        window.open(
-                          `/centre/${centerSlugMap[formData.center]}`,
-                          "_blank"
-                        )
-                      }
-                    >
-                      visit the centre page
-                    </span>
-                    .
-                  </>
+            <div className="input-row">
+              <input
+                type="tel"
+                name="phone"
+                placeholder="WhatsApp Number"
+                value={formData.phone}
+                onChange={handleChange}
+                maxLength={10}
+              />
+            </div>
+
+            {errors.phone && <span className="error">{errors.phone}</span>}
+
+            <p className="section-label">Select Area</p>
+
+            <div className="centres-grid">
+              {Object.keys(areaCentreMap).map((area) => (
+                <label key={area} className="centre-chip">
+                  <input
+                    type="checkbox"
+                    checked={formData.area === area}
+                    onChange={() => handleAreaChange(area)}
+                  />
+                  <span className="custom-checkbox">
+                    <img src={tickIcon} alt="tick" />
+                  </span>
+                  <span className="centre-name">{area}</span>
+                </label>
+              ))}
+            </div>
+
+            {errors.area && <span className="error">{errors.area}</span>}
+
+            {formData.area && (
+              <>
+                <p className="section-label">
+                  Select ICTC Centre in {formData.area}
+                </p>
+
+                <div className="centres-grid">
+                  {centresForSelectedArea.map((centre) => (
+                    <label key={centre} className="centre-chip">
+                      <input
+                        type="checkbox"
+                        checked={formData.center === centre}
+                        onChange={() => handleCentreChange(centre)}
+                      />
+                      <span className="custom-checkbox">
+                        <img src={tickIcon} alt="tick" />
+                      </span>
+                      <span className="centre-name">{centre}</span>
+                    </label>
+                  ))}
+                </div>
+
+                {errors.center && (
+                  <span className="error">{errors.center}</span>
                 )}
-              </span>
+              </>
             )}
 
-            {showTomorrowHint && (
-              <div className="info-notice">
-                👉 Next available slot: <strong>{getTomorrowDate()}</strong>
-              </div>
-            )}
+            <p className="section-label">Select Consultation Date</p>
 
-            <button
-              className={`book-btn ${isSubmitting ? "loading" : ""} ${
-                isSubmitted ? "success" : ""
-              }`}
-              onClick={handleSubmit}
-              disabled={isSubmitting || isSubmitted}
-            >
-              {isSubmitting
-                ? "Submitting..."
-                : isSubmitted
-                ? "Submitted ✓"
-                : "Book Second Opinion"}
-            </button>
+            <div className="nicheLe">
+              <input
+                type="date"
+                name="date"
+                className="date-input"
+                value={formData.date}
+                onChange={handleChange}
+                min={new Date().toISOString().split("T")[0]}
+                onKeyDown={(e) => e.preventDefault()}
+              />
+
+              {errors.date === "SUNDAY_BLOCK" && (
+                <span className="error">
+                  Second opinion consultations are not available on Sundays.
+                </span>
+              )}
+
+              {errors.date === "SAME_DAY_BLOCK" && (
+                <span className="error">
+                  Same-day consultations are accepted only before 12:00 PM.
+                  <br />
+                  {formData.center && (
+                    <>
+                      {" "}
+                      You can still connect with this centre directly —{" "}
+                      <span
+                        className="center-link"
+                        style={{ textDecoration: "underline", cursor: "pointer" }}
+                        onClick={() =>
+                          window.open(
+                            `/centre/${centerSlugMap[formData.center]}`,
+                            "_blank"
+                          )
+                        }
+                      >
+                        visit the centre page
+                      </span>
+                      .
+                    </>
+                  )}
+                </span>
+              )}
+
+              {showTomorrowHint && (
+                <div className="info-notice">
+                  👉 Next available slot: <strong>{getTomorrowDate()}</strong>
+                </div>
+              )}
+
+              <button
+                className={`book-btn${isSubmitting ? " loading" : ""}`}
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Submitting..." : "Book Second Opinion"}
+              </button>
+            </div>
+          </div>
+
+          <div className="appointment-image">
+            <img src={doctorImg} alt="Doctor" />
           </div>
         </div>
-
-        <div className="appointment-image">
-          <img src={doctorImg} alt="Doctor" />
-        </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 
