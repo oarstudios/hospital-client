@@ -71,8 +71,9 @@ const centerData = {
     mapEmbed:
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3412.3515059166466!2d72.99670582466513!3d19.073796452042792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c12e366befd9%3A0x422a83b108bd2893!2sDr%20Salil%20Patkar%20%2C%20Cancer%20Specialist%20in%20Vashi%20Navi%20Mumbai%2C%20Best%20Oncologist%20in%20Vashi%2C%20Navi%20Mumbai%20Oncologist%20%7C%20ICTC%20Vashi!5e1!3m2!1sen!2sin!4v1767514911613!5m2!1sen!2sin",
     lat: 19.0738,
-lng: 72.9967,
+    lng: 72.9967,
 
+ 
     address:
       "47/48 3rd floor, Mahavir Center, above Golden Punjab Restaurant, Sector 17, Vashi, Navi Mumbai, Maharashtra 400703",
 
