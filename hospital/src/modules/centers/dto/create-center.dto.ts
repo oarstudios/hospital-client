@@ -5,7 +5,7 @@ import {
   IsNumber,
   IsArray,
 } from 'class-validator';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 
 export class CreateCenterDto {
 
@@ -68,10 +68,20 @@ export class CreateCenterDto {
   @IsString()
   address?: string;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ type: [String], required: false })
 @IsOptional()
-@IsString()
-description?: string;
+@IsArray()
+@Transform(({ value }) => {
+  // 🔥 handle swagger string OR array
+  if (Array.isArray(value)) return value;
+
+  if (typeof value === 'string') {
+    return value.split(',').map((v) => v.trim());
+  }
+
+  return [];
+})
+description?: string[];
 
   // ⚠️ These are FILES (handled via multer, not body)
   @ApiProperty({ type: 'string', format: 'binary', required: false })
