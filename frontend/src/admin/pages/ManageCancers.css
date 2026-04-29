@@ -1,0 +1,81 @@
+/* ===========================
+   TABS WRAPPER (FIGMA STYLE)
+=========================== */
+
+.tabs-wrapper {
+  position: relative;
+  margin: 25px 0;
+  padding: 12px;
+  border-radius: 50px;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+}
+
+/* ===========================
+   SCROLL AREA
+=========================== */
+
+.cancer-tabs-admin {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 4px 10px;
+  flex: 1;
+}
+
+.cancer-tabs-admin::-webkit-scrollbar {
+  display: none;
+}
+
+/* ===========================
+   TAB BUTTON
+=========================== */
+
+.cancer-tabs-admin button {
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: 2px solid #d1d5db;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  white-space: nowrap;
+  transition: 0.25s;
+}
+
+/* ACTIVE TAB */
+
+.cancer-tabs-admin button.active {
+  background: #ede9fe;
+  border-color: #7c3aed;
+  color: #7c3aed;
+}
+
+/* ===========================
+   ARROWS (FLOATING)
+=========================== */
+
+.tab-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white;
+  border: 2px solid #e5e7eb;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  z-index: 10;
+}
+
+.tab-arrow:first-child {
+  left: -10px;
+}
+
+.tab-arrow:last-child {
+  right: -10px;
+}
