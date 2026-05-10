@@ -75,7 +75,7 @@ const centerData = {
 
  
     address:
-      "47/48 3rd floor, Mahavir Center, above Golden Punjab Restaurant, Sector 17, Vashi, Navi Mumbai, Maharashtra 400703",
+      "47/48 3rd floor, Mahavir Center, above Golden Punjab Restaurant, Sector 17, Vashi, Navi Mumbai, Maharashtra 400703c",
 
     timing: "Mon – Sat 9:00 a.m. to 9:00 p.m.",
 
