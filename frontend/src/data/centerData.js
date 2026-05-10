@@ -56,6 +56,21 @@ import g2 from "../assets/p1 (2).webp";
 import g3 from "../assets/p1 (3).webp";
 import g4 from "../assets/p1 (4).webp";
 
+/* ===================== MAP LINKS ===================== */
+export const mapLinks = {
+  vashi: "https://maps.app.goo.gl/q5mASiWVQ15ccWfv9",
+  panvel: "https://maps.app.goo.gl/bzA4sg6f4V5WCqYC7",
+  kalyan: "https://maps.app.goo.gl/py96ojscK7yXiBGdA",
+  dombivli: "https://maps.app.goo.gl/WqLpBgyhgy8eRXzV8",
+  dadar: "https://maps.app.goo.gl/quDbpjpiUJL4ML7P8",
+  goregaon: "https://maps.app.goo.gl/A96PS1qUgGTyU8CF6",
+  sion: "https://maps.app.goo.gl/ZzvMJTqN1rqAni9M9",
+  ghatkopar: "https://maps.app.goo.gl/7a97hWyEuNbAkHXS6",
+  chembur: "https://maps.app.goo.gl/Gz1JGVCbMyF2n1w48",
+  santacruz: "https://maps.app.goo.gl/juHpkFo66RefWi76A",
+  thane: "https://maps.app.goo.gl/BWT2qoniyASW1LXX8",
+};
+
 const centerData = {
   /* ===================== VASHI ===================== */
   vashi: {

@@ -3,7 +3,7 @@ import phoneIcon from "../../../assets/call (2).png";
 import locationIcon from "../../../assets/weui_location-filled.png";
 import starIcon from "../../../assets/Hearts.png";
 import { useParams } from "react-router-dom";
-import centerData from "../../../data/centerData";
+import centerData, { mapLinks } from "../../../data/centerData";
 
 const OurCenterHero = () => {
   const { slug } = useParams();
@@ -57,7 +57,7 @@ const OurCenterHero = () => {
   </div>
 
   <a
-href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(center.mapQuery)}`}
+    href={mapLinks[slug]}
     target="_blank"
     rel="noopener noreferrer"
     className="address-text"
