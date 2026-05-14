@@ -1,34 +1,10 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { areaCentreMap, centerSlugMap } from "../../../data/centerData";
 import "./BookAppointment.css";
 import doctorImg from "../../../assets/ICTC female doctor 1.png";
 import tickIcon from "../../../assets/Vector (8).png";
 import ThankYouPopup from "../../ThankYouPopup";
-
-/* ============================
-   AREA → CENTERS MAPPING
-============================ */
-const areaCentreMap = {
-  Mumbai: ["Sion", "Dadar", "Ghatkopar", "Santacruz", "Goregaon", "Chembur"],
-  "Navi Mumbai": ["Vashi", "Panvel"],
-  Thane: ["Kalyan", "Dombivli"],
-};
-
-/* ============================
-   CENTER → SLUG MAP
-============================ */
-const centerSlugMap = {
-  Sion: "sion",
-  Dadar: "dadar",
-  Ghatkopar: "ghatkopar",
-  Santacruz: "santacruz",
-  Goregaon: "goregaon",
-  Chembur: "chembur",
-  Vashi: "vashi",
-  Panvel: "panvel",
-  Kalyan: "kalyan",
-  Dombivli: "dombivli",
-};
 
 const BookAppointment = () => {
   /* ============================

@@ -103,7 +103,9 @@ function App() {
                 <RequestCallback />
               </>
             }
-          />
+          >
+            <Route path="success" element={null} />
+          </Route>
 
           {/* CENTRE DETAILS */}
           <Route
