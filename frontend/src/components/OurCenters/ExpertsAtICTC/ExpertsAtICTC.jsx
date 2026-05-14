@@ -1,30 +1,13 @@
 import "./ExpertsAtICTC.css";
 import { useParams, useNavigate } from "react-router-dom";
 import doctorData from "../../../data/doctorData";
-
-/* helper: slug → centre name */
-const centreSlugToName = (slug) => {
-  const map = {
-    vashi: "ICTC Vashi",
-    panvel: "ICTC Panvel",
-    kalyan: "ICTC Kalyan",
-    dombivli: "ICTC Dombivli",
-    sion: "ICTC Sion",
-    dadar: "ICTC Dadar",
-    goregaon: "ICTC Goregaon",
-    ghatkopar: "ICTC Ghatkopar",
-    santacruz: "ICTC Santacruz",
-    chembur: "ICTC Chembur",
-  };
-
-  return map[slug];
-};
+import { slugToCentreName } from "../../../data/cancerData";
 
 const ExpertsAtICTC = () => {
   const { slug } = useParams();          // ✅ centre slug from URL
   const navigate = useNavigate();
 
-  const centreName = centreSlugToName(slug);
+  const centreName = slugToCentreName[slug];
 
   // ✅ FILTER doctors ONLY for this centre
   const doctors = Object.values(doctorData).filter((doctor) =>

@@ -77,6 +77,21 @@ export const centerSlugMap = {
   Dombivli: "dombivli",
 };
 
+/* ===================== SLUG → CENTER NAME MAP ===================== */
+export const slugToCentreName = {
+  vashi: "ICTC Vashi",
+  panvel: "ICTC Panvel",
+  kalyan: "ICTC Kalyan",
+  dombivli: "ICTC Dombivli",
+  sion: "ICTC Sion",
+  dadar: "ICTC Dadar",
+  goregaon: "ICTC Goregaon",
+  ghatkopar: "ICTC Ghatkopar",
+  santacruz: "ICTC Santacruz",
+  chembur: "ICTC Chembur",
+  thane: "ICTC Thane",
+};
+
 /* ===================== MAP LINKS ===================== */
 export const mapLinks = {
   vashi: "https://maps.app.goo.gl/q5mASiWVQ15ccWfv9",
