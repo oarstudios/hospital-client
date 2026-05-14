@@ -1,0 +1,270 @@
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository, DataSource, In } from 'typeorm';
+
+import { Service } from './entities/service.entity';
+import { ServiceFaq } from './entities/service-faq.entity';
+
+import { CreateServiceDto, FaqItemDto } from './dto/create-service.dto';
+import { UpdateServiceDto } from './dto/update-service.dto';
+
+import { DB_CONSTANTS } from '../../common/constants/db.constants';
+import { deleteFiles } from '../../common/utils/file.util';
+
+@Injectable()
+export class ServicesService {
+  constructor(
+    @InjectRepository(Service)
+    private readonly repo: Repository<Service>,
+
+    @InjectRepository(ServiceFaq)
+    private readonly faqRepo: Repository<ServiceFaq>,
+
+    private readonly dataSource: DataSource,
+  ) {}
+
+  // ─── Helpers ──────────────────────────────────────────────────────────────
+
+  /**
+   * Parse FAQs — may arrive as:
+   *   1. Real array  (already parsed by NestJS when content-type is json)
+   *   2. JSON string '[{"question":"...","answer":"..."}]'
+   *   3. Single object string  '{"question":"...","answer":"..."}'
+   */
+  private parseFaqs(input: FaqItemDto[] | string | undefined): FaqItemDto[] {
+    if (!input) return [];
+    if (Array.isArray(input)) return input;
+
+    const str = (input as string).trim();
+
+    try {
+      const parsed = JSON.parse(str);
+      if (Array.isArray(parsed)) return parsed;
+      if (typeof parsed === 'object' && parsed !== null) return [parsed];
+    } catch {
+      // malformed — return empty to avoid crashing
+    }
+
+    return [];
+  }
+
+  /** Save (replace) FAQs for a service inside a transaction manager */
+  private async saveFaqs(
+    manager: any,
+    serviceId: number,
+    faqs: FaqItemDto[],
+  ): Promise<void> {
+    await manager.delete(ServiceFaq, { serviceId });
+
+    for (let i = 0; i < faqs.length; i++) {
+      await manager.save(ServiceFaq, {
+        serviceId,
+        question: faqs[i].question,
+        answer: faqs[i].answer,
+        sequence: i,
+      });
+    }
+  }
+
+  /** Build the full service response shape */
+  private async buildResponse(serviceId: number, manager = this.dataSource.manager) {
+    const service = await manager.findOne(Service, { where: { id: serviceId } });
+    if (!service) return null;
+
+    const faqs = await manager.find(ServiceFaq, {
+      where: { serviceId },
+      order: { sequence: 'ASC' },
+    });
+
+    return {
+      ...service,
+      faqs: faqs.map((f) => ({ question: f.question, answer: f.answer })),
+    };
+  }
+
+  // ─── CREATE ───────────────────────────────────────────────────────────────
+
+  async create(dto: CreateServiceDto, files: any) {
+    try {
+      return await this.dataSource.transaction(async (manager) => {
+        const existing = await manager.findOne(Service, {
+          where: { slug: dto.slug },
+        });
+
+        if (existing) {
+          deleteFiles(files);
+          throw new BadRequestException('Slug already exists');
+        }
+
+        const coverImageFile = files?.coverImage?.[0]?.filename;
+
+        const service = await manager.save(Service, {
+          slug: dto.slug,
+          title: dto.title,
+          altText: dto.altText,
+          seoTitle: dto.seoTitle,
+          metaDescription: dto.metaDescription,
+          content: dto.content,
+          coverImage: coverImageFile ? `/uploads/${coverImageFile}` : null,
+        });
+
+        const faqs = this.parseFaqs(dto.faqs as any);
+        await this.saveFaqs(manager, service.id, faqs);
+
+        const result = await this.buildResponse(service.id, manager);
+
+        return {
+          message: 'Service created successfully',
+          data: result,
+        };
+      });
+    } catch (error) {
+      deleteFiles(files);
+      throw error;
+    }
+  }
+
+  // ─── FIND ALL ─────────────────────────────────────────────────────────────
+
+  async findAll(isDeleted?: boolean) {
+    const filter =
+      typeof isDeleted === 'boolean' ? isDeleted : DB_CONSTANTS.IS_DELETED.NO;
+
+    const services = await this.repo.find({
+      where: { isDeleted: filter },
+      order: { createdAt: 'DESC' },
+    });
+
+    if (!services.length) {
+      return { message: 'Services fetched successfully', data: [] };
+    }
+
+    const serviceIds = services.map((s) => s.id);
+
+    const faqs = await this.faqRepo.find({
+      where: { serviceId: In(serviceIds) },
+      order: { sequence: 'ASC' },
+    });
+
+    const result = services.map((service) => ({
+      ...service,
+      faqs: faqs
+        .filter((f) => f.serviceId === service.id)
+        .map((f) => ({ question: f.question, answer: f.answer })),
+    }));
+
+    return { message: 'Services fetched successfully', data: result };
+  }
+
+  // ─── FIND ONE ─────────────────────────────────────────────────────────────
+
+  async findOne(id: number, isDeleted?: boolean) {
+    const filter =
+      typeof isDeleted === 'boolean' ? isDeleted : DB_CONSTANTS.IS_DELETED.NO;
+
+    const service = await this.repo.findOne({ where: { id, isDeleted: filter } });
+    if (!service) throw new NotFoundException('Service not found');
+
+    const result = await this.buildResponse(service.id);
+
+    return { message: 'Service fetched successfully', data: result };
+  }
+
+  // ─── FIND BY SLUG ─────────────────────────────────────────────────────────
+
+  async findBySlug(slug: string) {
+    const service = await this.repo.findOne({
+      where: { slug, isDeleted: DB_CONSTANTS.IS_DELETED.NO },
+    });
+    if (!service) throw new NotFoundException('Service not found');
+
+    const result = await this.buildResponse(service.id);
+
+    return { message: 'Service fetched successfully', data: result };
+  }
+
+  // ─── UPDATE ───────────────────────────────────────────────────────────────
+
+  async update(id: number, dto: UpdateServiceDto, files?: any) {
+    try {
+      return await this.dataSource.transaction(async (manager) => {
+        const service = await manager.findOne(Service, {
+          where: { id, isDeleted: false },
+        });
+        if (!service) throw new NotFoundException('Service not found');
+
+        // Slug uniqueness check
+        if (dto.slug && dto.slug !== service.slug) {
+          const exists = await manager.findOne(Service, {
+            where: { slug: dto.slug },
+          });
+          if (exists) throw new BadRequestException('Slug already exists');
+        }
+
+        // Replace cover image if a new one is uploaded
+        if (files?.coverImage?.[0]) {
+          service.coverImage = `/uploads/${files.coverImage[0].filename}`;
+        }
+
+        // Update scalar fields
+        const scalarFields: Array<keyof Service> = [
+          'slug',
+          'title',
+          'altText',
+          'seoTitle',
+          'metaDescription',
+          'content',
+        ];
+
+        for (const field of scalarFields) {
+          if ((dto as any)[field] !== undefined) {
+            (service as any)[field] = (dto as any)[field];
+          }
+        }
+
+        await manager.save(service);
+
+        // Replace FAQs only when provided
+        if (dto.faqs !== undefined) {
+          const faqs = this.parseFaqs(dto.faqs as any);
+          await this.saveFaqs(manager, id, faqs);
+        }
+
+        const result = await this.buildResponse(id, manager);
+
+        return { message: 'Service updated successfully', data: result };
+      });
+    } catch (error) {
+      deleteFiles(files);
+      throw error;
+    }
+  }
+
+  // ─── DELETE (soft) ────────────────────────────────────────────────────────
+
+  async remove(id: number) {
+    const service = await this.repo.findOne({ where: { id, isDeleted: false } });
+    if (!service) throw new NotFoundException('Service not found');
+
+    service.isDeleted = true;
+    await this.repo.save(service);
+
+    return { message: 'Service deleted successfully', data: [] };
+  }
+
+  // ─── RESTORE ──────────────────────────────────────────────────────────────
+
+  async restore(id: number) {
+    const service = await this.repo.findOne({ where: { id, isDeleted: true } });
+    if (!service) throw new NotFoundException('Service not found');
+
+    service.isDeleted = false;
+    await this.repo.save(service);
+
+    return { message: 'Service restored successfully', data: service };
+  }
+}

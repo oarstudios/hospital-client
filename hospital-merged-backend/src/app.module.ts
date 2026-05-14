@@ -1,8 +1,14 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
+import { AuthModule } from './auth/auth.module';
+import { User } from './auth/entities/user.entity';
+
 import { CentersModule } from './modules/centers/centers.module';
 import { DoctorsModule } from './modules/doctors/doctors.module';
+import { ServicesModule } from './modules/services/services.module';
+import { CancersModule } from './modules/cancers/cancers.module';
 
 @Module({
   imports: [
@@ -22,7 +28,9 @@ import { DoctorsModule } from './modules/doctors/doctors.module';
         password: config.get('DB_PASSWORD'),
         database: config.get('DB_NAME'),
 
-        schema: config.get('DB_SCHEMA'),
+        // Both schemas (auth + hospital) live in the same DB.
+        // Each entity declares its own schema via @Entity({ schema: '...' })
+        entities: [User],
 
         autoLoadEntities: true,
         synchronize: true,  // ❗ turn OFF in production
@@ -30,10 +38,12 @@ import { DoctorsModule } from './modules/doctors/doctors.module';
       }),
     }),
 
-
+    AuthModule,
 
     CentersModule,
-    DoctorsModule
+    DoctorsModule,
+    ServicesModule,
+    CancersModule,
 
   ],
 })
