@@ -1,7 +1,7 @@
 import "./ExpertsAtICTC.css";
 import { useParams, useNavigate } from "react-router-dom";
 import doctorData from "../../../data/doctorData";
-import { slugToCentreName } from "../../../data/cancerData";
+import { slugToCentreName } from "../../../data/centerData";
 
 const ExpertsAtICTC = () => {
   const { slug } = useParams();          // ✅ centre slug from URL
