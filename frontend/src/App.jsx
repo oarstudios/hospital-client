@@ -69,8 +69,17 @@ import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
 import AdminLayout from "./admin/AdminLayout";
 import AdminLogin from "./admin/auth/AdminLogin";
 import ProtectedRoute from "./admin/auth/ProtectedRoute";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { fetchCurrentUser } from "./redux/auth/authSlice";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchCurrentUser());
+  }, [dispatch]);
+
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith("/ctrl");
 
