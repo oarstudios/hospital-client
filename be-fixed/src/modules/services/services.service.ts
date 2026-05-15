@@ -29,37 +29,27 @@ export class ServicesService {
 
   // ─── Helpers ──────────────────────────────────────────────────────────────
 
-  /**
-   * Parse FAQs — may arrive as:
-   *   1. Real array  (already parsed by NestJS when content-type is json)
-   *   2. JSON string '[{"question":"...","answer":"..."}]'
-   *   3. Single object string  '{"question":"...","answer":"..."}'
-   */
   private parseFaqs(input: FaqItemDto[] | string | undefined): FaqItemDto[] {
     if (!input) return [];
     if (Array.isArray(input)) return input;
 
     const str = (input as string).trim();
-
     try {
       const parsed = JSON.parse(str);
       if (Array.isArray(parsed)) return parsed;
       if (typeof parsed === 'object' && parsed !== null) return [parsed];
     } catch {
-      // malformed — return empty to avoid crashing
+      // malformed
     }
-
     return [];
   }
 
-  /** Save (replace) FAQs for a service inside a transaction manager */
   private async saveFaqs(
     manager: any,
     serviceId: number,
     faqs: FaqItemDto[],
   ): Promise<void> {
     await manager.delete(ServiceFaq, { serviceId });
-
     for (let i = 0; i < faqs.length; i++) {
       await manager.save(ServiceFaq, {
         serviceId,
@@ -70,7 +60,6 @@ export class ServicesService {
     }
   }
 
-  /** Build the full service response shape */
   private async buildResponse(serviceId: number, manager = this.dataSource.manager) {
     const service = await manager.findOne(Service, { where: { id: serviceId } });
     if (!service) return null;
@@ -91,10 +80,7 @@ export class ServicesService {
   async create(dto: CreateServiceDto, files: any) {
     try {
       return await this.dataSource.transaction(async (manager) => {
-        const existing = await manager.findOne(Service, {
-          where: { slug: dto.slug },
-        });
-
+        const existing = await manager.findOne(Service, { where: { slug: dto.slug } });
         if (existing) {
           deleteFiles(files);
           throw new BadRequestException('Slug already exists');
@@ -115,12 +101,7 @@ export class ServicesService {
         const faqs = this.parseFaqs(dto.faqs as any);
         await this.saveFaqs(manager, service.id, faqs);
 
-        const result = await this.buildResponse(service.id, manager);
-
-        return {
-          message: 'Service created successfully',
-          data: result,
-        };
+        return await this.buildResponse(service.id, manager);
       });
     } catch (error) {
       deleteFiles(files);
@@ -139,9 +120,7 @@ export class ServicesService {
       order: { createdAt: 'DESC' },
     });
 
-    if (!services.length) {
-      return { message: 'Services fetched successfully', data: [] };
-    }
+    if (!services.length) return [];
 
     const serviceIds = services.map((s) => s.id);
 
@@ -150,14 +129,12 @@ export class ServicesService {
       order: { sequence: 'ASC' },
     });
 
-    const result = services.map((service) => ({
+    return services.map((service) => ({
       ...service,
       faqs: faqs
         .filter((f) => f.serviceId === service.id)
         .map((f) => ({ question: f.question, answer: f.answer })),
     }));
-
-    return { message: 'Services fetched successfully', data: result };
   }
 
   // ─── FIND ONE ─────────────────────────────────────────────────────────────
@@ -169,9 +146,7 @@ export class ServicesService {
     const service = await this.repo.findOne({ where: { id, isDeleted: filter } });
     if (!service) throw new NotFoundException('Service not found');
 
-    const result = await this.buildResponse(service.id);
-
-    return { message: 'Service fetched successfully', data: result };
+    return await this.buildResponse(service.id);
   }
 
   // ─── FIND BY SLUG ─────────────────────────────────────────────────────────
@@ -182,9 +157,7 @@ export class ServicesService {
     });
     if (!service) throw new NotFoundException('Service not found');
 
-    const result = await this.buildResponse(service.id);
-
-    return { message: 'Service fetched successfully', data: result };
+    return await this.buildResponse(service.id);
   }
 
   // ─── UPDATE ───────────────────────────────────────────────────────────────
@@ -197,27 +170,17 @@ export class ServicesService {
         });
         if (!service) throw new NotFoundException('Service not found');
 
-        // Slug uniqueness check
         if (dto.slug && dto.slug !== service.slug) {
-          const exists = await manager.findOne(Service, {
-            where: { slug: dto.slug },
-          });
+          const exists = await manager.findOne(Service, { where: { slug: dto.slug } });
           if (exists) throw new BadRequestException('Slug already exists');
         }
 
-        // Replace cover image if a new one is uploaded
         if (files?.coverImage?.[0]) {
           service.coverImage = `/uploads/${files.coverImage[0].filename}`;
         }
 
-        // Update scalar fields
         const scalarFields: Array<keyof Service> = [
-          'slug',
-          'title',
-          'altText',
-          'seoTitle',
-          'metaDescription',
-          'content',
+          'slug', 'title', 'altText', 'seoTitle', 'metaDescription', 'content',
         ];
 
         for (const field of scalarFields) {
@@ -228,15 +191,11 @@ export class ServicesService {
 
         await manager.save(service);
 
-        // Replace FAQs only when provided
         if (dto.faqs !== undefined) {
-          const faqs = this.parseFaqs(dto.faqs as any);
-          await this.saveFaqs(manager, id, faqs);
+          await this.saveFaqs(manager, id, this.parseFaqs(dto.faqs as any));
         }
 
-        const result = await this.buildResponse(id, manager);
-
-        return { message: 'Service updated successfully', data: result };
+        return await this.buildResponse(id, manager);
       });
     } catch (error) {
       deleteFiles(files);
@@ -253,7 +212,7 @@ export class ServicesService {
     service.isDeleted = true;
     await this.repo.save(service);
 
-    return { message: 'Service deleted successfully', data: [] };
+    return [];
   }
 
   // ─── RESTORE ──────────────────────────────────────────────────────────────
@@ -265,6 +224,6 @@ export class ServicesService {
     service.isDeleted = false;
     await this.repo.save(service);
 
-    return { message: 'Service restored successfully', data: service };
+    return service;
   }
 }
