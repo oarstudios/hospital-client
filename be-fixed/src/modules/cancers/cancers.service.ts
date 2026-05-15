@@ -117,9 +117,7 @@ export class CancersService {
 
         await this.saveFaqs(manager, cancer.id, this.parseFaqs(dto.faqs as any));
 
-        const result = await this.buildResponse(cancer.id, manager);
-
-        return { message: 'Cancer created successfully', data: result };
+        return await this.buildResponse(cancer.id, manager);
       });
     } catch (error) {
       deleteFiles(files);
@@ -141,7 +139,7 @@ export class CancersService {
       order: { createdAt: 'DESC' },
     });
 
-    if (!cancers.length) return { message: 'Cancers fetched successfully', data: [] };
+    if (!cancers.length) return [];
 
     const cancerIds = cancers.map((c) => c.id);
 
@@ -157,7 +155,7 @@ export class CancersService {
         .map((f) => ({ question: f.question, answer: f.answer })),
     }));
 
-    return { message: 'Cancers fetched successfully', data: result };
+    return result;
   }
 
   // ─── FIND ONE ─────────────────────────────────────────────────────────────
@@ -169,8 +167,7 @@ export class CancersService {
     const cancer = await this.repo.findOne({ where: { id, isDeleted: filter } });
     if (!cancer) throw new NotFoundException('Cancer not found');
 
-    const result = await this.buildResponse(cancer.id);
-    return { message: 'Cancer fetched successfully', data: result };
+    return await this.buildResponse(cancer.id);
   }
 
   // ─── FIND BY SLUG ─────────────────────────────────────────────────────────
@@ -181,8 +178,7 @@ export class CancersService {
     });
     if (!cancer) throw new NotFoundException('Cancer not found');
 
-    const result = await this.buildResponse(cancer.id);
-    return { message: 'Cancer fetched successfully', data: result };
+    return await this.buildResponse(cancer.id);
   }
 
   // ─── UPDATE ───────────────────────────────────────────────────────────────
@@ -225,8 +221,7 @@ export class CancersService {
           await this.saveFaqs(manager, id, this.parseFaqs(dto.faqs as any));
         }
 
-        const result = await this.buildResponse(id, manager);
-        return { message: 'Cancer updated successfully', data: result };
+        return await this.buildResponse(id, manager);
       });
     } catch (error) {
       deleteFiles(files);
@@ -243,7 +238,7 @@ export class CancersService {
     cancer.isDeleted = true;
     await this.repo.save(cancer);
 
-    return { message: 'Cancer deleted successfully', data: [] };
+    return [];
   }
 
   // ─── RESTORE ──────────────────────────────────────────────────────────────
@@ -255,6 +250,6 @@ export class CancersService {
     cancer.isDeleted = false;
     await this.repo.save(cancer);
 
-    return { message: 'Cancer restored successfully', data: cancer };
+    return cancer;
   }
 }
