@@ -143,6 +143,21 @@
 }
 
 /* ========================= */
+/* RICH CONTENT IMAGES       */
+/* ========================= */
+
+.ictc-rich-content img {
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin: 16px 0;
+  display: block;
+}
+
+/* ========================= */
 /* HELPERS */
 /* ========================= */
 

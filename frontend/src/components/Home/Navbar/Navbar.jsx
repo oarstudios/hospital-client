@@ -6,7 +6,7 @@ import logo from "../../../assets/ICTC_Logo.png";
 import arrow from "../../../assets/dropDownIcon.png";
 
 import serviceData from "../../../data/serviceData";
-import cancerData from "../../../data/cancerData";
+import { fetchCancers } from "../../../redux/cancers/cancersSlice";
 
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCenters } from "../../../redux/centers/centersSlice";
@@ -21,6 +21,7 @@ const Navbar = () => {
   const navRef = useRef(null);
 
   const { list: centersData } = useSelector((state) => state.centers);
+  const { list: cancersData } = useSelector((state) => state.cancers);
 
   const toggleMenu = (menu) => {
     setActiveMenu(activeMenu === menu ? null : menu);
@@ -35,7 +36,7 @@ const Navbar = () => {
 
   /* DYNAMIC ARRAYS */
   const centres = centersData || [];
-  const cancers = Object.entries(cancerData);
+  const cancers = cancersData || [];
 
   /* STICKY NAVBAR */
   useEffect(() => {
@@ -47,6 +48,10 @@ const Navbar = () => {
   useEffect(() => {
     if (!centersData.length) dispatch(fetchCenters());
   }, [dispatch, centersData.length]);
+
+  useEffect(() => {
+    if (!cancersData.length) dispatch(fetchCancers());
+  }, [dispatch, cancersData.length]);
 
   /* OUTSIDE CLICK CLOSE */
   useEffect(() => {
@@ -232,21 +237,27 @@ const Navbar = () => {
             headingRoute="/AllCancer"
             onNavigate={handleNavigate}
           >
-            <div className="column">
-              {cancers.slice(0, 4).map(([slug, cancer]) => (
-                <p key={slug} onClick={() => handleNavigate(`/cancer/${slug}`)}>
-                  {cancer.name || cancer.Name}
-                </p>
-              ))}
-            </div>
-
-            <div className="column">
-              {cancers.slice(4).map(([slug, cancer]) => (
-                <p key={slug} onClick={() => handleNavigate(`/cancer/${slug}`)}>
-                  {cancer.name || cancer.Name}
-                </p>
-              ))}
-            </div>
+            {(() => {
+              const mid = Math.ceil(cancers.length / 2);
+              return (
+                <>
+                  <div className="column">
+                    {cancers.slice(0, mid).map((cancer) => (
+                      <p key={cancer.id} onClick={() => handleNavigate(`/cancer/${cancer.slug}`)}>
+                        {cancer.name}
+                      </p>
+                    ))}
+                  </div>
+                  <div className="column">
+                    {cancers.slice(mid).map((cancer) => (
+                      <p key={cancer.id} onClick={() => handleNavigate(`/cancer/${cancer.slug}`)}>
+                        {cancer.name}
+                      </p>
+                    ))}
+                  </div>
+                </>
+              );
+            })()}
           </MegaDropdown>
         )}
       </div>
