@@ -1,30 +1,14 @@
-// import { Navigate } from "react-router-dom";
-
-// const ProtectedRoute = ({ children }) => {
-//   const isAdmin = localStorage.getItem("adminToken");
-
-//   if (!isAdmin) {
-//     return <Navigate to="/ctrl/login" />;
-//   }
-
-//   return children;
-// };
-
-// export default ProtectedRoute;
-
-
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated, initialized } = useSelector((state) => state.auth);
 
-  const {
-    isAuthenticated,
-    loading,
-  } = useSelector((state) => state.auth);
-
-  if (loading) {
-    return <div>Loading...</div>;
+  // Wait until fetchCurrentUser has finished before deciding to redirect.
+  // Without this check, on a page refresh the user would always be sent to
+  // /ctrl/login because isAuthenticated starts as false.
+  if (!initialized) {
+    return <div className="auth-loading">Loading...</div>;
   }
 
   if (!isAuthenticated) {

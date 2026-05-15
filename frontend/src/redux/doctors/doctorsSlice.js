@@ -16,10 +16,17 @@ export const fetchDoctors = createAsyncThunk(
   'doctors/fetchAll',
   async (params, { rejectWithValue }) => {
     try {
+
       const res = await fetchDoctorsApi(params);
+
+      console.log("FETCH DOCTORS RESPONSE:", res.data);
+
       return res.data.data;
+
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || 'Failed to fetch doctors');
+      return rejectWithValue(
+        err.response?.data?.message || 'Failed to fetch doctors'
+      );
     }
   },
 );
@@ -119,9 +126,12 @@ const doctorsSlice = createSlice({
     builder
       .addCase(fetchDoctors.pending, pending)
       .addCase(fetchDoctors.fulfilled, (state, action) => {
-        state.loading = false;
-        state.list = action.payload || [];
-      })
+  state.loading = false;
+
+  state.list = Array.isArray(action.payload)
+    ? action.payload
+    : [];
+})
       .addCase(fetchDoctors.rejected, rejected);
 
     // fetchById / fetchBySlug
@@ -145,9 +155,16 @@ const doctorsSlice = createSlice({
     builder
       .addCase(createDoctor.pending, pending)
       .addCase(createDoctor.fulfilled, (state, action) => {
-        state.loading = false;
-        if (action.payload) state.list.unshift(action.payload);
-      })
+  state.loading = false;
+
+  if (!Array.isArray(state.list)) {
+    state.list = [];
+  }
+
+  if (action.payload) {
+    state.list.unshift(action.payload);
+  }
+})
       .addCase(createDoctor.rejected, rejected);
 
     // update

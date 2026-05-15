@@ -1,50 +1,7 @@
-// import { useNavigate } from "react-router-dom";
-// import { useState } from "react";
-// import "./AdminLogin.css"
-
-// const AdminLogin = () => {
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const navigate = useNavigate();
-
-//   const handleLogin = () => {
-//     if (email === "admin@ictc.com" && password === "123456") {
-//       localStorage.setItem("adminToken", "true");
-//       navigate("/ctrl");
-//     } else {
-//       alert("Invalid Credentials");
-//     }
-//   };
-
-//   return (
-//   <div className="admin-login-container">
-//     <div className="admin-login-box">
-//       <h2>Admin Login</h2>
-
-//       <input
-//         type="email"
-//         placeholder="Email"
-//         onChange={(e) => setEmail(e.target.value)}
-//       />
-
-//       <input
-//         type="password"
-//         placeholder="Password"
-//         onChange={(e) => setPassword(e.target.value)}
-//       />
-
-//       <button onClick={handleLogin}>Login</button>
-//     </div>
-//   </div>
-// );
-// };
-
-// export default AdminLogin;
-
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../redux/auth/authSlice";
+import { loginUser, fetchCurrentUser } from "../../redux/auth/authSlice";
 import "./AdminLogin.css";
 
 const AdminLogin = () => {
@@ -58,18 +15,19 @@ const AdminLogin = () => {
     (state) => state.auth
   );
 
- const handleLogin = async () => {
-  if (!username || !password) {
-    return alert("Please fill all fields");
-  }
+  const handleLogin = async () => {
+    if (!username || !password) {
+      return alert("Please fill all fields");
+    }
 
-  await dispatch(
-    loginUser({
-      username,
-      password,
-    })
-  );
-};
+    const result = await dispatch(loginUser({ username, password }));
+
+    // After a successful login the cookie is set — fetch the user object
+    // so state.auth.user is populated before the redirect
+    if (loginUser.fulfilled.match(result)) {
+      await dispatch(fetchCurrentUser());
+    }
+  };
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -87,6 +45,7 @@ const AdminLogin = () => {
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleLogin()}
         />
 
         <input
@@ -94,6 +53,7 @@ const AdminLogin = () => {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleLogin()}
         />
 
         {error && <p className="error-text">{error}</p>}
