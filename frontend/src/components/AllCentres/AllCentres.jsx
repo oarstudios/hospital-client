@@ -34,8 +34,8 @@ const AllCentres = () => {
   const [centres, setCentres] = useState([]);
 
   useEffect(() => {
-    dispatch(fetchCenters());
-  }, [dispatch]);
+    if (!centersData || !centersData.length) dispatch(fetchCenters());
+  }, [dispatch, centersData]);
 
   useEffect(() => {
     const allCentres = centersData || [];

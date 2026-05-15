@@ -45,8 +45,8 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(fetchCenters());
-  }, [dispatch]);
+    if (!centersData.length) dispatch(fetchCenters());
+  }, [dispatch, centersData.length]);
 
   /* OUTSIDE CLICK CLOSE */
   useEffect(() => {

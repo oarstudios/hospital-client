@@ -31,7 +31,7 @@ const DoctorDetailPage = () => {
   // Fetch centers list if not already loaded (needed to resolve centreIds → name/phone)
   useEffect(() => {
     if (!centers.length) dispatch(fetchCenters());
-  }, [dispatch, centers.length]);
+  }, [dispatch]);
 
   if (loading) return <div style={{ padding: "80px", textAlign: "center" }}>Loading...</div>;
   if (error) return <div style={{ padding: "80px", textAlign: "center" }}>Error: {error}</div>;
@@ -41,8 +41,8 @@ const DoctorDetailPage = () => {
     <>
       <DoctorBreadcrumb doctor={doctor} />
       <DoctorProfile doctor={doctor} centers={centers} />
-      <PatientTestimonials />
       <PatientStoriesEmbed doctor={doctor} />
+      <PatientTestimonials />
       <OurNetworkOfCare />
       <RequestCallback />
     </>

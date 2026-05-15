@@ -16,7 +16,6 @@ export const fetchCenters = createAsyncThunk(
   async (params, { rejectWithValue }) => {
     try {
       const res = await fetchCentersApi(params);
-      console.log("Fetched centers:", res.data.data);
       return res.data.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || 'Failed to fetch centers');
