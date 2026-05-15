@@ -1,19 +1,13 @@
 import "../../OurCenters/CenterBreadcrumb/CenterBreadcrumb.css";
 import homeIcon from "../../../assets/mdi-light_home.png";
-import { useNavigate, useParams } from "react-router-dom";
-import doctorData from "../../../data/doctorData";
+import { useNavigate } from "react-router-dom";
 
-const DoctorBreadcrumb = () => {
+const DoctorBreadcrumb = ({ doctor }) => {
   const navigate = useNavigate();
-  const { slug } = useParams();
-
-  const doctor = doctorData[slug];
-  const doctorName = doctor?.name || "Doctor Profile";
 
   return (
     <nav className="center-breadcrumb">
       <div className="center-breadcrumb__content">
-        {/* HOME */}
         <img
           src={homeIcon}
           alt="home"
@@ -24,7 +18,6 @@ const DoctorBreadcrumb = () => {
 
         <span className="center-breadcrumb__sep">›</span>
 
-        {/* DOCTORS LIST */}
         <span
           className="center-breadcrumb__text"
           style={{ cursor: "pointer" }}
@@ -35,9 +28,8 @@ const DoctorBreadcrumb = () => {
 
         <span className="center-breadcrumb__sep">›</span>
 
-        {/* CURRENT DOCTOR */}
         <span className="center-breadcrumb__current">
-          {doctorName}
+          {doctor?.name || "Doctor Profile"}
         </span>
       </div>
     </nav>

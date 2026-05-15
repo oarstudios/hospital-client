@@ -2,14 +2,9 @@ import "./OurCenterHero.css";
 import phoneIcon from "../../../assets/call (2).png";
 import locationIcon from "../../../assets/weui_location-filled.png";
 import starIcon from "../../../assets/Hearts.png";
-import { useParams } from "react-router-dom";
-import centerData, { mapLinks } from "../../../data/centerData";
+import imgSrc from "../../Common/ImgSrc";
 
-const OurCenterHero = () => {
-  const { slug } = useParams();
-
-  const center = centerData[slug];
-
+const OurCenterHero = ({ center }) => {
   if (!center) return null;
 
   return (
@@ -17,12 +12,14 @@ const OurCenterHero = () => {
       {/* HERO IMAGE */}
       <div
         className="hero-banner"
-        style={{ backgroundImage: `url(${center.heroBg})` }}
+        style={{
+          backgroundImage: `url(${imgSrc(center.heroImage)})`,
+        }}
       />
 
       {/* INFO SECTION */}
       <div className="center-info">
-        <h2>{center.fullName}</h2>
+        <h2>{center.fullName || center.name}</h2>
 
         {/* RATING */}
         <div className="rating-row">
@@ -30,7 +27,6 @@ const OurCenterHero = () => {
             {[1, 2, 3, 4, 5].map((i) => (
               <img key={i} src={starIcon} alt="star" />
             ))}
-            {/* <img src={starIcon} alt="half-star" className="dim" /> */}
           </div>
 
           <span className="rating-text">
@@ -42,30 +38,32 @@ const OurCenterHero = () => {
 
         {/* PHONE */}
         <div className="contact-row">
-  <img src={phoneIcon} alt="phone" />
-  <a href={`tel:${center.phone}`} className="phone">
-    {center.phone}
-  </a>
-</div>
-
+          <img src={phoneIcon} alt="phone" />
+          <a href={`tel:${center.phone}`} className="phone">
+            {center.phone}
+          </a>
+        </div>
 
         {/* ADDRESS */}
         <div className="address-block">
-  <div className="address-title">
-    <img src={locationIcon} alt="location" />
-    <span className="addTitle">Address:</span>
-  </div>
+          <div className="address-title">
+            <img src={locationIcon} alt="location" />
+            <span className="addTitle">Address:</span>
+          </div>
 
-  <a
-    href={mapLinks[slug]}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="address-text"
-  >
-    {center.address}
-  </a>
-</div>
-
+          <a
+            href={
+              center.mapQuery
+                ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(center.mapQuery)}`
+                : center.mapEmbed || "#"
+            }
+            target="_blank"
+            rel="noopener noreferrer"
+            className="address-text"
+          >
+            {center.address}
+          </a>
+        </div>
 
         {/* TIMING */}
         <p className="timing">{center.timing}</p>

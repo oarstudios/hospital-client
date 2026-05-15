@@ -1,13 +1,20 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDoctors } from "../../../redux/doctors/doctorsSlice";
+import imgSrc from "../../Common/ImgSrc";
 import "./MeetOurExperts.css";
-import doctorData from "../../../data/doctorData";
 
 const MeetOurExperts = () => {
   const sliderRef = useRef(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const doctors = Object.values(doctorData);
+  const { list: doctors } = useSelector((state) => state.doctors);
+
+  useEffect(() => {
+    if (!doctors.length) dispatch(fetchDoctors());
+  }, [dispatch, doctors.length]);
 
   const scrollLeft = () => {
     sliderRef.current.scrollBy({ left: -350, behavior: "smooth" });
@@ -17,7 +24,6 @@ const MeetOurExperts = () => {
     sliderRef.current.scrollBy({ left: 350, behavior: "smooth" });
   };
 
-  /* 🔹 CARD CLICK HANDLER */
   const goToDoctorProfile = (slug) => {
     navigate(`/doctor/${slug}`);
   };
@@ -39,7 +45,7 @@ const MeetOurExperts = () => {
         {doctors.map((doc) => (
           <div
             className="doctor-card-home"
-            key={doc.slug}
+            key={doc.id}
             onClick={() => goToDoctorProfile(doc.slug)}
             role="button"
             tabIndex={0}
@@ -49,13 +55,13 @@ const MeetOurExperts = () => {
           >
             {/* IMAGE + HOVER */}
             <div className="doctor-img-wrapper">
-              <img src={doc.image} alt={doc.name} />
+              <img src={imgSrc(doc.image)} alt={doc.name} />
 
               <div className="doctor-hover">
                 <button
                   className="view-profile-btn"
                   onClick={(e) => {
-                    e.stopPropagation(); // ✅ prevent double navigation
+                    e.stopPropagation();
                     goToDoctorProfile(doc.slug);
                   }}
                 >
@@ -67,16 +73,14 @@ const MeetOurExperts = () => {
             {/* CONTENT */}
             <div className="doctor-content">
               <h3>{doc.name}</h3>
-              {/* <p>{doc.qualification}</p> */}
               <p className="doctor-qualification">
-  {doc.qualification.split(",").map((item, index) => (
-    <span key={index}>
-      {item.trim()}
-      <br />
-    </span>
-  ))}
-</p>
-
+                {(doc.qualification || "").split(",").map((item, index) => (
+                  <span key={index}>
+                    {item.trim()}
+                    <br />
+                  </span>
+                ))}
+              </p>
             </div>
 
             {/* TAG */}

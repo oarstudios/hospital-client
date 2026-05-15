@@ -1,12 +1,7 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 import "./BookAppointmentCenter.css";
-import centerData from "../../../data/centerData";
 
-const BookAppointmentCenter = () => {
-  const { slug } = useParams();
-  const center = centerData[slug];
-
+const BookAppointmentCenter = ({ center }) => {
   const [form, setForm] = useState({
     name: "",
     age: "",

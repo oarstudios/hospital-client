@@ -1,11 +1,9 @@
 import "./CenterGallery.css";
-import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import centerData from "../../../data/centerData";
+import imgSrc from "../../Common/ImgSrc";
 
-const CenterGallery = () => {
-  const { slug } = useParams();
-  const images = centerData[slug]?.gallery || [];
+const CenterGallery = ({ center }) => {
+  const images = (center?.gallery || []).map((img) => imgSrc(img));
 
   const [activeIndex, setActiveIndex] = useState(null);
 
@@ -24,6 +22,8 @@ const CenterGallery = () => {
     return () => window.removeEventListener("keydown", handleEsc);
   }, []);
 
+  if (!images.length) return null;
+
   return (
     <section className="center-gallery">
       <h2 className="center-gallery__title">Gallery</h2>
@@ -40,7 +40,7 @@ const CenterGallery = () => {
         ))}
       </div>
 
-      {/* ===== MODAL ===== */}
+      {/* MODAL */}
       {activeIndex !== null && (
         <div className="gallery-modal" onClick={closeModal}>
           <div
@@ -53,16 +53,10 @@ const CenterGallery = () => {
 
             {images.length > 1 && (
               <>
-                <button
-                  className="gallery-modal__nav left"
-                  onClick={showPrev}
-                >
+                <button className="gallery-modal__nav left" onClick={showPrev}>
                   ‹
                 </button>
-                <button
-                  className="gallery-modal__nav right"
-                  onClick={showNext}
-                >
+                <button className="gallery-modal__nav right" onClick={showNext}>
                   ›
                 </button>
               </>

@@ -1,7 +1,9 @@
 import "./AllCentres.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import centerData from "../../data/centerData";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCenters } from "../../redux/centers/centersSlice";
+import imgSrc from "../Common/ImgSrc";
 
 /* ICONS */
 import callIcon from "../../assets/fluent_call-12-filled.png";
@@ -26,15 +28,20 @@ const getDistanceInKm = (lat1, lon1, lat2, lon2) => {
 
 const AllCentres = () => {
   const navigate = useNavigate();
-  const [centres, setCentres] = useState(() =>
-    Object.values(centerData)
-  );
+  const dispatch = useDispatch();
+
+  const { list: centersData } = useSelector((state) => state.centers);
+  const [centres, setCentres] = useState([]);
 
   useEffect(() => {
-    const allCentres = Object.values(centerData);
+    dispatch(fetchCenters());
+  }, [dispatch]);
 
-    // If geolocation not supported
+  useEffect(() => {
+    const allCentres = centersData || [];
+
     if (!navigator.geolocation) {
+      setCentres(allCentres);
       return;
     }
 
@@ -45,38 +52,35 @@ const AllCentres = () => {
         const sorted = allCentres
           .map((centre) => ({
             ...centre,
-            distance: getDistanceInKm(
-              latitude,
-              longitude,
-              centre.lat,
-              centre.lng
-            ),
+            distance:
+              centre.lat && centre.lng
+                ? getDistanceInKm(latitude, longitude, centre.lat, centre.lng)
+                : null,
           }))
-          .sort((a, b) => a.distance - b.distance);
+          .sort((a, b) => {
+            if (!a.distance) return 1;
+            if (!b.distance) return -1;
+            return a.distance - b.distance;
+          });
 
         setCentres(sorted);
       },
       () => {
-        // Permission denied or error
         setCentres(allCentres);
       }
     );
-  }, []);
+  }, [centersData]);
 
   return (
     <section className="ictc-centres-page">
-      <h2 className="ictc-centres-title">
-        ICTC Cancer Care Centres
-      </h2>
+      <h2 className="ictc-centres-title">ICTC Cancer Care Centres</h2>
 
       <div className="ictc-centres-list">
         {centres.map((centre) => (
           <article
             className="ictc-centre-card"
-            key={centre.slug}
-            onClick={() =>
-              navigate(`/centre/${centre.slug}`)
-            }
+            key={centre.id || centre.slug}
+            onClick={() => navigate(`/centre/${centre.id}`)}
             style={{ cursor: "pointer" }}
           >
             {/* MAP */}
@@ -114,15 +118,10 @@ const AllCentres = () => {
                 <img src={starIcon} alt="rating" />
                 <img src={starIcon} alt="rating" />
 
-                <span className="rating-score">
-                  {centre.rating}
-                </span>
+                <span className="rating-score">{centre.rating}</span>
                 <span className="rating-sep">|</span>
-                <span className="rating-count">
-                  {centre.reviews}
-                </span>
+                <span className="rating-count">{centre.reviews}</span>
 
-                {/* OPTIONAL: show distance */}
                 {centre.distance && (
                   <span className="centre-distance">
                     • {centre.distance.toFixed(1)} km away
@@ -131,30 +130,21 @@ const AllCentres = () => {
               </div>
 
               {/* ADDRESS */}
-              <p className="ictc-centre-address">
-                {centre.address}
-              </p>
+              <p className="ictc-centre-address">{centre.address}</p>
 
               {/* FOOTER */}
               <div className="ictc-centre-footer">
                 <div className="ictc-centre-phone">
                   <img src={callIcon} alt="Call" />
                   <a
-                    href={`tel:${centre.phone.replace(
-                      /\s/g,
-                      ""
-                    )}`}
-                    onClick={(e) =>
-                      e.stopPropagation()
-                    }
+                    href={`tel:${centre.phone?.replace(/\s/g, "")}`}
+                    onClick={(e) => e.stopPropagation()}
                   >
                     {centre.phone}
                   </a>
                 </div>
 
-                <span className="ictc-centre-time">
-                  {centre.timing}
-                </span>
+                <span className="ictc-centre-time">{centre.timing}</span>
               </div>
             </div>
           </article>

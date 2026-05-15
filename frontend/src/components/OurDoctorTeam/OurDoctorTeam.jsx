@@ -1,14 +1,16 @@
 import "./OurDoctorTeam.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import doctorData from "../../data/doctorData";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDoctors } from "../../redux/doctors/doctorsSlice";
+import imgSrc from "../Common/ImgSrc";
 import arrowIcon from "../../assets/cuida_dropdown-outline.png";
 
 const faqs = [
   {
     question: "Can chemotherapy be used to treat cancer?",
     answer:
-      "Most patients don’t feel any pain while receiving treatment, especially if they’re taking tablets or using cream topically.",
+      "Most patients don't feel any pain while receiving treatment, especially if they're taking tablets or using cream topically.",
   },
   {
     question: "Does receiving chemotherapy hurt?",
@@ -25,10 +27,14 @@ const faqs = [
 const OurDoctorTeam = () => {
   const [activeIndex, setActiveIndex] = useState(2);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const doctors = Object.values(doctorData);
+  const { list: doctors } = useSelector((state) => state.doctors);
 
-  /* 🔹 CARD NAVIGATION HANDLER */
+  useEffect(() => {
+    dispatch(fetchDoctors());
+  }, [dispatch]);
+
   const goToDoctorProfile = (slug) => {
     navigate(`/doctor/${slug}`);
   };
@@ -37,32 +43,28 @@ const OurDoctorTeam = () => {
     <section className="our-doctor-team">
       <h2 className="our-doctor-team-title">Our Doctor Team</h2>
 
-      {/* ===================== */}
       {/* DOCTOR GRID */}
-      {/* ===================== */}
       <div className="our-doctor-team-grid">
         {doctors.map((doc) => (
           <div
             className="doctor-card-home"
-            key={doc.slug}
+            key={doc.id}
             role="button"
             tabIndex={0}
             onClick={() => goToDoctorProfile(doc.slug)}
             onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                goToDoctorProfile(doc.slug);
-              }
+              if (e.key === "Enter") goToDoctorProfile(doc.slug);
             }}
           >
             {/* IMAGE + HOVER */}
             <div className="doctor-img-wrapper">
-              <img src={doc.image} alt={doc.name} />
+              <img src={imgSrc(doc.image)} alt={doc.name} />
 
               <div className="doctor-hover">
                 <button
                   className="view-profile-btn"
                   onClick={(e) => {
-                    e.stopPropagation(); // ✅ prevent double navigation
+                    e.stopPropagation();
                     goToDoctorProfile(doc.slug);
                   }}
                 >
@@ -74,14 +76,14 @@ const OurDoctorTeam = () => {
             {/* CONTENT */}
             <div className="doctor-content">
               <h3>{doc.name}</h3>
-          <p className="doctor-qualification">
-  {doc.qualification.split(",").map((item, index) => (
-    <span key={index}>
-      {item.trim()}
-      <br />
-    </span>
-  ))}
-</p>
+              <p className="doctor-qualification">
+                {(doc.qualification || "").split(",").map((item, index) => (
+                  <span key={index}>
+                    {item.trim()}
+                    <br />
+                  </span>
+                ))}
+              </p>
             </div>
 
             {/* TAG */}
@@ -90,11 +92,9 @@ const OurDoctorTeam = () => {
         ))}
       </div>
 
-      {/* ===================== */}
       {/* FAQ SECTION */}
-      {/* ===================== */}
       <div className="ictc-service-faq">
-        <h2>FAQ’s</h2>
+        <h2>FAQ's</h2>
 
         {faqs.map((faq, index) => {
           const isActive = activeIndex === index;
@@ -102,16 +102,11 @@ const OurDoctorTeam = () => {
           return (
             <div
               key={index}
-              className={`ictc-faq-item ${
-                isActive ? "ictc-faq-active" : ""
-              }`}
-              onClick={() =>
-                setActiveIndex(isActive ? -1 : index)
-              }
+              className={`ictc-faq-item ${isActive ? "ictc-faq-active" : ""}`}
+              onClick={() => setActiveIndex(isActive ? -1 : index)}
             >
               <div className="ictc-faq-question">
                 <span>{faq.question}</span>
-
                 <img
                   src={arrowIcon}
                   className={isActive ? "rotate" : ""}
@@ -120,9 +115,7 @@ const OurDoctorTeam = () => {
               </div>
 
               {isActive && (
-                <div className="ictc-faq-answer">
-                  {faq.answer}
-                </div>
+                <div className="ictc-faq-answer">{faq.answer}</div>
               )}
             </div>
           );

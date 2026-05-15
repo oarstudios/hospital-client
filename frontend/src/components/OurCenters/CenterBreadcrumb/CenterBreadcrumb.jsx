@@ -1,13 +1,9 @@
 import "./CenterBreadcrumb.css";
 import homeIcon from "../../../assets/mdi-light_home.png";
-import { useParams, useNavigate } from "react-router-dom";
-import centerData from "../../../data/centerData";
+import { useNavigate } from "react-router-dom";
 
-const CenterBreadcrumb = () => {
-  const { slug } = useParams();
+const CenterBreadcrumb = ({ center }) => {
   const navigate = useNavigate();
-
-  const center = centerData[slug];
 
   return (
     <nav className="center-breadcrumb">
@@ -33,7 +29,7 @@ const CenterBreadcrumb = () => {
         <span className="center-breadcrumb__sep">›</span>
 
         <span className="center-breadcrumb__current">
-          {center?.fullName}
+          {center?.fullName || center?.name}
         </span>
       </div>
     </nav>

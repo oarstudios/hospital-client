@@ -1,13 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
 import "./PatientStoriesEmbed.css";
 import NewsFromExperts from "../../Home/NewsFromExperts/NewsFromExperts";
-import doctorData from "../../../data/doctorData";
 
-const PatientStoriesEmbed = () => {
-  const { slug } = useParams();
-  const doctor = doctorData[slug];
-
+const PatientStoriesEmbed = ({ doctor }) => {
   const posts = doctor?.stories || [];
 
   const [index, setIndex] = useState(0);
@@ -16,9 +11,6 @@ const PatientStoriesEmbed = () => {
   const startX = useRef(0);
   const autoPlayRef = useRef(null);
   const isPaused = useRef(false);
-
-  /* If no stories, don't render section */
-  if (!posts.length) return null;
 
   /* Responsive visible slides */
   useEffect(() => {
@@ -39,6 +31,9 @@ const PatientStoriesEmbed = () => {
       if (window.instgrm) window.instgrm.Embeds.process();
     }, 400);
   }, [index]);
+
+  /* If no stories, don't render */
+  if (!posts.length) return null;
 
   const maxIndex = Math.max(posts.length - visibleCount, 0);
 

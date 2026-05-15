@@ -28,9 +28,6 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
         username: config.get('DB_USERNAME'),
         password: config.get('DB_PASSWORD'),
         database: config.get('DB_NAME'),
-
-        // Both schemas (auth + hospital) live in the same DB.
-        // Each entity declares its own schema via @Entity({ schema: '...' })
         entities: [User],
 
         autoLoadEntities: true,

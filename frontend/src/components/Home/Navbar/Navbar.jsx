@@ -5,10 +5,11 @@ import "./Navbar.css";
 import logo from "../../../assets/ICTC_Logo.png";
 import arrow from "../../../assets/dropDownIcon.png";
 
-/* 🔹 DATA */
-import centerData from "../../../data/centerData";
 import serviceData from "../../../data/serviceData";
 import cancerData from "../../../data/cancerData";
+
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCenters } from "../../../redux/centers/centersSlice";
 
 const Navbar = () => {
   const [activeMenu, setActiveMenu] = useState(null);
@@ -16,32 +17,38 @@ const Navbar = () => {
   const [sticky, setSticky] = useState(false);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const navRef = useRef(null);
+
+  const { list: centersData } = useSelector((state) => state.centers);
 
   const toggleMenu = (menu) => {
     setActiveMenu(activeMenu === menu ? null : menu);
   };
 
-  /* ✅ SINGLE PLACE NAVIGATION HANDLER */
+  /* SINGLE PLACE NAVIGATION HANDLER */
   const handleNavigate = (path) => {
     navigate(path);
     setActiveMenu(null);
     setMobileOpen(false);
   };
 
-  /* 🔹 DYNAMIC ARRAYS */
-  const centres = Object.values(centerData);
-
+  /* DYNAMIC ARRAYS */
+  const centres = centersData || [];
   const cancers = Object.entries(cancerData);
 
-  /* 🔹 STICKY NAVBAR */
+  /* STICKY NAVBAR */
   useEffect(() => {
     const onScroll = () => setSticky(window.scrollY > 80);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* 🔹 OUTSIDE CLICK CLOSE */
+  useEffect(() => {
+    dispatch(fetchCenters());
+  }, [dispatch]);
+
+  /* OUTSIDE CLICK CLOSE */
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (navRef.current && !navRef.current.contains(e.target)) {
@@ -56,13 +63,11 @@ const Navbar = () => {
   const groupedServices = Object.entries(serviceData).reduce(
     (acc, [slug, service]) => {
       const category = service.category || "Other Services";
-
       if (!acc[category]) acc[category] = [];
       acc[category].push({ slug, name: service.name });
-
       return acc;
     },
-    {},
+    {}
   );
 
   return (
@@ -159,36 +164,28 @@ const Navbar = () => {
         </div>
 
         {/* SERVICES DROPDOWN */}
-     
-{activeMenu === "services" && (
-  <MegaDropdown
-    heading="SERVICES"
-    headingRoute="/AllService"
-    onNavigate={handleNavigate}
-  >
-    {Object.entries(groupedServices).map(([section, items]) => (
-      <div className="column" key={section}>
-        {/* SECTION HEADING */}
-        <h4 className="dropdown-section-title">
-          {section}
-        </h4>
-
-        {/* SECTION ITEMS */}
-        {items.map((item) => (
-          <p
-            key={item.slug}
-            onClick={() =>
-              handleNavigate(`/service/${item.slug}`)
-            }
+        {activeMenu === "services" && (
+          <MegaDropdown
+            heading="SERVICES"
+            headingRoute="/AllService"
+            onNavigate={handleNavigate}
           >
-            {item.name}
-          </p>
-        ))}
-      </div>
-    ))}
-  </MegaDropdown>
-)}
+            {Object.entries(groupedServices).map(([section, items]) => (
+              <div className="column" key={section}>
+                <h4 className="dropdown-section-title">{section}</h4>
 
+                {items.map((item) => (
+                  <p
+                    key={item.slug}
+                    onClick={() => handleNavigate(`/service/${item.slug}`)}
+                  >
+                    {item.name}
+                  </p>
+                ))}
+              </div>
+            ))}
+          </MegaDropdown>
+        )}
 
         {/* CENTRES DROPDOWN */}
         {activeMenu === "centres" && (
@@ -204,8 +201,8 @@ const Navbar = () => {
                   <div className="column">
                     {centres.slice(0, mid).map((center) => (
                       <p
-                        key={center.slug}
-                        onClick={() => handleNavigate(`/centre/${center.slug}`)}
+                        key={center.id || center.slug}
+                        onClick={() => handleNavigate(`/centre/${center.id}`)}
                       >
                         {center.name}
                       </p>
@@ -215,8 +212,8 @@ const Navbar = () => {
                   <div className="column">
                     {centres.slice(mid).map((center) => (
                       <p
-                        key={center.slug}
-                        onClick={() => handleNavigate(`/centre/${center.slug}`)}
+                        key={center.id || center.slug}
+                        onClick={() => handleNavigate(`/centre/${center.id}`)}
                       >
                         {center.name}
                       </p>
@@ -238,8 +235,7 @@ const Navbar = () => {
             <div className="column">
               {cancers.slice(0, 4).map(([slug, cancer]) => (
                 <p key={slug} onClick={() => handleNavigate(`/cancer/${slug}`)}>
-               {cancer.name || cancer.Name}
-
+                  {cancer.name || cancer.Name}
                 </p>
               ))}
             </div>
@@ -247,8 +243,7 @@ const Navbar = () => {
             <div className="column">
               {cancers.slice(4).map(([slug, cancer]) => (
                 <p key={slug} onClick={() => handleNavigate(`/cancer/${slug}`)}>
-               {cancer.name || cancer.Name}
-
+                  {cancer.name || cancer.Name}
                 </p>
               ))}
             </div>

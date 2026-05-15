@@ -1,12 +1,7 @@
 import "./CenterDescription.css";
-import { useParams } from "react-router-dom";
-import centerData from "../../../data/centerData";
+import imgSrc from "../../Common/ImgSrc";
 
-const CenterDescription = () => {
-  const { slug } = useParams();
-
-  const center = centerData[slug];
-
+const CenterDescription = ({ center }) => {
   if (!center) return null;
 
   return (
@@ -16,14 +11,14 @@ const CenterDescription = () => {
         <div className="center-desc-content">
           <h2>{`Cancer Care at ${center.name}`}</h2>
 
-          {center.description.map((text, index) => (
+          {(center.description || []).map((text, index) => (
             <p key={index}>{text}</p>
           ))}
         </div>
 
         {/* RIGHT IMAGE */}
         <div className="center-desc-image">
-          <img src={center.image} alt={center.name} />
+          <img src={imgSrc(center.centerImage)} alt={center.name} />
         </div>
       </div>
     </section>
