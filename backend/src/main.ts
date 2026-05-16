@@ -12,27 +12,26 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import * as fs from 'fs';
 import cookieParser from 'cookie-parser';
+import { DataSource } from 'typeorm';
+import { seedBlogTags } from './database/seeders/blog-tags.seeder';
 
 async function bootstrap() {
 
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-
-   app.enableCors({
+  app.enableCors({
     origin: ['http://localhost:5173', 'http://localhost:5174'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   });
-  
-
 
   const configService = app.get(ConfigService);
 
-  // ✅ Cookie parser — required for JWT cookie extraction
+  // ✅ Cookie parser
   app.use(cookieParser());
 
-  // ✅ Serve uploads folder — use process.cwd() to match multer's diskStorage destination
+  // ✅ Serve uploads folder
   const uploadPath = join(process.cwd(), 'uploads');
   if (!fs.existsSync(uploadPath)) {
     fs.mkdirSync(uploadPath, { recursive: true });
@@ -57,6 +56,10 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
+
+  // ✅ Run seeders
+  const dataSource = app.get(DataSource);
+  await seedBlogTags(dataSource);
 
   // ✅ Port from env
   const port = configService.get<number>('PORT', 3000);

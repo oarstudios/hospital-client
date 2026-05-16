@@ -36,7 +36,10 @@ const multerOptions = {
       const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1e9);
       cb(null, uniqueName + extname(file.originalname));
     },
+    
   }),
+
+  limits: { fieldSize: Infinity },
 };
 
 @ApiTags('Doctors')
