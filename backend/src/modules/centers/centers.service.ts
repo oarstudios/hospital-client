@@ -371,9 +371,8 @@ export class CentersService {
         });
 
         if (descIds.length) {
-          await manager.delete(Description, descIds as any);
-        }
-
+  await manager.delete(Description, { id: In(descIds) });
+}
         const descArray = this.normalizeDescription(dto.description);
 
         let index = 0;
@@ -403,16 +402,17 @@ export class CentersService {
         });
 
         if (imageIds.length) {
-          const oldImages = await manager.findBy(Image, {
-            id: imageIds as any,
-          });
+           const oldImages = await manager.findBy(Image, {
+    id: In(imageIds),
+  });
 
           oldImages.forEach((img) => {
             const filename = img.url.replace('/uploads/', '');
             deleteFiles({ gallery: [{ filename }] });
           });
 
-          await manager.delete(Image, imageIds as any);
+         
+  await manager.delete(Image, { id: In(imageIds) });
         }
 
         let index = 0;
