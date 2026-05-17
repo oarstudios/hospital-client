@@ -44,7 +44,7 @@ async function bootstrap() {
   // ✅ Global configs
   app.useGlobalInterceptors(new ResponseInterceptor());
   app.useGlobalFilters(new HttpExceptionFilter());
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true, forbidNonWhitelisted: false }));
 
   // ✅ Swagger setup
   const config = new DocumentBuilder()
