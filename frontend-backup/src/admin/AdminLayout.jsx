@@ -8,6 +8,7 @@ import ManageDoctors from "./pages/ManageDoctors";
 import ManageBlogs from "./pages/ManageBlogs";
 import ManageCancers from "./pages/ManageCancers";
 import ManageServices from "./pages/ManageServices";
+import ManageServiceCategories from "./pages/ManageServiceCategories";
 import ManageTestimonials from "./pages/ManageTestimonials";
 import ManageAppointments from "./pages/ManageAppointments";
 
@@ -29,6 +30,7 @@ const AdminLayout = () => {
             <Route path="blogs" element={<ManageBlogs />} />
             <Route path="cancers" element={<ManageCancers />} />
             <Route path="services" element={<ManageServices />} />
+            <Route path="service-categories" element={<ManageServiceCategories />} />
             <Route path="testimonials" element={<ManageTestimonials />} />
             <Route path="appointments" element={<ManageAppointments />} />
           </Routes>
