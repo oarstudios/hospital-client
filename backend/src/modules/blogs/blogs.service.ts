@@ -32,20 +32,15 @@ export class BlogsService {
     private readonly dataSource: DataSource,
   ) {}
 
-  // ─── Private helpers ─────────────────────────────────────────────────────
-
-  /** Attach tags[] to an array of blog rows in one query */
   private async attachTags(blogs: Blog[]) {
     if (!blogs.length) return [];
 
     const blogIds = blogs.map((b) => b.id);
 
-    // Get all blog_tags rows for these blogs
     const blogTags = await this.tagRepo.find({
       where: { blogId: In(blogIds) },
     });
 
-    // Get all tag master records for those tagIds
     const tagIds = [...new Set(blogTags.map((bt) => bt.tagId))];
     const masterTags = tagIds.length
       ? await this.masterTagRepo.find({ where: { id: In(tagIds) } })
@@ -53,7 +48,6 @@ export class BlogsService {
 
     return blogs.map((blog) => ({
       ...blog,
-      // Return full tag objects { id, tag } so frontend can map them
       tags: blogTags
         .filter((bt) => bt.blogId === blog.id)
         .map((bt) => masterTags.find((mt) => mt.id === bt.tagId))
@@ -70,8 +64,6 @@ export class BlogsService {
     }
   }
 
-  // ─── CREATE ───────────────────────────────────────────────────────────────
-
   async create(dto: CreateBlogDto, files: any) {
     return await this.dataSource.transaction(async (manager) => {
 
@@ -80,27 +72,66 @@ export class BlogsService {
       });
 
       if (existing) {
+        // FIX: delete uploaded files before throwing so disk isn't polluted
         deleteFiles(files);
         throw new BadRequestException('Slug already exists');
       }
 
       const coverFile = files?.image?.[0]?.filename;
 
+      let parsedContent: any = dto.content;
+
+      try {
+        parsedContent =
+          typeof dto.content === 'string'
+            ? JSON.parse(dto.content)
+            : dto.content;
+      } catch {}
+
+      const contentImages = files?.contentImages || [];
+
+      const replaceImageUrls = (nodes: any[]) => {
+        for (const node of nodes || []) {
+          if (
+            node.type === 'image' &&
+            typeof node.attrs?.src === 'string' &&
+            node.attrs.src.startsWith('__UPLOAD_')
+          ) {
+            const index = Number(
+              node.attrs.src
+                .replace('__UPLOAD_', '')
+                .replace('__', '')
+            );
+
+            const file = contentImages[index];
+
+            if (file) {
+              node.attrs.src = `/uploads/${file.filename}`;
+            }
+          }
+
+          if (node.content) {
+            replaceImageUrls(node.content);
+          }
+        }
+      };
+
+      replaceImageUrls(parsedContent?.content || []);
+
       const blog = await manager.save(Blog, {
-        title:           dto.title,
-        slug:            dto.slug,
-        type:            dto.type || 'Blog',
-        date:            dto.date,
-        category:        dto.category,
-        author:          dto.author,
-        image:           coverFile ? `/uploads/${coverFile}` : null,
-        content:         dto.content ?? null,
-        metaTitle:       dto.metaTitle,
+        title: dto.title,
+        slug: dto.slug,
+        type: 'Blog',
+        date: dto.date,
+        category: dto.category,
+        author: dto.author,
+        image: coverFile ? `/uploads/${coverFile}` : null,
+        content: parsedContent ? JSON.stringify(parsedContent) : null,
+        metaTitle: dto.metaTitle,
         metaDescription: dto.metaDescription,
-        keywords:        dto.keywords,
+        keywords: dto.keywords,
       });
 
-      // Save tagIds
       const tagIds = dto.tags || [];
 
       for (const tagId of tagIds) {
@@ -110,8 +141,6 @@ export class BlogsService {
       return this.findOne(blog.id);
     });
   }
-
-  // ─── FIND ALL ─────────────────────────────────────────────────────────────
 
   async findAll(isDeleted?: boolean) {
     const filter =
@@ -129,8 +158,6 @@ export class BlogsService {
     return this.attachTags(blogs);
   }
 
-  // ─── FIND ONE ─────────────────────────────────────────────────────────────
-
   async findOne(id: number, isDeleted?: boolean) {
     const filter =
       typeof isDeleted === 'boolean'
@@ -147,8 +174,6 @@ export class BlogsService {
     return result;
   }
 
-  // ─── FIND BY SLUG ─────────────────────────────────────────────────────────
-
   async findBySlug(slug: string) {
     const blog = await this.repo.findOne({
       where: { slug, isDeleted: false },
@@ -160,8 +185,6 @@ export class BlogsService {
     return result;
   }
 
-  // ─── UPDATE ───────────────────────────────────────────────────────────────
-
   async update(id: number, dto: UpdateBlogDto, files?: any) {
     return await this.dataSource.transaction(async (manager) => {
 
@@ -171,7 +194,9 @@ export class BlogsService {
 
       if (!blog) throw new NotFoundException('Blog not found');
 
-      // Slug uniqueness check
+      // FIX: validate slug conflict BEFORE deleting existing tags.
+      // Original code deleted tags first, then threw on slug conflict,
+      // leaving the blog permanently stripped of its tags.
       if (dto.slug && dto.slug !== blog.slug) {
         const exists = await manager.findOne(Blog, {
           where: { slug: dto.slug },
@@ -179,7 +204,6 @@ export class BlogsService {
         if (exists) throw new BadRequestException('Slug already exists');
       }
 
-      // Replace cover image if a new one was uploaded
       if (files?.image?.[0]) {
         if (blog.image) {
           const oldFilename = blog.image.replace('/uploads/', '');
@@ -188,29 +212,72 @@ export class BlogsService {
         blog.image = `/uploads/${files.image[0].filename}`;
       }
 
-      // Replace tags if provided — delete old, insert new tagIds
+      // Now safe to delete and re-insert tags
       await manager.delete(BlogTag, { blogId: id });
 
-const tagIds = dto.tags || [];
+      const tagIds = dto.tags || [];
 
-for (const tagId of tagIds) {
-  await manager.save(BlogTag, {
-    blogId: id,
-    tagId,
-  });
-}
+      let parsedContent: any = dto.content;
 
-      // Merge scalar fields
-      const { tags: _tags, ...scalarDto } = dto;
+      try {
+        parsedContent =
+          typeof dto.content === 'string'
+            ? JSON.parse(dto.content)
+            : dto.content;
+      } catch {}
+
+      const contentImages = files?.contentImages || [];
+
+      const replaceImageUrls = (nodes: any[]) => {
+        for (const node of nodes || []) {
+          if (
+            node.type === 'image' &&
+            typeof node.attrs?.src === 'string' &&
+            node.attrs.src.startsWith('__UPLOAD_')
+          ) {
+            const index = Number(
+              node.attrs.src
+                .replace('__UPLOAD_', '')
+                .replace('__', '')
+            );
+
+            const file = contentImages[index];
+
+            if (file) {
+              node.attrs.src = `/uploads/${file.filename}`;
+            }
+          }
+
+          if (node.content) {
+            replaceImageUrls(node.content);
+          }
+        }
+      };
+
+      replaceImageUrls(parsedContent?.content || []);
+
+      for (const tagId of tagIds) {
+        await manager.save(BlogTag, {
+          blogId: id,
+          tagId,
+        });
+      }
+
+      const { tags: _tags, content: _content, ...scalarDto } = dto;
+
       Object.assign(blog, scalarDto);
+
+      blog.content = parsedContent
+        ? JSON.stringify(parsedContent)
+        : null;
+
+      blog.type = 'Blog';
 
       await manager.save(blog);
 
       return this.findOne(id);
     });
   }
-
-  // ─── DELETE (soft) ────────────────────────────────────────────────────────
 
   async remove(id: number) {
     const blog = await this.repo.findOne({
@@ -224,8 +291,6 @@ for (const tagId of tagIds) {
 
     return [];
   }
-
-  // ─── RESTORE ──────────────────────────────────────────────────────────────
 
   async restore(id: number) {
     const blog = await this.repo.findOne({

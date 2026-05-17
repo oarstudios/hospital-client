@@ -74,7 +74,7 @@ export class CentersController {
   @Post()
   @ApiConsumes('multipart/form-data')
   @ApiBody({ type: CreateCenterDto })
-  @UseInterceptors(AnyFilesInterceptor({ storage: multerStorage }))
+  @UseInterceptors(AnyFilesInterceptor({ storage: multerStorage, limits: { fileSize: 10 * 1024 * 1024, fieldSize: Infinity } }))
   create(
     @UploadedFiles() rawFiles: Express.Multer.File[],
     @Body() dto: CreateCenterDto,
@@ -108,7 +108,7 @@ export class CentersController {
   @Put(':id')
   @ApiConsumes('multipart/form-data')
   @ApiBody({ type: UpdateCenterDto })
-  @UseInterceptors(AnyFilesInterceptor({ storage: multerStorage }))
+  @UseInterceptors(AnyFilesInterceptor({ storage: multerStorage, limits: { fileSize: 10 * 1024 * 1024, fieldSize: Infinity } }))
   update(
     @Param('id') id: string,
     @UploadedFiles() rawFiles: Express.Multer.File[],
@@ -122,4 +122,4 @@ export class CentersController {
   remove(@Param('id') id: string) {
     return this.service.remove(+id);
   }
-}
+} 

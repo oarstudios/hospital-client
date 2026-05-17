@@ -1,15 +1,38 @@
-import "./NewsFromExperts.css";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import blogData from "../../../data/blogData";
+import { fetchBlogs } from "../../../redux/blogs/blogsSlice";
+import imgSrc from "../../Common/ImgSrc";
+import "./NewsFromExperts.css";
 
 const NewsFromExperts = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const blogs = Object.values(blogData).slice(0, 4);
+  const { list = [], loading } = useSelector((state) => state.blogs || {});
+  
+  const blogs = Array.isArray(list) ? list.slice(0, 4) : [];
+
+  useEffect(() => {
+    dispatch(fetchBlogs());
+  }, [dispatch]);
+
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  };
+
+  const handleBlogClick = (item) => {
+    navigate(`/blog/${item.id}/${item.slug}`);
+  };
 
   return (
     <section className="news-section">
-      {/* HEADER */}
       <h2 className="news-heading">
         News & Information From Our Experts
       </h2>
@@ -19,44 +42,61 @@ const NewsFromExperts = () => {
         experts.
       </p>
 
-      {/* TOGGLE BUTTONS (UI ONLY) */}
       <div className="news-tabs">
         <button className="tab-btn active">From Our Blogs</button>
         <button className="tab-btn">Newsletter</button>
       </div>
 
-      {/* BLOG CARDS */}
-      <div className="news-grid">
-        {blogs.map((item) => (
-          <div className="news-card" key={item.slug}>
-            <div className="news-img-wrapper">
-              <img src={item.image} alt={item.title} />
+      {loading && (
+        <div style={{ textAlign: "center", padding: "40px 0", color: "#666" }}>
+          Loading blogs...
+        </div>
+      )}
 
-              <div className="news-badges">
-                <span className="badge">{item.date}</span>
-                <span className="badgeType">{item.type}</span>
+      {!loading && blogs.length > 0 && (
+        <div className="news-grid">
+          {blogs.map((item) => (
+            <div className="news-card" key={item.id}>
+              <div className="news-img-wrapper">
+                {item.image && (
+                  <img src={imgSrc(item.image)} alt={item.title} />
+                )}
+
+                <div className="news-badges">
+                  {item.date && (
+                    <span className="badge">{formatDate(item.date)}</span>
+                  )}
+                  <span className="badgeType">{item.type || "Blog"}</span>
+                </div>
               </div>
+
+              <h3 className="news-title">{item.title}</h3>
+
+              <button
+                className="read-more"
+                onClick={() => handleBlogClick(item)}
+              >
+                Read More <span>→</span>
+              </button>
             </div>
+          ))}
+        </div>
+      )}
 
-            <h3 className="news-title">{item.title}</h3>
+      {!loading && blogs.length === 0 && (
+        <div style={{ textAlign: "center", padding: "40px 0", color: "#999" }}>
+          No blogs available yet.
+        </div>
+      )}
 
-            <button
-              className="read-more"
-              onClick={() => navigate(`/blog/${item.slug}`)}
-            >
-              Read More <span>→</span>
-            </button>
-          </div>
-        ))}
-      </div>
-
-      {/* VIEW ALL */}
-      <button
-        className="view-all"
-        onClick={() => navigate("/blog")}
-      >
-        View All <span>→</span>
-      </button>
+      {blogs.length > 0 && (
+        <button
+          className="view-all"
+          onClick={() => navigate("/blog")}
+        >
+          View All <span>→</span>
+        </button>
+      )}
     </section>
   );
 };

@@ -1,141 +1,92 @@
 import { addToast } from "../redux/toast/toastSlice";
 
-/**
- * Toast Middleware
- * ───────────────
- * Intercepts Redux actions and fires toasts when the action carries
- * a `meta.toast` config.  Works with plain actions AND async thunks
- * (createAsyncThunk's fulfilled / rejected lifecycle actions).
- *
- * ─── Opt-in API ────────────────────────────────────────────────────────────
- *
- * Option A – thunk (most common).
- * Add `toast` to the second argument of dispatch:
- *
- *   dispatch(createService(formData), {
- *     toast: {
- *       success: 'Service created!',
- *       error:   true,          // auto-use the rejected payload message
- *     }
- *   });
- *
- * Option B – plain action.
- * Attach `meta.toast` directly to the action object:
- *
- *   dispatch({ type: 'foo/bar', meta: { toast: { success: 'Done!' } } });
- *
- * ─── Toast config shape ────────────────────────────────────────────────────
- *
- * {
- *   success?:  string | true       // true → 'Done!'
- *   error?:    string | true       // true → uses action.payload (rejected msg)
- *   info?:     string
- *   warning?:  string
- *   duration?: number              // ms – overrides the default 3500
- * }
- *
- * Omit a key entirely to suppress that toast type.
- * ───────────────────────────────────────────────────────────────────────────
- */
+// ─── Import thunks directly — no hardcoded strings ───────────────────────────
+import { loginUser, registerUser, fetchCurrentUser, logoutUserAsync } from "../redux/auth/authSlice";
+import { createBlog, updateBlog, deleteBlog, restoreBlog, fetchBlogs, fetchBlogById, fetchBlogBySlug } from "../redux/blogs/blogsSlice";
+import { createCancer, updateCancer, deleteCancer, restoreCancer, fetchCancers, fetchCancerById, fetchCancerBySlug } from "../redux/cancers/cancersSlice";
+import { createCenter, updateCenter, deleteCenter, restoreCenter, fetchCenters, fetchActiveCenters, fetchCenterById } from "../redux/centers/centersSlice";
+import { createDoctor, updateDoctor, deleteDoctor, restoreDoctor, fetchDoctors, fetchDoctorById, fetchDoctorBySlug } from "../redux/doctors/doctorsSlice";
+import { createService, updateService, deleteService, restoreService, fetchServices, fetchServiceById, fetchServiceBySlug } from "../redux/services/servicesSlice";
+import { fetchTags } from "../redux/tags/tagsSlice";
 
-const FULFILLED_SUFFIX = '/fulfilled';
-const REJECTED_SUFFIX  = '/rejected';
+// ─── Mutations: show a success toast on fulfilled ─────────────────────────────
+// Key = the thunk itself, value = success message string.
+const SUCCESS_MESSAGES = new Map([
+  // Auth
+  [loginUser,    'Logged in successfully!'],
+  [registerUser, 'Registered successfully!'],
 
-/**
- * Redux-Toolkit's createAsyncThunk stores the toast config we pass as
- * the second argument of dispatch() on the thunk's `meta` field.
- * This middleware looks for it there, OR directly on action.meta.toast
- * for plain actions.
- */
+  // Blogs
+  [createBlog,  'Blog published successfully!'],
+  [updateBlog,  'Blog updated successfully!'],
+  [deleteBlog,  'Blog deleted.'],
+  [restoreBlog, 'Blog restored.'],
+
+  // Cancers
+  [createCancer,  'Cancer type created successfully!'],
+  [updateCancer,  'Cancer type updated successfully!'],
+  [deleteCancer,  'Cancer type deleted.'],
+  [restoreCancer, 'Cancer type restored.'],
+
+  // Centers
+  [createCenter,  'Center created successfully!'],
+  [updateCenter,  'Center updated successfully!'],
+  [deleteCenter,  'Center deleted.'],
+  [restoreCenter, 'Center restored.'],
+
+  // Doctors
+  [createDoctor,  'Doctor created successfully!'],
+  [updateDoctor,  'Doctor updated successfully!'],
+  [deleteDoctor,  'Doctor deleted.'],
+  [restoreDoctor, 'Doctor restored.'],
+
+  // Services
+  [createService,  'Service created successfully!'],
+  [updateService,  'Service updated successfully!'],
+  [deleteService,  'Service deleted.'],
+  [restoreService, 'Service restored.'],
+]);
+
+// ─── Silent: no toast at all (background fetches, session checks) ─────────────
+const SILENT_THUNKS = new Set([
+  fetchCurrentUser,
+  logoutUserAsync,
+  fetchBlogs, fetchBlogById, fetchBlogBySlug,
+  fetchCancers, fetchCancerById, fetchCancerBySlug,
+  fetchCenters, fetchActiveCenters, fetchCenterById,
+  fetchDoctors, fetchDoctorById, fetchDoctorBySlug,
+  fetchServices, fetchServiceById, fetchServiceBySlug,
+  fetchTags,
+]);
+
+// ─── Build lookup sets from thunk objects at startup (cheap, runs once) ───────
+// Each thunk created by createAsyncThunk has .fulfilled.type and .rejected.type
+const silentTypes   = new Set([...SILENT_THUNKS].flatMap((t) => [t.fulfilled.type, t.rejected.type]));
+const successTypes  = new Map([...SUCCESS_MESSAGES].map(([t, msg]) => [t.fulfilled.type, msg]));
+const mutationRejectedTypes = new Set([...SUCCESS_MESSAGES.keys()].map((t) => t.rejected.type));
+
+// ─── Middleware ───────────────────────────────────────────────────────────────
 export const toastMiddleware = (store) => (next) => (action) => {
-  const result = next(action); // always pass the action through first
-
-  const toast = action?.meta?.toast; // set by the thunk dispatch wrapper below
-  if (!toast) return result;
-
-  const { success, error, info, warning, duration } = toast;
+  const result = next(action);
   const type = action?.type ?? '';
-  const baseConfig = duration ? { duration } : {};
 
-  // ── Fulfilled ──────────────────────────────────────────────────────────────
-  if (type.endsWith(FULFILLED_SUFFIX)) {
-    if (success) {
-      const message = success === true ? 'Done!' : success;
-      store.dispatch(addToast({ message, type: 'success', ...baseConfig }));
-    }
-    if (info) {
-      store.dispatch(addToast({ message: info, type: 'info', ...baseConfig }));
-    }
+  // Fully silent — do nothing
+  if (silentTypes.has(type)) return result;
+
+  // Success toast for mutations
+  if (successTypes.has(type)) {
+    store.dispatch(addToast({ message: successTypes.get(type), type: 'success' }));
+    return result;
   }
 
-  // ── Rejected ───────────────────────────────────────────────────────────────
-  if (type.endsWith(REJECTED_SUFFIX)) {
-    if (error) {
-      const fallback =
-        typeof action.payload === 'string'
-          ? action.payload
-          : action.error?.message ?? 'Something went wrong.';
-      const message = error === true ? fallback : error;
-      store.dispatch(addToast({ message, type: 'error', ...baseConfig }));
-    }
-    if (warning) {
-      store.dispatch(addToast({ message: warning, type: 'warning', ...baseConfig }));
-    }
+  // Error toast for mutation rejections — uses the backend message from rejectWithValue
+  if (mutationRejectedTypes.has(type)) {
+    const message =
+      typeof action.payload === 'string'
+        ? action.payload
+        : action.error?.message ?? 'Something went wrong.';
+    store.dispatch(addToast({ message, type: 'error' }));
   }
 
   return result;
 };
-
-/**
- * Wraps dispatch so you can pass toast config as the second argument
- * of any thunk dispatch call.
- *
- * Usage in a component:
- *
- *   import { useDispatch } from 'react-redux';
- *   import { withToast }   from '../redux/toast/toastMiddleware';
- *
- *   const rawDispatch = useDispatch();
- *   const dispatch    = withToast(rawDispatch);
- *
- *   await dispatch(createService(formData), {
- *     toast: { success: 'Service created!', error: true }
- *   }).unwrap();
- *
- * The wrapper injects the toast config into `meta` so the middleware
- * picks it up, then returns the original thunk promise so `.unwrap()`
- * still works as normal.
- */
-export function withToast(dispatch) {
-  return function (thunkAction, options) {
-    if (!options?.toast) {
-      // No toast config — plain pass-through
-      return dispatch(thunkAction);
-    }
-
-    // Wrap the thunk so it injects meta.toast onto its lifecycle actions
-    const wrappedThunk = (dispatchInner, getState) => {
-      const originalThunk =
-        typeof thunkAction === 'function' ? thunkAction : () => Promise.resolve(thunkAction);
-
-      const result = originalThunk(
-        (action) => {
-          // Attach toast config onto fulfilled/rejected meta
-          if (action?.meta !== undefined || action?.type) {
-            const patched = {
-              ...action,
-              meta: { ...(action.meta ?? {}), toast: options.toast },
-            };
-            return dispatchInner(patched);
-          }
-          return dispatchInner(action);
-        },
-        getState,
-      );
-
-      return result;
-    };
-
-    return dispatch(wrappedThunk);
-  };
-}   

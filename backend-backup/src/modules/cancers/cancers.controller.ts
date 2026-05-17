@@ -38,7 +38,10 @@ const multerStorage = diskStorage({
   },
 });
 
-const multerOptions = { storage: multerStorage };
+const multerOptions = {
+  storage: multerStorage,
+  limits: { fieldSize: Infinity },
+};
 
 @ApiTags('Cancers')
 @Controller('cancers')

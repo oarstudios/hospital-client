@@ -10,6 +10,7 @@ import { DoctorsModule } from './modules/doctors/doctors.module';
 import { ServicesModule } from './modules/services/services.module';
 import { CancersModule } from './modules/cancers/cancers.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
+import { BlogsModule } from './modules/blogs/blogs.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
     DoctorsModule,
     ServicesModule,
     CancersModule,
+    BlogsModule
 
   ],
 })

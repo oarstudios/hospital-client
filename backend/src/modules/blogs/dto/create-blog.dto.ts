@@ -16,10 +16,7 @@ export class CreateBlogDto {
   @IsString()
   slug!: string;
 
-  @ApiProperty({ required: false, default: 'Blog' })
-  @IsOptional()
-  @IsString()
-  type?: string;
+  // ❌ REMOVED - type input field
 
   @ApiProperty({ required: false })
   @IsOptional()
@@ -36,37 +33,25 @@ export class CreateBlogDto {
   @IsString()
   author?: string;
 
- 
-  
   @ApiProperty({ type: [Number], required: false })
-@IsOptional()
-@Transform(({ value }) => {
+  @IsOptional()
+  @Transform(({ value }) => {
+    if (Array.isArray(value)) {
+      return value.map(Number).filter(Boolean);
+    }
+    if (value) {
+      return [Number(value)];
+    }
+    return [];
+  })
+  @IsArray()
+  tags?: number[];
 
-  // multiple tags
-  if (Array.isArray(value)) {
-    return value.map(Number).filter(Boolean);
-  }
-
-  // single tag
-  if (value) {
-    return [Number(value)];
-  }
-
-  return [];
-})
-@IsArray()
-tags?: number[];
-
-  /**
-   * TipTap editor JSON sent as a JSON string from the frontend.
-   * Stored as text in Postgres and parsed back on read.
-   */
   @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
   content?: string;
 
-  // SEO
   @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
@@ -82,7 +67,6 @@ tags?: number[];
   @IsString()
   keywords?: string;
 
-  // Cover image — handled by multer, declared for Swagger
   @ApiProperty({ type: 'string', format: 'binary', required: false })
   image?: any;
 }

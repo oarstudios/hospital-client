@@ -15,13 +15,15 @@ export class ResponseInterceptor implements NestInterceptor {
 
     return next.handle().pipe(
       map((data) => {
+        // Use the actual HTTP status code instead of hardcoding 200
+        const response = context.switchToHttp().getResponse();
+        const statusCode = response.statusCode ?? 200;
 
         return {
-          statusCode: 200,
+          statusCode,
           message: 'Success',
           data: data ?? [],
         };
-
       }),
     );
 

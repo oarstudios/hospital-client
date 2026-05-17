@@ -27,7 +27,6 @@ import { BlogsService } from './blogs.service';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
 
-// ─── Multer storage (same pattern as centers) ────────────────────────────────
 const multerStorage = diskStorage({
   destination: (_req, _file, cb) => {
     const uploadPath = join(process.cwd(), 'uploads');
@@ -42,15 +41,21 @@ const multerStorage = diskStorage({
   },
 });
 
-// ─── Group AnyFiles into named buckets ───────────────────────────────────────
 function groupFiles(files: Express.Multer.File[]) {
   const image: Express.Multer.File[] = [];
+const contentImages: Express.Multer.File[] = [];
 
   for (const f of files || []) {
-    if (f.fieldname === 'image') image.push(f);
+    if (f.fieldname === 'image') {
+  image.push(f);
+}
+
+if (f.fieldname === 'contentImages') {
+  contentImages.push(f);
+}
   }
 
-  return { image };
+ return { image, contentImages };
 }
 
 @ApiTags('Blogs')
@@ -67,7 +72,8 @@ export class BlogsController {
     return undefined;
   }
 
-  // ✅ CREATE
+  
+
   @Post()
   @ApiConsumes('multipart/form-data')
   @ApiBody({ type: CreateBlogDto })
@@ -79,20 +85,17 @@ export class BlogsController {
     return this.service.create(dto, groupFiles(rawFiles));
   }
 
-  // ✅ FIND ALL
   @Get()
   @ApiQuery({ name: 'isDeleted', required: false, type: Boolean })
   findAll(@Query('isDeleted') isDeleted?: any) {
     return this.service.findAll(this.parseBoolean(isDeleted));
   }
 
-  // ✅ FIND BY SLUG  — must be before :id to avoid route conflict
   @Get('slug/:slug')
   findBySlug(@Param('slug') slug: string) {
     return this.service.findBySlug(slug);
   }
 
-  // ✅ FIND ONE
   @Get(':id')
   findOne(
     @Param('id') id: string,
@@ -101,13 +104,11 @@ export class BlogsController {
     return this.service.findOne(+id, this.parseBoolean(isDeleted));
   }
 
-  // ✅ RESTORE — must be before PUT(':id')
   @Put('restore/:id')
   restore(@Param('id') id: string) {
     return this.service.restore(+id);
   }
 
-  // ✅ UPDATE
   @Put(':id')
   @ApiConsumes('multipart/form-data')
   @ApiBody({ type: UpdateBlogDto })
@@ -120,7 +121,6 @@ export class BlogsController {
     return this.service.update(+id, dto, groupFiles(rawFiles));
   }
 
-  // ✅ DELETE
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.service.remove(+id);

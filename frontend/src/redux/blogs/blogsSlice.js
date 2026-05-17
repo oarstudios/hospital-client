@@ -10,8 +10,6 @@ import {
 } from './blogsApi';
 import { BLOGS_INITIAL_STATE } from './blogsTypes';
 
-// ─── Thunks ──────────────────────────────────────────────────────────────────
-
 export const fetchBlogs = createAsyncThunk(
   'blogs/fetchAll',
   async (params, { rejectWithValue }) => {
@@ -96,8 +94,6 @@ export const restoreBlog = createAsyncThunk(
   },
 );
 
-// ─── Slice ───────────────────────────────────────────────────────────────────
-
 const blogsSlice = createSlice({
   name: 'blogs',
   initialState: BLOGS_INITIAL_STATE,
@@ -111,7 +107,6 @@ const blogsSlice = createSlice({
     const pending  = (state)         => { state.loading = true;  state.error = null; };
     const rejected = (state, action) => { state.loading = false; state.error = action.payload; };
 
-    // fetchBlogs
     builder
       .addCase(fetchBlogs.pending, pending)
       .addCase(fetchBlogs.fulfilled, (state, action) => {
@@ -120,7 +115,6 @@ const blogsSlice = createSlice({
       })
       .addCase(fetchBlogs.rejected, rejected);
 
-    // fetchBlogById
     builder
       .addCase(fetchBlogById.pending, pending)
       .addCase(fetchBlogById.fulfilled, (state, action) => {
@@ -129,7 +123,6 @@ const blogsSlice = createSlice({
       })
       .addCase(fetchBlogById.rejected, rejected);
 
-    // fetchBlogBySlug
     builder
       .addCase(fetchBlogBySlug.pending, pending)
       .addCase(fetchBlogBySlug.fulfilled, (state, action) => {
@@ -138,7 +131,6 @@ const blogsSlice = createSlice({
       })
       .addCase(fetchBlogBySlug.rejected, rejected);
 
-    // createBlog
     builder
       .addCase(createBlog.pending, pending)
       .addCase(createBlog.fulfilled, (state, action) => {
@@ -147,7 +139,6 @@ const blogsSlice = createSlice({
       })
       .addCase(createBlog.rejected, rejected);
 
-    // updateBlog
     builder
       .addCase(updateBlog.pending, pending)
       .addCase(updateBlog.fulfilled, (state, action) => {
@@ -156,15 +147,14 @@ const blogsSlice = createSlice({
         if (!updated) return;
         const idx = state.list.findIndex((b) => b.id === updated.id);
         if (idx !== -1) {
-  state.list = state.list.map((b) =>
-    b.id === updated.id ? updated : b
-  );
-}
+          state.list = state.list.map((b) =>
+            b.id === updated.id ? updated : b
+          );
+        }
         if (state.selected?.id === updated.id) state.selected = updated;
       })
       .addCase(updateBlog.rejected, rejected);
 
-    // deleteBlog
     builder
       .addCase(deleteBlog.pending, pending)
       .addCase(deleteBlog.fulfilled, (state, action) => {
@@ -173,7 +163,6 @@ const blogsSlice = createSlice({
       })
       .addCase(deleteBlog.rejected, rejected);
 
-    // restoreBlog
     builder
       .addCase(restoreBlog.pending, pending)
       .addCase(restoreBlog.fulfilled, (state, action) => {
@@ -182,10 +171,10 @@ const blogsSlice = createSlice({
         if (!restored) return;
         const idx = state.list.findIndex((b) => b.id === restored.id);
         if (idx !== -1) {
-  state.list = state.list.map((b) =>
-    b.id === restored.id ? restored : b
-  );
-}
+          state.list = state.list.map((b) =>
+            b.id === restored.id ? restored : b
+          );
+        }
       })
       .addCase(restoreBlog.rejected, rejected);
   },

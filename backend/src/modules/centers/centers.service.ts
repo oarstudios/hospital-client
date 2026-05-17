@@ -388,35 +388,84 @@ export class CentersService {
         }
       }
 
-      // replace gallery
-      if (files?.gallery) {
+      // update gallery — merge kept existing images with any new uploads
+      // The frontend sends:
+      //   • existingGallery[]  — server-relative URLs of images the user chose to keep
+      //   • files.gallery[]    — newly uploaded files
+      // We always run this block so that removing an image (with no new upload) is also persisted.
+      {
+        // Normalise existingGallery to a string[] (multer body can give string or string[])
+        const rawExisting = (dto as any).existingGallery;
+        const keptUrls: string[] = rawExisting
+          ? Array.isArray(rawExisting) ? rawExisting : [rawExisting]
+          : [];
+
+        const newFiles: any[] = files?.gallery ?? [];
+
+        // Fetch current DB state for this center's gallery
         const txn = await manager.find(EntityImage, {
           where: { entityId: id, entityType: this.ENTITY },
         });
-
         const imageIds = txn.map((t) => t.imageId);
+        const currentImages = imageIds.length
+          ? await manager.findBy(Image, { id: In(imageIds) })
+          : [];
 
-        await manager.delete(EntityImage, {
-          entityId: id,
-          entityType: this.ENTITY,
-        });
+        // Determine which existing DB images are no longer kept → delete them
+        const imagesToDelete = currentImages.filter(
+          (img) => !keptUrls.includes(img.url),
+        );
 
-        if (imageIds.length) {
-           const oldImages = await manager.findBy(Image, {
-    id: In(imageIds),
-  });
+        if (imagesToDelete.length) {
+          const deleteIds = imagesToDelete.map((img) => img.id);
 
-          oldImages.forEach((img) => {
+          // Remove junction rows for deleted images
+          await manager.delete(EntityImage, {
+            entityId: id,
+            entityType: this.ENTITY,
+            imageId: In(deleteIds),
+          });
+
+          // Delete physical files
+          imagesToDelete.forEach((img) => {
             const filename = img.url.replace('/uploads/', '');
             deleteFiles({ gallery: [{ filename }] });
           });
 
-         
-  await manager.delete(Image, { id: In(imageIds) });
+          await manager.delete(Image, { id: In(deleteIds) });
         }
 
-        let index = 0;
-        for (const file of files.gallery) {
+        // Re-sequence all junction rows for kept images in the order the frontend sent them
+        // First, wipe existing junction rows for kept images so we can re-insert with new sequence
+        const keptImages = currentImages.filter((img) =>
+          keptUrls.includes(img.url),
+        );
+
+        if (keptImages.length) {
+          await manager.delete(EntityImage, {
+            entityId: id,
+            entityType: this.ENTITY,
+            imageId: In(keptImages.map((i) => i.id)),
+          });
+        }
+
+        let sequence = 0;
+
+        // Insert kept images in the order the frontend provided
+        for (const url of keptUrls) {
+          const img = keptImages.find((i) => i.url === url);
+          if (!img) continue; // safety: skip if somehow not found
+
+          await manager.save(EntityImage, {
+            entityId: id,
+            entityType: this.ENTITY,
+            imageId: img.id,
+            sequence: sequence++,
+          });
+        }
+
+        // Insert newly uploaded images after the kept ones
+        for (const file of newFiles) {
           const image = await manager.save(Image, {
             url: `/uploads/${file.filename}`,
           });
@@ -425,7 +474,7 @@ export class CentersService {
             entityId: id,
             entityType: this.ENTITY,
             imageId: image.id,
-            sequence: index++,
+            sequence: sequence++,
           });
         }
       }

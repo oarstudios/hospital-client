@@ -29,11 +29,9 @@ import { fetchTags } from "../../redux/tags/tagsSlice";
 import "./ManageBlogs.css";
 import imgSrc from "../../components/Common/ImgSrc";
 
-
 const emptyBlog = {
   title:           "",
   slug:            "",
-  type:            "Blog",
   date:            "",
   category:        "",
   author:          "",
@@ -62,14 +60,10 @@ const ManageBlogs = () => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewHTML, setPreviewHTML] = useState("");
 
-  /* ── Fetch on mount ───────────────────────────────────────────────────── */
-
   useEffect(() => {
     dispatch(fetchBlogs());
     dispatch(fetchTags());
   }, [dispatch]);
-
-  /* ── TipTap editor ────────────────────────────────────────────────────── */
 
   const editor = useEditor({
     extensions: [
@@ -93,8 +87,6 @@ const ManageBlogs = () => {
 
   if (!editor) return null;
 
-  /* ── Cover image dropzone ─────────────────────────────────────────────── */
-
   const onDrop = (files) => {
     const file = files[0];
     if (!file) return;
@@ -105,8 +97,6 @@ const ManageBlogs = () => {
     accept: { "image/*": [] },
     onDrop,
   });
-
-  /* ── Insert image inside editor ───────────────────────────────────────── */
 
   const addImage = () => {
     const input = document.createElement("input");
@@ -124,8 +114,6 @@ const ManageBlogs = () => {
     input.click();
   };
 
-  /* ── Open modal helpers ───────────────────────────────────────────────── */
-
   const openCreate = () => {
     setBlog(emptyBlog);
     setEditId(null);
@@ -138,33 +126,38 @@ const ManageBlogs = () => {
     setBlog({
       title:           item.title           || "",
       slug:            item.slug            || "",
-      type:            item.type            || "Blog",
       date:            item.date            || "",
       category:        item.category        || "",
       author:          item.author          || "",
-      // map stored tag names back to { value: id, label: name }
       tags: (item.tags || []).map((t) => ({
-  value: t.id,
-  label: t.tag,
-})),
-     image: item.image ? { url: imgSrc(item.image) } : null,
+        value: t.id,
+        label: t.tag,
+      })),
+      image: item.image ? { url: imgSrc(item.image) } : null,
       metaTitle:       item.metaTitle       || "",
       metaDescription: item.metaDescription || "",
       keywords:        item.keywords        || "",
     });
     if (item.content) {
-      editor.commands.setContent(
-        typeof item.content === "string" ? JSON.parse(item.content) : item.content
-      );
+      // FIX: guard against double-parse; item.content may already be an object
+      const content =
+        typeof item.content === "string"
+          ? (() => { try { return JSON.parse(item.content); } catch { return item.content; } })()
+          : item.content;
+      editor.commands.setContent(content);
     } else {
       editor.commands.clearContent();
     }
     setShowModal(true);
   };
 
-  /* ── Save (create / update) ───────────────────────────────────────────── */
-
   const saveBlog = async () => {
+    // FIX: basic client-side validation before hitting the network
+    if (!blog.title.trim()) {
+      alert("Title is required.");
+      return;
+    }
+
     const formData = new FormData();
 
     const resolvedSlug =
@@ -172,19 +165,46 @@ const ManageBlogs = () => {
 
     formData.append("title",           blog.title);
     formData.append("slug",            resolvedSlug);
-    formData.append("type",            blog.type            || "Blog");
     formData.append("date",            blog.date            || "");
     formData.append("category",        blog.category        || "");
     formData.append("author",          blog.author          || "");
     formData.append("metaTitle",       blog.metaTitle       || "");
     formData.append("metaDescription", blog.metaDescription || "");
     formData.append("keywords",        blog.keywords        || "");
-    formData.append("content",         JSON.stringify(editor.getJSON()));
 
-    // Send tag ids as JSON array
-   blog.tags.forEach((tag) => {
-  formData.append("tags", tag.value);
-});
+    const content = editor.getJSON();
+    const imageFiles = [];
+
+    const processNodes = async (nodes) => {
+      for (const node of nodes || []) {
+        if (node.type === "image" && node.attrs?.src?.startsWith("data:")) {
+          const res = await fetch(node.attrs.src);
+          const blob = await res.blob();
+          const file = new File(
+            [blob],
+            `editor-${Date.now()}.png`,
+            { type: blob.type }
+          );
+          imageFiles.push(file);
+          node.attrs.src = `__UPLOAD_${imageFiles.length - 1}__`;
+        }
+        if (node.content) {
+          await processNodes(node.content);
+        }
+      }
+    };
+
+    await processNodes(content.content);
+
+    formData.append("content", JSON.stringify(content));
+
+    imageFiles.forEach((file) => {
+      formData.append("contentImages", file);
+    });
+
+    blog.tags.forEach((tag) => {
+      formData.append("tags", tag.value);
+    });
 
     if (blog.image?.file) {
       formData.append("image", blog.image.file);
@@ -193,7 +213,7 @@ const ManageBlogs = () => {
     try {
       if (editId) {
         await dispatch(updateBlog({ id: editId, data: formData })).unwrap();
-        await dispatch(fetchBlogs());
+        dispatch(fetchBlogs());
       } else {
         await dispatch(createBlog(formData)).unwrap();
       }
@@ -202,32 +222,25 @@ const ManageBlogs = () => {
       setEditId(null);
       editor.commands.clearContent();
       setShowModal(false);
-      // dispatch(fetchBlogs());
     } catch (err) {
+      // Error toast is already shown by middleware via error: true
       console.error("Blog save error:", err);
     }
   };
 
-  /* ── Delete ───────────────────────────────────────────────────────────── */
-
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this blog?")) return;
     await dispatch(deleteBlog(id));
-    // dispatch(fetchBlogs());
   };
 
-  /* ── Image preview helper ─────────────────────────────────────────────── */
-
+  // FIX: unified preview helper — works for both new File blobs and existing URL strings
   const imagePreviewSrc = (img) => {
     if (!img) return null;
-    return img.url;
+    return img.url || null;
   };
-
-  /* ── Render ───────────────────────────────────────────────────────────── */
 
   return (
     <>
-      {/* ── TABLE PAGE ────────────────────────────────────────────────── */}
       <div className="admin-centers-page">
 
         <div className="admin-centers-header">
@@ -262,10 +275,10 @@ const ManageBlogs = () => {
                   <td>
                     {item.image && (
                       <img
-  src={imgSrc(item.image)}
-  className="admin-table-img"
-  alt=""
-/>
+                        src={imgSrc(item.image)}
+                        className="admin-table-img"
+                        alt=""
+                      />
                     )}
                   </td>
                   <td>{item.title}</td>
@@ -284,14 +297,12 @@ const ManageBlogs = () => {
 
       </div>
 
-      {/* ── MODAL ─────────────────────────────────────────────────────── */}
       {showModal && (
         <div className="admin-modal-overlay">
           <div className="admin-modal">
 
             <h3>{editId ? "Edit Blog" : "Add Blog"}</h3>
 
-            {/* Title */}
             <input
               className="blog-title"
               placeholder="Untitled"
@@ -306,7 +317,6 @@ const ManageBlogs = () => {
               }}
             />
 
-            {/* Cover image */}
             <div {...getRootProps()} className="hero-upload">
               <input {...getInputProps()} />
               Upload Cover Image
@@ -320,7 +330,6 @@ const ManageBlogs = () => {
               />
             )}
 
-            {/* Meta grid */}
             <div className="meta-grid">
               <div>
                 <label>Slug</label>
@@ -352,16 +361,8 @@ const ManageBlogs = () => {
                   onChange={(e) => setBlog((prev) => ({ ...prev, category: e.target.value }))}
                 />
               </div>
-              <div>
-                <label>Type</label>
-                <input
-                  value={blog.type}
-                  onChange={(e) => setBlog((prev) => ({ ...prev, type: e.target.value }))}
-                />
-              </div>
             </div>
 
-            {/* Tags — from redux */}
             <div className="tags-section">
               <label>Tags</label>
               <Select
@@ -372,7 +373,6 @@ const ManageBlogs = () => {
               />
             </div>
 
-            {/* Toolbar */}
             <div className="editor-toolbar">
               <button onClick={() => editor.chain().focus().toggleBold().run()}><b>B</b></button>
               <button onClick={() => editor.chain().focus().toggleItalic().run()}><i>I</i></button>
@@ -398,10 +398,8 @@ const ManageBlogs = () => {
               <button onClick={addImage}>Image</button>
             </div>
 
-            {/* Editor */}
             <EditorContent editor={editor} className="notion-editor" />
 
-            {/* SEO */}
             <div className="seo-box">
               <h3>SEO Settings</h3>
               <input
@@ -421,7 +419,6 @@ const ManageBlogs = () => {
               />
             </div>
 
-            {/* Actions */}
             <div className="admin-modal-actions">
               <button className="admin-submit-btn" onClick={saveBlog} disabled={loading}>
                 {loading ? "Saving…" : editId ? "Update Blog" : "Publish Blog"}
@@ -438,7 +435,6 @@ const ManageBlogs = () => {
         </div>
       )}
 
-      {/* ── PREVIEW ───────────────────────────────────────────────────── */}
       {previewOpen && (
         <div className="blog-preview-modal">
           <div className="blog-preview-container">

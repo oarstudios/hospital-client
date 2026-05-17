@@ -1,7 +1,9 @@
 import "./BlogsSection.css";
 import { useNavigate } from "react-router-dom";
-import { useState, useMemo } from "react";
-import blogData from "../../data/blogData";
+import { useState, useMemo, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchBlogs } from "../../redux/blogs/blogsSlice";
+import imgSrc from "../Common/ImgSrc";
 
 const categories = [
   "Cancer Treatment",
@@ -18,19 +20,18 @@ const POSTS_PER_PAGE = 6;
 
 const BlogsSection = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  /* ✅ SAFELY NORMALIZE + DEDUPLICATE BLOG DATA */
+  const { list = [], loading } = useSelector((state) => state.blogs || {});
+
+  useEffect(() => {
+    dispatch(fetchBlogs());
+  }, [dispatch]);
+
   const blogs = useMemo(() => {
-    const map = new Map();
-    Object.values(blogData).forEach((blog) => {
-      if (!map.has(blog.slug)) {
-        map.set(blog.slug, blog);
-      }
-    });
-    return Array.from(map.values());
-  }, []);
+    return Array.isArray(list) ? list : [];
+  }, [list]);
 
-  /* 🔹 PAGINATION STATE */
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalPages = Math.ceil(blogs.length / POSTS_PER_PAGE);
@@ -39,12 +40,29 @@ const BlogsSection = () => {
   const endIndex = startIndex + POSTS_PER_PAGE;
   const currentBlogs = blogs.slice(startIndex, endIndex);
 
-  /* 🔹 PAGE CHANGE HANDLER */
   const changePage = (page) => {
     if (page < 1 || page > totalPages) return;
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  };
+
+  if (loading) {
+    return (
+      <section className="blogs-wrapper">
+        <p style={{ textAlign: "center", padding: "60px 0" }}>Loading blogs...</p>
+      </section>
+    );
+  }
 
   return (
     <section className="blogs-wrapper">
@@ -67,9 +85,9 @@ const BlogsSection = () => {
             <ol>
               {blogs.slice(0, 5).map((post, index) => (
                 <li
-                  key={post.slug}
+                  key={post.id}
                   style={{ cursor: "pointer" }}
-                  onClick={() => navigate(`/blog/${post.slug}`)}
+                  onClick={() => navigate(`/blog/${post.id}/${post.slug}`)}
                 >
                   <span className="post-index">{index + 1}</span>
 
@@ -77,10 +95,10 @@ const BlogsSection = () => {
                     <p>{post.title}</p>
 
                     <div className="tag-row">
-                      <span className={`tag ${post.type.toLowerCase()}`}>
-                        {post.type}
+                      <span className={`tag ${(post.type || "blog").toLowerCase()}`}>
+                        {post.type || "Blog"}
                       </span>
-                      <span className="date">{post.date}</span>
+                      <span className="date">{formatDate(post.date)}</span>
                     </div>
                   </div>
                 </li>
@@ -94,16 +112,18 @@ const BlogsSection = () => {
           {currentBlogs.map((blog) => (
             <div
               className="blog-card"
-              key={blog.slug}
+              key={blog.id}
               style={{ cursor: "pointer" }}
-              onClick={() => navigate(`/blog/${blog.slug}`)}
+              onClick={() => navigate(`/blog/${blog.id}/${blog.slug}`)}
             >
-              <img src={blog.image} alt={blog.title} />
+              {blog.image && (
+                <img src={imgSrc(blog.image)} alt={blog.title} />
+              )}
 
               <div className="blog-card-body">
                 <div className="tag-row">
-                  <span className="tag blog">{blog.type}</span>
-                  <span className="date">{blog.date}</span>
+                  <span className="tag blog">{blog.type || "Blog"}</span>
+                  <span className="date">{formatDate(blog.date)}</span>
                 </div>
 
                 <h4>{blog.title}</h4>
