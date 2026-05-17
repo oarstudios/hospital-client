@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsString, IsOptional } from 'class-validator';
+import { IsString, IsOptional, IsInt } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class FaqItemDto {
   @ApiProperty({ example: 'Is this treatment painful?' })
@@ -35,26 +36,22 @@ export class CreateServiceDto {
   @IsString()
   metaDescription?: string;
 
-  /**
-   * Rich-text HTML content from the editor (sent as a plain string).
-   */
   @ApiPropertyOptional({ example: '<p>Chemotherapy is...</p>' })
   @IsOptional()
   @IsString()
   content?: string;
 
-  /**
-   * Cover image — uploaded as multipart file.
-   * Declared here for Swagger visibility only.
-   */
+  // ✅ Category ID
+  @ApiPropertyOptional({ example: 1 })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  categoryId?: number | null;
+
   @ApiPropertyOptional({ type: 'string', format: 'binary' })
   @IsOptional()
   coverImage?: any;
 
-  /**
-   * FAQs — sent as a JSON string from multipart/form-data.
-   * Example: '[{"question":"Q1","answer":"A1"}]'
-   */
   @ApiPropertyOptional({
     type: 'string',
     example: '[{"question":"Is it painful?","answer":"No."}]',
@@ -62,4 +59,4 @@ export class CreateServiceDto {
   })
   @IsOptional()
   faqs?: FaqItemDto[] | string;
-}
+} 

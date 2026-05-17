@@ -23,6 +23,8 @@ import {
   deleteService,
 } from "../../redux/services/servicesSlice";
 
+import { fetchServiceCategories } from "../../redux/serviceCategories/serviceCategoriesSlice";
+
 import axiosInstance from "../../app/axiosinstance";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:3001";
@@ -35,12 +37,14 @@ const emptyService = {
   metaTitle: "",
   metaDescription: "",
   faqs: [],
+  categoryId: "",
 };
 
 const ManageServices = () => {
   const dispatch = useDispatch();
 
   const { list: services = [], loading, error } = useSelector((s) => s.services);
+  const { list: categories = [] } = useSelector((s) => s.serviceCategories);
 
   const [service, setService] = useState(emptyService);
   const [faq, setFaq] = useState({ question: "", answer: "" });
@@ -54,6 +58,7 @@ const ManageServices = () => {
 
   useEffect(() => {
     dispatch(fetchServices());
+    dispatch(fetchServiceCategories());
   }, [dispatch]);
 
   /* ── Cover image dropzone ───────────────────────────────────────────────── */
@@ -149,6 +154,13 @@ const ManageServices = () => {
     formData.append("content", editor ? editor.getHTML() : "");
     formData.append("faqs", JSON.stringify(service.faqs));
 
+    // Append categoryId (null clears it)
+    if (service.categoryId) {
+      formData.append("categoryId", service.categoryId);
+    } else {
+      formData.append("categoryId", "");
+    }
+
     if (service.image instanceof File) {
       formData.append("coverImage", service.image);
     }
@@ -177,6 +189,7 @@ const ManageServices = () => {
       ...item,
       image: item.coverImage || null,
       metaTitle: item.seoTitle || "",
+      categoryId: item.categoryId ?? "",
     });
     setShowModal(true);
     if (editor && item.content) {
@@ -191,12 +204,18 @@ const ManageServices = () => {
     dispatch(deleteService(id));
   };
 
-  /* ── Image src helper ───────────────────────────────────────────────────── */
+  /* ── Helpers ────────────────────────────────────────────────────────────── */
 
   const imgSrc = (path) => {
     if (!path) return null;
     if (path instanceof File) return URL.createObjectURL(path);
     return path.startsWith("http") ? path : `${API_BASE}${path}`;
+  };
+
+  const getCategoryName = (categoryId) => {
+    if (!categoryId) return "—";
+    const cat = categories.find((c) => c.id === categoryId);
+    return cat ? cat.name : "—";
   };
 
   /* ── Render ─────────────────────────────────────────────────────────────── */
@@ -230,6 +249,7 @@ const ManageServices = () => {
               <tr>
                 <th>Image</th>
                 <th>Title</th>
+                <th>Category</th>
                 <th>Slug</th>
                 <th>SEO Title</th>
                 <th>Actions</th>
@@ -238,7 +258,7 @@ const ManageServices = () => {
             <tbody>
               {loading && (
                 <tr>
-                  <td colSpan={5} style={{ textAlign: "center", padding: 24 }}>Loading...</td>
+                  <td colSpan={6} style={{ textAlign: "center", padding: 24 }}>Loading...</td>
                 </tr>
               )}
               {!loading && Array.isArray(services) && services.map((item) => (
@@ -253,6 +273,11 @@ const ManageServices = () => {
                     )}
                   </td>
                   <td>{item.title}</td>
+                  <td>
+                    <span className="category-badge">
+                      {getCategoryName(item.categoryId)}
+                    </span>
+                  </td>
                   <td>{item.slug}</td>
                   <td>{item.seoTitle}</td>
                   <td className="admin-actions">
@@ -279,6 +304,31 @@ const ManageServices = () => {
               value={service.title}
               onChange={(e) => setService((p) => ({ ...p, title: e.target.value }))}
             />
+
+            {/* ── CATEGORY DROPDOWN ── */}
+            <label>Category</label>
+            <select
+              className="service-category-select"
+              value={service.categoryId ?? ""}
+              onChange={(e) =>
+                setService((p) => ({
+                  ...p,
+                  categoryId: e.target.value ? Number(e.target.value) : null,
+                }))
+              }
+            >
+              <option value="">— No Category —</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
+            {categories.length === 0 && (
+              <p className="category-hint">
+                No categories yet. Go to <strong>Service Categories</strong> in the sidebar to create some.
+              </p>
+            )}
 
             <label>Cover Image</label>
             <div {...getRootProps()} className="hero-upload">

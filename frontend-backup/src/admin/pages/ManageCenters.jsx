@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 import {
   fetchCenters,
@@ -9,6 +10,9 @@ import {
 } from "../../redux/centers/centersSlice";
 
 import "./ManageCenters.css";
+
+// ✅ Fix 1: No more hardcoded localhost — reads from env at build time
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:3001";
 
 const emptyForm = {
   slug: "",
@@ -35,10 +39,11 @@ const ManageCenters = () => {
   const { list = [], loading } = useSelector((state) => state.centers || {});
   const centers = Array.isArray(list) ? list : [];
 
-  const [form, setForm]           = useState(emptyForm);
-  const [showModal, setShowModal] = useState(false);
-  const [editId, setEditId]       = useState(null);
-  const [dragIndex, setDragIndex] = useState(null);
+  const [form, setForm]             = useState(emptyForm);
+  const [showModal, setShowModal]   = useState(false);
+  const [editId, setEditId]         = useState(null);
+  const [dragIndex, setDragIndex]   = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false); // ✅ Fix 2: loading state
 
   /* ================= FETCH CENTERS ================= */
 
@@ -79,6 +84,12 @@ const ManageCenters = () => {
   /* ================= CREATE / UPDATE ================= */
 
   const handleSubmit = async () => {
+    // Basic validation
+    if (!form.slug.trim() || !form.name.trim() || !form.fullName.trim()) {
+      toast.error("Slug, Name, and Full Name are required.");
+      return;
+    }
+
     const formData = new FormData();
 
     formData.append("slug",      form.slug);
@@ -94,7 +105,6 @@ const ManageCenters = () => {
     formData.append("mapQuery",  form.mapQuery);
     formData.append("address",   form.address);
 
-    // description is kept in sync via the textarea onChange below
     form.description
       .split("\n")
       .filter((d) => d.trim())
@@ -110,15 +120,35 @@ const ManageCenters = () => {
       formData.append("centerImage", form.image.file);
     }
 
+    /*
+     * Gallery — split into two groups:
+     *   1. existingGallery: images already on the server (url only, no .file)
+     *      → send server-relative path so backend knows to keep them
+     *   2. New uploads (.file present) → append as multipart files
+     */
     form.gallery.forEach((img) => {
-      if (img.file) formData.append("gallery", img.file);
+      if (img.file) {
+        formData.append("gallery", img.file);
+      } else if (img.url) {
+        try {
+          const relativePath = new URL(img.url).pathname; // "/uploads/filename.jpg"
+          formData.append("existingGallery", relativePath);
+        } catch {
+          formData.append("existingGallery", img.url);
+        }
+      }
     });
+
+    // ✅ Fix 2: disable button while request is in flight
+    setIsSubmitting(true);
 
     try {
       if (editId) {
         await dispatch(updateCenter({ id: editId, data: formData })).unwrap();
+        toast.success("Center updated successfully!");
       } else {
         await dispatch(createCenter(formData)).unwrap();
+        toast.success("Center created successfully!");
       }
 
       setForm(emptyForm);
@@ -126,7 +156,15 @@ const ManageCenters = () => {
       setShowModal(false);
       dispatch(fetchCenters());
     } catch (err) {
+      // ✅ Fix 3: show error to admin instead of silently logging
+      const message =
+        typeof err === "string"
+          ? err
+          : err?.message || "Something went wrong. Please try again.";
+      toast.error(message);
       console.error("Submit error:", err);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -136,14 +174,16 @@ const ManageCenters = () => {
     setEditId(center.id);
     setForm({
       ...center,
+      // ✅ Fix 1: use API_BASE instead of hardcoded localhost
       heroBg: center.heroImage
-        ? { url: `http://localhost:3001${center.heroImage}` }
+        ? { url: `${API_BASE}${center.heroImage}` }
         : null,
       image: center.centerImage
-        ? { url: `http://localhost:3001${center.centerImage}` }
+        ? { url: `${API_BASE}${center.centerImage}` }
         : null,
       gallery: (center.gallery || []).map((img) => ({
-        url: `http://localhost:3001${img}`,
+        url: `${API_BASE}${img}`,
+        // No .file → marks these as existing server images
       })),
       description: Array.isArray(center.description)
         ? center.description.join("\n")
@@ -156,8 +196,14 @@ const ManageCenters = () => {
 
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this center?")) return;
-    await dispatch(deleteCenter(id));
-    dispatch(fetchCenters());
+    try {
+      await dispatch(deleteCenter(id)).unwrap();
+      toast.success("Center deleted.");
+      dispatch(fetchCenters());
+    } catch (err) {
+      toast.error("Failed to delete center. Please try again.");
+      console.error("Delete error:", err);
+    }
   };
 
   /* ================= DRAG ================= */
@@ -211,7 +257,8 @@ const ManageCenters = () => {
                 <td>
                   {center.heroImage && (
                     <img
-                      src={`http://localhost:3001${center.heroImage}`}
+                      // ✅ Fix 1: use API_BASE
+                      src={`${API_BASE}${center.heroImage}`}
                       className="admin-table-img"
                       alt={center.name}
                     />
@@ -256,14 +303,14 @@ const ManageCenters = () => {
             {/* HERO IMAGE */}
             <div className="admin-upload-section">
               <label>Hero Image</label>
-              <input type="file" onChange={(e) => handleImageUpload(e, "heroBg")} />
+              <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, "heroBg")} />
               {form.heroBg && <img src={form.heroBg.url} className="admin-preview-img" alt="hero preview" />}
             </div>
 
             {/* CENTER IMAGE */}
             <div className="admin-upload-section">
               <label>Center Image</label>
-              <input type="file" onChange={(e) => handleImageUpload(e, "image")} />
+              <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, "image")} />
               {form.image && <img src={form.image.url} className="admin-preview-img" alt="center preview" />}
             </div>
 
@@ -283,7 +330,7 @@ const ManageCenters = () => {
             {/* GALLERY */}
             <div className="admin-upload-section">
               <label>Gallery Upload</label>
-              <input type="file" multiple onChange={handleGalleryUpload} />
+              <input type="file" accept="image/*" multiple onChange={handleGalleryUpload} />
               <div className="admin-gallery-grid">
                 {form.gallery.map((img, index) => (
                   <div
@@ -294,17 +341,33 @@ const ManageCenters = () => {
                     onDragOver={() => dragOver(index)}
                   >
                     <img src={img.url} alt={`gallery-${index}`} />
-                    <button onClick={() => removeGalleryImage(index)} className="admin-remove-img">✕</button>
+                    <button
+                      onClick={() => removeGalleryImage(index)}
+                      className="admin-remove-img"
+                    >
+                      ✕
+                    </button>
                   </div>
                 ))}
               </div>
             </div>
 
             <div className="admin-modal-actions">
-              <button className="admin-submit-btn" onClick={handleSubmit}>
-                {editId ? "Update Center" : "Create Center"}
+              {/* ✅ Fix 2: disabled + label change while submitting */}
+              <button
+                className="admin-submit-btn"
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+              >
+                {isSubmitting
+                  ? "Saving..."
+                  : editId ? "Update Center" : "Create Center"}
               </button>
-              <button className="admin-cancel-btn" onClick={() => setShowModal(false)}>
+              <button
+                className="admin-cancel-btn"
+                onClick={() => setShowModal(false)}
+                disabled={isSubmitting}
+              >
                 Cancel
               </button>
             </div>

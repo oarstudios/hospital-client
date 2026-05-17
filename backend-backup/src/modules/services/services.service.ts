@@ -8,6 +8,7 @@ import { Repository, DataSource, In } from 'typeorm';
 
 import { Service } from './entities/service.entity';
 import { ServiceFaq } from './entities/service-faq.entity';
+import { ServiceCategory } from './entities/service-category.entity';
 
 import { CreateServiceDto, FaqItemDto } from './dto/create-service.dto';
 import { UpdateServiceDto } from './dto/update-service.dto';
@@ -23,6 +24,9 @@ export class ServicesService {
 
     @InjectRepository(ServiceFaq)
     private readonly faqRepo: Repository<ServiceFaq>,
+
+    @InjectRepository(ServiceCategory)
+    private readonly categoryRepo: Repository<ServiceCategory>,
 
     private readonly dataSource: DataSource,
   ) {}
@@ -69,8 +73,18 @@ export class ServicesService {
       order: { sequence: 'ASC' },
     });
 
+    // Attach category name if categoryId is set
+    let category: ServiceCategory | null = null;
+    if (service.categoryId) {
+      category = await manager.findOne(ServiceCategory, {
+        where: { id: service.categoryId },
+      });
+    }
+
     return {
       ...service,
+      categoryName: category?.name ?? null,
+      categorySlug: category?.slug ?? null,
       faqs: faqs.map((f) => ({ question: f.question, answer: f.answer })),
     };
   }
@@ -96,6 +110,7 @@ export class ServicesService {
           metaDescription: dto.metaDescription,
           content: dto.content,
           coverImage: coverImageFile ? `/uploads/${coverImageFile}` : null,
+          categoryId: dto.categoryId ?? null,
         });
 
         const faqs = this.parseFaqs(dto.faqs as any);
@@ -129,12 +144,23 @@ export class ServicesService {
       order: { sequence: 'ASC' },
     });
 
-    return services.map((service) => ({
-      ...service,
-      faqs: faqs
-        .filter((f) => f.serviceId === service.id)
-        .map((f) => ({ question: f.question, answer: f.answer })),
-    }));
+    // Fetch all referenced categories in one query
+    const categoryIds = [...new Set(services.map((s) => s.categoryId).filter(Boolean))] as number[];
+    const categories = categoryIds.length
+      ? await this.categoryRepo.findBy({ id: In(categoryIds) })
+      : [];
+
+    return services.map((service) => {
+      const category = categories.find((c) => c.id === service.categoryId) ?? null;
+      return {
+        ...service,
+        categoryName: category?.name ?? null,
+        categorySlug: category?.slug ?? null,
+        faqs: faqs
+          .filter((f) => f.serviceId === service.id)
+          .map((f) => ({ question: f.question, answer: f.answer })),
+      };
+    });
   }
 
   // ─── FIND ONE ─────────────────────────────────────────────────────────────
@@ -180,13 +206,18 @@ export class ServicesService {
         }
 
         const scalarFields: Array<keyof Service> = [
-          'slug', 'title', 'altText', 'seoTitle', 'metaDescription', 'content',
+          'slug', 'title', 'altText', 'seoTitle', 'metaDescription', 'content', 'categoryId',
         ];
 
         for (const field of scalarFields) {
           if ((dto as any)[field] !== undefined) {
             (service as any)[field] = (dto as any)[field];
           }
+        }
+
+        // Allow explicitly unsetting category (categoryId = null)
+        if ('categoryId' in dto && (dto.categoryId === null || dto.categoryId === undefined)) {
+          service.categoryId = null;
         }
 
         await manager.save(service);

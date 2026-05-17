@@ -34,6 +34,10 @@ export class Service {
   @Column({ type: 'text', nullable: true })
   content?: string;
 
+  // ✅ Category FK — nullable so existing services don't break
+  @Column({ nullable: true, type: 'int' })
+  categoryId?: number | null;
+
   // ✅ Soft delete flag
   @Column({
     type: 'boolean',

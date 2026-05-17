@@ -56,6 +56,42 @@ import g2 from "../assets/p1 (2).webp";
 import g3 from "../assets/p1 (3).webp";
 import g4 from "../assets/p1 (4).webp";
 
+/* ===================== AREA → CENTERS MAPPING ===================== */
+export const areaCentreMap = {
+  Mumbai: ["Sion", "Dadar", "Ghatkopar", "Santacruz", "Goregaon", "Chembur"],
+  "Navi Mumbai": ["Vashi", "Panvel"],
+  Thane: ["Kalyan", "Dombivli"],
+};
+
+/* ===================== CENTER → SLUG MAP ===================== */
+export const centerSlugMap = {
+  Sion: "sion",
+  Dadar: "dadar",
+  Ghatkopar: "ghatkopar",
+  Santacruz: "santacruz",
+  Goregaon: "goregaon",
+  Chembur: "chembur",
+  Vashi: "vashi",
+  Panvel: "panvel",
+  Kalyan: "kalyan",
+  Dombivli: "dombivli",
+};
+
+/* ===================== SLUG → CENTER NAME MAP ===================== */
+export const slugToCentreName = {
+  vashi: "ICTC Vashi",
+  panvel: "ICTC Panvel",
+  kalyan: "ICTC Kalyan",
+  dombivli: "ICTC Dombivli",
+  sion: "ICTC Sion",
+  dadar: "ICTC Dadar",
+  goregaon: "ICTC Goregaon",
+  ghatkopar: "ICTC Ghatkopar",
+  santacruz: "ICTC Santacruz",
+  chembur: "ICTC Chembur",
+  thane: "ICTC Thane",
+};
+
 /* ===================== MAP LINKS ===================== */
 export const mapLinks = {
   vashi: "https://maps.app.goo.gl/q5mASiWVQ15ccWfv9",
@@ -416,7 +452,7 @@ thane: {
   rating: "4.9",
   reviews: "100+ Ratings",
 
-  phone: "+91 9699711195",
+  phone: "+91 7977225902",
 
   mapQuery: "ICTC Cancer Care Centre Thane",
 
