@@ -114,7 +114,7 @@ function App() {
           </Route>
 
           {/* LOCATION WISE SEO LANDING */}
-          <Route path="/lwsl" element={<Navigate to="/cancer-treatment/vashi" replace />} />
+          <Route path="/cancer-treatment" element={<Navigate to="/cancer-treatment/vashi" replace />} />
           <Route
             path="/cancer-treatment/:slug"
             element={
