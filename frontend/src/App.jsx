@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import "./index.css";
 
 /* ================= COMMON COMPONENTS ================= */
@@ -11,6 +11,12 @@ import Chatbot from "./components/Chatbot/Chatbot";
 
 /* ================= HOME ================= */
 import HeroCarousel from "./components/Home/HeroCarousel/HeroCarousel";
+import HeroCarousel_LWSL from "./components/LocationWiseSEOlanding/HeroCarousel_LWSL";
+import CenterDescription_LWSL from "./components/LocationWiseSEOlanding/CenterDescription_LWSL";
+import ExpertsAtICTC_LWSL from "./components/LocationWiseSEOlanding/ExpertsAtICTC_LWSL";
+import CancersWeTreat_LWSL from "./components/LocationWiseSEOlanding/CancersWeTreat_LWSL";
+import ServicesAtICTC_LWSL from "./components/LocationWiseSEOlanding/ServicesAtICTC_LWSL";
+import FAQ_ISWL from "./components/LocationWiseSEOlanding/FAQ_ISWL";
 import AboutImageSection from "./components/Home/AboutImageSection/AboutImageSection";
 import WhyChooseICTCImage from "./components/Home/WhyChooseICTC/WhyChooseICTC";
 import CancersWeTreat from "./components/Home/CancersWeTreat/CancersWeTreat";
@@ -98,6 +104,27 @@ function App() {
                 <MeetOurExperts />
                 <ServicesatICTC />
                 <NewsFromExperts />
+                <BookAppointment />
+                <OurNetworkOfCare />
+                <RequestCallback />
+              </>
+            }
+          >
+            <Route path="success" element={null} />
+          </Route>
+
+          {/* LOCATION WISE SEO LANDING */}
+          <Route path="/lwsl" element={<Navigate to="/lwsl/vashi" replace />} />
+          <Route
+            path="/lwsl/:slug"
+            element={
+              <>
+                <HeroCarousel_LWSL />
+                <CenterDescription_LWSL />
+                <ExpertsAtICTC_LWSL />
+                <CancersWeTreat_LWSL />
+                <ServicesAtICTC_LWSL />
+                <FAQ_ISWL />
                 <BookAppointment />
                 <OurNetworkOfCare />
                 <RequestCallback />
