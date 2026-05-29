@@ -62,9 +62,8 @@ const HeroCarousel_LWSL = () => {
             className="hero-image"
           />
         </div>
-      </div>
 
-      {/* CTA */}
+         {/* CTA */}
       {showCTA && (
         <div className="quick-cta">
           <button
@@ -89,6 +88,9 @@ const HeroCarousel_LWSL = () => {
           </button>
         </div>
       )}
+      </div>
+
+     
     </section>
   );
 };
