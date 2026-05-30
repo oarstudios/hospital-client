@@ -19,14 +19,22 @@ async function bootstrap() {
 
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
+  const configService = app.get(ConfigService);
+
+  // ✅ CORS — read allowed origins from env in production instead of hardcoding
+  // In .env: CORS_ORIGINS=https://yourdomain.com,https://www.yourdomain.com
+  // In development fallback: localhost ports 5173 and 5174
+  const corsOriginsEnv = configService.get<string>('CORS_ORIGINS');
+  const allowedOrigins = corsOriginsEnv
+    ? corsOriginsEnv.split(',').map((o) => o.trim())
+    : ['http://localhost:5173', 'http://localhost:5174'];
+
   app.enableCors({
-    origin: ['http://localhost:5173', 'http://localhost:5174'],
+    origin: allowedOrigins,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   });
-
-  const configService = app.get(ConfigService);
 
   // ✅ Cookie parser
   app.use(cookieParser());
@@ -46,16 +54,19 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true, forbidNonWhitelisted: false }));
 
-  // ✅ Swagger setup
-  const config = new DocumentBuilder()
-    .setTitle('Hospital API')
-    .setDescription('Hospital Management Backend APIs with integrated authentication')
-    .setVersion('1.0')
-    .addBearerAuth()
-    .build();
+  // ✅ Swagger setup — disable in production to avoid exposing API surface
+  const nodeEnv = configService.get<string>('NODE_ENV', 'development');
+  if (nodeEnv !== 'production') {
+    const config = new DocumentBuilder()
+      .setTitle('Hospital API')
+      .setDescription('Hospital Management Backend APIs with integrated authentication')
+      .setVersion('1.0')
+      .addBearerAuth()
+      .build();
 
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/docs', app, document);
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api/docs', app, document);
+  }
 
   // ✅ Run seeders
   const dataSource = app.get(DataSource);
@@ -67,7 +78,9 @@ async function bootstrap() {
   await app.listen(port);
 
   console.log(`🚀 Server running on port ${port}`);
-  console.log(`📄 Swagger: http://localhost:${port}/api/docs`);
+  if (nodeEnv !== 'production') {
+    console.log(`📄 Swagger: http://localhost:${port}/api/docs`);
+  }
 }
 
 bootstrap();

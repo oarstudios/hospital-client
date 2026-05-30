@@ -9,6 +9,7 @@ import {
   deleteCancerCategory,
 } from "../../redux/cancerCategories/cancerCategoriesSlice";
 
+import PageLoader from "../common/PageLoader";
 import "./ManageServiceCategories.css"; // reuse the same styles
 
 const emptyCategory = { name: "", slug: "", sequence: 0 };
@@ -99,43 +100,43 @@ const ManageCancerCategories = () => {
 
         {/* TABLE */}
         <div className="admin-centers-table-wrapper">
-          <table className="admin-centers-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Slug</th>
-                <th>Sequence</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loading && (
+          {loading ? (
+            /* Skeleton loader: 5 rows, 5 columns (matches table headers) */
+            <PageLoader rows={5} cols={5} />
+          ) : (
+            <table className="admin-centers-table">
+              <thead>
                 <tr>
-                  <td colSpan={5} style={{ textAlign: "center", padding: 24 }}>Loading…</td>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Slug</th>
+                  <th>Sequence</th>
+                  <th>Actions</th>
                 </tr>
-              )}
-              {!loading && categories.length === 0 && (
-                <tr>
-                  <td colSpan={5} className="category-empty">
-                    No categories yet. Click <strong>+ Add Category</strong> to create one.
-                  </td>
-                </tr>
-              )}
-              {!loading && categories.map((item, idx) => (
-                <tr key={item.id}>
-                  <td>{idx + 1}</td>
-                  <td><strong>{item.name}</strong></td>
-                  <td><code className="slug-chip">{item.slug}</code></td>
-                  <td>{item.sequence}</td>
-                  <td className="admin-actions">
-                    <button className="admin-edit-btn" onClick={() => openEdit(item)}>Edit</button>
-                    <button className="admin-delete-btn" onClick={() => handleDelete(item.id)}>Delete</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {categories.length === 0 && (
+                  <tr>
+                    <td colSpan={5} className="category-empty">
+                      No categories yet. Click <strong>+ Add Category</strong> to create one.
+                    </td>
+                  </tr>
+                )}
+                {categories.map((item, idx) => (
+                  <tr key={item.id}>
+                    <td>{idx + 1}</td>
+                    <td><strong>{item.name}</strong></td>
+                    <td><code className="slug-chip">{item.slug}</code></td>
+                    <td>{item.sequence}</td>
+                    <td className="admin-actions">
+                      <button className="admin-edit-btn" onClick={() => openEdit(item)}>Edit</button>
+                      <button className="admin-delete-btn" onClick={() => handleDelete(item.id)}>Delete</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
 
