@@ -26,13 +26,15 @@ const cancerTypes = [
 const CancersWeTreat_LWSL = () => {
       const { slug } = useParams();
   const navigate = useNavigate();
-    const centre = centerData[slug];
+  const centre = centerData[slug];
 
   if (!centre) return null;
 
+  const place = centre.name.replace(/^ICTC\s+/i, "");
+
   return (
     <section className="cancers-ictc">
-      <h2 className="cancers-title">Cancers We Treat at {centre.name}</h2>
+      <h2 className="cancers-title">Cancer Treatment at {place}</h2>
 
       <div className="cancers-grid">
         {cancerTypes.map((cancer, index) => (
