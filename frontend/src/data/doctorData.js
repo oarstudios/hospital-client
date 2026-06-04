@@ -938,7 +938,7 @@ const doctorData = {
 
   rating: "4.8",
   reviews: "80+ Ratings",
- phone: "+91 9326911195",
+ phone: "",
 
   centres: ["ICTC Thane"],
 
