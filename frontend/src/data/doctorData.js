@@ -1,11 +1,12 @@
 import doc1 from "../assets/Dr. Salil Patkar.png";
 import doc2 from "../assets/Dr. Amit Ghanekar.png";
 import doc3 from "../assets/Dr. Rohit Pai.png";
-import doc4 from "../assets/Dr. Viraj Nevrekar.png";
-import doc5 from "../assets/Dr. Kunal Goyal.png";
+import doc4 from "../assets/Dr Viraj Nevrekar.png";
+import doc5 from "../assets/Dr Kunal Goyal.png";
 import doc6 from "../assets/Dr. Deep Vora.png";
 import doc7 from "../assets/Dr. Shreya Gattani.png";
 import doc8 from "../assets/doc8.PNG";
+import doc9 from "../assets/Dr Juhi Shah.png";
 
 const doctorData = {
 "salil-patkar": {
@@ -924,6 +925,104 @@ const doctorData = {
     "Member – American Society of Clinical Oncology (ASCO)",
   ],
 },
+
+"juhi-shah": {
+  slug: "juhi-shah",
+  name: "Dr. Juhi Shah",
+  image: doc9, // replace with correct imported image
+  stories: [],
+
+  designation: "Pediatric Oncologist & Pediatric Bone Marrow Transplant Physician",
+  qualification:
+    "MBBS (Mumbai), MD Pediatrics, DNB Pediatrics, DM Pediatric Oncology (Tata Memorial Hospital, Mumbai)",
+
+  rating: "4.8",
+  reviews: "80+ Ratings",
+ phone: "+91 9326911195",
+
+  centres: ["ICTC Thane"],
+
+  languages: ["English", "Hindi", "Gujarati", "Marathi"],
+
+  summary: `Dr. Juhi Shah is a highly accomplished Pediatric Oncologist and Bone Marrow Transplant (BMT) specialist with over 11 years of experience in pediatric care and more than 7 years dedicated exclusively to pediatric oncology and hematology. She has extensive expertise in the diagnosis and treatment of childhood cancers, including leukemias, lymphomas, brain tumors, solid tumors, rare pediatric malignancies, and complex blood disorders.
+
+  Her clinical expertise encompasses advanced therapies such as chemotherapy, immunotherapy, targeted therapies, bone marrow transplantation, and CAR-T cell therapy. Having trained and served at premier institutions including Tata Memorial Hospital, Mumbai, Dr. Shah has played a pivotal role in establishing and leading pediatric oncology services, developing multidisciplinary cancer care programs, and advancing clinical research.
+
+  She is recognized for her patient-centered approach, commitment to evidence-based medicine, and dedication to improving outcomes and quality of life for children battling cancer. Her contributions to national and international research, conference presentations, and peer-reviewed publications reflect her ongoing commitment to advancing the field of pediatric oncology.`,
+
+  philosophy: `Every child deserves not only the best possible cancer treatment, but also the opportunity to live, grow, and thrive beyond their diagnosis.
+
+  Dr. Juhi Shah believes that pediatric cancer care extends far beyond treating the disease itself. Her philosophy centers on delivering compassionate, individualized, and evidence-based care that addresses the physical, emotional, and psychosocial needs of both the child and their family. She works closely with a multidisciplinary team to ensure that every treatment plan is tailored to the child's specific diagnosis, age, needs, and long-term well-being.`,
+
+  expertise: [
+    "All Childhood Cancers",
+    "Leukemias",
+    "Lymphomas",
+    "Langerhans Cell Histiocytosis (LCH)",
+    "Brain Tumours",
+    "Neuroblastoma",
+    "Wilms Tumour",
+    "Germ Cell Tumours",
+    "Bone Tumours",
+    "Adolescent Cancers",
+    "Relapse & Refractory Cancers in Children",
+    "Rare Cancers in Children",
+    "Blood Disorders in Children",
+    "Thalassemia",
+    "Sickle Cell Anemia",
+    "Aplastic Anemia",
+    "Chemotherapy",
+    "Immunotherapy",
+    "Targeted Therapy",
+    "Bone Marrow Transplant",
+    "CAR-T Cell Therapy",
+  ],
+
+  education: [
+    {
+      title: "DM Pediatric Oncology",
+      place: "Tata Memorial Hospital, Mumbai",
+    },
+    {
+      title: "MD Pediatrics",
+      place: "Mumbai",
+    },
+    {
+      title: "DNB Pediatrics",
+      place: "Mumbai",
+    },
+    {
+      title: "MBBS",
+      place: "Mumbai",
+    },
+  ],
+
+  experience: [
+    {
+      role: "Pediatric Oncologist & Bone Marrow Transplant Physician",
+      place: "Indian Cancer Treatment Centre (ICTC), Mumbai",
+    },
+    {
+      role: "Pediatric Oncology & Hematology Specialist",
+      place: "Over 7 Years Dedicated Experience",
+    },
+    {
+      role: "Pediatric Care Specialist",
+      place: "Over 11 Years of Clinical Experience",
+    },
+  ],
+
+  achievements: [
+    "Over 11 Years of Experience in Pediatric Care",
+    "More Than 7 Years Dedicated to Pediatric Oncology & Hematology",
+    "Expertise in Bone Marrow Transplantation (BMT)",
+    "Specialized Training in Pediatric Oncology from Tata Memorial Hospital, Mumbai",
+    "Experience in CAR-T Cell Therapy, Immunotherapy & Targeted Therapies",
+    "Contributor to National & International Research",
+    "Presenter at Oncology Conferences",
+    "Author of Peer-Reviewed Publications in Pediatric Oncology",
+  ],
+}
 
 };
 
