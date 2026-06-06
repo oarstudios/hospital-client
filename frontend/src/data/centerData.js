@@ -461,7 +461,7 @@ thane: {
   lat: 19.1925,
   lng: 72.8164,
 
-  address: "Office 308, Hubtown Rhythm, Madanlal Dhingra Rd, opp. Jain Mandir, Panch Pakhdi, Thane West, Thane, Maharashtra 400602",
+  address: "Office 301, 308, 309 Hubtown Rhythm, Madanlal Dhingra Rd, opp. Jain Mandir, Panch Pakhdi, Thane West, Thane, Maharashtra 400602",
 
   timing: "Mon – Sat 9:00 a.m. to 9:00 p.m.",
 

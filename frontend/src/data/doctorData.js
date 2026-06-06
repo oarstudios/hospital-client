@@ -1,32 +1,39 @@
 import doc1 from "../assets/Dr. Salil Patkar.png";
 import doc2 from "../assets/Dr. Amit Ghanekar.png";
 import doc3 from "../assets/Dr. Rohit Pai.png";
-import doc4 from "../assets/Dr. Viraj Nevrekar.png";
-import doc5 from "../assets/Dr. Kunal Goyal.png";
+import doc4 from "../assets/Dr Viraj Nevrekar.png";
+import doc5 from "../assets/Dr Kunal Goyal.png";
 import doc6 from "../assets/Dr. Deep Vora.png";
 import doc7 from "../assets/Dr. Shreya Gattani.png";
 import doc8 from "../assets/doc8.PNG";
+import doc9 from "../assets/Dr Juhi Shah.png";
 
 const doctorData = {
-"salil-patkar": {
-  slug: "salil-patkar",
-  name: "Dr. Salil Vijay Patkar",
-  image: doc1, // replace with correct imported image
-  stories: [
-   "https://www.instagram.com/reel/DST-mcRDCC1/", "https://www.instagram.com/reel/DTHYcKMCnnA/", "https://www.instagram.com/reel/DRjo6xWDKOa/", "https://www.instagram.com/reel/DQ35e-LjETs/", "https://www.instagram.com/reel/DQbW9nTDIAu/", "https://www.instagram.com/reel/DP09jgBDGk-/", "https://www.instagram.com/reel/DGFk51sNhcK/"
-  ],
-  designation: "Oncologist & Hemato-Oncologist, Immuno-Oncologist",
-  qualification:
-    "MD Internal Medicine, DM Medical Oncology, Certified in Immuno-Oncology and Precision Oncology (Harvard Medical School)",
+  "salil-patkar": {
+    slug: "salil-patkar",
+    name: "Dr. Salil Vijay Patkar",
+    image: doc1, // replace with correct imported image
+    stories: [
+      "https://www.instagram.com/reel/DST-mcRDCC1/",
+      "https://www.instagram.com/reel/DTHYcKMCnnA/",
+      "https://www.instagram.com/reel/DRjo6xWDKOa/",
+      "https://www.instagram.com/reel/DQ35e-LjETs/",
+      "https://www.instagram.com/reel/DQbW9nTDIAu/",
+      "https://www.instagram.com/reel/DP09jgBDGk-/",
+      "https://www.instagram.com/reel/DGFk51sNhcK/",
+    ],
+    designation: "Oncologist & Hemato-Oncologist, Immuno-Oncologist",
+    qualification:
+      "MD Internal Medicine, DM Medical Oncology, Certified in Immuno-Oncology and Precision Oncology (Harvard Medical School)",
 
-  rating: "4.9",
-  reviews: "900+ Ratings",
-  phone: "+91-8451069854",
+    rating: "4.9",
+    reviews: "900+ Ratings",
+    phone: "+91-8451069854",
 
-  centres: ["ICTC Panvel", "ICTC Vashi"],
-  languages: ["English", "Hindi", "Marathi"],
+    centres: ["ICTC Panvel", "ICTC Vashi"],
+    languages: ["English", "Hindi", "Marathi"],
 
-  summary: `Dr. Salil Vijay Patkar is a senior Medical Oncologist with over 12 years of
+    summary: `Dr. Salil Vijay Patkar is a senior Medical Oncologist with over 12 years of
   extensive clinical experience, specialising in the comprehensive management of
   solid tumors and hematological malignancies. He is the Founder and Director of
   the Indian Cancer Treatment Centre (ICTC), an institution established with the
@@ -82,60 +89,62 @@ const doctorData = {
   patients receive timely, transparent, and effective oncology treatment close to
   home.`,
 
-  philosophy: `My approach to oncology care is rooted in empathy, transparency, and
+    philosophy: `My approach to oncology care is rooted in empathy, transparency, and
   evidence-based medicine. I believe that every patient deserves an individualised
   treatment plan guided by tumour biology, molecular profiling, and global clinical
   guidelines. Clear communication, ethical practice, and compassionate care remain
   central to my work, ensuring patients and their families are fully informed and
   supported throughout their cancer journey.`,
 
-  expertise: [
-    "Solid Tumors",
-    "Hematological Malignancies",
-    "Immunotherapy",
-    "Precision Oncology",
-    "Molecular Targeted Therapy",
-    "Chemotherapy",
-    "Cancer Genomics",
-    "Bone Marrow Aspiration & Biopsy",
-  ],
+    expertise: [
+      "Solid Tumors",
+      "Hematological Malignancies",
+      "Immunotherapy",
+      "Precision Oncology",
+      "Molecular Targeted Therapy",
+      "Chemotherapy",
+      "Cancer Genomics",
+      "Bone Marrow Aspiration & Biopsy",
+    ],
 
-  education: [
-    {
-      title: "Certificate in Cancer Genomics, Precision Oncology & Immuno-Oncology",
-      place: "Harvard Medical School",
-    },
-    {
-      title: "DM Medical Oncology",
-      place: "Gujarat Cancer & Research Institute (GCRI), Ahmedabad",
-    },
-    {
-      title: "MD Internal Medicine",
-      place:
-        "KLES University’s Jawaharlal Nehru Medical College and Dr. Prabhakar Kore Hospital",
-    },
-    {
-      title: "MBBS",
-      place:
-        "Pravara Institute of Medical Sciences University, Maharashtra, India",
-    },
-  ],
+    education: [
+      {
+        title:
+          "Certificate in Cancer Genomics, Precision Oncology & Immuno-Oncology",
+        place: "Harvard Medical School",
+      },
+      {
+        title: "DM Medical Oncology",
+        place: "Gujarat Cancer & Research Institute (GCRI), Ahmedabad",
+      },
+      {
+        title: "MD Internal Medicine",
+        place:
+          "KLES University’s Jawaharlal Nehru Medical College and Dr. Prabhakar Kore Hospital",
+      },
+      {
+        title: "MBBS",
+        place:
+          "Pravara Institute of Medical Sciences University, Maharashtra, India",
+      },
+    ],
 
-  experience: [
-    {
-      role: "Founder & Director",
-      place: "Indian Cancer Treatment Centre (ICTC)",
-    },
-    {
-      role: "Head of Medical Oncology",
-      place: "MPCT Hospitals",
-    },
-    {
-      role: "Consultant Medical Oncologist",
-      place: "Apollo Hospitals",
-    },
-  ],
+    experience: [
+      {
+        role: "Founder & Director",
+        place: "Indian Cancer Treatment Centre (ICTC)",
+      },
+      {
+        role: "Head of Medical Oncology",
+        place: "MPCT Hospitals",
+      },
+      {
+        role: "Consultant Medical Oncologist",
+        place: "Apollo Hospitals",
+      },
+    ],
 
+<<<<<<< HEAD
   
   achievements: [
     "Postgraduate Academic Program – Johns Hopkins School of Medicine (Affiliated)",
@@ -146,28 +155,43 @@ const doctorData = {
     "First Prize – Lung Cancer Quiz, GCRI (2017)",
   ],
 },
+=======
+    achievements: [
+      "Postgraduate Academic Program – Johns Hopkins School of Medicine (Affiliated)",
+      "Co-investigator – PROMISE Clinical Registry, GCRI",
+      "Member – European Society of Medical Oncology (ESMO)",
+      "Member – American Society of Clinical Oncology (ASCO)",
+      "Student of the Year – Delcure Lifesciences (2013)",
+      "First Prize – Lung Cancer Quiz, GCRI (2017)",
+    ],
+  },
+>>>>>>> 182277bea10bc3856d8cd477fb490d9b2089f718
 
+  "amit-ghanekar": {
+    slug: "amit-ghanekar",
+    name: "Dr. Amit Ghanekar",
+    image: doc2, // replace with correct imported image
+    stories: [
+      "https://www.instagram.com/reel/DST-mcRDCC1/",
+      "https://www.instagram.com/reel/DTHYcKMCnnA/",
+      "https://www.instagram.com/reel/DRjo6xWDKOa/",
+      "https://www.instagram.com/reel/DQ35e-LjETs/",
+      "https://www.instagram.com/reel/DQbW9nTDIAu/",
+      "https://www.instagram.com/reel/DP09jgBDGk-/",
+      "https://www.instagram.com/reel/DGFk51sNhcK/",
+    ],
+    designation: "Oncologist & Hemato-Oncologist, Immuno-Oncologist",
+    qualification:
+      "MD Internal Medicine, DNB Medical Oncology, Fellowship in Oncology & Bone Marrow Transplantation, ESMO Certified Oncologist",
 
-"amit-ghanekar": {
-  slug: "amit-ghanekar",
-  name: "Dr. Amit Ghanekar",
-  image: doc2, // replace with correct imported image
-  stories: [
-   "https://www.instagram.com/reel/DST-mcRDCC1/", "https://www.instagram.com/reel/DTHYcKMCnnA/", "https://www.instagram.com/reel/DRjo6xWDKOa/", "https://www.instagram.com/reel/DQ35e-LjETs/", "https://www.instagram.com/reel/DQbW9nTDIAu/", "https://www.instagram.com/reel/DP09jgBDGk-/", "https://www.instagram.com/reel/DGFk51sNhcK/"
-  ],
-  designation:
-    "Oncologist & Hemato-Oncologist, Immuno-Oncologist",
-  qualification:
-    "MD Internal Medicine, DNB Medical Oncology, Fellowship in Oncology & Bone Marrow Transplantation, ESMO Certified Oncologist",
+    rating: "4.9",
+    reviews: "500+ Ratings",
+    phone: "+91-9920177313",
 
-  rating: "4.9",
-  reviews: "500+ Ratings",
-  phone: "+91-9920177313",
+    centres: ["ICTC Kalyan", "ICTC Dombivli"],
+    languages: ["English", "Hindi", "Marathi"],
 
-  centres: ["ICTC Kalyan", "ICTC Dombivli"],
-  languages: ["English", "Hindi", "Marathi"],
-
-  summary: `Dr. Amit Ghanekar is a highly respected Medical Oncologist and Cancer
+    summary: `Dr. Amit Ghanekar is a highly respected Medical Oncologist and Cancer
   Specialist with over 22 years of extensive experience in oncology, providing
   advanced and comprehensive cancer care across a wide spectrum of malignancies.
   He is particularly known for his expertise in bone marrow transplantation,
@@ -204,90 +228,95 @@ const doctorData = {
   innovation in cancer treatment to patients across Kalyan, Dombivli, and
   Ulhasnagar.`,
 
-  philosophy: `My philosophy of cancer care is centred on precision, compassion,
+    philosophy: `My philosophy of cancer care is centred on precision, compassion,
   and evidence-based medicine. I believe that complex cancers require
   individualised treatment strategies supported by advanced diagnostics and
   global oncology protocols. My goal is to deliver effective, ethical, and
   personalised cancer treatment while preserving dignity, quality of life, and
   long-term well-being for every patient.`,
 
-  expertise: [
-    "Hematological Malignancies",
-    "Bone Marrow Transplantation",
-    "Stem Cell Transplantation",
-    "Immunotherapy",
-    "Chemotherapy",
-    "Molecular Targeted Therapies",
-    "Leukemia",
-    "Lymphoma",
-    "Multiple Myeloma",
-    "Rare Immune Disorders",
-  ],
+    expertise: [
+      "Hematological Malignancies",
+      "Bone Marrow Transplantation",
+      "Stem Cell Transplantation",
+      "Immunotherapy",
+      "Chemotherapy",
+      "Molecular Targeted Therapies",
+      "Leukemia",
+      "Lymphoma",
+      "Multiple Myeloma",
+      "Rare Immune Disorders",
+    ],
 
-  education: [
-    {
-      title: "DNB Medical Oncology",
-      place: "Jaslok Hospital, Mumbai",
-    },
-    {
-      title: "MD Internal Medicine",
-      place: "Jaslok Hospital, Mumbai",
-    },
-    {
-      title: "MBBS",
-      place:
-        "Pravara Institute of Medical Sciences University, Maharashtra, India",
-    },
-    {
-      title: "Fellowship in Oncology & Bone Marrow Transplantation",
-      place: "Prince Aly Khan Hospital, Mumbai",
-    },
-  ],
+    education: [
+      {
+        title: "DNB Medical Oncology",
+        place: "Jaslok Hospital, Mumbai",
+      },
+      {
+        title: "MD Internal Medicine",
+        place: "Jaslok Hospital, Mumbai",
+      },
+      {
+        title: "MBBS",
+        place:
+          "Pravara Institute of Medical Sciences University, Maharashtra, India",
+      },
+      {
+        title: "Fellowship in Oncology & Bone Marrow Transplantation",
+        place: "Prince Aly Khan Hospital, Mumbai",
+      },
+    ],
 
-  experience: [
-    {
-      role: "Consultant Medical Oncologist",
-      place: "Jaslok Hospital",
-    },
-    {
-      role: "Consultant Medical Oncologist",
-      place: "Nanavati Hospital",
-    },
-    {
-      role: "Consultant Medical Oncologist",
-      place: "Prince Aly Khan Hospital",
-    },
-  ],
+    experience: [
+      {
+        role: "Consultant Medical Oncologist",
+        place: "Jaslok Hospital",
+      },
+      {
+        role: "Consultant Medical Oncologist",
+        place: "Nanavati Hospital",
+      },
+      {
+        role: "Consultant Medical Oncologist",
+        place: "Prince Aly Khan Hospital",
+      },
+    ],
 
-  achievements: [
-    "ESMO Certified Oncologist",
-    "Member – European Society of Medical Oncology (ESMO)",
-    "Recognised for Excellence in Bone Marrow & Stem Cell Transplant Outcomes",
-    "Published Research Papers on Leukemia, Lymphoma, Blood Cancers & Stem Cell Transplantation",
-    "Known for Managing Highly Complex Oncology & Hematology Cases",
-  ],
-},
+    achievements: [
+      "ESMO Certified Oncologist",
+      "Member – European Society of Medical Oncology (ESMO)",
+      "Recognised for Excellence in Bone Marrow & Stem Cell Transplant Outcomes",
+      "Published Research Papers on Leukemia, Lymphoma, Blood Cancers & Stem Cell Transplantation",
+      "Known for Managing Highly Complex Oncology & Hematology Cases",
+    ],
+  },
 
+  "rohit-pai": {
+    slug: "rohit-pai",
+    name: "Dr. Rohit Pai",
+    image: doc3, // replace if needed
+    stories: [
+      "https://www.instagram.com/reel/DST-mcRDCC1/",
+      "https://www.instagram.com/reel/DTHYcKMCnnA/",
+      "https://www.instagram.com/reel/DRjo6xWDKOa/",
+      "https://www.instagram.com/reel/DQ35e-LjETs/",
+      "https://www.instagram.com/reel/DQbW9nTDIAu/",
+      "https://www.instagram.com/reel/DP09jgBDGk-/",
+      "https://www.instagram.com/reel/DGFk51sNhcK/",
+    ],
+    designation: "Oncologist & Hemato-Oncologist, Immuno-Oncologist",
+    qualification:
+      "MD Internal Medicine (AIIMS), DM Medical Oncology (AIIMS), DNB, MRCP (UK) Certified, ESMO Certified Oncologist",
 
-"rohit-pai": {
-  slug: "rohit-pai",
-  name: "Dr. Rohit Pai",
-  image: doc3, // replace if needed
-  stories: [
-   "https://www.instagram.com/reel/DST-mcRDCC1/", "https://www.instagram.com/reel/DTHYcKMCnnA/", "https://www.instagram.com/reel/DRjo6xWDKOa/", "https://www.instagram.com/reel/DQ35e-LjETs/", "https://www.instagram.com/reel/DQbW9nTDIAu/", "https://www.instagram.com/reel/DP09jgBDGk-/", "https://www.instagram.com/reel/DGFk51sNhcK/"
-  ],
-  designation: "Oncologist & Hemato-Oncologist, Immuno-Oncologist",
-  qualification:
-    "MD Internal Medicine (AIIMS), DM Medical Oncology (AIIMS), DNB, MRCP (UK) Certified, ESMO Certified Oncologist",
+    rating: "4.9",
+    reviews: "200+ Ratings",
+    phone: "+91-9820007628",
 
-  rating: "4.9",
-  reviews: "200+ Ratings",
-  phone: "+91-9820007628",
+    centres: ["ICTC Sion"],
+    languages: ["English", "Hindi"],
 
-  centres: ["ICTC Sion"],
-  languages: ["English", "Hindi"],
-
-  summary: `Dr. Rohit Pai is an experienced Consultant Medical Oncologist known for
+    summary: `Dr. Rohit Pai is an experienced Consultant Medical Oncologist known for
   his expertise in managing both solid tumors and blood cancers. With vast
   clinical experience at Bombay Hospital and as an Honorary Visiting Consultant
   at Nair Charitable Hospital, he delivers comprehensive, compassionate, and
@@ -324,79 +353,84 @@ const doctorData = {
   Medical Microbiology. His academic work reflects a strong commitment to
   advancing cancer care and evidence-based oncology practice.`,
 
-  philosophy: `My approach to cancer care is centered on empathy, scientific
+    philosophy: `My approach to cancer care is centered on empathy, scientific
   accuracy, and evidence-based medicine. I believe in delivering personalized
   treatment strategies using modern oncology advancements while maintaining
   transparency, trust, and compassionate support throughout the patient’s
   cancer journey.`,
 
-  expertise: [
-    "Solid Tumors",
-    "Hematological Malignancies",
-    "Gastrointestinal Cancers",
-    "Breast Cancer",
-    "Head & Neck Cancers",
-    "Chemotherapy",
-    "Immunotherapy",
-    "Targeted Therapy",
-    "Immuno-Oncology",
-  ],
+    expertise: [
+      "Solid Tumors",
+      "Hematological Malignancies",
+      "Gastrointestinal Cancers",
+      "Breast Cancer",
+      "Head & Neck Cancers",
+      "Chemotherapy",
+      "Immunotherapy",
+      "Targeted Therapy",
+      "Immuno-Oncology",
+    ],
 
-  education: [
-    {
-      title: "DM Medical Oncology",
-      place: "All India Institute of Medical Sciences (AIIMS), New Delhi",
-    },
-    {
-      title: "MD Internal Medicine",
-      place: "All India Institute of Medical Sciences (AIIMS), New Delhi",
-    },
-    {
-      title: "MBBS",
-      place: "All India Institute of Medical Sciences (AIIMS), New Delhi",
-    },
-  ],
+    education: [
+      {
+        title: "DM Medical Oncology",
+        place: "All India Institute of Medical Sciences (AIIMS), New Delhi",
+      },
+      {
+        title: "MD Internal Medicine",
+        place: "All India Institute of Medical Sciences (AIIMS), New Delhi",
+      },
+      {
+        title: "MBBS",
+        place: "All India Institute of Medical Sciences (AIIMS), New Delhi",
+      },
+    ],
 
-  experience: [
-    {
-      role: "Consultant Medical Oncologist",
-      place: "Bombay Hospital",
-    },
-    {
-      role: "Honorary Visiting Consultant",
-      place: "Nair Charitable Hospital",
-    },
-  ],
+    experience: [
+      {
+        role: "Consultant Medical Oncologist",
+        place: "Bombay Hospital",
+      },
+      {
+        role: "Honorary Visiting Consultant",
+        place: "Nair Charitable Hospital",
+      },
+    ],
 
-  achievements: [
-    "All India Rank 1 – AIIMS Post Graduate Entrance Examination",
-    "Certified by European Society of Medical Oncology (ESMO)",
-    "Member – Royal College of Physicians (UK)",
-    "Authored Research on Autologous Stem Cell Transplantation & Leukemia",
-    "Publications in National Medical Journal of India & Indian Journal of Medical Microbiology",
-  ],
-},
+    achievements: [
+      "All India Rank 1 – AIIMS Post Graduate Entrance Examination",
+      "Certified by European Society of Medical Oncology (ESMO)",
+      "Member – Royal College of Physicians (UK)",
+      "Authored Research on Autologous Stem Cell Transplantation & Leukemia",
+      "Publications in National Medical Journal of India & Indian Journal of Medical Microbiology",
+    ],
+  },
 
+  "viraj-nevrekar": {
+    slug: "viraj-nevrekar",
+    name: "Dr. Viraj Nevrekar",
+    image: doc4, // replace with correct imported image
+    stories: [
+      "https://www.instagram.com/reel/DST-mcRDCC1/",
+      "https://www.instagram.com/reel/DTHYcKMCnnA/",
+      "https://www.instagram.com/reel/DRjo6xWDKOa/",
+      "https://www.instagram.com/reel/DQ35e-LjETs/",
+      "https://www.instagram.com/reel/DQbW9nTDIAu/",
+      "https://www.instagram.com/reel/DP09jgBDGk-/",
+      "https://www.instagram.com/reel/DGFk51sNhcK/",
+    ],
+    designation: "Oncologist & Hemato-Oncologist, Immuno-Oncologist",
+    qualification:
+      "MD Internal Medicine (AIIMS), DM Medical Oncology (AIIMS),  MRCP (UK) Certified, ESMO Certified Oncologist",
 
-"viraj-nevrekar": {
-  slug: "viraj-nevrekar",
-  name: "Dr. Viraj Nevrekar",
-  image: doc4, // replace with correct imported image
-  stories: [
-   "https://www.instagram.com/reel/DST-mcRDCC1/", "https://www.instagram.com/reel/DTHYcKMCnnA/", "https://www.instagram.com/reel/DRjo6xWDKOa/", "https://www.instagram.com/reel/DQ35e-LjETs/", "https://www.instagram.com/reel/DQbW9nTDIAu/", "https://www.instagram.com/reel/DP09jgBDGk-/", "https://www.instagram.com/reel/DGFk51sNhcK/"
-  ],
-  designation: "Oncologist & Hemato-Oncologist, Immuno-Oncologist",
-  qualification:
-    "MD Internal Medicine (AIIMS), DM Medical Oncology (AIIMS),  MRCP (UK) Certified, ESMO Certified Oncologist",
+    rating: "4.9",
+    reviews: "100+ Ratings",
+    phone: "+91-9871250784",
 
-  rating: "4.9",
-  reviews: "100+ Ratings",
-  phone: "+91-9871250784",
+    centres: ["ICTC Dadar", "ICTC Goregaon"],
+    languages: ["English", "Hindi", "Marathi"],
 
-  centres: ["ICTC Dadar", "ICTC Goregaon"],
-  languages: ["English", "Hindi", "Marathi"],
-
-  summary: `Dr. Viraj Nevrekar is a highly experienced Cancer Specialist and Medical
+    summary: `Dr. Viraj Nevrekar is a highly experienced Cancer Specialist and Medical
   Oncologist with over 16 years of clinical experience in the field of oncology.
   He is known for delivering advanced, evidence-based, and compassionate cancer
   care to patients across a wide range of malignancies.
@@ -438,88 +472,88 @@ const doctorData = {
   therapeutic approaches, and meaningful contributions to improving patient care
   through advanced medical practice and research.`,
 
-  philosophy: `My philosophy of cancer care is based on evidence-driven medicine,
+    philosophy: `My philosophy of cancer care is based on evidence-driven medicine,
   precision oncology, and compassionate patient engagement. I believe in using
   modern therapeutic advances while maintaining transparency and empathy,
   ensuring that every patient receives personalized, ethical, and effective
   cancer treatment.`,
 
-  expertise: [
-    "Gastrointestinal Cancers",
-    "Breast Cancer",
-    "Head & Neck Cancers",
-    "Ovarian Cancer",
-    "Solid Tumors",
-    "Chemotherapy",
-    "Immunotherapy",
-    "Targeted Therapy",
-    "Personalized Cancer Treatment",
-  ],
+    expertise: [
+      "Gastrointestinal Cancers",
+      "Breast Cancer",
+      "Head & Neck Cancers",
+      "Ovarian Cancer",
+      "Solid Tumors",
+      "Chemotherapy",
+      "Immunotherapy",
+      "Targeted Therapy",
+      "Personalized Cancer Treatment",
+    ],
 
-  education: [
-    {
-      title: "DM Medical Oncology",
-      place: "All India Institute of Medical Sciences (AIIMS), New Delhi",
-    },
-    {
-      title: "MD Internal Medicine",
-      place: "All India Institute of Medical Sciences (AIIMS), New Delhi",
-    },
-    {
-      title: "MBBS",
-      place: "All India Institute of Medical Sciences (AIIMS), New Delhi",
-    },
-  ],
+    education: [
+      {
+        title: "DM Medical Oncology",
+        place: "All India Institute of Medical Sciences (AIIMS), New Delhi",
+      },
+      {
+        title: "MD Internal Medicine",
+        place: "All India Institute of Medical Sciences (AIIMS), New Delhi",
+      },
+      {
+        title: "MBBS",
+        place: "All India Institute of Medical Sciences (AIIMS), New Delhi",
+      },
+    ],
 
-  experience: [
-    {
-      role: "Consultant Medical Oncologist",
-      place: "Holy Family Hospital",
-    },
-    {
-      role: "Consultant Medical Oncologist",
-      place: "Holy Spirit Hospital",
-    },
-    {
-      role: "Consultant Medical Oncologist",
-      place: "Millat Nursing Home",
-    },
-  ],
+    experience: [
+      {
+        role: "Consultant Medical Oncologist",
+        place: "Holy Family Hospital",
+      },
+      {
+        role: "Consultant Medical Oncologist",
+        place: "Holy Spirit Hospital",
+      },
+      {
+        role: "Consultant Medical Oncologist",
+        place: "Millat Nursing Home",
+      },
+    ],
 
-  achievements: [
-    "Certified by European Society of Medical Oncology (ESMO)",
-    "Active Member – European Society of Medical Oncology (ESMO)",
-    "Recognised for Excellence in Chemotherapy, Immunotherapy & Targeted Therapy",
-    "Contributor to Oncology Research & Clinical Publications",
-  ],
-},
+    achievements: [
+      "Certified by European Society of Medical Oncology (ESMO)",
+      "Active Member – European Society of Medical Oncology (ESMO)",
+      "Recognised for Excellence in Chemotherapy, Immunotherapy & Targeted Therapy",
+      "Contributor to Oncology Research & Clinical Publications",
+    ],
+  },
 
+  "kunal-goyal": {
+    slug: "kunal-goyal",
+    name: "Dr. Kunal Goyal",
+    image: doc5, // replace with correct imported image
+    stories: [
+      "https://www.instagram.com/reel/DST-mcRDCC1/",
+      "https://www.instagram.com/reel/DTHYcKMCnnA/",
+      "https://www.instagram.com/reel/DRjo6xWDKOa/",
+      "https://www.instagram.com/reel/DQ35e-LjETs/",
+      "https://www.instagram.com/reel/DQbW9nTDIAu/",
+      "https://www.instagram.com/reel/DP09jgBDGk-/",
+      "https://www.instagram.com/reel/DGFk51sNhcK/",
+    ],
+    designation:
+      "Hematologist, Bone Marrow Transplant & Cellular Therapy Specialist",
+    qualification:
+      "MD, DM Clinical Hematology, Haemato-Oncologist, BMT & CAR-T Specialist, ex-TATA ACTREC",
 
-"kunal-goyal": {
-  slug: "kunal-goyal",
-  name: "Dr. Kunal Goyal",
-  image: doc5, // replace with correct imported image
-  stories: [
-   "https://www.instagram.com/reel/DST-mcRDCC1/", "https://www.instagram.com/reel/DTHYcKMCnnA/", "https://www.instagram.com/reel/DRjo6xWDKOa/", "https://www.instagram.com/reel/DQ35e-LjETs/", "https://www.instagram.com/reel/DQbW9nTDIAu/", "https://www.instagram.com/reel/DP09jgBDGk-/", "https://www.instagram.com/reel/DGFk51sNhcK/"
-  ],
-  designation:
-    "Hematologist, Bone Marrow Transplant & Cellular Therapy Specialist",
-  qualification:
-    "MD, DM Clinical Hematology, Haemato-Oncologist, BMT & CAR-T Specialist, ex-TATA ACTREC",
+    rating: "5.0",
+    reviews: "100+ Ratings",
+    phone: "+91-9922964122",
 
-  rating: "5.0",
-  reviews: "100+ Ratings",
-  phone: "+91-9922964122",
+    centres: ["ICTC Dadar", "ICTC Ghatkopar", "ICTC Sion", "ICTC Vashi"],
+    languages: ["English", "Hindi"],
 
-  centres: [
-    "ICTC Dadar",
-    "ICTC Ghatkopar",
-    "ICTC Sion",
-    "ICTC Vashi",
-  ],
-  languages: ["English", "Hindi"],
-
-  summary: `Dr. Kunal Goyal is a highly accomplished Clinical Hematologist and
+    summary: `Dr. Kunal Goyal is a highly accomplished Clinical Hematologist and
   Haemato-Oncologist with over 6 years of specialised experience in advanced
   hematological care. He currently serves as the Consultant and Head of
   Hemato-Oncology at the Indian Cancer Treatment Centre (ICTC) and is widely
@@ -562,88 +596,93 @@ const doctorData = {
   Through innovation, precision, and compassion, he continues to transform the
   landscape of hematology and advanced cancer care at ICTC.`,
 
-  philosophy: `There is always hope beyond what you see. My philosophy of care is
+    philosophy: `There is always hope beyond what you see. My philosophy of care is
   rooted in innovation, scientific precision, and unwavering optimism. I believe
   that advanced hematological diseases require cutting-edge therapies delivered
   with empathy, transparency, and strong patient support. Every treatment plan
   is designed to maximise outcomes while preserving quality of life.`,
 
-  expertise: [
-    "Clinical Hematology",
-    "Hematological Malignancies",
-    "Bone Marrow Transplantation",
-    "Stem Cell Transplantation",
-    "CAR-T Cell Therapy",
-    "Cellular Therapies",
-    "Leukemia",
-    "Lymphoma",
-    "Myelodysplastic Syndromes",
-    "Coagulation Disorders",
-    "Pediatric Hematological Disorders",
-  ],
+    expertise: [
+      "Clinical Hematology",
+      "Hematological Malignancies",
+      "Bone Marrow Transplantation",
+      "Stem Cell Transplantation",
+      "CAR-T Cell Therapy",
+      "Cellular Therapies",
+      "Leukemia",
+      "Lymphoma",
+      "Myelodysplastic Syndromes",
+      "Coagulation Disorders",
+      "Pediatric Hematological Disorders",
+    ],
 
-  education: [
-    {
-      title: "DM Clinical Hematology",
-      place: "Institute of Hematology & Transfusion Medicine (IHTM), Kolkata",
-    },
-    {
-      title: "MD",
-      place: "Institute of Hematology & Transfusion Medicine (IHTM), Kolkata",
-    },
-    {
-      title: "MBBS",
-      place: "Institute of Hematology & Transfusion Medicine (IHTM), Kolkata",
-    },
-    {
-      title: "Fellowship in Bone Marrow Transplantation & Cellular Therapies",
-      place: "Tata Memorial Centre (TATA ACTREC)",
-    },
-  ],
+    education: [
+      {
+        title: "DM Clinical Hematology",
+        place: "Institute of Hematology & Transfusion Medicine (IHTM), Kolkata",
+      },
+      {
+        title: "MD",
+        place: "Institute of Hematology & Transfusion Medicine (IHTM), Kolkata",
+      },
+      {
+        title: "MBBS",
+        place: "Institute of Hematology & Transfusion Medicine (IHTM), Kolkata",
+      },
+      {
+        title: "Fellowship in Bone Marrow Transplantation & Cellular Therapies",
+        place: "Tata Memorial Centre (TATA ACTREC)",
+      },
+    ],
 
-  experience: [
-    {
-      role: "Consultant & Head – Hemato-Oncology",
-      place: "Indian Cancer Treatment Centre (ICTC)",
-    },
-    {
-      role: "Clinical Hematologist & CAR-T Therapy Specialist",
-      place: "Tata Memorial Centre (TATA ACTREC)",
-    },
-  ],
+    experience: [
+      {
+        role: "Consultant & Head – Hemato-Oncology",
+        place: "Indian Cancer Treatment Centre (ICTC)",
+      },
+      {
+        role: "Clinical Hematologist & CAR-T Therapy Specialist",
+        place: "Tata Memorial Centre (TATA ACTREC)",
+      },
+    ],
 
-  achievements: [
-    "Performed 200+ Bone Marrow Transplants",
-    "Done First-Ever CAR-T Cell Therapy in a Private Setup in Navi Mumbai",
-    "Winner – National Haemato-Oncology Quiz for DM, DNB & Postgraduate Residents",
-    "Member – Indian Society of Hematology & Blood Transfusion (ISHBT)",
-    "Member – Indian Society of Blood & Marrow Transplantation (ISBMT)",
-    "Member – American Society of Clinical Oncology (ASCO)",
-    "Member – American Society of Hematology (ASH)",
-    "Published Research on Leukemia, AML, CML, Pediatric CML & CAR-T Cell Therapies",
-  ],
-},
+    achievements: [
+      "Performed 200+ Bone Marrow Transplants",
+      "Done First-Ever CAR-T Cell Therapy in a Private Setup in Navi Mumbai",
+      "Winner – National Haemato-Oncology Quiz for DM, DNB & Postgraduate Residents",
+      "Member – Indian Society of Hematology & Blood Transfusion (ISHBT)",
+      "Member – Indian Society of Blood & Marrow Transplantation (ISBMT)",
+      "Member – American Society of Clinical Oncology (ASCO)",
+      "Member – American Society of Hematology (ASH)",
+      "Published Research on Leukemia, AML, CML, Pediatric CML & CAR-T Cell Therapies",
+    ],
+  },
 
+  "deep-vora": {
+    slug: "deep-vora",
+    name: "Dr. Deep Vora",
+    image: doc6, // replace with correct imported image
+    stories: [
+      "https://www.instagram.com/reel/DST-mcRDCC1/",
+      "https://www.instagram.com/reel/DTHYcKMCnnA/",
+      "https://www.instagram.com/reel/DRjo6xWDKOa/",
+      "https://www.instagram.com/reel/DQ35e-LjETs/",
+      "https://www.instagram.com/reel/DQbW9nTDIAu/",
+      "https://www.instagram.com/reel/DP09jgBDGk-/",
+      "https://www.instagram.com/reel/DGFk51sNhcK/",
+    ],
+    designation: "Oncologist & Hemato-Oncologist, Immuno-Oncologist",
+    qualification:
+      "DNB Internal Medicine, DM Medical Oncology, MRCP SCE (UK) | ESMO Certified, Certification in Advanced Oncology (Harvard Medical School)",
 
-"deep-vora": {
-  slug: "deep-vora",
-  name: "Dr. Deep Vora",
-  image: doc6, // replace with correct imported image
-  stories: [
-   "https://www.instagram.com/reel/DST-mcRDCC1/", "https://www.instagram.com/reel/DTHYcKMCnnA/", "https://www.instagram.com/reel/DRjo6xWDKOa/", "https://www.instagram.com/reel/DQ35e-LjETs/", "https://www.instagram.com/reel/DQbW9nTDIAu/", "https://www.instagram.com/reel/DP09jgBDGk-/", "https://www.instagram.com/reel/DGFk51sNhcK/"
-  ],
-  designation: "Oncologist & Hemato-Oncologist, Immuno-Oncologist",
-  qualification:
-    "DNB Internal Medicine, DM Medical Oncology, MRCP SCE (UK) | ESMO Certified, Certification in Advanced Oncology (Harvard Medical School)",
+    rating: "4.9",
+    reviews: "100+ Ratings",
+    phone: "+91-9426973436",
 
-  rating: "4.9",
-  reviews: "100+ Ratings",
-  phone: "+91-9426973436",
+    centres: ["ICTC Ghatkopar", "ICTC Chembur"],
+    languages: ["English", "Hindi", "Gujarati"],
 
-  centres: ["ICTC Ghatkopar", "ICTC Chembur"],
-  languages: ["English", "Hindi", "Gujarati"],
-
-  summary: `Dr. Deep Vora is a dedicated Medical Oncologist, Hemato-Oncologist, and
+    summary: `Dr. Deep Vora is a dedicated Medical Oncologist, Hemato-Oncologist, and
   Immuno-Oncologist with over 4 years of specialised experience in the management
   of both solid tumors and hematological malignancies. He is known for delivering
   evidence-based, precision-driven, and compassionate cancer care, supported by
@@ -690,81 +729,86 @@ const doctorData = {
   provide personalised, advanced, and compassionate cancer treatment that
   prioritises both clinical outcomes and quality of life.`,
 
-  philosophy: `My approach to cancer care is grounded in scientific precision,
+    philosophy: `My approach to cancer care is grounded in scientific precision,
   empathy, and evidence-based medicine. I believe in personalised oncology
   treatment guided by tumour biology, molecular profiling, and global clinical
   guidelines. Transparent communication and compassionate care remain central to
   supporting patients and their families throughout the cancer journey.`,
 
-  expertise: [
-    "Solid Tumors",
-    "Hematological Malignancies",
-    "Immunotherapy",
-    "Precision Oncology",
-    "Molecular Targeted Therapies",
-    "Bone Marrow Transplantation (BMT)",
-    "Geriatric Oncology",
-    "Clinical Oncology Research",
-  ],
+    expertise: [
+      "Solid Tumors",
+      "Hematological Malignancies",
+      "Immunotherapy",
+      "Precision Oncology",
+      "Molecular Targeted Therapies",
+      "Bone Marrow Transplantation (BMT)",
+      "Geriatric Oncology",
+      "Clinical Oncology Research",
+    ],
 
-  education: [
-    {
-      title: "DM Medical Oncology",
-      place: "Tata Memorial Hospital, Mumbai",
-    },
-    {
-      title: "DNB Internal Medicine",
-      place: "P.D. Hinduja Hospital, Mumbai",
-    },
-    {
-      title: "MBBS",
-      place: "Smt. NHL Municipal Medical College, Ahmedabad",
-    },
-    {
-      title: "Certification in Advanced Oncology",
-      place: "Harvard Medical School, Boston",
-    },
-  ],
+    education: [
+      {
+        title: "DM Medical Oncology",
+        place: "Tata Memorial Hospital, Mumbai",
+      },
+      {
+        title: "DNB Internal Medicine",
+        place: "P.D. Hinduja Hospital, Mumbai",
+      },
+      {
+        title: "MBBS",
+        place: "Smt. NHL Municipal Medical College, Ahmedabad",
+      },
+      {
+        title: "Certification in Advanced Oncology",
+        place: "Harvard Medical School, Boston",
+      },
+    ],
 
-  experience: [
-    {
-      role: "Consultant Medical Oncologist",
-      place: "ACTREC, Tata Memorial Hospital",
-    },
-  ],
+    experience: [
+      {
+        role: "Consultant Medical Oncologist",
+        place: "ACTREC, Tata Memorial Hospital",
+      },
+    ],
 
-  achievements: [
-    "All India Rank 8 – DM Medical Oncology Entrance Exam (Tata Memorial Centre)",
-    "ESMO Certified Oncologist",
-    "MRCP SCE (UK) Qualified",
-    "Member – European Society of Medical Oncology (ESMO)",
-    "Member – American Society of Clinical Oncology (ASCO)",
-    "Member – Indian Society for Medical & Pediatric Oncology (ISMPO)",
-    "Published Research on Breast, Lung & Esophageal Cancers",
-    "Contributor to Research on COVID-19 Vaccine Uptake in Cancer Patients",
-  ],
-},
+    achievements: [
+      "All India Rank 8 – DM Medical Oncology Entrance Exam (Tata Memorial Centre)",
+      "ESMO Certified Oncologist",
+      "MRCP SCE (UK) Qualified",
+      "Member – European Society of Medical Oncology (ESMO)",
+      "Member – American Society of Clinical Oncology (ASCO)",
+      "Member – Indian Society for Medical & Pediatric Oncology (ISMPO)",
+      "Published Research on Breast, Lung & Esophageal Cancers",
+      "Contributor to Research on COVID-19 Vaccine Uptake in Cancer Patients",
+    ],
+  },
 
+  "shreya-gattani": {
+    slug: "shreya-gattani",
+    name: "Dr. Shreya Gattani",
+    image: doc7, // replace with correct imported image
+    stories: [
+      "https://www.instagram.com/reel/DST-mcRDCC1/",
+      "https://www.instagram.com/reel/DTHYcKMCnnA/",
+      "https://www.instagram.com/reel/DRjo6xWDKOa/",
+      "https://www.instagram.com/reel/DQ35e-LjETs/",
+      "https://www.instagram.com/reel/DQbW9nTDIAu/",
+      "https://www.instagram.com/reel/DP09jgBDGk-/",
+      "https://www.instagram.com/reel/DGFk51sNhcK/",
+    ],
+    designation: "Oncologist & Hemato-Oncologist, Immuno-Oncologist",
+    qualification:
+      "MD, DM Medical Oncology (GCRI), Fellowship in Geriatric Oncology (Tata Memorial Hospital, Mumbai)",
 
-"shreya-gattani": {
-  slug: "shreya-gattani",
-  name: "Dr. Shreya Gattani",
-  image: doc7, // replace with correct imported image
-  stories: [
-   "https://www.instagram.com/reel/DST-mcRDCC1/", "https://www.instagram.com/reel/DTHYcKMCnnA/", "https://www.instagram.com/reel/DRjo6xWDKOa/", "https://www.instagram.com/reel/DQ35e-LjETs/", "https://www.instagram.com/reel/DQbW9nTDIAu/", "https://www.instagram.com/reel/DP09jgBDGk-/", "https://www.instagram.com/reel/DGFk51sNhcK/"
-  ],
-  designation: "Oncologist & Hemato-Oncologist, Immuno-Oncologist",
-  qualification:
-    "MD, DM Medical Oncology (GCRI), Fellowship in Geriatric Oncology (Tata Memorial Hospital, Mumbai)",
+    rating: "4.9",
+    reviews: "100+ Ratings",
+    phone: "+91-9112735218",
 
-  rating: "4.9",
-  reviews: "100+ Ratings",
-  phone: "+91-9112735218",
+    centres: ["ICTC Santacruz"],
+    languages: ["English", "Hindi"],
 
-  centres: ["ICTC Santacruz"],
-  languages: ["English", "Hindi"],
-
-  summary: `Dr. Shreya Gattani is a dedicated Medical and Hemato-Oncologist with
+    summary: `Dr. Shreya Gattani is a dedicated Medical and Hemato-Oncologist with
   specialised training in the management of solid tumors and hematological
   malignancies. She is known for her structured, evidence-based approach to
   oncology care and her commitment to delivering compassionate and personalised
@@ -793,70 +837,70 @@ const doctorData = {
   to provide comprehensive oncology care guided by modern treatment protocols
   and patient-centred values.`,
 
-  philosophy: `My philosophy of care is centered on compassion, precision, and
+    philosophy: `My philosophy of care is centered on compassion, precision, and
   respect for individual patient needs. I believe in evidence-based oncology
   combined with thoughtful decision-making, especially when treating elderly and
   vulnerable patients, to ensure both effective treatment and quality of life.`,
 
-  expertise: [
-    "Solid Tumors",
-    "Hematological Malignancies",
-    "Chemotherapy",
-    "Geriatric Oncology",
-    "Personalized Cancer Treatment",
-    "Supportive Oncology Care",
-  ],
+    expertise: [
+      "Solid Tumors",
+      "Hematological Malignancies",
+      "Chemotherapy",
+      "Geriatric Oncology",
+      "Personalized Cancer Treatment",
+      "Supportive Oncology Care",
+    ],
 
-  education: [
-    {
-      title: "DM Medical Oncology",
-      place: "Gujarat Cancer & Research Institute (GCRI)",
-    },
-    {
-      title: "MD",
-      place: "—",
-    },
-    {
-      title: "MBBS",
-      place: "—",
-    },
-    {
-      title: "Fellowship in Geriatric Oncology",
-      place: "Tata Memorial Hospital, Mumbai",
-    },
-  ],
+    education: [
+      {
+        title: "DM Medical Oncology",
+        place: "Gujarat Cancer & Research Institute (GCRI)",
+      },
+      {
+        title: "MD",
+        place: "—",
+      },
+      {
+        title: "MBBS",
+        place: "—",
+      },
+      {
+        title: "Fellowship in Geriatric Oncology",
+        place: "Tata Memorial Hospital, Mumbai",
+      },
+    ],
 
-  experience: [
-    {
-      role: "Consultant Medical & Hemato-Oncologist",
-      place: "Indian Cancer Treatment Centre (ICTC), Santacruz",
-    },
-  ],
+    experience: [
+      {
+        role: "Consultant Medical & Hemato-Oncologist",
+        place: "Indian Cancer Treatment Centre (ICTC), Santacruz",
+      },
+    ],
 
-  achievements: [
-    "Specialised Training in Geriatric Oncology – Tata Memorial Hospital",
-    "DM Medical Oncology Graduate – Gujarat Cancer & Research Institute (GCRI)",
-    "Known for Patient-Centric & Ethical Oncology Practice",
-  ],
-},
+    achievements: [
+      "Specialised Training in Geriatric Oncology – Tata Memorial Hospital",
+      "DM Medical Oncology Graduate – Gujarat Cancer & Research Institute (GCRI)",
+      "Known for Patient-Centric & Ethical Oncology Practice",
+    ],
+  },
 
-"darshan-kiran-jain": {
-  slug: "darshan-kiran-jain",
-  name: "Dr. Darshan Kiran Jain",
-  image: doc8, // replace with correct imported image
-  stories: [],
-  designation: "Medical Oncologist & Hemato-Oncologist, Immuno-Oncologist",
-  qualification:
-    "DM Medical Oncology (GCRI), DNB Internal Medicine, Certified in Immuno-Oncology & Precision Oncology (Harvard Medical School)",
+  "darshan-kiran-jain": {
+    slug: "darshan-kiran-jain",
+    name: "Dr. Darshan Kiran Jain",
+    image: doc8, // replace with correct imported image
+    stories: [],
+    designation: "Medical Oncologist & Hemato-Oncologist, Immuno-Oncologist",
+    qualification:
+      "DM Medical Oncology (GCRI), DNB Internal Medicine, Certified in Immuno-Oncology & Precision Oncology (Harvard Medical School)",
 
-  rating: "4.9",
-  reviews: "100+ Ratings",
-  phone: "+91 9326911195",
+    rating: "4.9",
+    reviews: "100+ Ratings",
+    phone: "+91 9326911195",
 
-  centres: ["ICTC Thane"],
-  languages: ["English", "Hindi", "Marathi", "Gujarati"],
+    centres: ["ICTC Thane"],
+    languages: ["English", "Hindi", "Marathi", "Gujarati"],
 
-  summary: `Dr. Darshan Jain is a highly trained Medical and Hemato-Oncologist 
+    summary: `Dr. Darshan Jain is a highly trained Medical and Hemato-Oncologist 
   specialising in immuno-oncology, targeted therapy, and precision cancer care 
   guided by molecular profiling. He completed his DM in Medical Oncology from 
   B.J. Medical College & Gujarat Cancer & Research Institute (GCRI), Ahmedabad, 
@@ -875,57 +919,182 @@ const doctorData = {
   innovation with compassionate care to deliver optimal outcomes for patients 
   undergoing cancer treatment.`,
 
-  philosophy: `My philosophy of care integrates scientific precision with 
+    philosophy: `My philosophy of care integrates scientific precision with 
   compassionate patient engagement. I believe in leveraging molecular diagnostics 
   and evidence-based protocols to design personalised cancer treatment plans 
   that maximise effectiveness while maintaining quality of life.`,
 
-  expertise: [
-    "Immuno-Oncology",
-    "Precision Oncology",
-    "Targeted Therapy",
-    "Cancer Genomics",
-    "Solid Tumors",
-    "Hematological Malignancies",
-    "Molecular Profiling",
-  ],
+    expertise: [
+      "Immuno-Oncology",
+      "Precision Oncology",
+      "Targeted Therapy",
+      "Cancer Genomics",
+      "Solid Tumors",
+      "Hematological Malignancies",
+      "Molecular Profiling",
+    ],
 
-  education: [
-    {
-      title: "Certificate in Cancer Genomics, Precision Oncology & Immuno-Oncology",
-      place: "Harvard Medical School",
-    },
-    {
-      title: "DM Medical Oncology",
-      place: "Gujarat Cancer & Research Institute (GCRI), Ahmedabad",
-    },
-    {
-      title: "DNB Internal Medicine",
-      place: "Saifee Hospital, Mumbai",
-    },
-    {
-      title: "MBBS",
-      place: "Smt. Kashibai Navale Medical College and General Hospital, Pune, India",
-    },
-  ],
+    education: [
+      {
+        title:
+          "Certificate in Cancer Genomics, Precision Oncology & Immuno-Oncology",
+        place: "Harvard Medical School",
+      },
+      {
+        title: "DM Medical Oncology",
+        place: "Gujarat Cancer & Research Institute (GCRI), Ahmedabad",
+      },
+      {
+        title: "DNB Internal Medicine",
+        place: "Saifee Hospital, Mumbai",
+      },
+      {
+        title: "MBBS",
+        place:
+          "Smt. Kashibai Navale Medical College and General Hospital, Pune, India",
+      },
+    ],
 
-  experience: [
-    {
-      role: "Consultant Medical & Hemato-Oncologist",
-      place: "Indian Cancer Treatment Centre (ICTC), Thane",
-    },
-  ],
+    experience: [
+      {
+        role: "Consultant Medical & Hemato-Oncologist",
+        place: "Indian Cancer Treatment Centre (ICTC), Thane",
+      },
+    ],
 
-  achievements: [
-    "Finalist – ISMPO Torrent Young Scholar Award (TYSA) Oncology 2024–25",
-    "First Prize – Essence of EHA 2024, Mumbai",
-    "Co-investigator – Capmatinib Study in MET Exon 14 Skipping Mutation Positive Advanced NSCLC (India)",
-    "Research Coordinator – Freedom COVID Trial, Saifee Hospital",
-    "Member – European Society of Medical Oncology (ESMO)",
-    "Member – American Society of Clinical Oncology (ASCO)",
-  ],
-},
+    achievements: [
+      "Finalist – ISMPO Torrent Young Scholar Award (TYSA) Oncology 2024–25",
+      "First Prize – Essence of EHA 2024, Mumbai",
+      "Co-investigator – Capmatinib Study in MET Exon 14 Skipping Mutation Positive Advanced NSCLC (India)",
+      "Research Coordinator – Freedom COVID Trial, Saifee Hospital",
+      "Member – European Society of Medical Oncology (ESMO)",
+      "Member – American Society of Clinical Oncology (ASCO)",
+    ],
+  },
 
+  "juhi-shah": {
+    slug: "juhi-shah",
+    name: "Dr. Juhi Shah",
+    image: doc9, // replace with correct imported image
+    stories: [],
+
+    designation:
+      "Pediatric Oncologist & Pediatric Bone Marrow Transplant Physician",
+    qualification:
+      "MD Pediatrics, DNB Pediatrics, DM Pediatric Oncology (Tata Memorial Hospital Mumbai)",
+    rating: "4.8",
+    reviews: "80+ Ratings",
+    phone: "",
+
+    centres: ["ICTC Thane"],
+
+    languages: ["English", "Hindi", "Gujarati", "Marathi"],
+
+    summary: `Dr. Juhi Shah is a Consultant Pediatric Oncologist with specialized expertise in the diagnosis, treatment, and long-term management of childhood cancers and blood disorders. She has undergone advanced super-specialty training in Pediatric Oncology from Tata Memorial Hospital, Mumbai, one of India's premier cancer institutes.
+
+She is highly experienced in treating a wide spectrum of pediatric malignancies including leukemias, lymphomas, Langerhans Cell Histiocytosis (LCH), brain tumors, neuroblastoma, Wilms tumor, rhabdomyosarcoma, osteosarcoma, retinoblastoma, and other complex childhood cancers.
+
+Dr. Shah has dedicated her career to delivering comprehensive and compassionate cancer care for infants, children, and adolescents. Her clinical practice focuses not only on achieving the best treatment outcomes but also on ensuring that children and their families receive continuous support throughout every stage of treatment.
+
+Her expertise spans the complete spectrum of pediatric cancer management, including accurate diagnosis, chemotherapy administration, supportive care, management of treatment-related complications, immunotherapy, targeted therapies, and pediatric bone marrow transplantation.
+
+She is particularly experienced in the management of pediatric hematological malignancies such as Acute Lymphoblastic Leukemia (ALL), Acute Myeloid Leukemia (AML), Chronic Myeloid Leukemia (CML), Juvenile Myelomonocytic Leukemia (JMML), Hodgkin Lymphoma, Non-Hodgkin Lymphoma, and Langerhans Cell Histiocytosis (LCH).
+
+In addition to cancer treatment, Dr. Shah is trained in pediatric bone marrow transplantation and follows evidence-based transplant protocols to optimize outcomes and improve long-term quality of life for children undergoing advanced cancer therapies.
+
+She strongly believes in multidisciplinary cancer care and works closely with pediatric surgeons, radiation oncologists, pathologists, intensivists, nurses, nutritionists, psychologists, and rehabilitation specialists to provide holistic treatment tailored to each child’s individual needs.`,
+
+    philosophy: `Every child deserves access to compassionate, evidence-based, and world-class cancer care.
+
+Dr. Juhi Shah believes that successful pediatric oncology treatment extends beyond curing disease. Her approach focuses on treating the child as a whole while supporting the emotional, psychological, developmental, and social needs of both the patient and their family.
+
+She is committed to building strong relationships with families, ensuring clear communication throughout the treatment journey, and helping children achieve the best possible long-term outcomes. Through a combination of advanced medical expertise, multidisciplinary collaboration, and compassionate care, she strives to make every child feel supported during and after treatment.`,
+
+    expertise: [
+  "All Childhood Cancers",
+  "Leukemias",
+  "Lymphomas",
+  "Langerhans Cell Histiocytosis (LCH)",
+  "Brain Tumors",
+  "Neuroblastoma",
+  "Wilms Tumor",
+  "Germ Cell Tumor",
+  "Bone Tumors",
+  "Adolescents with Cancer",
+  "Relapsed & Refractory Childhood Cancers",
+  "Rare Childhood Cancers",
+  "Blood Disorders in Children",
+  "Thalassemia",
+  "Sickle Cell Anemia",
+  "Aplastic Anemia",
+  "Chemotherapy",
+  "Immunotherapy",
+  "Targeted Therapy",
+  "Bone Marrow Transplant",
+  "CAR T-Cell Therapy",
+],
+
+    education: [
+      {
+        title: "DM Pediatric Oncology",
+        place: "Tata Memorial Hospital, Mumbai",
+      },
+      {
+        title: "DNB Pediatrics",
+        place: "National Board of Examinations, New Delhi",
+      },
+      {
+        title: "MD Pediatrics",
+        place: "Bombay Hospital and Institute of Medical Sciences, Mumbai",
+      },
+      {
+        title: "MBBS",
+        place: "Lokmanya Municipal Medical College & Sion Hospital, Mumbai",
+      },
+    ],
+
+    experience: [
+      {
+        role: "Assistant Professor, Department of Pediatric Oncology",
+        place:
+          "Mahamana Pt. Madan Mohan Malaviya Cancer Centre & Homi Bhabha Cancer Hospital, Varanasi (Unit of Tata Memorial Centre)",
+      },
+      {
+        role: "Assistant Professor, Department of Pediatric Oncology",
+        place: "Tata Memorial Hospital, Mumbai",
+      },
+      {
+        role: "Senior Resident, Department of Pediatric Oncology",
+        place: "Tata Memorial Hospital, Mumbai",
+      },
+      {
+        role: "Bone Marrow Transplant Training",
+        place:
+          "Advanced Centre for Treatment, Research and Education in Cancer (ACTREC), Navi Mumbai",
+      },
+    ],
+
+    achievements: [
+      "Oral Paper Presentation at SIOP 2020 Virtual Congress",
+      "Genetic Profile of Childhood T-Acute Lymphoblastic Leukemia (T-ALL) and its Impact on Outcomes: A Single Centre Experience from India",
+      "Second Prize – Oral Paper Presentation at PHOCON 2019, Varanasi",
+    "Life Member – Pediatric Hematology Oncology Chapter of IAP",
+      "Life Member – Indian Academy of Pediatrics (IAP)",
+      "M.N.A.M.S. – Membership of National Academy of Medical Sciences",
+      "Advance Neonatal Resuscitation Provider (NRP)",
+      "Reviewer – Pediatric Hematology Oncology (PHO) Journal",
+      "Specialized Training in Pediatric Bone Marrow Transplantation",
+      "Contributor to Pediatric Oncology Research and Academic Publications",
+    ],
+
+    memberships: [
+      "Life Member – Pediatric Hematology Oncology Chapter of IAP",
+      "Life Member – Indian Academy of Pediatrics (IAP)",
+      "M.N.A.M.S. – Membership of National Academy of Medical Sciences",
+      "Advance Neonatal Resuscitation Provider (NRP)",
+  
+    ],
+  },
 };
 
 export default doctorData;

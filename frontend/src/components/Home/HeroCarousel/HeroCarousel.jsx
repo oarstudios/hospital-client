@@ -5,6 +5,10 @@ import "./HeroCarousel.css";
 import slide1Desktop from "../../../assets/car.webp";
 import slide1Tablet from "../../../assets/car_tab.webp";
 import slide1Mobile from "../../../assets/car_mob.webp";
+import slide2Desktop from "../../../assets/car2.webp";
+import slide2Tablet from "../../../assets/car2_tab.webp";
+import slide2Mobile from "../../../assets/car2_mob.webp";
+
 
 const slides = [
   {
@@ -13,15 +17,11 @@ const slides = [
     mobile: slide1Mobile,
   },
   {
-    desktop: slide1Desktop,
-    tablet: slide1Tablet,
-    mobile: slide1Mobile,
+    desktop: slide2Desktop,
+    tablet: slide2Tablet,
+    mobile: slide2Mobile,
   },
-  {
-    desktop: slide1Desktop,
-    tablet: slide1Tablet,
-    mobile: slide1Mobile,
-  },
+ 
 ];
 
 const HeroCarousel = () => {
