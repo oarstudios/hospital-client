@@ -969,7 +969,7 @@ const doctorData = {
       "Pediatric Oncologist & Pediatric Bone Marrow Transplant Physician",
     qualification:
       "MD Pediatrics, DNB Pediatrics, DM Pediatric Oncology (Tata Memorial Hospital Mumbai)",
-    rating: "4.8",
+    rating: "5.0",
     reviews: "80+ Ratings",
     phone: "",
 
