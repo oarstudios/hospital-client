@@ -144,18 +144,6 @@ const doctorData = {
       },
     ],
 
-<<<<<<< HEAD
-  
-  achievements: [
-    "Postgraduate Academic Program – Johns Hopkins School of Medicine (Affiliated)",
-    "Co-investigator – PROMISE Clinical Registry, GCRI",
-    "Member – European Society of Medical Oncology (ESMO)",
-    "Member – American Society of Clinical Oncology (ASCO)",
-    "Student of the Year – Delcure Lifesciences (2013)",
-    "First Prize – Lung Cancer Quiz, GCRI (2017)",
-  ],
-},
-=======
     achievements: [
       "Postgraduate Academic Program – Johns Hopkins School of Medicine (Affiliated)",
       "Co-investigator – PROMISE Clinical Registry, GCRI",
@@ -165,7 +153,6 @@ const doctorData = {
       "First Prize – Lung Cancer Quiz, GCRI (2017)",
     ],
   },
->>>>>>> 182277bea10bc3856d8cd477fb490d9b2089f718
 
   "amit-ghanekar": {
     slug: "amit-ghanekar",
