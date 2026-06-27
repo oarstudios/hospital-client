@@ -120,7 +120,7 @@ const AllCentres = () => {
 
                 <span className="rating-score">{centre.rating}</span>
                 <span className="rating-sep">|</span>
-                <span className="rating-count">{centre.reviews}</span>
+                <span className="rating-count">{centre.reviews ? `${centre.reviews}+ Ratings` : ""}</span>
 
                 {centre.distance && (
                   <span className="centre-distance">

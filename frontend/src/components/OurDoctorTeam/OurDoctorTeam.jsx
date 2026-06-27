@@ -160,6 +160,11 @@ const OurDoctorTeam = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+
+  //get the current route path to determine if we are on the doctor profile page or not
+  const currentPath = window.location.pathname;
+  const isAboutUsPage = currentPath.startsWith("/aboutUs");
+
   const { list: doctors } = useSelector((state) => state.doctors);
 
   useEffect(() => {
@@ -224,34 +229,36 @@ const OurDoctorTeam = () => {
       </div>
 
       {/* FAQ SECTION */}
-      <div className="ictc-service-faq">
-        <h2>FAQ's</h2>
+      {!isAboutUsPage && (
+        <div className="ictc-service-faq">
+          <h2>FAQ's</h2>
 
-        {faqs.map((faq, index) => {
-          const isActive = activeIndex === index;
+          {faqs.map((faq, index) => {
+            const isActive = activeIndex === index;
 
-          return (
-            <div
-              key={index}
-              className={`ictc-faq-item ${isActive ? "ictc-faq-active" : ""}`}
-              onClick={() => setActiveIndex(isActive ? -1 : index)}
-            >
-              <div className="ictc-faq-question">
-                <span>{faq.question}</span>
-                <img
-                  src={arrowIcon}
-                  className={isActive ? "rotate" : ""}
-                  alt="toggle"
-                />
+            return (
+              <div
+                key={index}
+                className={`ictc-faq-item ${isActive ? "ictc-faq-active" : ""}`}
+                onClick={() => setActiveIndex(isActive ? -1 : index)}
+              >
+                <div className="ictc-faq-question">
+                  <span>{faq.question}</span>
+                  <img
+                    src={arrowIcon}
+                    className={isActive ? "rotate" : ""}
+                    alt="toggle"
+                  />
+                </div>
+
+                {isActive && (
+                  <div className="ictc-faq-answer">{faq.answer}</div>
+                )}
               </div>
-
-              {isActive && (
-                <div className="ictc-faq-answer">{faq.answer}</div>
-              )}
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      )}
     </section>
   );
 };

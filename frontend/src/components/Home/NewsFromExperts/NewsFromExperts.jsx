@@ -44,7 +44,7 @@ const NewsFromExperts = () => {
 
       <div className="news-tabs">
         <button className="tab-btn active">From Our Blogs</button>
-        <button className="tab-btn">Newsletter</button>
+        {/* <button className="tab-btn">Newsletter</button> */}
       </div>
 
       {loading && (

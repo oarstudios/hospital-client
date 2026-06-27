@@ -320,6 +320,20 @@ TAGS
 
 .tags-section{
 margin-bottom:28px;
+position: relative;
+z-index:10;
+}
+
+/* =========================================================
+EDITOR SECTION (toolbar + content)
+The wrapper establishes a positioning context so the toolbar
+only sticks while THIS section is being scrolled through —
+not for the entire modal.
+========================================================= */
+
+.editor-section{
+position:relative;
+margin-bottom:14px;
 }
 
 /* =========================================================
@@ -327,6 +341,9 @@ EDITOR TOOLBAR
 ========================================================= */
 
 .editor-toolbar{
+position:sticky;
+top:0;
+z-index:5;
 display:flex;
 flex-wrap:wrap;
 gap:10px;
@@ -376,6 +393,17 @@ line-height:1.8;
 .notion-editor .ProseMirror{
 outline:none;
 min-height:360px;
+}
+
+/* Visible "selected" state when a word/paragraph is highlighted by the user */
+.notion-editor .ProseMirror ::selection{
+background:#bfdbfe;
+color:#111827;
+}
+
+.notion-editor .ProseMirror ::-moz-selection{
+background:#bfdbfe;
+color:#111827;
 }
 
 .notion-editor h1{

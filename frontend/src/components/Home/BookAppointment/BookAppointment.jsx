@@ -1,12 +1,38 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { areaCentreMap, centerSlugMap } from "../../../data/centerData";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchActiveCenters } from "../../../redux/centers/centersSlice";
+import { createAppointment } from "../../../redux/appointments/appointmentsSlice";
 import "./BookAppointment.css";
 import doctorImg from "../../../assets/ICTC female doctor 1.png";
 import tickIcon from "../../../assets/Vector (8).png";
 import ThankYouPopup from "../../ThankYouPopup";
 
 const BookAppointment = () => {
+  /* ============================
+     CENTERS (fetched from backend)
+  ============================ */
+  const dispatch = useDispatch();
+  const { activeCenters = [] } = useSelector((state) => state.centers || {});
+
+  useEffect(() => {
+    if (!activeCenters.length) dispatch(fetchActiveCenters());
+  }, [dispatch, activeCenters.length]);
+
+  // Build { area: [centerNames] } from live center data instead of the old hardcoded map
+  const areaCentreMap = activeCenters.reduce((acc, c) => {
+    if (!c.area) return acc;
+    if (!acc[c.area]) acc[c.area] = [];
+    acc[c.area].push(c.name);
+    return acc;
+  }, {});
+
+  // slug lookup for the "visit the centre page" link further down
+  const centerSlugMap = activeCenters.reduce((acc, c) => {
+    acc[c.name] = c.slug;
+    return acc;
+  }, {});
+
   /* ============================
      STATE
   ============================ */
@@ -161,6 +187,26 @@ const BookAppointment = () => {
 
     setIsSubmitting(true);
 
+    // Find the matching center row so we can attach its real id for reporting.
+    const matchedCenter = activeCenters.find((c) => c.name === formData.center);
+
+    // 🔥 Save to OUR backend (so it shows up in Manage Appointments + the
+    // admin dashboard count). Run alongside the Google Sheets call below —
+    // if Google Sheets is briefly down we still don't want to lose the
+    // booking, and vice versa.
+    const savePromise = dispatch(
+      createAppointment({
+        patientName: formData.patientname,
+        age: formData.age ? Number(formData.age) : undefined,
+        phone: formData.phone,
+        area: formData.area,
+        center: formData.center,
+        centerId: matchedCenter?.id,
+        appointmentDate: formData.date,
+        source: formData.source,
+      })
+    );
+
     try {
       const response = await fetch(
         "https://script.google.com/macros/s/AKfycbwvMAutv6LdpzjigmueH0mBXUXNBn0YYh7zhQgLl4BoJ6fldYbuFH_SSBqB4-5U44aw/exec",
@@ -175,7 +221,12 @@ const BookAppointment = () => {
 
       const result = await response.json();
 
-      if (result.status === "success") {
+      // Wait for the backend save too, but don't let a Sheets-only failure
+      // block a successful DB save (and vice versa) — see catch below.
+      const saveResult = await savePromise;
+      const savedToBackend = createAppointment.fulfilled.match(saveResult);
+
+      if (result.status === "success" || savedToBackend) {
         setFormData({
           patientname: "",
           age: "",
@@ -194,7 +245,26 @@ const BookAppointment = () => {
         alert("Failed to save appointment");
       }
     } catch {
-      alert("Network error. Please try again.");
+      // Google Sheets request itself failed — fall back to checking whether
+      // the backend save (which runs independently) still went through.
+      const saveResult = await savePromise;
+      if (createAppointment.fulfilled.match(saveResult)) {
+        setFormData({
+          patientname: "",
+          age: "",
+          phone: "",
+          area: "",
+          center: "",
+          date: "",
+          source: "Website_Form",
+        });
+        setErrors({});
+        setShowSameDayNotice(false);
+        setShowTomorrowHint(false);
+        navigate("success", { replace: false });
+      } else {
+        alert("Network error. Please try again.");
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -211,14 +281,14 @@ const BookAppointment = () => {
      JSX
   ============================ */
   // Show popup if path ends with /success
-  const showThankYou = location.pathname.endsWith("/success");
+  // const showThankYou = location.pathname.endsWith("/success");
 
   return (
     <>
-      <ThankYouPopup
+      {/* <ThankYouPopup
         open={showThankYou}
         onClose={() => navigate("..", { replace: true, relative: "path" })}
-      />
+      /> */}
 
       <section className="appointment-wrapper">
         <div className="appointment-card">

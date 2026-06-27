@@ -121,9 +121,18 @@
 /* ================================
    LISTS
 ================================ */
-.ictc-service-content ul {
-  padding-left: 22px;
+.ictc-service-content ul,
+.ictc-service-content ol {
+  padding-left: 24px;
   margin-bottom: 20px;
+}
+
+.ictc-service-content ul {
+  list-style-type: disc;
+}
+
+.ictc-service-content ol {
+  list-style-type: decimal;
 }
 
 .ictc-service-content li {
@@ -133,8 +142,95 @@
   position: relative;
 }
 
+.ictc-service-content li p {
+  margin-bottom: 0;
+}
+
 .ictc-service-content li::marker {
   color: rgba(176, 104, 205, 1);
+}
+
+/* ================================
+   TYPOGRAPHY
+================================ */
+.ictc-service-content {
+  font-size: 16px;
+  line-height: 1.75;
+  color: #3b3b3b;
+}
+
+.ictc-service-content p {
+  margin-bottom: 14px;
+}
+
+.ictc-service-content h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: rgba(105, 60, 121, 1);
+  margin: 24px 0 12px;
+}
+
+.ictc-service-content h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: rgba(48, 45, 49, 1);
+  margin: 20px 0 10px;
+}
+
+.ictc-service-content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgba(48, 45, 49, 1);
+  margin: 16px 0 8px;
+}
+
+.ictc-service-content strong {
+  font-weight: 700;
+  color: #1f1f1f;
+}
+
+.ictc-service-content em {
+  font-style: italic;
+}
+
+.ictc-service-content u {
+  text-decoration: underline;
+}
+
+.ictc-service-content s {
+  text-decoration: line-through;
+  color: #888;
+}
+
+/* Highlight — TipTap outputs <mark> */
+.ictc-service-content mark {
+  background-color: #fff176;
+  color: inherit;
+  border-radius: 3px;
+  padding: 0 2px;
+}
+
+.ictc-service-content a {
+  color: #1a73e8;
+  text-decoration: underline;
+  word-break: break-word;
+}
+
+.ictc-service-content a:hover {
+  color: #1558b0;
+}
+
+/* Text alignment */
+.ictc-service-content [style*="text-align: left"]   { text-align: left; }
+.ictc-service-content [style*="text-align: center"] { text-align: center; }
+.ictc-service-content [style*="text-align: right"]  { text-align: right; }
+
+.ictc-service-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin: 16px 0;
+  display: block;
 }
 
 /* ================================

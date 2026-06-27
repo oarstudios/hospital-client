@@ -9,10 +9,11 @@ import { Doctor } from '../doctors/entities/doctor.entity';
 import { Blog } from '../blogs/entities/blog.entity';
 import { Cancer } from '../cancers/entities/cancer.entity';
 import { Service } from '../services/entities/service.entity';
+import { Appointment } from '../appointments/entities/appointment.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Center, Doctor, Blog, Cancer, Service]),
+    TypeOrmModule.forFeature([Center, Doctor, Blog, Cancer, Service, Appointment]),
   ],
   controllers: [DashboardController],
   providers: [DashboardService],

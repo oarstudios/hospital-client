@@ -139,7 +139,11 @@
 
 @media (min-width: 1180px) {
   .quick-cta {
-    position: fixed !important;
+    /* was `position: fixed !important`, which pinned this to the
+       viewport bottom for the entire page scroll and made it float
+       on top of later sections (e.g. Meet Our Experts). Switched to
+       `absolute` so it stays anchored inside .hero-carousel instead. */
+    position: absolute;
     bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
@@ -157,7 +161,7 @@
 
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
 
-    z-index: 9999;
+    z-index: 10;
   }
 
   .cta-btn {

@@ -7,6 +7,7 @@ import { Doctor } from '../doctors/entities/doctor.entity';
 import { Blog } from '../blogs/entities/blog.entity';
 import { Cancer } from '../cancers/entities/cancer.entity';
 import { Service } from '../services/entities/service.entity';
+import { Appointment } from '../appointments/entities/appointment.entity';
 
 @Injectable()
 export class DashboardService {
@@ -25,15 +26,19 @@ export class DashboardService {
 
     @InjectRepository(Service)
     private readonly serviceRepo: Repository<Service>,
+
+    @InjectRepository(Appointment)
+    private readonly appointmentRepo: Repository<Appointment>,
   ) {}
 
   async getStats() {
-    const [centers, doctors, blogs, cancers, services] = await Promise.all([
+    const [centers, doctors, blogs, cancers, services, appointments] = await Promise.all([
       this.centerRepo.count({ where: { isDeleted: false } }),
       this.doctorRepo.count({ where: { isDeleted: false } }),
       this.blogRepo.count({ where: { isDeleted: false } }),
       this.cancerRepo.count({ where: { isDeleted: false } }),
       this.serviceRepo.count({ where: { isDeleted: false } }),
+      this.appointmentRepo.count({ where: { isDeleted: false } }),
     ]);
 
     return {
@@ -42,6 +47,7 @@ export class DashboardService {
       totalBlogs: blogs,
       cancerTypes: cancers,
       services: services,
+      appointments: appointments,
     };
   }
 }

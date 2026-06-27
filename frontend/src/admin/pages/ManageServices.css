@@ -284,10 +284,26 @@ border:1px solid #e5e7eb;
 }
 
 /* ===================================================
+EDITOR SECTION (toolbar + content)
+Wrapper gives the toolbar a scoped positioning context so it
+only stays pinned while this section is being scrolled —
+not for the rest of the modal.
+=================================================== */
+
+.editor-section{
+position:relative;
+margin-top:20px;
+margin-bottom:12px;
+}
+
+/* ===================================================
 EDITOR TOOLBAR
 =================================================== */
 
 .editor-toolbar{
+position:sticky;
+top:0;
+z-index:5;
 display:flex;
 flex-wrap:wrap;
 gap:10px;
@@ -295,7 +311,6 @@ padding:14px;
 border:1px solid #e5e7eb;
 border-radius:12px;
 background:#f9fafb;
-margin-top:20px;
 margin-bottom:12px;
 }
 
@@ -333,6 +348,17 @@ line-height:1.8;
 .notion-editor .ProseMirror{
 outline:none;
 min-height:300px;
+}
+
+/* Visible "selected" state when a word/paragraph is highlighted by the user */
+.notion-editor .ProseMirror ::selection{
+background:#bfdbfe;
+color:#111827;
+}
+
+.notion-editor .ProseMirror ::-moz-selection{
+background:#bfdbfe;
+color:#111827;
 }
 
 .notion-editor img{

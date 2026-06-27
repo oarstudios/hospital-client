@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import slugify from "slugify";
 import { useDropzone } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
+import { DraggableFAQList } from "../common/DraggableList";
 
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -76,7 +77,11 @@ const ManageServices = () => {
 
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        dropcursor: false,
+        underline: false,
+        link: false,
+      }),
       Image,
       Highlight,
       Typography,
@@ -136,6 +141,8 @@ const ManageServices = () => {
       faqs: prev.faqs.filter((_, i) => i !== index),
     }));
   };
+
+  const reorderFAQ = (newFaqs) => setService((prev) => ({ ...prev, faqs: newFaqs }));
 
   /* ── Save (create or update) ────────────────────────────────────────────── */
 
@@ -367,44 +374,48 @@ const ManageServices = () => {
               onChange={(e) => setService((p) => ({ ...p, slug: e.target.value }))}
             />
 
-            {editor && (
-              <div className="editor-toolbar">
-                <button type="button" onClick={() => editor.chain().focus().toggleBold().run()}><b>B</b></button>
-                <button type="button" onClick={() => editor.chain().focus().toggleItalic().run()}><i>I</i></button>
-                <button type="button" onClick={() => editor.chain().focus().toggleUnderline().run()}><u>U</u></button>
-                <button type="button" onClick={() => editor.chain().focus().toggleStrike().run()}>S</button>
-                <button type="button" onClick={() => editor.chain().focus().toggleHighlight().run()}>Highlight</button>
-                <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}>H1</button>
-                <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}>H2</button>
-                <button type="button" onClick={() => editor.chain().focus().setParagraph().run()}>P</button>
-                <button type="button" onClick={() => editor.chain().focus().toggleBulletList().run()}>• List</button>
-                <button type="button" onClick={() => editor.chain().focus().toggleOrderedList().run()}>1. List</button>
-                <button type="button" onClick={() => editor.chain().focus().setTextAlign("left").run()}>Left</button>
-                <button type="button" onClick={() => editor.chain().focus().setTextAlign("center").run()}>Center</button>
-                <button type="button" onClick={() => editor.chain().focus().setTextAlign("right").run()}>Right</button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    const url = prompt("Enter URL");
-                    if (url) editor.chain().focus().setLink({ href: url }).run();
-                  }}
-                >
-                  Link
-                </button>
-                <button type="button" onClick={addImage} disabled={imageUploading}>
-                  {imageUploading ? "Uploading..." : "Image"}
-                </button>
-              </div>
-            )}
+            <div className="editor-section">
+              {editor && (
+                <div className="editor-toolbar">
+                  <button type="button" onClick={() => editor.chain().focus().toggleBold().run()}><b>B</b></button>
+                  <button type="button" onClick={() => editor.chain().focus().toggleItalic().run()}><i>I</i></button>
+                  <button type="button" onClick={() => editor.chain().focus().toggleUnderline().run()}><u>U</u></button>
+                  <button type="button" onClick={() => editor.chain().focus().toggleStrike().run()}>S</button>
+                  <button type="button" onClick={() => editor.chain().focus().toggleHighlight().run()}>Highlight</button>
+                  <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}>H1</button>
+                  <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}>H2</button>
+                  <button type="button" onClick={() => editor.chain().focus().setParagraph().run()}>P</button>
+                  <button type="button" onClick={() => editor.chain().focus().toggleBulletList().run()}>• List</button>
+                  <button type="button" onClick={() => editor.chain().focus().toggleOrderedList().run()}>1. List</button>
+                  <button type="button" onClick={() => editor.chain().focus().setTextAlign("left").run()}>Left</button>
+                  <button type="button" onClick={() => editor.chain().focus().setTextAlign("center").run()}>Center</button>
+                  <button type="button" onClick={() => editor.chain().focus().setTextAlign("right").run()}>Right</button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const url = prompt("Enter URL");
+                      if (url) editor.chain().focus().setLink({ href: url }).run();
+                    }}
+                  >
+                    Link
+                  </button>
+                  <button type="button" onClick={addImage} disabled={imageUploading}>
+                    {imageUploading ? "Uploading..." : "Image"}
+                  </button>
+                </div>
+              )}
 
-            <EditorContent editor={editor} className="notion-editor" />
+              <EditorContent editor={editor} className="notion-editor" />
+            </div>
 
             <h3 style={{ marginTop: "40px" }}>FAQs</h3>
+            <label>Question</label>
             <input
               placeholder="Write your question here"
               value={faq.question}
               onChange={(e) => setFaq((p) => ({ ...p, question: e.target.value }))}
             />
+            <label>Answer</label>
             <textarea
               placeholder="Write your answer here"
               value={faq.answer}
@@ -412,15 +423,10 @@ const ManageServices = () => {
             />
             <button className="publish-btn" type="button" onClick={addFAQ}>Add +</button>
 
-            {service.faqs.map((f, i) => (
-              <div key={i} className="faq-item">
-                <div>
-                  <strong>{f.question}</strong>
-                  <p>{f.answer}</p>
-                </div>
-                <button type="button" onClick={() => deleteFAQ(i)}>❌</button>
-              </div>
-            ))}
+            <DraggableFAQList
+              items={service.faqs}
+              onChange={reorderFAQ}
+            />
 
             <div className="admin-modal-actions">
               <button

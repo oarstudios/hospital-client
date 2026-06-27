@@ -142,7 +142,7 @@ export class CancersService {
     const cancers = await this.repo.find({
       where: { isDeleted: filter },
       relations: ['category'],
-      order: { createdAt: 'DESC' },
+      order: { createdAt: 'ASC' }, // first-come-first-served: oldest created shows first
     });
 
     if (!cancers.length) return [];

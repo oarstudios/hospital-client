@@ -1,0 +1,130 @@
+/* =========================================================
+MAIN PAGE
+========================================================= */
+
+.admin-appointments-page{
+padding:30px;
+background:#f5f7fb;
+min-height:100vh;
+font-family:Inter,sans-serif;
+}
+
+/* =========================================================
+HEADER
+========================================================= */
+
+.admin-centers-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+gap:20px;
+}
+
+.admin-centers-header h2{
+margin:0;
+font-size:30px;
+font-weight:700;
+color:#111827;
+}
+
+.admin-appointments-count{
+background:#eef2ff;
+color:#4338ca;
+padding:8px 16px;
+border-radius:999px;
+font-size:13px;
+font-weight:600;
+}
+
+/* =========================================================
+BUTTONS
+========================================================= */
+
+.admin-delete-btn{
+background:#ef4444;
+color:white;
+border:none;
+padding:8px 14px;
+border-radius:8px;
+cursor:pointer;
+font-size:13px;
+font-weight:600;
+transition:.2s;
+}
+
+.admin-delete-btn:hover{
+background:#dc2626;
+}
+
+/* =========================================================
+TABLE
+========================================================= */
+
+.admin-centers-table-wrapper{
+background:white;
+padding:24px;
+border-radius:18px;
+box-shadow:0 4px 20px rgba(0,0,0,0.05);
+overflow-x:auto;
+}
+
+.admin-centers-table{
+width:100%;
+border-collapse:collapse;
+min-width:1000px;
+}
+
+.admin-centers-table thead{
+background:#f8fafc;
+}
+
+.admin-centers-table th{
+padding:16px;
+text-align:left;
+font-size:14px;
+font-weight:700;
+color:#111827;
+border-bottom:1px solid #e5e7eb;
+}
+
+.admin-centers-table td{
+padding:16px;
+font-size:14px;
+color:#374151;
+border-bottom:1px solid #f1f5f9;
+vertical-align:middle;
+}
+
+.admin-actions{
+display:flex;
+gap:10px;
+}
+
+/* =========================================================
+STATUS SELECT
+========================================================= */
+
+.admin-status-select{
+border:none;
+border-radius:8px;
+padding:8px 12px;
+font-size:13px;
+font-weight:600;
+cursor:pointer;
+}
+
+.admin-status-pending{
+background:#fef3c7;
+color:#92400e;
+}
+
+.admin-status-confirmed{
+background:#d1fae5;
+color:#065f46;
+}
+
+.admin-status-cancelled{
+background:#fee2e2;
+color:#991b1b;
+}

@@ -5,11 +5,11 @@ import centersReducer          from '../redux/centers/centersSlice';
 import servicesReducer         from '../redux/services/servicesSlice';
 import serviceCategoriesReducer from '../redux/serviceCategories/serviceCategoriesSlice';
 import cancersReducer          from '../redux/cancers/cancersSlice';
-import cancerCategoriesReducer from '../redux/cancerCategories/cancerCategoriesSlice';
 import toastReducer            from '../redux/toast/toastSlice';
 import blogsReducer            from '../redux/blogs/blogsSlice';
 import tagsReducer             from '../redux/tags/tagsSlice';
 import dashboardReducer        from '../redux/dashboard/dashboardSlice';
+import appointmentsReducer     from '../redux/appointments/appointmentsSlice';
 
 import { toastMiddleware } from '../middleware/toastmiddleware';
 
@@ -21,11 +21,11 @@ const store = configureStore({
     services:           servicesReducer,
     serviceCategories:  serviceCategoriesReducer,
     cancers:            cancersReducer,
-    cancerCategories:   cancerCategoriesReducer,
     toast:              toastReducer,
     blogs:              blogsReducer,
     tags:               tagsReducer,
     dashboard:          dashboardReducer,
+    appointments:       appointmentsReducer,
   },
 
   middleware: (getDefaultMiddleware) =>

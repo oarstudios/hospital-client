@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 import "./index.css";
 
 /* ================= COMMON COMPONENTS ================= */
@@ -80,6 +80,8 @@ import ToastContainer from "./components/Toasts/ToastContainer";
 import { fetchCurrentUser } from "./redux/auth/authSlice";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
+import ServicesAtICTC from "./components/Home/ServicesatICTC/ServicesatICTC";
+import ThankYouPopup from "./components/ThankYouPopup";
 
 function App() {
   const dispatch = useDispatch();
@@ -91,12 +93,22 @@ function App() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith("/ctrl");
 
+
+  const navigate = useNavigate();
+
+  const showThankYou = location.pathname.endsWith("/success");
+
   return (
     <>
       <ScrollToTop />
 
       {/* Toast notifications — mounted once at the root so they appear everywhere */}
       <ToastContainer />
+
+        <ThankYouPopup
+        open={showThankYou}
+        onClose={() => navigate(-1)}
+      />
 
       {!isAdminRoute && <Navbar />}
 
@@ -323,6 +335,7 @@ function App() {
               <>
                 <ServiceBreadcrumb />
                 <ServicePage />
+                <ServicesAtICTC />
                 <BookAppointment />
                 <OurNetworkOfCare />
                 <RequestCallback />
@@ -349,7 +362,7 @@ function App() {
               <>
                 <ServiceBreadcrumb />
                 <ServicePage />
-                <ServicesatICTC />
+                <ServicesAtICTC />
                 <BookAppointment />
                 <OurNetworkOfCare />
                 <RequestCallback />

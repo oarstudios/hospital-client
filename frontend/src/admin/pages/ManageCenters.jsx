@@ -25,6 +25,8 @@ const emptyForm = {
   lng: "",
   mapEmbed: "",
   mapQuery: "",
+  mapLink: "",
+  area: "",
   address: "",
   timing: "",
   heroBg: null,
@@ -108,6 +110,8 @@ const ManageCenters = () => {
     formData.append("lng",       form.lng);
     formData.append("mapEmbed",  form.mapEmbed);
     formData.append("mapQuery",  form.mapQuery);
+    formData.append("mapLink",   form.mapLink);
+    formData.append("area",      form.area);
     formData.append("address",   form.address);
 
     form.description
@@ -295,18 +299,67 @@ const ManageCenters = () => {
             <h3>{editId ? "Edit Center" : "Add Center"}</h3>
 
             <div className="admin-form-grid">
-              <input name="slug"      placeholder="Slug"             value={form.slug}      onChange={handleChange} />
-              <input name="name"      placeholder="Name"             value={form.name}      onChange={handleChange} />
-              <input name="fullName"  placeholder="Full Name"        value={form.fullName}  onChange={handleChange} />
-              <input name="phone"     placeholder="Phone"            value={form.phone}     onChange={handleChange} />
-              <input name="rating"    placeholder="Rating"           value={form.rating}    onChange={handleChange} />
-              <input name="reviews"   placeholder="Reviews"          value={form.reviews}   onChange={handleChange} />
-              <input name="timing"    placeholder="Timing"           value={form.timing}    onChange={handleChange} />
-              <input name="lat"       placeholder="Latitude"         value={form.lat}       onChange={handleChange} />
-              <input name="lng"       placeholder="Longitude"        value={form.lng}       onChange={handleChange} />
-              <input name="mapQuery"  placeholder="Map Query"        value={form.mapQuery}  onChange={handleChange} />
-              <input name="mapEmbed"  placeholder="Google Map Embed" value={form.mapEmbed}  onChange={handleChange} />
-              <textarea name="address" placeholder="Address"         value={form.address}   onChange={handleChange} />
+              <div className="admin-form-field">
+                <label className="admin-field-label">Slug</label>
+                <input name="slug" placeholder="Slug" value={form.slug} onChange={handleChange} />
+              </div>
+              <div className="admin-form-field">
+                <label className="admin-field-label">Name</label>
+                <input name="name" placeholder="Name" value={form.name} onChange={handleChange} />
+              </div>
+              <div className="admin-form-field">
+                <label className="admin-field-label">Full Name</label>
+                <input name="fullName" placeholder="Full Name" value={form.fullName} onChange={handleChange} />
+              </div>
+              <div className="admin-form-field">
+                <label className="admin-field-label">Phone</label>
+                <input name="phone" placeholder="Phone" value={form.phone} onChange={handleChange} />
+              </div>
+              <div className="admin-form-field">
+                <label className="admin-field-label">Rating</label>
+                <input name="rating" placeholder="Rating" value={form.rating} onChange={handleChange} />
+              </div>
+              <div className="admin-form-field">
+                <label className="admin-field-label">Reviews</label>
+                <input name="reviews" placeholder="Reviews" value={form.reviews} onChange={handleChange} />
+              </div>
+              <div className="admin-form-field">
+                <label className="admin-field-label">Timing</label>
+                <input name="timing" placeholder="Timing" value={form.timing} onChange={handleChange} />
+              </div>
+              <div className="admin-form-field">
+                <label className="admin-field-label">Latitude</label>
+                <input name="lat" placeholder="Latitude" value={form.lat} onChange={handleChange} />
+              </div>
+              <div className="admin-form-field">
+                <label className="admin-field-label">Longitude</label>
+                <input name="lng" placeholder="Longitude" value={form.lng} onChange={handleChange} />
+              </div>
+              <div className="admin-form-field">
+                <label className="admin-field-label">Map Query</label>
+                <input name="mapQuery" placeholder="Map Query" value={form.mapQuery} onChange={handleChange} />
+              </div>
+              <div className="admin-form-field">
+                <label className="admin-field-label">Google Map Embed</label>
+                <input name="mapEmbed" placeholder="Google Map Embed" value={form.mapEmbed} onChange={handleChange} />
+              </div>
+              <div className="admin-form-field">
+                <label className="admin-field-label">Map Link</label>
+                <input name="mapLink" placeholder="https://maps.app.goo.gl/..." value={form.mapLink} onChange={handleChange} />
+              </div>
+              <div className="admin-form-field">
+                <label className="admin-field-label">Area</label>
+                <select name="area" value={form.area} onChange={handleChange}>
+                  <option value="">Select Area</option>
+                  <option value="Mumbai">Mumbai</option>
+                  <option value="Navi Mumbai">Navi Mumbai</option>
+                  <option value="Thane">Thane</option>
+                </select>
+              </div>
+              <div className="admin-form-field admin-form-field--full">
+                <label className="admin-field-label">Address</label>
+                <textarea name="address" placeholder="Address" value={form.address} onChange={handleChange} />
+              </div>
             </div>
 
             {/* HERO IMAGE */}

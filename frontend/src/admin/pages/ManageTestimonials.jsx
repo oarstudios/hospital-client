@@ -14,6 +14,7 @@ const ManageTestimonials = () => {
     <div>
       <h2>Manage Testimonials</h2>
 
+      <label>Testimonial</label>
       <textarea
         placeholder="Testimonial"
         value={text}

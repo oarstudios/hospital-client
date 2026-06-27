@@ -1,4 +1,4 @@
-  import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
   import {
     IsOptional,
     IsString,
@@ -66,6 +66,16 @@
     @ApiProperty({ required: false }) 
     @IsOptional() 
     @IsString()
+    mapLink?: string;
+
+    @ApiProperty({ required: false }) 
+    @IsOptional() 
+    @IsString()
+    area?: string;
+
+    @ApiProperty({ required: false }) 
+    @IsOptional() 
+    @IsString()
     address?: string;
 
     @ApiProperty({ type: [String], required: false })
@@ -95,4 +105,4 @@
       required: false,
     })
     gallery?: any[];
-  }
+  } 

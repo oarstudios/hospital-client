@@ -190,8 +190,24 @@ gap:18px;
 margin-bottom:28px;
 }
 
+/* Each field is a label+input pair */
+.admin-form-field{
+display:flex;
+flex-direction:column;
+gap:6px;
+}
+
+.admin-field-label{
+font-size:12px;
+font-weight:600;
+color:#6b7280;
+text-transform:uppercase;
+letter-spacing:0.04em;
+}
+
 .admin-form-grid input,
-.admin-form-grid textarea{
+.admin-form-grid textarea,
+.admin-form-grid select{
 width:100%;
 padding:14px 16px;
 border:1px solid #d1d5db;
@@ -204,16 +220,36 @@ font-family:inherit;
 background:white;
 }
 
+.admin-form-grid select{
+appearance:none;
+-webkit-appearance:none;
+-moz-appearance:none;
+background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' fill='none' stroke='%236b7280' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+background-repeat:no-repeat;
+background-position:right 16px center;
+padding-right:40px;
+color:#111827;
+cursor:pointer;
+}
+
+.admin-form-grid select:hover{
+border-color:#9ca3af;
+}
+
 .admin-form-grid input:focus,
-.admin-form-grid textarea:focus{
+.admin-form-grid textarea:focus,
+.admin-form-grid select:focus{
 border-color:#2563eb;
 box-shadow:0 0 0 3px rgba(37,99,235,0.08);
 }
 
 .admin-form-grid textarea{
-grid-column:span 3;
 min-height:120px;
 resize:vertical;
+}
+
+.admin-form-field--full{
+grid-column:span 3;
 }
 
 /* =========================================================
@@ -392,7 +428,7 @@ RESPONSIVE
 grid-template-columns:1fr 1fr;
 }
 
-.admin-form-grid textarea{
+.admin-form-field--full{
 grid-column:span 2;
 }
 
@@ -421,7 +457,7 @@ padding:24px;
 grid-template-columns:1fr;
 }
 
-.admin-form-grid textarea{
+.admin-form-field--full{
 grid-column:span 1;
 }
 

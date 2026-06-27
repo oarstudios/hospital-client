@@ -581,10 +581,11 @@
 
 
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import "./ManageDoctors.css";
+import { DraggableTagList } from "../common/DraggableList";
 
 import {
   fetchDoctors,
@@ -642,16 +643,14 @@ LIST EDITOR COMPONENT
 const ListEditor = ({ label, field, form, setForm }) => {
   const [input, setInput] = useState("");
 
-  const addItem = () => {
-    if (!input.trim()) return;
-    setForm({ ...form, [field]: [...form[field], input] });
-    setInput("");
-  };
+  const commit = (items) => setForm({ ...form, [field]: items });
 
-  const removeItem = (index) => {
-    const updated = [...form[field]];
-    updated.splice(index, 1);
-    setForm({ ...form, [field]: updated });
+  const addItem = () => {
+    const raw = input.trim();
+    if (!raw) return;
+    const newItems = raw.split(",").map((s) => s.trim()).filter(Boolean);
+    commit([...form[field], ...newItems]);
+    setInput("");
   };
 
   return (
@@ -660,20 +659,13 @@ const ListEditor = ({ label, field, form, setForm }) => {
       <div className="admin-list-input">
         <input
           value={input}
-          placeholder={`Add ${label}`}
+          placeholder={`Add ${label} (comma-separate multiple)`}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && addItem()}
         />
         <button type="button" onClick={addItem}>Add</button>
       </div>
-      <ul className="admin-tag-list">
-        {form[field].map((item, i) => (
-          <li key={i}>
-            {item}
-            <span onClick={() => removeItem(i)}>×</span>
-          </li>
-        ))}
-      </ul>
+      <DraggableTagList items={form[field]} onChange={commit} />
     </div>
   );
 };
@@ -685,20 +677,36 @@ TIMELINE EDITOR
 const TimelineEditor = ({ label, field, form, setForm }) => {
   const [title, setTitle] = useState("");
   const [place, setPlace] = useState("");
+  const dragIndex = useRef(null);
+
+  const items = form[field] || [];
+  const commit = (updated) => setForm({ ...form, [field]: updated });
 
   const addItem = () => {
     if (!title || !place) return;
     const newItem = field === "education" ? { title, place } : { role: title, place };
-    setForm({ ...form, [field]: [...form[field], newItem] });
+    commit([...items, newItem]);
     setTitle("");
     setPlace("");
   };
 
   const removeItem = (index) => {
-    const updated = [...form[field]];
+    const updated = [...items];
     updated.splice(index, 1);
-    setForm({ ...form, [field]: updated });
+    commit(updated);
   };
+
+  const onDragStart = (i) => { dragIndex.current = i; };
+  const onDragOver = (e, i) => {
+    e.preventDefault();
+    if (dragIndex.current === null || dragIndex.current === i) return;
+    const updated = [...items];
+    const dragged = updated.splice(dragIndex.current, 1)[0];
+    updated.splice(i, 0, dragged);
+    dragIndex.current = i;
+    commit(updated);
+  };
+  const onDragEnd = () => { dragIndex.current = null; };
 
   return (
     <div className="admin-upload-section">
@@ -717,10 +725,19 @@ const TimelineEditor = ({ label, field, form, setForm }) => {
         <button type="button" onClick={addItem}>Add</button>
       </div>
       <ul className="admin-tag-list">
-        {form[field].map((item, i) => (
-          <li key={i}>
-            {(item.title || item.role)} — {item.place}
-            <span onClick={() => removeItem(i)}>×</span>
+        {items.map((item, i) => (
+          <li
+            key={i}
+            draggable
+            onDragStart={() => onDragStart(i)}
+            onDragOver={(e) => onDragOver(e, i)}
+            onDragEnd={onDragEnd}
+            className="admin-tag-draggable"
+            title="Drag to reorder"
+          >
+            <span className="admin-tag-drag-handle">⠿</span>
+            <span className="admin-tag-text">{(item.title || item.role)} — {item.place}</span>
+            <span className="admin-tag-remove" onClick={() => removeItem(i)}>×</span>
           </li>
         ))}
       </ul>
@@ -931,13 +948,18 @@ const ManageDoctors = () => {
             {/* BASIC FIELDS */}
             <div className="admin-form-grid">
               {doctorFields.map((field) => (
-                <input
-                  key={field.name}
-                  name={field.name}
-                  placeholder={field.label}
-                  value={form[field.name] || ""}
-                  onChange={handleChange}
-                />
+                <div key={field.name} className="admin-form-field">
+                  <label className="admin-field-label">{field.label}</label>
+                  <input
+                    name={field.name}
+                    placeholder={field.label}
+                    value={form[field.name] || ""}
+                    onChange={handleChange}
+                    type={field.name === "rating" || field.name === "reviews" ? "number" : "text"}
+                    min={field.name === "rating" || field.name === "reviews" ? "0" : undefined}
+                    step={field.name === "rating" ? "0.1" : undefined}
+                  />
+                </div>
               ))}
             </div>
 
@@ -993,6 +1015,7 @@ const ManageDoctors = () => {
               <textarea
                 className="admin-rich-editor"
                 rows={4}
+                placeholder="Add a brief professional summary here"
                 value={form.summary || ""}
                 onChange={(e) => setForm({ ...form, summary: e.target.value })}
               />
@@ -1004,6 +1027,7 @@ const ManageDoctors = () => {
               <textarea
                 className="admin-rich-editor"
                 rows={4}
+                placeholder="Add the doctor's care philosophy here"
                 value={form.philosophy || ""}
                 onChange={(e) => setForm({ ...form, philosophy: e.target.value })}
               />

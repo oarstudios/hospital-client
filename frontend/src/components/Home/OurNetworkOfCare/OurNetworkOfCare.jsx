@@ -30,6 +30,7 @@ const OurNetworkOfCare = () => {
 
   const centres = allCenters.filter((c) => !c.isDeleted);
 
+  
   /* Fetch ONCE on mount — only if not already loaded */
   useEffect(() => {
     if (hasFetched.current) return;

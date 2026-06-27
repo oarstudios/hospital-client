@@ -8,8 +8,6 @@ import arrow from "../../../assets/dropDownIcon.png";
 import { fetchCancers } from "../../../redux/cancers/cancersSlice";
 import { fetchServices } from "../../../redux/services/servicesSlice";
 import { fetchServiceCategories } from "../../../redux/serviceCategories/serviceCategoriesSlice";
-import { fetchCancerCategories } from "../../../redux/cancerCategories/cancerCategoriesSlice";
-
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCenters } from "../../../redux/centers/centersSlice";
 
@@ -26,7 +24,6 @@ const Navbar = () => {
   const { list: cancersData } = useSelector((state) => state.cancers);
   const { list: servicesData } = useSelector((state) => state.services);
   const { list: categoriesData } = useSelector((state) => state.serviceCategories);
-  const { list: cancerCategoriesData } = useSelector((state) => state.cancerCategories);
 
   const toggleMenu = (menu) => {
     setActiveMenu(activeMenu === menu ? null : menu);
@@ -78,10 +75,6 @@ const Navbar = () => {
     if (!categoriesData.length) dispatch(fetchServiceCategories());
   }, [dispatch, categoriesData.length]);
 
-  useEffect(() => {
-    if (!cancerCategoriesData.length) dispatch(fetchCancerCategories());
-  }, [dispatch, cancerCategoriesData.length]);
-
   /*
    * Build grouped services from real category data (ordered by category.sequence).
    */
@@ -114,43 +107,15 @@ const Navbar = () => {
   })();
 
   /*
-   * Build grouped cancers from cancerCategories (same pattern as services).
+   * Cancer types — flat list split into two columns.
    */
   const groupedCancers = (() => {
-    const catMap = {};
-    cancerCategoriesData.forEach((cat) => {
-      catMap[cat.id] = { ...cat, cancers: [] };
-    });
-
-    const uncategorised = [];
-
-    cancers.forEach((cancer) => {
-      if (cancer.categoryId && catMap[cancer.categoryId]) {
-        catMap[cancer.categoryId].cancers.push({ slug: cancer.slug, name: cancer.name, id: cancer.id });
-      } else {
-        uncategorised.push({ slug: cancer.slug, name: cancer.name, id: cancer.id });
-      }
-    });
-
-    const groups = Object.values(catMap)
-      .sort((a, b) => a.sequence - b.sequence)
-      .filter((cat) => cat.cancers.length > 0)
-      .map((cat) => ({ name: cat.name, items: cat.cancers }));
-
-    if (uncategorised.length > 0) {
-      groups.push({ name: "Other Cancer Types", items: uncategorised });
-    }
-
-    // Fallback: if no categories configured, split into two columns
-    if (groups.length === 0 && cancers.length > 0) {
-      const mid = Math.ceil(cancers.length / 2);
-      return [
-        { name: null, items: cancers.slice(0, mid).map((c) => ({ slug: c.slug, name: c.name, id: c.id })) },
-        { name: null, items: cancers.slice(mid).map((c) => ({ slug: c.slug, name: c.name, id: c.id })) },
-      ];
-    }
-
-    return groups;
+    if (cancers.length === 0) return [];
+    const mid = Math.ceil(cancers.length / 2);
+    return [
+      { name: null, items: cancers.slice(0, mid).map((c) => ({ slug: c.slug, name: c.name, id: c.id })) },
+      { name: null, items: cancers.slice(mid).map((c) => ({ slug: c.slug, name: c.name, id: c.id })) },
+    ];
   })();
 
   return (

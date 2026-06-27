@@ -53,7 +53,7 @@ const DoctorProfile = ({ doctor, centers = [] }) => {
               <span>{doctor.rating}</span>
             </div>
 
-            <p className="doctor-card__reviews">{doctor.reviews}</p>
+            <p className="doctor-card__reviews">{doctor.reviews ? `${doctor.reviews}+ Ratings` : ""}</p>
           </div>
 
           {/* CONTACT INFORMATION */}
@@ -71,7 +71,9 @@ const DoctorProfile = ({ doctor, centers = [] }) => {
                       <div className="centre-content">
                         <a
                           href={
-                            centre.mapQuery
+                            centre.mapLink
+                              ? centre.mapLink
+                              : centre.mapQuery
                               ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(centre.mapQuery)}`
                               : centre.mapEmbed || "#"
                           }
@@ -146,9 +148,11 @@ const DoctorProfile = ({ doctor, centers = [] }) => {
             <h2>Professional Summary</h2>
 
             <div className={`summary-text ${showFullSummary ? "expanded" : ""}`}>
-              {(doctor.summary || "").split("\n\n").map((para, index) => (
-                <p key={index}>{para}</p>
-              ))}
+              {(doctor.summary || "").split("\n").map((line, index) =>
+                line.trim() === ""
+                  ? <br key={index} />
+                  : <p key={index}>{line}</p>
+              )}
             </div>
 
             {(doctor.summary || "").length > 300 && (

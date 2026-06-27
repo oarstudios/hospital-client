@@ -153,23 +153,154 @@
  box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.1);
 border-radius: 24px;
 padding: 32px;
- 
+font-size: 16px;
+line-height: 1.75;
+color: rgba(48, 45, 49, 1);
 }
-.ictc-blogpost-body p,
-.ictc-blogpost-body li {
+
+.ictc-blogpost-body p {
   line-height: 1.7;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   font-size: 16px;
   font-weight: 400;
   color: rgba(48, 45, 49, 1);
 }
 
-.ictc-blogpost-body h2 {
+.ictc-blogpost-body h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: rgba(63, 34, 74, 1);
+  margin: 24px 0 12px;
+}
 
+.ictc-blogpost-body h2 {
   font-size: 20px;
-    font-weight: 600;
-    color: rgba(48, 45, 49, 1);
-    padding-bottom: 10px;
+  font-weight: 600;
+  color: rgba(48, 45, 49, 1);
+  padding-bottom: 10px;
+  margin: 20px 0 10px;
+}
+
+.ictc-blogpost-body h3 {
+  font-size: 17px;
+  font-weight: 600;
+  color: rgba(48, 45, 49, 1);
+  margin: 16px 0 8px;
+}
+
+/* Lists */
+.ictc-blogpost-body ul,
+.ictc-blogpost-body ol {
+  padding-left: 24px;
+  margin-bottom: 16px;
+}
+
+.ictc-blogpost-body ul {
+  list-style-type: disc;
+}
+
+.ictc-blogpost-body ol {
+  list-style-type: decimal;
+}
+
+.ictc-blogpost-body li {
+  line-height: 1.7;
+  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(48, 45, 49, 1);
+}
+
+.ictc-blogpost-body li p {
+  margin-bottom: 0;
+}
+
+/* Task list (checkbox items) */
+.ictc-blogpost-body ul[data-type="taskList"] {
+  list-style: none;
+  padding-left: 0;
+}
+
+.ictc-blogpost-body ul[data-type="taskList"] li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.ictc-blogpost-body ul[data-type="taskList"] li input[type="checkbox"] {
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+/* Inline marks */
+.ictc-blogpost-body strong {
+  font-weight: 700;
+  color: #1f1f1f;
+}
+
+.ictc-blogpost-body em {
+  font-style: italic;
+}
+
+.ictc-blogpost-body u {
+  text-decoration: underline;
+}
+
+.ictc-blogpost-body s {
+  text-decoration: line-through;
+  color: #888;
+}
+
+/* Highlight — TipTap outputs <mark> */
+.ictc-blogpost-body mark {
+  background-color: #fff176;
+  color: inherit;
+  border-radius: 3px;
+  padding: 0 2px;
+}
+
+/* Links */
+.ictc-blogpost-body a {
+  color: #1a73e8;
+  text-decoration: underline;
+  word-break: break-word;
+}
+
+.ictc-blogpost-body a:hover {
+  color: #1558b0;
+}
+
+/* Text alignment */
+.ictc-blogpost-body [style*="text-align: left"]   { text-align: left; }
+.ictc-blogpost-body [style*="text-align: center"] { text-align: center; }
+.ictc-blogpost-body [style*="text-align: right"]  { text-align: right; }
+
+/* Images inside body */
+.ictc-blogpost-body img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 16px;
+  margin: 24px 0;
+  display: block;
+}
+
+/* Blockquote */
+.ictc-blogpost-body blockquote {
+  border-left: 4px solid rgba(105, 60, 121, 0.3);
+  margin: 16px 0;
+  padding: 8px 16px;
+  color: #555;
+  font-style: italic;
+}
+
+/* Inline code */
+.ictc-blogpost-body code {
+  background: #f3f3f3;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.9em;
 }
 
 .ictc-blogpost-inline-img {
@@ -424,9 +555,9 @@ display: none;
     font-size: 15px;
   }
 
-  .ictc-blogpost-body h2 {
-    font-size: 18px;
-  }
+  .ictc-blogpost-body h1 { font-size: 22px; }
+  .ictc-blogpost-body h2 { font-size: 18px; }
+  .ictc-blogpost-body h3 { font-size: 15px; }
 
   .ictc-bp-flex {
 
@@ -480,6 +611,10 @@ display: none;
     font-size: 14px;
     line-height: 1.6;
   }
+
+  .ictc-blogpost-body h1 { font-size: 20px; }
+  .ictc-blogpost-body h2 { font-size: 17px; }
+  .ictc-blogpost-body h3 { font-size: 14px; }
 
   .ictc-blogpost-inline-img {
     margin: 16px 0;

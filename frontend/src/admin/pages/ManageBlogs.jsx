@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import slugify from "slugify";
-import Select from "react-select";
+import CreatableSelect from "react-select/creatable";
 import { useDropzone } from "react-dropzone";
 import axiosInstance from "../../app/axiosinstance";
 
@@ -25,7 +25,7 @@ import {
   deleteBlog,
 } from "../../redux/blogs/blogsSlice";
 
-import { fetchTags } from "../../redux/tags/tagsSlice";
+import { fetchTags, createTag } from "../../redux/tags/tagsSlice";
 
 import "./ManageBlogs.css";
 
@@ -67,6 +67,7 @@ const ManageBlogs = () => {
   const [imageUploading, setImageUploading] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewHTML, setPreviewHTML] = useState("");
+  const [isCreatingTag, setIsCreatingTag] = useState(false);
 
   useEffect(() => {
     dispatch(fetchBlogs());
@@ -75,7 +76,13 @@ const ManageBlogs = () => {
 
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      // StarterKit v3 bundles link, underline, dropcursor — disable them here
+      // so the standalone configured versions below are the only registered ones
+      StarterKit.configure({
+        dropcursor: false,
+        underline: false,
+        link: false,
+      }),
       Image,
       Highlight,
       Typography,
@@ -320,6 +327,7 @@ const ManageBlogs = () => {
           <div className="admin-modal">
             <h3>{editId ? "Edit Blog" : "Add Blog"}</h3>
 
+            <label>Blog Title</label>
             <input
               className="blog-title"
               placeholder="Untitled"
@@ -361,6 +369,7 @@ const ManageBlogs = () => {
                 <input
                   value={blog.author}
                   onChange={(e) => setBlog((prev) => ({ ...prev, author: e.target.value }))}
+                  placeholder="Add author name here"
                 />
               </div>
               <div>
@@ -376,62 +385,93 @@ const ManageBlogs = () => {
                 <input
                   value={blog.category}
                   onChange={(e) => setBlog((prev) => ({ ...prev, category: e.target.value }))}
+                  placeholder="e.g. Patient Stories"
                 />
               </div>
             </div>
 
             <div className="tags-section">
               <label>Tags</label>
-              <Select
+              <CreatableSelect
+                classNamePrefix="tag-select"
                 options={tagOptions}
                 isMulti
+                isLoading={isCreatingTag}
                 value={blog.tags}
                 onChange={(val) => setBlog((prev) => ({ ...prev, tags: val || [] }))}
+                onCreateOption={async (inputValue) => {
+                  setIsCreatingTag(true);
+                  try {
+                    const newTag = await dispatch(createTag(inputValue)).unwrap();
+                    // newTag may be a brand-new row, or an existing one the
+                    // backend matched by name (case-insensitive) — either
+                    // way it now has a real id we can attach to this blog.
+                    setBlog((prev) => ({
+                      ...prev,
+                      tags: [...prev.tags, { value: newTag.id, label: newTag.tag }],
+                    }));
+                  } catch {
+                    alert("Failed to create tag. Please try again.");
+                  } finally {
+                    setIsCreatingTag(false);
+                  }
+                }}
+                placeholder="Select or type to add a new tag..."
+                formatCreateLabel={(inputValue) => (
+                  <span style={{ color: "#2563eb", fontWeight: 600 }}>
+                    + Add new tag "{inputValue}"
+                  </span>
+                )}
                 noOptionsMessage={() => tagOptions.length === 0 ? "No tags available" : "No options"}
               />
             </div>
 
-            <div className="editor-toolbar">
-              <button onClick={() => editor.chain().focus().toggleBold().run()}><b>B</b></button>
-              <button onClick={() => editor.chain().focus().toggleItalic().run()}><i>I</i></button>
-              <button onClick={() => editor.chain().focus().toggleUnderline().run()}><u>U</u></button>
-              <button onClick={() => editor.chain().focus().toggleStrike().run()}>S</button>
-              <button onClick={() => editor.chain().focus().toggleHighlight().run()}>Highlight</button>
-              <button onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}>H1</button>
-              <button onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}>H2</button>
-              <button onClick={() => editor.chain().focus().setParagraph().run()}>P</button>
-              <button onClick={() => editor.chain().focus().toggleBulletList().run()}>• List</button>
-              <button onClick={() => editor.chain().focus().toggleOrderedList().run()}>1. List</button>
-              <button onClick={() => editor.chain().focus().setTextAlign("left").run()}>Left</button>
-              <button onClick={() => editor.chain().focus().setTextAlign("center").run()}>Center</button>
-              <button onClick={() => editor.chain().focus().setTextAlign("right").run()}>Right</button>
-              <button
-                onClick={() => {
-                  const url = prompt("Enter URL");
-                  if (url) editor.chain().focus().setLink({ href: url }).run();
-                }}
-              >
-                Link
-              </button>
-              <button onClick={addImage} disabled={imageUploading}>
-                {imageUploading ? "Uploading…" : "Image"}
-              </button>
-            </div>
+            <div className="editor-section">
+              <div className="editor-toolbar">
+                <button onClick={() => editor.chain().focus().toggleBold().run()}><b>B</b></button>
+                <button onClick={() => editor.chain().focus().toggleItalic().run()}><i>I</i></button>
+                <button onClick={() => editor.chain().focus().toggleUnderline().run()}><u>U</u></button>
+                <button onClick={() => editor.chain().focus().toggleStrike().run()}>S</button>
+                <button onClick={() => editor.chain().focus().toggleHighlight().run()}>Highlight</button>
+                <button onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}>H1</button>
+                <button onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}>H2</button>
+                <button onClick={() => editor.chain().focus().setParagraph().run()}>P</button>
+                <button onClick={() => editor.chain().focus().toggleBulletList().run()}>• List</button>
+                <button onClick={() => editor.chain().focus().toggleOrderedList().run()}>1. List</button>
+                <button onClick={() => editor.chain().focus().setTextAlign("left").run()}>Left</button>
+                <button onClick={() => editor.chain().focus().setTextAlign("center").run()}>Center</button>
+                <button onClick={() => editor.chain().focus().setTextAlign("right").run()}>Right</button>
+                <button
+                  onClick={() => {
+                    const url = prompt("Enter URL");
+                    if (url) editor.chain().focus().setLink({ href: url }).run();
+                  }}
+                >
+                  Link
+                </button>
+                <button onClick={addImage} disabled={imageUploading}>
+                  {imageUploading ? "Uploading…" : "Image"}
+                </button>
+              </div>
 
-            <EditorContent editor={editor} className="notion-editor" />
+              <EditorContent editor={editor} className="notion-editor" />
+            </div>
 
             <div className="seo-box">
               <h3>SEO Settings</h3>
+              <label>Meta Title</label>
               <input
                 placeholder="Meta Title"
                 value={blog.metaTitle}
                 onChange={(e) => setBlog((prev) => ({ ...prev, metaTitle: e.target.value }))}
               />
+              <label>Meta Description</label>
               <textarea
                 placeholder="Meta Description"
                 value={blog.metaDescription}
                 onChange={(e) => setBlog((prev) => ({ ...prev, metaDescription: e.target.value }))}
               />
+              <label>Keywords</label>
               <input
                 placeholder="Keywords"
                 value={blog.keywords}

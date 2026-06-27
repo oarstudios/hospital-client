@@ -1,42 +1,59 @@
+import { useEffect } from "react";
 import "./AboutUs.css";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 /* ICONS */
 import arrowDefault from "../../assets/tabler_arrow-up.png";
 
 import OurDoctorTeam from "../OurDoctorTeam/OurDoctorTeam";
 
-const stats = [
-  {
-    value: "55000+",
-    title: "Patients Treated",
-    desc: "Largest Cancer Care Chain in Mumbai",
-    showArrow: false,
-  },
-  {
-    value: "11",
-    title: "Centres & Growing",
-    desc: "Largest Cancer Care Chain in Mumbai",
-    showArrow: true,
-    link: "/allCenters", // ✅ ADD
-  },
-  {
-    value: "25000+",
-    title: "Chemotherapies an year",
-    desc: "Largest Cancer Care Chain in Mumbai",
-    showArrow: false,
-  },
-  {
-    value: "15+",
-    title: "Cancer Care Services",
-    desc: "Largest Cancer Care Chain in Mumbai",
-    showArrow: true,
-    link: "/AllService", // ✅ ADD
-  },
-];
+import { fetchCenters } from "../../redux/centers/centersSlice";
+import { fetchServices } from "../../redux/services/servicesSlice";
 
 const AboutUs = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { list: centersData = [] } = useSelector((state) => state.centers || {});
+  const { list: servicesData = [] } = useSelector((state) => state.services || {});
+
+  useEffect(() => {
+    if (!centersData.length) dispatch(fetchCenters());
+    if (!servicesData.length) dispatch(fetchServices());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
+
+  const stats = [
+    {
+      value: "55000+",
+      title: "Patients Treated",
+      desc: "Largest Cancer Care Chain in Mumbai",
+      showArrow: false,
+    },
+    {
+      // Live count of centres, e.g. "11"
+      value: `${centersData.length}`,
+      title: "Centres & Growing",
+      desc: "Largest Cancer Care Chain in Mumbai",
+      showArrow: true,
+      link: "/allCenters",
+    },
+    {
+      value: "25000+",
+      title: "Chemotherapies an year",
+      desc: "Largest Cancer Care Chain in Mumbai",
+      showArrow: false,
+    },
+    {
+      // Live count of services, e.g. "15+"
+      value: `${servicesData.length}+`,
+      title: "Cancer Care Services",
+      desc: "Largest Cancer Care Chain in Mumbai",
+      showArrow: true,
+      link: "/AllService",
+    },
+  ];
 
   return (
     <>

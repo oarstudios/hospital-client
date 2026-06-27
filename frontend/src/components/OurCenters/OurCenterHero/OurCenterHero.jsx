@@ -53,7 +53,9 @@ const OurCenterHero = ({ center }) => {
 
           <a
             href={
-              center.mapQuery
+              center.mapLink
+                ? center.mapLink
+                : center.mapQuery
                 ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(center.mapQuery)}`
                 : center.mapEmbed || "#"
             }

@@ -1,4 +1,4 @@
-    import {
+import {
     Entity,
     PrimaryGeneratedColumn,
     Column,
@@ -46,6 +46,12 @@
 
     @Column({ type: 'text', nullable: true })
     mapEmbed?: string;
+
+    @Column({ type: 'text', nullable: true })
+    mapLink?: string;
+
+    @Column({ nullable: true })
+    area?: string;
 
     @Column({ type: 'text', nullable: true })
     address?: string;

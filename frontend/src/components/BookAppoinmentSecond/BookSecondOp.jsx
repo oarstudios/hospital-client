@@ -1,12 +1,38 @@
-import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { areaCentreMap, centerSlugMap } from "../../data/centerData";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchActiveCenters } from "../../redux/centers/centersSlice";
+import { createAppointment } from "../../redux/appointments/appointmentsSlice";
 import "../Home/BookAppointment/BookAppointment.css";
 import doctorImg from "../../assets/ICTC female doctor 1.png";
 import tickIcon from "../../assets/Vector (8).png";
 import ThankYouPopup from "../ThankYouPopup";
 
 const BookSecondOp = () => {
+  /* ============================
+     CENTERS (fetched from backend)
+  ============================ */
+  const dispatch = useDispatch();
+  const { activeCenters = [] } = useSelector((state) => state.centers || {});
+
+  useEffect(() => {
+    if (!activeCenters.length) dispatch(fetchActiveCenters());
+  }, [dispatch, activeCenters.length]);
+
+  // Build { area: [centerNames] } from live center data instead of the old hardcoded map
+  const areaCentreMap = activeCenters.reduce((acc, c) => {
+    if (!c.area) return acc;
+    if (!acc[c.area]) acc[c.area] = [];
+    acc[c.area].push(c.name);
+    return acc;
+  }, {});
+
+  // slug lookup for the "visit the centre page" link further down
+  const centerSlugMap = activeCenters.reduce((acc, c) => {
+    acc[c.name] = c.slug;
+    return acc;
+  }, {});
+
   /* ============================
      STATE
   ============================ */
@@ -154,11 +180,32 @@ const BookSecondOp = () => {
   ============================ */
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
 
   const handleSubmit = async () => {
     if (!validate()) return;
 
     setIsSubmitting(true);
+
+    // Find the matching center row so we can attach its real id for reporting.
+    const matchedCenter = activeCenters.find((c) => c.name === formData.center);
+
+    // 🔥 Save to OUR backend (so it shows up in Manage Appointments + the
+    // admin dashboard count). Run alongside the Google Sheets call below —
+    // if Google Sheets is briefly down we still don't want to lose the
+    // booking, and vice versa.
+    const savePromise = dispatch(
+      createAppointment({
+        patientName: formData.patientname,
+        age: formData.age ? Number(formData.age) : undefined,
+        phone: formData.phone,
+        area: formData.area,
+        center: formData.center,
+        centerId: matchedCenter?.id,
+        appointmentDate: formData.date,
+        source: formData.source,
+      })
+    );
 
     try {
       const response = await fetch(
@@ -174,7 +221,12 @@ const BookSecondOp = () => {
 
       const result = await response.json();
 
-      if (result.status === "success") {
+      // Wait for the backend save too, but don't let a Sheets-only failure
+      // block a successful DB save (and vice versa) — see catch below.
+      const saveResult = await savePromise;
+      const savedToBackend = createAppointment.fulfilled.match(saveResult);
+
+      if (result.status === "success" || savedToBackend) {
         setFormData({
           patientname: "",
           age: "",
@@ -187,13 +239,34 @@ const BookSecondOp = () => {
         setErrors({});
         setShowSameDayNotice(false);
         setShowTomorrowHint(false);
-        // Navigate to /BookSecondOpinion/success to show popup
-        navigate("success", { replace: false });
+        // Show the thank-you popup via a query param so this works on
+        // every page this form is rendered on, not just ones with a
+        // nested "success" route.
+        navigate(`${location.pathname}?booked=success`, { replace: false });
       } else {
         alert("Failed to save consultation request");
       }
     } catch {
-      alert("Network error. Please try again.");
+      // Google Sheets request itself failed — fall back to checking whether
+      // the backend save (which runs independently) still went through.
+      const saveResult = await savePromise;
+      if (createAppointment.fulfilled.match(saveResult)) {
+        setFormData({
+          patientname: "",
+          age: "",
+          phone: "",
+          area: "",
+          center: "",
+          date: "",
+          source: "Website_Second_Opinion",
+        });
+        setErrors({});
+        setShowSameDayNotice(false);
+        setShowTomorrowHint(false);
+        navigate(`${location.pathname}?booked=success`, { replace: false });
+      } else {
+        alert("Network error. Please try again.");
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -208,14 +281,15 @@ const BookSecondOp = () => {
   /* ============================
      JSX
   ============================ */
-  // Show popup if path ends with /success
-  const showThankYou = location.pathname.endsWith("/success");
+  // Show popup whenever ?booked=success is present in the URL — works on
+  // every page this form is rendered on, regardless of route nesting.
+  const showThankYou = searchParams.get("booked") === "success";
 
   return (
     <>
       <ThankYouPopup
         open={showThankYou}
-        onClose={() => navigate("..", { replace: true, relative: "path" })}
+        onClose={() => navigate(location.pathname, { replace: true })}
       />
       <section className="appointment-wrapper">
         <div className="appointment-card">

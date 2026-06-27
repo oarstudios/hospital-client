@@ -1,19 +1,23 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { createAppointment } from "../../../redux/appointments/appointmentsSlice";
 import "./BookAppointmentCenter.css";
 
 const BookAppointmentCenter = ({ center }) => {
+  const dispatch = useDispatch();
   const [form, setForm] = useState({
     name: "",
     age: "",
     phone: "",
     date: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!form.name || !form.age || !form.phone || !form.date) {
       alert("Please fill all details");
       return;
@@ -24,7 +28,33 @@ const BookAppointmentCenter = ({ center }) => {
       return;
     }
 
-    alert(`Appointment booked at ${center?.name}`);
+    setIsSubmitting(true);
+
+    try {
+      const result = await dispatch(
+        createAppointment({
+          patientName: form.name,
+          age: Number(form.age),
+          phone: form.phone,
+          area: center?.area,
+          center: center?.name,
+          centerId: center?.id,
+          appointmentDate: form.date,
+          source: "Center_Page",
+        })
+      );
+
+      if (createAppointment.fulfilled.match(result)) {
+        alert(`Appointment booked at ${center?.name}`);
+        setForm({ name: "", age: "", phone: "", date: "" });
+      } else {
+        alert("Failed to book appointment. Please try again.");
+      }
+    } catch {
+      alert("Network error. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (!center) return null;
@@ -76,8 +106,8 @@ const BookAppointmentCenter = ({ center }) => {
       />
 
       <div className="ictc-book-btn-row">
-        <button className="ictc-book-btn" onClick={handleSubmit}>
-          Book Appointment
+        <button className="ictc-book-btn" onClick={handleSubmit} disabled={isSubmitting}>
+          {isSubmitting ? "Booking..." : "Book Appointment"}
         </button>
       </div>
     </section>

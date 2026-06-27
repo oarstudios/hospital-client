@@ -4,7 +4,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, DataSource, In, Not } from 'typeorm';
+import { Repository, DataSource, In } from 'typeorm';
 
 import { Blog } from './entities/blog.entity';
 import { BlogTag } from './entities/blog-tag.entity';
@@ -138,6 +138,7 @@ export class BlogsService {
         const bt = await manager.save(BlogTag, { blogId: blog.id, tagId });
         savedBlogTags.push(bt);
       }
+      
 
       // FIX: Build the return value within the transaction using `manager`
       // Previously called this.findOne(blog.id) which uses this.repo (outside tx),
@@ -165,15 +166,17 @@ export class BlogsService {
 
     const blogs = await this.repo.find({
       where: { isDeleted: filter },
-      order: { createdAt: 'DESC' },
+      order: { createdAt: 'ASC' }, // first-come-first-served: oldest created shows first
     });
 
     if (!blogs.length) return [];
 
     return this.attachTags(blogs);
   }
+ 
 
   async findOne(id: number, isDeleted?: boolean) {
+  
     const filter =
       typeof isDeleted === 'boolean'
         ? isDeleted
@@ -189,6 +192,12 @@ export class BlogsService {
     return result;
   }
 
+  async createNewBlog(dto: CreateBlogDto){
+    const newBlog = this.repo.create(dto)
+    console.log("printing new blog which i have just created: ", newBlog);
+    return await this.repo.save(newBlog);
+  }
+
   async findBySlug(slug: string) {
     const blog = await this.repo.findOne({
       where: { slug, isDeleted: false },
@@ -201,8 +210,10 @@ export class BlogsService {
   }
 
   /**
-   * Find similar blogs: same category, excluding current blog.
-   * Falls back to latest blogs if no same-category siblings exist.
+   * Find similar blogs: blogs sharing at least one Tag with the current
+   * blog, excluding the current blog itself. Falls back to the oldest
+   * blogs (first-come-first-served, matching the rest of the site) if
+   * there aren't enough tag-matched siblings.
    */
   async findSimilar(id: number, limit = 3) {
     const current = await this.repo.findOne({
@@ -213,16 +224,32 @@ export class BlogsService {
 
     let similar: Blog[] = [];
 
-    if (current.category) {
-      similar = await this.repo.find({
-        where: {
-          isDeleted: false,
-          category: current.category,
-          id: Not(id),
-        },
-        order: { createdAt: 'DESC' },
-        take: limit,
+    // Tags attached to the current blog
+    const currentBlogTags = await this.tagRepo.find({
+      where: { blogId: id },
+    });
+    const currentTagIds = currentBlogTags.map((bt) => bt.tagId);
+
+    if (currentTagIds.length) {
+      // Other blogs that share at least one of those tag IDs
+      const matchingBlogTags = await this.tagRepo.find({
+        where: { tagId: In(currentTagIds) },
       });
+
+      const candidateBlogIds = [
+        ...new Set(matchingBlogTags.map((bt) => bt.blogId)),
+      ].filter((blogId) => blogId !== id);
+
+      if (candidateBlogIds.length) {
+        similar = await this.repo.find({
+          where: {
+            isDeleted: false,
+            id: In(candidateBlogIds),
+          },
+          order: { createdAt: 'ASC' }, // first-come-first-served: oldest created shows first
+          take: limit,
+        });
+      }
     }
 
     if (similar.length < limit) {
@@ -231,7 +258,7 @@ export class BlogsService {
 
       const extras = await this.repo.find({
         where: { isDeleted: false },
-        order: { createdAt: 'DESC' },
+        order: { createdAt: 'ASC' }, // first-come-first-served: oldest created shows first
         take: limit + existingIds.length,
       });
 

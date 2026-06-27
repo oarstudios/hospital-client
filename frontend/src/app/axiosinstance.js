@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:3001";
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
@@ -42,13 +42,13 @@ axiosInstance.interceptors.response.use(
 
     // Only attempt refresh on admin routes — public pages that get a 401
     // should just fail silently, never trigger a refresh or redirect loop.
-    const isAdminRoute = window.location.pathname.startsWith('/ctrl');
+    const isAdminRoute = window.location.pathname.startsWith("/ctrl");
     if (!isAdminRoute) {
       return Promise.reject(error);
     }
 
     // Already on the login page — don't redirect again
-    if (window.location.pathname === '/ctrl/login') {
+    if (window.location.pathname === "/ctrl/login") {
       return Promise.reject(error);
     }
 
@@ -66,13 +66,13 @@ axiosInstance.interceptors.response.use(
 
     try {
       // refreshAxios has no interceptors — if this 401s it goes straight to catch, no loop
-      await refreshAxios.post('/auth/refresh', {});
+      await refreshAxios.post("/auth/refresh", {});
       processQueue(null);
       return axiosInstance(originalRequest);
     } catch (refreshError) {
       processQueue(refreshError);
       // Refresh token expired — force re-login
-      window.location.href = '/ctrl/login';
+      window.location.href = "/ctrl/login";
       return Promise.reject(refreshError);
     } finally {
       isRefreshing = false;

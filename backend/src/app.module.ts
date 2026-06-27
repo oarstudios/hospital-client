@@ -11,6 +11,7 @@ import { ServicesModule } from './modules/services/services.module';
 import { CancersModule } from './modules/cancers/cancers.module';
 import { BlogsModule } from './modules/blogs/blogs.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
+import { AppointmentsModule } from './modules/appointments/appointments.module';
 
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 
@@ -47,6 +48,7 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
     CancersModule,
     BlogsModule,
     DashboardModule,
+    AppointmentsModule,
 
   ],
 })

@@ -13,6 +13,21 @@ export const fetchTags = createAsyncThunk(
   },
 );
 
+// Creates a new tag (or returns the existing one if the name already
+// matches something stored) — used by the admin blog form's "type a
+// new tag" flow so a brand-new category gets a real id right away.
+export const createTag = createAsyncThunk(
+  'tags/create',
+  async (tagName, { rejectWithValue }) => {
+    try {
+      const res = await axiosInstance.post('/tags', { tag: tagName });
+      return res.data.data || res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || 'Failed to create tag');
+    }
+  },
+);
+
 const tagsSlice = createSlice({
   name: 'tags',
   initialState: {
@@ -33,6 +48,19 @@ const tagsSlice = createSlice({
       })
       .addCase(fetchTags.rejected, (state, action) => {
         state.loading = false;
+        state.error = action.payload;
+      });
+
+    builder
+      .addCase(createTag.fulfilled, (state, action) => {
+        const newTag = action.payload;
+        if (!newTag) return;
+        // Avoid duplicating it in the list if it already existed
+        // (the backend can return an existing tag for a name match).
+        const alreadyInList = state.list.some((t) => t.id === newTag.id);
+        if (!alreadyInList) state.list.push(newTag);
+      })
+      .addCase(createTag.rejected, (state, action) => {
         state.error = action.payload;
       });
   },

@@ -902,12 +902,13 @@ import {
   deleteCancer,
 } from "../../redux/cancers/cancersSlice";
 
-import { fetchCancerCategories } from "../../redux/cancerCategories/cancerCategoriesSlice";
 
 import { uploadCancerContentImageApi } from "../../redux/cancers/cancersApi";
 
 import "./ManageServices.css";
 import "./ManageCancers.css";
+import { DraggableFAQList } from "../common/DraggableList";
+import { fetchCancerCategories } from "../../redux/cancerCategories/cancerCategoriesSlice";
 
 const IMAGE_BASE_URL =
   import.meta.env.VITE_IMAGE_BASE_URL || "";
@@ -941,8 +942,6 @@ const ManageCancers = () => {
     list: cancers,
     loading,
   } = useSelector((state) => state.cancers);
-
-  const { list: categories = [] } = useSelector((state) => state.cancerCategories);
 
   const scrollRef = useRef();
 
@@ -1001,7 +1000,11 @@ const ManageCancers = () => {
   const editor = useEditor({
 
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        dropcursor: false,
+        underline: false,
+        link: false,
+      }),
       Image,
       Highlight,
       Underline,
@@ -1128,6 +1131,8 @@ const ManageCancers = () => {
     });
 
   };
+
+  const reorderFAQ = (newFaqs) => setCancer({ ...cancer, faqs: newFaqs });
 
   /* ================= SAVE ================= */
 
@@ -1312,12 +1317,6 @@ const ManageCancers = () => {
 
   };
 
-  const getCategoryName = (categoryId) => {
-    if (!categoryId) return "—";
-    const cat = categories.find((c) => c.id === categoryId);
-    return cat ? cat.name : "—";
-  };
-
   const imgSrc = (path) => {
 
   if (!path) return null;
@@ -1376,7 +1375,6 @@ const ManageCancers = () => {
               <tr>
                 <th>Image</th>
                 <th>Name</th>
-                <th>Category</th>
                 <th>Slug</th>
                 <th>Meta Title</th>
                 <th>Actions</th>
@@ -1405,12 +1403,6 @@ src={imgSrc(item.coverImage)}                        className="admin-table-img"
                   </td>
 
                   <td>{item.name}</td>
-
-                  <td>
-                    <span className="category-badge">
-                      {getCategoryName(item.categoryId)}
-                    </span>
-                  </td>
 
                   <td>{item.slug}</td>
 
@@ -1481,33 +1473,8 @@ src={imgSrc(item.coverImage)}                        className="admin-table-img"
               }
             />
 
-            {/* ── CATEGORY DROPDOWN ── */}
-            <label>Category</label>
-            <select
-              className="service-category-select"
-              value={cancer.categoryId ?? ""}
-              onChange={(e) =>
-                setCancer((p) => ({
-                  ...p,
-                  categoryId: e.target.value ? Number(e.target.value) : "",
-                }))
-              }
-            >
-              <option value="">— No Category —</option>
-              {categories.map((cat) => (
-                <option key={cat.id} value={cat.id}>
-                  {cat.name}
-                </option>
-              ))}
-            </select>
-            {categories.length === 0 && (
-              <p className="category-hint">
-                No categories yet. Go to <strong>Cancer Categories</strong> in the sidebar to create some.
-              </p>
-            )}
-
             <label>
-              Cover Image
+              Icon Image
             </label>
 
             <div
@@ -1674,90 +1641,94 @@ src={imgSrc(item.coverImage)}                        className="admin-table-img"
 
             </div>
 
-            <div className="editor-toolbar">
+            <div className="editor-section">
 
-              <button onClick={() => editor.chain().focus().toggleBold().run()}>
-                <b>B</b>
-              </button>
+              <div className="editor-toolbar">
 
-              <button onClick={() => editor.chain().focus().toggleItalic().run()}>
-                <i>I</i>
-              </button>
+                <button onClick={() => editor.chain().focus().toggleBold().run()}>
+                  <b>B</b>
+                </button>
 
-              <button onClick={() => editor.chain().focus().toggleUnderline().run()}>
-                <u>U</u>
-              </button>
+                <button onClick={() => editor.chain().focus().toggleItalic().run()}>
+                  <i>I</i>
+                </button>
 
-              <button onClick={() => editor.chain().focus().toggleStrike().run()}>
-                S
-              </button>
+                <button onClick={() => editor.chain().focus().toggleUnderline().run()}>
+                  <u>U</u>
+                </button>
 
-              <button onClick={() => editor.chain().focus().toggleHighlight().run()}>
-                Highlight
-              </button>
+                <button onClick={() => editor.chain().focus().toggleStrike().run()}>
+                  S
+                </button>
 
-              <button onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}>
-                H1
-              </button>
+                <button onClick={() => editor.chain().focus().toggleHighlight().run()}>
+                  Highlight
+                </button>
 
-              <button onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}>
-                H2
-              </button>
+                <button onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}>
+                  H1
+                </button>
 
-              <button onClick={() => editor.chain().focus().setParagraph().run()}>
-                P
-              </button>
+                <button onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}>
+                  H2
+                </button>
 
-              <button onClick={() => editor.chain().focus().toggleBulletList().run()}>
-                • List
-              </button>
+                <button onClick={() => editor.chain().focus().setParagraph().run()}>
+                  P
+                </button>
 
-              <button onClick={() => editor.chain().focus().toggleOrderedList().run()}>
-                1. List
-              </button>
+                <button onClick={() => editor.chain().focus().toggleBulletList().run()}>
+                  • List
+                </button>
 
-              <button onClick={() => editor.chain().focus().setTextAlign("left").run()}>
-                Left
-              </button>
+                <button onClick={() => editor.chain().focus().toggleOrderedList().run()}>
+                  1. List
+                </button>
 
-              <button onClick={() => editor.chain().focus().setTextAlign("center").run()}>
-                Center
-              </button>
+                <button onClick={() => editor.chain().focus().setTextAlign("left").run()}>
+                  Left
+                </button>
 
-              <button onClick={() => editor.chain().focus().setTextAlign("right").run()}>
-                Right
-              </button>
+                <button onClick={() => editor.chain().focus().setTextAlign("center").run()}>
+                  Center
+                </button>
 
-              <button
-                onClick={() => {
+                <button onClick={() => editor.chain().focus().setTextAlign("right").run()}>
+                  Right
+                </button>
 
-                  const url = prompt("Enter URL");
+                <button
+                  onClick={() => {
 
-                  if (url) {
+                    const url = prompt("Enter URL");
 
-                    editor
-                      .chain()
-                      .focus()
-                      .setLink({ href: url })
-                      .run();
+                    if (url) {
 
-                  }
+                      editor
+                        .chain()
+                        .focus()
+                        .setLink({ href: url })
+                        .run();
 
-                }}
-              >
-                Link
-              </button>
+                    }
 
-              <button onClick={addImage}>
-                Image
-              </button>
+                  }}
+                >
+                  Link
+                </button>
+
+                <button onClick={addImage}>
+                  Image
+                </button>
+
+              </div>
+
+              <EditorContent
+                editor={editor}
+                className="notion-editor"
+              />
 
             </div>
-
-            <EditorContent
-              editor={editor}
-              className="notion-editor"
-            />
 
             <h3
               style={{
@@ -1766,6 +1737,10 @@ src={imgSrc(item.coverImage)}                        className="admin-table-img"
             >
               FAQS
             </h3>
+
+            <label>
+              Question
+            </label>
 
             <input
               placeholder="Question"
@@ -1778,6 +1753,10 @@ src={imgSrc(item.coverImage)}                        className="admin-table-img"
                 })
               }
             />
+
+            <label>
+              Answer
+            </label>
 
             <textarea
               placeholder="Answer"
@@ -1798,36 +1777,10 @@ src={imgSrc(item.coverImage)}                        className="admin-table-img"
               Add +
             </button>
 
-            {cancer.faqs.map(
-              (f, i) => (
-
-                <div
-                  key={i}
-                  className="faq-item"
-                >
-
-                  <div>
-                    <strong>
-                      {f.question}
-                    </strong>
-
-                    <p>
-                      {f.answer}
-                    </p>
-                  </div>
-
-                  <button
-                    onClick={() =>
-                      deleteFAQ(i)
-                    }
-                  >
-                    ✕
-                  </button>
-
-                </div>
-
-              )
-            )}
+            <DraggableFAQList
+              items={cancer.faqs}
+              onChange={reorderFAQ}
+            />
 
             <div className="admin-modal-actions">
 

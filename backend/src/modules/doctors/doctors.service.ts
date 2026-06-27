@@ -283,7 +283,7 @@ export class DoctorsService {
 
     const doctors = await this.repo.find({
       where: { isDeleted: filter },
-      order: { createdAt: 'DESC' },
+      order: { createdAt: 'ASC' }, // first-come-first-served: oldest created shows first
     });
 
    if (!doctors.length) {

@@ -210,7 +210,7 @@ export class CentersService {
 
     const centers = await this.repo.find({
       where: { isDeleted: filter },
-      order: { createdAt: 'DESC' },
+      order: { createdAt: 'ASC' }, // first-come-first-served: oldest created shows first
     });
 
     if (!centers.length) return [];

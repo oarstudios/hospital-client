@@ -11,6 +11,39 @@ import shareIcon from "../../assets/ri_share-line.png";
 import ictcLogo from "../../assets/ICTC_Logo(long).png";
 import doctorImg from "../../assets/High res images 1.png";
 
+// TipTap — used to convert stored JSON back to HTML for rendering
+import { generateHTML } from "@tiptap/core";
+import StarterKit from "@tiptap/starter-kit";
+import Image from "@tiptap/extension-image";
+import Highlight from "@tiptap/extension-highlight";
+import Typography from "@tiptap/extension-typography";
+import TaskList from "@tiptap/extension-task-list";
+import TaskItem from "@tiptap/extension-task-item";
+import Link from "@tiptap/extension-link";
+import Underline from "@tiptap/extension-underline";
+import TextAlign from "@tiptap/extension-text-align";
+import Dropcursor from "@tiptap/extension-dropcursor";
+
+// Extensions must match ManageBlogs.jsx exactly so every node type is recognised.
+// StarterKit v3 bundles link, underline, dropcursor — disable those in StarterKit
+// and register the standalone configured versions to avoid duplicate-extension warnings.
+const BLOG_EXTENSIONS = [
+  StarterKit.configure({
+    dropcursor: false,
+    underline: false,
+    link: false,
+  }),
+  Image,
+  Highlight,
+  Typography,
+  Underline,
+  Dropcursor,
+  Link.configure({ openOnClick: false }),
+  TextAlign.configure({ types: ["heading", "paragraph"] }),
+  TaskList,
+  TaskItem.configure({ nested: true }),
+];
+
 const BlogPost = () => {
   const { id, slug } = useParams();
   const navigate = useNavigate();
@@ -61,104 +94,20 @@ const BlogPost = () => {
     }
   };
 
-  const renderContent = (content) => {
-    if (!content) return null;
-
-    if (typeof content === "object" && content.type === "doc") {
-      return convertTipTapToBlocks(content);
-    }
-
-    if (Array.isArray(content)) {
-      return content.map((block, index) => {
-        if (block.type === "paragraph") return <p key={index}>{block.text}</p>;
-        if (block.type === "heading")   return <h2 key={index}>{block.text}</h2>;
-        if (block.type === "list")
-          return (
-            <ul key={index}>
-              {block.items.map((item, i) => <li key={i}>{item}</li>)}
-            </ul>
-          );
-        if (block.type === "image")
-          return (
-            <div key={index} className="ictc-blogpost-inline-img-wrapper">
-              <img
-                src={block.src}
-                alt={block.alt || blog.title}
-                className="ictc-blogpost-inline-img"
-                loading="lazy"
-              />
-            </div>
-          );
-        return null;
-      });
-    }
-
-    return null;
-  };
-
-  const convertTipTapToBlocks = (json) => {
-    if (!json || !json.content) return null;
-
-    return json.content.map((node, index) => {
-      switch (node.type) {
-        case "paragraph":
-          return <p key={index}>{getTextFromNode(node)}</p>;
-
-        case "heading": {
-          const level = node.attrs?.level || 2;
-          const Heading = `h${level}`;
-          return <Heading key={index}>{getTextFromNode(node)}</Heading>;
-        }
-
-        case "bulletList":
-          return (
-            <ul key={index}>
-              {node.content?.map((item, i) => <li key={i}>{getTextFromNode(item)}</li>)}
-            </ul>
-          );
-
-        case "orderedList":
-          return (
-            <ol key={index}>
-              {node.content?.map((item, i) => <li key={i}>{getTextFromNode(item)}</li>)}
-            </ol>
-          );
-
-        case "image":
-          return (
-            <div key={index} className="ictc-blogpost-inline-img-wrapper">
-              <img
-                src={imgSrc(node.attrs?.src)}
-                alt={node.attrs?.alt || blog.title}
-                className="ictc-blogpost-inline-img"
-                loading="lazy"
-              />
-            </div>
-          );
-
-        default:
-          return null;
+  const getHTML = (content) => {
+    if (!content) return "";
+    try {
+      // Stored as JSON object (TipTap getJSON format)
+      const json = typeof content === "string" ? JSON.parse(content) : content;
+      if (json && json.type === "doc") {
+        return generateHTML(json, BLOG_EXTENSIONS);
       }
-    });
-  };
-
-  const getTextFromNode = (node) => {
-    if (!node.content) return "";
-    return node.content.map((c, i) => {
-      if (c.type === "text") {
-        let text = c.text;
-        if (c.marks) {
-          for (const mark of c.marks) {
-            if (mark.type === "bold")      return <strong key={i}>{text}</strong>;
-            if (mark.type === "italic")    return <em key={i}>{text}</em>;
-            if (mark.type === "underline") return <u key={i}>{text}</u>;
-            if (mark.type === "link")      return <a key={i} href={mark.attrs.href}>{text}</a>;
-          }
-        }
-        return text;
-      }
-      return "";
-    }).filter(Boolean);
+    } catch {
+      // fall through
+    }
+    // Fallback: already an HTML string (older blogs)
+    if (typeof content === "string") return content;
+    return "";
   };
 
   const formatDate = (dateString) => {
@@ -215,9 +164,10 @@ const BlogPost = () => {
           </div>
 
           {/* BODY */}
-          <section className="ictc-blogpost-body">
-            {renderContent(blog.content)}
-          </section>
+          <section
+            className="ictc-blogpost-body"
+            dangerouslySetInnerHTML={{ __html: getHTML(blog.content) }}
+          />
         </article>
 
         {/* RIGHT SIDEBAR */}

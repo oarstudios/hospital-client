@@ -158,6 +158,140 @@
 }
 
 /* ========================= */
+/* RICH CONTENT — TYPOGRAPHY */
+/* (TipTap outputs HTML here) */
+/* ========================= */
+
+.ictc-rich-content {
+  font-size: 17px;
+  line-height: 1.75;
+  color: #3b3b3b;
+}
+
+.ictc-rich-content p {
+  margin-bottom: 14px;
+}
+
+.ictc-rich-content h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: rgba(63, 34, 74, 1);
+  margin: 24px 0 12px;
+}
+
+.ictc-rich-content h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: rgba(48, 45, 49, 1);
+  margin: 20px 0 10px;
+}
+
+.ictc-rich-content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgba(48, 45, 49, 1);
+  margin: 16px 0 8px;
+}
+
+/* Lists */
+.ictc-rich-content ul,
+.ictc-rich-content ol {
+  padding-left: 24px;
+  margin-bottom: 16px;
+}
+
+.ictc-rich-content ul {
+  list-style-type: disc;
+}
+
+.ictc-rich-content ol {
+  list-style-type: decimal;
+}
+
+.ictc-rich-content li {
+  font-size: 17px;
+  line-height: 1.7;
+  color: #3b3b3b;
+  margin-bottom: 8px;
+}
+
+.ictc-rich-content li p {
+  margin-bottom: 0;
+}
+
+/* Inline marks */
+.ictc-rich-content strong {
+  font-weight: 700;
+  color: #1f1f1f;
+}
+
+.ictc-rich-content em {
+  font-style: italic;
+}
+
+.ictc-rich-content u {
+  text-decoration: underline;
+}
+
+.ictc-rich-content s {
+  text-decoration: line-through;
+  color: #888;
+}
+
+/* Highlight — TipTap outputs <mark> */
+.ictc-rich-content mark {
+  background-color: #fff176;
+  color: inherit;
+  border-radius: 3px;
+  padding: 0 2px;
+}
+
+/* Links */
+.ictc-rich-content a {
+  color: #1a73e8;
+  text-decoration: underline;
+  word-break: break-word;
+}
+
+.ictc-rich-content a:hover {
+  color: #1558b0;
+}
+
+/* Text alignment — TipTap outputs style="text-align: ..." */
+.ictc-rich-content [style*="text-align: left"],
+.ictc-rich-content p[style*="text-align: left"] {
+  text-align: left;
+}
+
+.ictc-rich-content [style*="text-align: center"],
+.ictc-rich-content p[style*="text-align: center"] {
+  text-align: center;
+}
+
+.ictc-rich-content [style*="text-align: right"],
+.ictc-rich-content p[style*="text-align: right"] {
+  text-align: right;
+}
+
+/* Blockquote (if added later) */
+.ictc-rich-content blockquote {
+  border-left: 4px solid rgba(63, 34, 74, 0.3);
+  margin: 16px 0;
+  padding: 8px 16px;
+  color: #555;
+  font-style: italic;
+}
+
+/* Code */
+.ictc-rich-content code {
+  background: #f3f3f3;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+/* ========================= */
 /* HELPERS */
 /* ========================= */
 
@@ -278,10 +412,3 @@
     padding: 16px;
   }
 }
-
-
-
-
-
-
-
