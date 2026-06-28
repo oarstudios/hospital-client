@@ -907,7 +907,7 @@ import { uploadCancerContentImageApi } from "../../redux/cancers/cancersApi";
 
 import "./ManageServices.css";
 import "./ManageCancers.css";
-import { DraggableFAQList } from "../common/DraggableList";
+import { DraggableFAQList } from "../common/Draggablelist";
 import { fetchCancerCategories } from "../../redux/cancerCategories/cancerCategoriesSlice";
 
 const IMAGE_BASE_URL =

@@ -1,5 +1,5 @@
 /**
- * DraggableList.jsx  –  src/admin/common/DraggableList.jsx
+ * Draggablelist.jsx  –  src/admin/common/Draggablelist.jsx
  *
  * Two exports:
  *
@@ -10,7 +10,7 @@
  */
 
 import { useRef } from "react";
-import "./DraggableList.css";
+import "./Draggablelist.css";
 
 /* ─────────────────────────────────────────────
    SHARED HOOK: drag-to-reorder logic

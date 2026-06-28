@@ -585,7 +585,7 @@ import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import "./ManageDoctors.css";
-import { DraggableTagList } from "../common/DraggableList";
+import { DraggableTagList } from "../common/Draggablelist";
 
 import {
   fetchDoctors,

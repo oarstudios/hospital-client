@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import slugify from "slugify";
 import { useDropzone } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
-import { DraggableFAQList } from "../common/DraggableList";
+import { DraggableFAQList } from "../common/Draggablelist";
 
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
