@@ -923,6 +923,7 @@ const TABS = [
   // "FAQ's"
 ];
 
+
 const emptyCancer = {
   name: "",
   slug: "",
