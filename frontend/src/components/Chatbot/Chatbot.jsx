@@ -271,7 +271,7 @@ export default function Chatbot() {
 
     try {
       await fetch(
-        "https://script.google.com/macros/s/AKfycbwvMAutv6LdpzjigmueH0mBXUXNBn0YYh7zhQgLl4BoJ6fldYbuFH_SSBqB4-5U44aw/exec",
+        "https://script.google.com/macros/s/AKfycbwlpXy-uDI44brpz1WMP_jmfbI08c5MVxBjni6ga9pN7uIB0ZrvXkPsPDeTnFqnjVpu/exec",
         {
           method: "POST",
           mode: "no-cors",
