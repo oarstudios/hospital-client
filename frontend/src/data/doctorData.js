@@ -31,6 +31,10 @@ const doctorData = {
     phone: "+91-8451069854",
 
     centres: ["ICTC Panvel", "ICTC Vashi"],
+    centreMapLinks: {
+      vashi: "https://maps.app.goo.gl/q5mASiWVQ15ccWfv9",
+      panvel: "https://maps.app.goo.gl/bzA4sg6f4V5WCqYC7",
+    },
     languages: ["English", "Hindi", "Marathi"],
 
     summary: `Dr. Salil Vijay Patkar is a senior Medical Oncologist with over 12 years of
@@ -176,6 +180,10 @@ const doctorData = {
     phone: "+91-9920177313",
 
     centres: ["ICTC Kalyan", "ICTC Dombivli"],
+    centreMapLinks: {
+      kalyan: "https://maps.app.goo.gl/py96ojscK7yXiBGdA",
+      dombivli: "https://maps.app.goo.gl/WqLpBgyhgy8eRXzV8",
+    },
     languages: ["English", "Hindi", "Marathi"],
 
     summary: `Dr. Amit Ghanekar is a highly respected Medical Oncologist and Cancer
@@ -415,6 +423,10 @@ const doctorData = {
     phone: "+91-9871250784",
 
     centres: ["ICTC Dadar", "ICTC Goregaon"],
+    centreMapLinks: {
+      dadar: "https://maps.app.goo.gl/quDbpjpiUJL4ML7P8",
+      goregaon: "https://maps.app.goo.gl/A96PS1qUgGTyU8CF6",
+    },
     languages: ["English", "Hindi", "Marathi"],
 
     summary: `Dr. Viraj Nevrekar is a highly experienced Cancer Specialist and Medical
@@ -538,6 +550,11 @@ const doctorData = {
     phone: "+91-9922964122",
 
     centres: ["ICTC Dadar", "ICTC Ghatkopar", "ICTC Sion", "ICTC Vashi"],
+    centreMapLinks: {
+      vashi: "https://maps.app.goo.gl/bfwpWKKfr8SinZiJ9",
+      sion: "https://maps.app.goo.gl/iv68CriEmrLLXRAN6",
+      ghatkopar: "https://maps.app.goo.gl/7a97hWyEuNbAkHXS6",
+    },
     languages: ["English", "Hindi"],
 
     summary: `Dr. Kunal Goyal is a highly accomplished Clinical Hematologist and
@@ -667,6 +684,10 @@ const doctorData = {
     phone: "+91-9426973436",
 
     centres: ["ICTC Ghatkopar", "ICTC Chembur"],
+    centreMapLinks: {
+      ghatkopar: "https://maps.app.goo.gl/1mxCGYkEvpokkQvw7",
+      chembur: "https://maps.app.goo.gl/Gz1JGVCbMyF2n1w48",
+    },
     languages: ["English", "Hindi", "Gujarati"],
 
     summary: `Dr. Deep Vora is a dedicated Medical Oncologist, Hemato-Oncologist, and
@@ -793,6 +814,9 @@ const doctorData = {
     phone: "+91-9112735218",
 
     centres: ["ICTC Santacruz"],
+    centreMapLinks: {
+      santacruz: "https://maps.app.goo.gl/juHpkFo66RefWi76A",
+    },
     languages: ["English", "Hindi"],
 
     summary: `Dr. Shreya Gattani is a dedicated Medical and Hemato-Oncologist with
@@ -885,6 +909,9 @@ const doctorData = {
     phone: "+91 9326911195",
 
     centres: ["ICTC Thane"],
+    centreMapLinks: {
+      thane: "https://maps.app.goo.gl/XCcZVG92j7bAjz27A",
+    },
     languages: ["English", "Hindi", "Marathi", "Gujarati"],
 
     summary: `Dr. Darshan Jain is a highly trained Medical and Hemato-Oncologist 
@@ -971,9 +998,12 @@ const doctorData = {
       "MD Pediatrics, DNB Pediatrics, DM Pediatric Oncology (Tata Memorial Hospital Mumbai)",
     rating: "5.0",
     reviews: "80+ Ratings",
-    phone: "",
+    phone: "+91 9082193684",
 
     centres: ["ICTC Thane"],
+    centreMapLinks: {
+      thane: "https://maps.app.goo.gl/XCcZVG92j7bAjz27A",
+    },
 
     languages: ["English", "Hindi", "Gujarati", "Marathi"],
 

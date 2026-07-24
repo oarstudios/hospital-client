@@ -1,8 +1,8 @@
 import "./DoctorProfile.css";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import doctorData from "../../../data/doctorData";
-import centerData from "../../../data/centerData";
+import centerData, { mapLinks } from "../../../data/centerData";
 
 /* ICONS */
 import starIcon from "../../../assets/star.png";
@@ -27,55 +27,6 @@ const DoctorProfile = () => {
 
   const doctor = doctorData[slug];
   const [showFullSummary, setShowFullSummary] = useState(false);
-
-  /* ================= EXISTING HARD CODED MAP LINKS ================= */
- const mapLinks = {
-  vashi: "https://maps.app.goo.gl/q5mASiWVQ15ccWfv9",
-  panvel: "https://maps.app.goo.gl/bzA4sg6f4V5WCqYC7",
-  kalyan: "https://maps.app.goo.gl/py96ojscK7yXiBGdA",
-  dombivli: "https://maps.app.goo.gl/WqLpBgyhgy8eRXzV8",
-  dadar: "https://maps.app.goo.gl/quDbpjpiUJL4ML7P8",
-  goregaon: "https://maps.app.goo.gl/A96PS1qUgGTyU8CF6",
-  sion: "https://maps.app.goo.gl/ZzvMJTqN1rqAni9M9",
-  ghatkopar: "https://maps.app.goo.gl/7a97hWyEuNbAkHXS6",
-  chembur: "https://maps.app.goo.gl/Gz1JGVCbMyF2n1w48",
-  santacruz: "https://maps.app.goo.gl/juHpkFo66RefWi76A",
-  thane: "https://maps.app.goo.gl/BWT2qoniyASW1LXX8",
-};
-
-  /* ================= NEW: DOCTOR-WISE MAP LINKS ================= */
-  const doctorMapLinks = {
-    "salil-patkar": {
-      vashi: "https://maps.app.goo.gl/q5mASiWVQ15ccWfv9",
-      panvel: "https://maps.app.goo.gl/bzA4sg6f4V5WCqYC7",
-    },
-    "amit-ghanekar": {
-      kalyan: "https://maps.app.goo.gl/py96ojscK7yXiBGdA",
-      dombivli: "https://maps.app.goo.gl/WqLpBgyhgy8eRXzV8",
-    },
-    "viraj-nevrekar": {
-      dadar: "https://maps.app.goo.gl/quDbpjpiUJL4ML7P8",
-      goregaon: "https://maps.app.goo.gl/A96PS1qUgGTyU8CF6",
-    },
-    "rohit-pai": {
-      sion: "https://maps.app.goo.gl/ZzvMJTqN1rqAni9M9",
-    },
-    "kunal-goyal": {
-      vashi: "https://maps.app.goo.gl/bfwpWKKfr8SinZiJ9",
-      sion: "https://maps.app.goo.gl/iv68CriEmrLLXRAN6",
-      ghatkopar: "https://maps.app.goo.gl/7a97hWyEuNbAkHXS6",
-    },
-    "deep-vora": {
-      ghatkopar: "https://maps.app.goo.gl/1mxCGYkEvpokkQvw7",
-      chembur: "https://maps.app.goo.gl/Gz1JGVCbMyF2n1w48",
-    },
-    "shreya-gattani": {
-      santacruz: "https://maps.app.goo.gl/juHpkFo66RefWi76A",
-    },
-    "darshan-jain": {
-      thane: "https://maps.app.goo.gl/BWT2qoniyASW1LXX8",
-    },
-  };
 
   if (!doctor) return null;
 
@@ -124,7 +75,7 @@ const DoctorProfile = () => {
     const centreSlug = centreToSlug(centre);
 
     const finalLink =
-      doctorMapLinks[slug]?.[centreSlug] ||
+      doctor.centreMapLinks?.[centreSlug] ||
       mapLinks[centreSlug] ||
       "#";
 
