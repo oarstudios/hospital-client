@@ -37,7 +37,7 @@ const doctorData = {
     },
     languages: ["English", "Hindi", "Marathi"],
 
-    summary: `Dr. Salil Vijay Patkar is a senior Medical Oncologist with over 12 years of
+  summary: `Dr. Salil Vijay Patkar is a senior Medical Oncologist with over 12 years of
   extensive clinical experience, specialising in the comprehensive management of
   solid tumors and hematological malignancies. He is the Founder and Director of
   the Indian Cancer Treatment Centre (ICTC), an institution established with the
@@ -910,7 +910,7 @@ const doctorData = {
 
     centres: ["ICTC Thane"],
     centreMapLinks: {
-      thane: "https://maps.app.goo.gl/XCcZVG92j7bAjz27A",
+      thane: "https://maps.app.goo.gl/ZzqHXkuPYyzTDhGSA",
     },
     languages: ["English", "Hindi", "Marathi", "Gujarati"],
 
