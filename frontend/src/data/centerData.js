@@ -60,7 +60,7 @@ import g4 from "../assets/p1 (4).webp";
 export const areaCentreMap = {
   Mumbai: ["Sion", "Dadar", "Ghatkopar", "Santacruz", "Goregaon", "Chembur"],
   "Navi Mumbai": ["Vashi", "Panvel"],
-  Thane: ["Kalyan", "Dombivli"],
+  Thane: ["Thane", "Kalyan", "Dombivli"],
 };
 
 /* ===================== CENTER → SLUG MAP ===================== */
@@ -73,6 +73,7 @@ export const centerSlugMap = {
   Chembur: "chembur",
   Vashi: "vashi",
   Panvel: "panvel",
+  Thane: "thane",
   Kalyan: "kalyan",
   Dombivli: "dombivli",
 };

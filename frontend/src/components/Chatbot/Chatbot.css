@@ -356,7 +356,7 @@
 }
 
 /* FAQ Item */
-.faq-item {
+.faq-item-chat {
   background: rgba(250, 250, 250, 1);
 
   border-radius: 8px;
@@ -365,13 +365,13 @@
 }
 
 /* Hover effect */
-.faq-item:hover {
+.faq-item-chat:hover {
   background: rgba(236, 223, 242, 1);
   border: 1px solid var(--primary-200, rgba(209, 176, 224, 1));
 }
 
 /* Active state */
-.faq-item.active {
+.faq-item-chat.active {
   background: rgba(250, 250, 250, 1);
   border: 1px solid var(--primary-300, rgba(176, 104, 205, 1));
 }
@@ -385,7 +385,7 @@
   font-weight: 400;
   color: rgba(48, 45, 49, 1);
 }
-.faq-item.active .faq-question.active {
+.faq-item-chat.active .faq-question.active {
   font-weight: 600;
 }
 

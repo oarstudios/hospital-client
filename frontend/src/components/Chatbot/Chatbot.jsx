@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import "./Chatbot.css";
+import { areaCentreMap } from "../../data/centerData";
 
 /* ASSETS */
 import chatIcon from "../../assets/ChatButton.png";
@@ -13,15 +14,6 @@ import DownChatbot from "../../assets/DownChatbot.png";
 import UpFAQ from "../../assets/upfaq.png";
 import DownFAQ from "../../assets/dowfaq.png";
 import Close from "../../assets/CloseIcon.png";
-
-/* ============================
-   AREA → CENTER MAP
-============================ */
-const areacenterMap = {
-  Mumbai: ["Sion", "Dadar", "Ghatkopar", "Goregaon", "Chembur", "Santacruz"],
-  "Navi Mumbai": ["Vashi", "Panvel"],
-  Thane: ["Kalyan", "Dombivli"],
-};
 
 export default function Chatbot() {
   /* ================= STATE ================= */
@@ -457,7 +449,7 @@ export default function Chatbot() {
                   {faqs.map((faq, i) => (
                     <div
                       key={i}
-                      className={`faq-item ${
+                      className={`faq-item-chat ${
                         openFaq === i ? "active" : ""
                       }`}
                       onClick={() => toggleFaq(i)}
@@ -492,7 +484,7 @@ export default function Chatbot() {
           {/* AREA */}
           {step === "area" && (
             <div className="center-box">
-              {Object.keys(areacenterMap).map((a) => (
+              {Object.keys(areaCentreMap).map((a) => (
                 <button
                   key={a}
                   className="center-btn"
@@ -507,7 +499,7 @@ export default function Chatbot() {
           {/* CENTER */}
           {step === "center" && (
             <div className="center-box">
-              {areacenterMap[form.area].map((c) => (
+              {areaCentreMap[form.area].map((c) => (
                 <button
                   key={c}
                   className="center-btn"
