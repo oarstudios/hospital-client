@@ -56,6 +56,28 @@ import g2 from "../assets/p1 (2).webp";
 import g3 from "../assets/p1 (3).webp";
 import g4 from "../assets/p1 (4).webp";
 
+import chembur1 from "../assets/ICTC photos/ICTC Chembur (1).jpeg";
+import chembur2 from "../assets/ICTC photos/ICTC Chembur (2).jpeg";
+import chembur3 from "../assets/ICTC photos/ICTC Chembur (3).jpeg";
+import chembur4 from "../assets/ICTC photos/ICTC Chembur (4).jpeg";
+import chembur5 from "../assets/ICTC photos/ICTC Chembur (5).jpeg";
+import chembur6 from "../assets/ICTC photos/ICTC Chembur (6).jpeg";
+import chembur7 from "../assets/ICTC photos/ICTC Chembur (7).jpeg";
+
+import goregaon1 from "../assets/ICTC photos/ICTC Goregaon (1).jpeg";
+import goregaon2 from "../assets/ICTC photos/ICTC Goregaon (2).jpeg";
+import goregaon3 from "../assets/ICTC photos/ICTC Goregaon (3).jpeg"; 
+import goregaon4 from "../assets/ICTC photos/ICTC Goregaon (4).jpeg";
+import goregaon5 from "../assets/ICTC photos/ICTC Goregaon (5).jpeg";
+import goregaon6 from "../assets/ICTC photos/ICTC Goregaon (6).jpeg";
+import goregaon7 from "../assets/ICTC photos/ICTC Goregaon (7).jpeg";
+import goregaon8 from "../assets/ICTC photos/ICTC Goregaon (8).jpeg";
+import goregaon9 from "../assets/ICTC photos/ICTC Goregaon (9).jpeg";
+import goregaon10 from "../assets/ICTC photos/ICTC Goregaon (10).jpeg";
+import goregaon11 from "../assets/ICTC photos/ICTC Goregaon (11).jpeg";
+import goregaon12 from "../assets/ICTC photos/ICTC Goregaon (12).jpeg";
+
+
 /* ===================== AREA → CENTERS MAPPING ===================== */
 export const areaCentreMap = {
   Mumbai: ["Sion", "Dadar", "Ghatkopar", "Santacruz", "Goregaon", "Chembur"],
@@ -346,7 +368,7 @@ description: [
 
 
     image: defaultImg,
-    gallery: [g1, g2, g3],
+    gallery: [goregaon1, goregaon2, goregaon3, goregaon4, goregaon5, goregaon6, goregaon7, goregaon8, goregaon9, goregaon10, goregaon11, goregaon12],
   },
 
   /* ===================== GHATKOPAR ===================== */
@@ -440,7 +462,7 @@ lng: 72.8878,
 
 
     image: defaultImg,
-    gallery: [g1, g2, g3],
+    gallery: [chembur1, chembur2, chembur3, chembur4, chembur5, chembur6, chembur7],
   },
 
     /* ===================== THANE ===================== */
@@ -452,7 +474,7 @@ thane: {
   rating: "4.9",
   reviews: "100+ Ratings",
 
-  phone: "+91 7977225902",
+  phone: "+91 7977225902, +91 9082193684",
 
   mapQuery: "ICTC Cancer Care Centre Thane",
 

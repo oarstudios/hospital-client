@@ -9,8 +9,8 @@ import doc8 from "../assets/doc8.PNG";
 import doc9 from "../assets/Dr Juhi Shah.png";
 
 const doctorData = {
-  "salil-patkar": {
-    slug: "salil-patkar",
+  "dr-salil-patkar-cancer-specialist-oncologist-vashi-panvel-navi-mumbai": {
+    slug: "dr-salil-patkar-cancer-specialist-oncologist-vashi-panvel-navi-mumbai",
     name: "Dr. Salil Vijay Patkar",
     image: doc1, // replace with correct imported image
     stories: [
@@ -158,8 +158,8 @@ const doctorData = {
     ],
   },
 
-  "amit-ghanekar": {
-    slug: "amit-ghanekar",
+  "dr-amit-ghanekar-cancer-specialist-oncologist-kalyan-dombivli": {
+    slug: "dr-amit-ghanekar-cancer-specialist-oncologist-kalyan-dombivli",
     name: "Dr. Amit Ghanekar",
     image: doc2, // replace with correct imported image
     stories: [
@@ -287,8 +287,8 @@ const doctorData = {
     ],
   },
 
-  "rohit-pai": {
-    slug: "rohit-pai",
+  "dr-rohit-pai-cancer-specialist-oncologist-sion-mumbai": {
+    slug: "dr-rohit-pai-cancer-specialist-oncologist-sion-mumbai",
     name: "Dr. Rohit Pai",
     image: doc3, // replace if needed
     stories: [
@@ -401,8 +401,8 @@ const doctorData = {
     ],
   },
 
-  "viraj-nevrekar": {
-    slug: "viraj-nevrekar",
+  "dr-viraj-nevrekar-cancer-specialist-oncologist-dadar-goregaon-mumbai": {
+    slug: "dr-viraj-nevrekar-cancer-specialist-oncologist-dadar-goregaon-mumbai",
     name: "Dr. Viraj Nevrekar",
     image: doc4, // replace with correct imported image
     stories: [
@@ -527,8 +527,8 @@ const doctorData = {
     ],
   },
 
-  "kunal-goyal": {
-    slug: "kunal-goyal",
+  "dr-kunal-goyal-cancer-specialist-oncologist-mumbai-navi-mumbai": {
+    slug: "dr-kunal-goyal-cancer-specialist-oncologist-mumbai-navi-mumbai",
     name: "Dr. Kunal Goyal",
     image: doc5, // replace with correct imported image
     stories: [
@@ -662,8 +662,8 @@ const doctorData = {
     ],
   },
 
-  "deep-vora": {
-    slug: "deep-vora",
+  "dr-deep-vora-cancer-specialist-ghatkopar-chembur-mumbai": {
+    slug: "dr-deep-vora-cancer-specialist-ghatkopar-chembur-mumbai",
     name: "Dr. Deep Vora",
     image: doc6, // replace with correct imported image
     stories: [
@@ -792,8 +792,8 @@ const doctorData = {
     ],
   },
 
-  "shreya-gattani": {
-    slug: "shreya-gattani",
+  "dr-shreya-gattani-cancer-specialist-santacruz-mumbai": {
+    slug: "dr-shreya-gattani-cancer-specialist-santacruz-mumbai",
     name: "Dr. Shreya Gattani",
     image: doc7, // replace with correct imported image
     stories: [
@@ -895,8 +895,8 @@ const doctorData = {
     ],
   },
 
-  "darshan-kiran-jain": {
-    slug: "darshan-kiran-jain",
+  "dr-darshan-jain-cancer-specialist-thane": {
+    slug: "dr-darshan-jain-cancer-specialist-thane",
     name: "Dr. Darshan Kiran Jain",
     image: doc8, // replace with correct imported image
     stories: [],
@@ -986,8 +986,8 @@ const doctorData = {
     ],
   },
 
-  "juhi-shah": {
-    slug: "juhi-shah",
+  "dr-juhi-shah-cancer-specialist-thane": {
+    slug: "dr-juhi-shah-cancer-specialist-thane",
     name: "Dr. Juhi Shah",
     image: doc9, // replace with correct imported image
     stories: [],
