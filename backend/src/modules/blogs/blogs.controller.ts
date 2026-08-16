@@ -132,6 +132,12 @@ export class BlogsController {
     return this.service.findCategories();
   }
 
+  @Post('categories')
+  @ApiBody({ schema: { type: 'object', properties: { category: { type: 'string' } } } })
+  createCategory(@Body('category') category: string) {
+    return this.service.createCategory(category);
+  }
+
   @Get('slug/:slug')
   findBySlug(@Param('slug') slug: string) {
     return this.service.findBySlug(slug);

@@ -29,9 +29,6 @@ export class Blog {
   date?: string;
 
   @Column({ nullable: true })
-  category?: string;
-
-  @Column({ nullable: true })
   author?: string;
 
   // cover image path e.g. /uploads/abc.jpg

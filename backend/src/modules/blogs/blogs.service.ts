@@ -8,7 +8,9 @@ import { Repository, DataSource, In } from 'typeorm';
 
 import { Blog } from './entities/blog.entity';
 import { BlogTag } from './entities/blog-tag.entity';
+import { BlogBlogCategory } from './entities/blog-blog-category.entity';
 import { Tag } from './entities/tag.entity';
+import { BlogCategory } from './entities/blog-category.entity';
 
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
@@ -29,14 +31,21 @@ export class BlogsService {
     @InjectRepository(Tag)
     private readonly masterTagRepo: Repository<Tag>,
 
+    @InjectRepository(BlogBlogCategory)
+    private readonly categoryRepo: Repository<BlogBlogCategory>,
+
+    @InjectRepository(BlogCategory)
+    private readonly masterCategoryRepo: Repository<BlogCategory>,
+
     private readonly dataSource: DataSource,
   ) {}
 
-  private async attachTags(blogs: Blog[]) {
+  private async attachBlogData(blogs: Blog[]) {
     if (!blogs.length) return [];
 
     const blogIds = blogs.map((b) => b.id);
 
+    // Fetch tags
     const blogTags = await this.tagRepo.find({
       where: { blogId: In(blogIds) },
     });
@@ -46,11 +55,25 @@ export class BlogsService {
       ? await this.masterTagRepo.find({ where: { id: In(tagIds) } })
       : [];
 
+    // Fetch categories
+    const blogCategories = await this.categoryRepo.find({
+      where: { blogId: In(blogIds) },
+    });
+
+    const categoryIds = [...new Set(blogCategories.map((bc) => bc.categoryId))];
+    const masterCategories = categoryIds.length
+      ? await this.masterCategoryRepo.find({ where: { id: In(categoryIds) } })
+      : [];
+
     return blogs.map((blog) => ({
       ...blog,
       tags: blogTags
         .filter((bt) => bt.blogId === blog.id)
         .map((bt) => masterTags.find((mt) => mt.id === bt.tagId))
+        .filter(Boolean),
+      categories: blogCategories
+        .filter((bc) => bc.blogId === blog.id)
+        .map((bc) => masterCategories.find((mc) => mc.id === bc.categoryId))
         .filter(Boolean),
       content: blog.content ? this.parseContent(blog.content) : null,
     }));
@@ -120,9 +143,8 @@ export class BlogsService {
       const blog = await manager.save(Blog, {
         title: dto.title,
         slug: dto.slug,
-        type: 'Blog',
+        type: dto.type || 'Blog',
         date: dto.date,
-        category: dto.category,
         author: dto.author,
         image: coverFile ? `/uploads/${coverFile}` : null,
         content: parsedContent ? JSON.stringify(parsedContent) : null,
@@ -132,26 +154,36 @@ export class BlogsService {
       });
 
       const tagIds = dto.tags || [];
-
       const savedBlogTags: BlogTag[] = [];
       for (const tagId of tagIds) {
         const bt = await manager.save(BlogTag, { blogId: blog.id, tagId });
         savedBlogTags.push(bt);
       }
-      
 
-      // FIX: Build the return value within the transaction using `manager`
-      // Previously called this.findOne(blog.id) which uses this.repo (outside tx),
-      // and on some DB configs the newly-inserted row isn't visible yet → NotFoundException.
+      const categoryIds = dto.categories || [];
+      const savedBlogCategories: BlogBlogCategory[] = [];
+      for (const categoryId of categoryIds) {
+        const bc = await manager.save(BlogBlogCategory, { blogId: blog.id, categoryId });
+        savedBlogCategories.push(bc);
+      }
+
       const masterTagIds = [...new Set(savedBlogTags.map((bt) => bt.tagId))];
       const masterTags = masterTagIds.length
         ? await manager.find(Tag, { where: { id: In(masterTagIds) } })
+        : [];
+
+      const masterCategoryIds = [...new Set(savedBlogCategories.map((bc) => bc.categoryId))];
+      const masterCategories = masterCategoryIds.length
+        ? await manager.find(BlogCategory, { where: { id: In(masterCategoryIds) } })
         : [];
 
       return {
         ...blog,
         tags: savedBlogTags
           .map((bt) => masterTags.find((mt) => mt.id === bt.tagId))
+          .filter(Boolean),
+        categories: savedBlogCategories
+          .map((bc) => masterCategories.find((mc) => mc.id === bc.categoryId))
           .filter(Boolean),
         content: blog.content ? this.parseContent(blog.content) : null,
       };
@@ -166,12 +198,12 @@ export class BlogsService {
 
     const blogs = await this.repo.find({
       where: { isDeleted: filter },
-      order: { createdAt: 'ASC' }, // first-come-first-served: oldest created shows first
+      order: { date: 'DESC', createdAt: 'DESC' }, // latest date first, fallback to latest created
     });
 
     if (!blogs.length) return [];
 
-    return this.attachTags(blogs);
+    return this.attachBlogData(blogs);
   }
  
 
@@ -188,7 +220,7 @@ export class BlogsService {
 
     if (!blog) throw new NotFoundException('Blog not found');
 
-    const [result] = await this.attachTags([blog]);
+    const [result] = await this.attachBlogData([blog]);
     return result;
   }
 
@@ -205,15 +237,14 @@ export class BlogsService {
 
     if (!blog) throw new NotFoundException('Blog not found');
 
-    const [result] = await this.attachTags([blog]);
+    const [result] = await this.attachBlogData([blog]);
     return result;
   }
 
   /**
-   * Find similar blogs: blogs sharing at least one Tag with the current
-   * blog, excluding the current blog itself. Falls back to the oldest
-   * blogs (first-come-first-served, matching the rest of the site) if
-   * there aren't enough tag-matched siblings.
+   * Find similar blogs: blogs sharing at least one Tag or Category with the current
+   * blog, excluding the current blog itself. Falls back to the latest
+   * blogs if there aren't enough tag/category-matched siblings.
    */
   async findSimilar(id: number, limit = 3) {
     const current = await this.repo.findOne({
@@ -224,32 +255,48 @@ export class BlogsService {
 
     let similar: Blog[] = [];
 
-    // Tags attached to the current blog
+    // Tags and Categories attached to the current blog
     const currentBlogTags = await this.tagRepo.find({
       where: { blogId: id },
     });
     const currentTagIds = currentBlogTags.map((bt) => bt.tagId);
 
+    const currentBlogCategories = await this.categoryRepo.find({
+      where: { blogId: id },
+    });
+    const currentCategoryIds = currentBlogCategories.map((bc) => bc.categoryId);
+
+    const candidateBlogIds = new Set<number>();
+
+    // Find blogs sharing tags
     if (currentTagIds.length) {
-      // Other blogs that share at least one of those tag IDs
       const matchingBlogTags = await this.tagRepo.find({
         where: { tagId: In(currentTagIds) },
       });
+      matchingBlogTags.forEach((bt) => {
+        if (bt.blogId !== id) candidateBlogIds.add(bt.blogId);
+      });
+    }
 
-      const candidateBlogIds = [
-        ...new Set(matchingBlogTags.map((bt) => bt.blogId)),
-      ].filter((blogId) => blogId !== id);
+    // Find blogs sharing categories
+    if (currentCategoryIds.length) {
+      const matchingBlogCategories = await this.categoryRepo.find({
+        where: { categoryId: In(currentCategoryIds) },
+      });
+      matchingBlogCategories.forEach((bc) => {
+        if (bc.blogId !== id) candidateBlogIds.add(bc.blogId);
+      });
+    }
 
-      if (candidateBlogIds.length) {
-        similar = await this.repo.find({
-          where: {
-            isDeleted: false,
-            id: In(candidateBlogIds),
-          },
-          order: { createdAt: 'ASC' }, // first-come-first-served: oldest created shows first
-          take: limit,
-        });
-      }
+    if (candidateBlogIds.size) {
+      similar = await this.repo.find({
+        where: {
+          isDeleted: false,
+          id: In(Array.from(candidateBlogIds)),
+        },
+        order: { date: 'DESC', createdAt: 'DESC' },
+        take: limit,
+      });
     }
 
     if (similar.length < limit) {
@@ -258,7 +305,7 @@ export class BlogsService {
 
       const extras = await this.repo.find({
         where: { isDeleted: false },
-        order: { createdAt: 'ASC' }, // first-come-first-served: oldest created shows first
+        order: { date: 'DESC', createdAt: 'DESC' },
         take: limit + existingIds.length,
       });
 
@@ -271,23 +318,16 @@ export class BlogsService {
 
     if (!similar.length) return [];
 
-    return this.attachTags(similar);
+    return this.attachBlogData(similar);
   }
 
   /**
-   * Return distinct non-null category values from all active blogs.
+   * Return all categories with their IDs.
    */
-  async findCategories(): Promise<string[]> {
-    const rows = await this.repo
-      .createQueryBuilder('blog')
-      .select('DISTINCT blog.category', 'category')
-      .where('blog.isDeleted = false')
-      .andWhere('blog.category IS NOT NULL')
-      .andWhere("blog.category != ''")
-      .orderBy('blog.category', 'ASC')
-      .getRawMany();
-
-    return rows.map((r) => r.category as string).filter(Boolean);
+  async findCategories() {
+    return this.masterCategoryRepo.find({
+      order: { category: 'ASC' },
+    });
   }
 
   async update(id: number, dto: UpdateBlogDto, files?: any) {
@@ -315,8 +355,10 @@ export class BlogsService {
       }
 
       await manager.delete(BlogTag, { blogId: id });
+      await manager.delete(BlogBlogCategory, { blogId: id });
 
       const tagIds = dto.tags || [];
+      const categoryIds = dto.categories || [];
 
       let parsedContent: any = dto.content;
 
@@ -364,15 +406,20 @@ export class BlogsService {
         });
       }
 
-      const { tags: _tags, content: _content, ...scalarDto } = dto;
+      for (const categoryId of categoryIds) {
+        await manager.save(BlogBlogCategory, {
+          blogId: id,
+          categoryId,
+        });
+      }
+
+      const { tags: _tags, categories: _categories, content: _content, ...scalarDto } = dto;
 
       Object.assign(blog, scalarDto);
 
       blog.content = parsedContent
         ? JSON.stringify(parsedContent)
         : null;
-
-      blog.type = 'Blog';
 
       await manager.save(blog);
 
@@ -404,5 +451,25 @@ export class BlogsService {
     await this.repo.save(blog);
 
     return this.findOne(id);
+  }
+
+  // ──── CATEGORY MANAGEMENT ─────────────────────────────────────────────────
+
+  async createCategory(category: string) {
+    const existing = await this.masterCategoryRepo.findOne({
+      where: { category },
+    });
+
+    if (existing) {
+      return existing;
+    }
+
+    return this.masterCategoryRepo.save({ category });
+  }
+
+  async getAllCategories() {
+    return this.masterCategoryRepo.find({
+      order: { category: 'ASC' },
+    });
   }
 }

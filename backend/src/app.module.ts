@@ -12,6 +12,7 @@ import { CancersModule } from './modules/cancers/cancers.module';
 import { BlogsModule } from './modules/blogs/blogs.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { AppointmentsModule } from './modules/appointments/appointments.module';
+import { OthersModule } from './modules/others/others.module';
 
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 
@@ -49,6 +50,7 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
     BlogsModule,
     DashboardModule,
     AppointmentsModule,
+    OthersModule,
 
   ],
 })

@@ -16,17 +16,29 @@ export class CreateBlogDto {
   @IsString()
   slug!: string;
 
-  // ❌ REMOVED - type input field
+  @ApiProperty({ required: false, enum: ['Blog', 'News'], example: 'Blog' })
+  @IsOptional()
+  @IsString()
+  type?: string;
 
   @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
   date?: string;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ type: [Number], required: false })
   @IsOptional()
-  @IsString()
-  category?: string;
+  @Transform(({ value }) => {
+    if (Array.isArray(value)) {
+      return value.map(Number).filter(Boolean);
+    }
+    if (value) {
+      return [Number(value)];
+    }
+    return [];
+  })
+  @IsArray()
+  categories?: number[];
 
   @ApiProperty({ required: false })
   @IsOptional()
