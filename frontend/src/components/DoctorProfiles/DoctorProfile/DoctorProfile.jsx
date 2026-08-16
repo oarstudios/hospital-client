@@ -19,6 +19,14 @@ const DoctorProfile = ({ doctor, centers = [] }) => {
 
   if (!doctor) return null;
 
+  const normalizedRating = doctor.rating ?? "";
+  const normalizedReviews = String(doctor.reviews ?? "").trim();
+  const reviewLabel = normalizedReviews
+    ? normalizedReviews.includes("Ratings") || normalizedReviews.includes("Rating")
+      ? normalizedReviews
+      : `${normalizedReviews}+ Ratings`
+    : "";
+
   // Resolve centreIds → full center objects from the centers list
   const doctorCentres = (doctor.centreIds || [])
     .map((id) => centers.find((c) => c.id === id))
@@ -50,10 +58,10 @@ const DoctorProfile = ({ doctor, centers = [] }) => {
               {[1, 2, 3, 4, 5].map((i) => (
                 <img key={i} src={starIcon} alt="rating" />
               ))}
-              <span>{doctor.rating}</span>
+              <span>{normalizedRating}</span>
             </div>
 
-            <p className="doctor-card__reviews">{doctor.reviews ? `${doctor.reviews}+ Ratings` : ""}</p>
+            <p className="doctor-card__reviews">{reviewLabel}</p>
           </div>
 
           {/* CONTACT INFORMATION */}

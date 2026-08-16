@@ -1,0 +1,28 @@
+.manage-others { padding: 16px; }
+.manage-others .card { background: #fff; padding: 16px; margin-bottom: 16px; border-radius: 6px; }
+.manage-others .row { display:flex; gap:8px; align-items:center; }
+.manage-others input[type="text"] { flex:1; padding:8px; border:1px solid #ddd; border-radius:4px; }
+.manage-others .previews { margin-top:8px; display:flex; gap:12px; flex-wrap:wrap; }
+.manage-others .previews img { width:120px; height:80px; object-fit:cover; border-radius:4px; border:1px solid #eee; }
+.manage-others .preview-item,
+.manage-others .existing-item { position: relative; width: 140px; display: inline-block; vertical-align: top; margin-right: 8px; }
+.manage-others .existing-item { cursor: grab; user-select: none; }
+.manage-others .existing-item.dragging { opacity: 0.55; }
+.manage-others .drag-handle { position: absolute; top: 6px; left: 6px; z-index: 2; background: rgba(0, 0, 0, 0.35); color: #fff; border-radius: 999px; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; }
+.manage-others .preview-item img,
+.manage-others .existing-item img { width:140px; height:90px; object-fit:cover; border-radius:4px; }
+.manage-others .preview-controls,
+.manage-others .existing .btns { display:flex; gap:6px; margin-top:6px; }
+.manage-others .actions { margin-top:8px; }
+.manage-others button { padding:8px 12px; border:none; background:#007bff; color:#fff; border-radius:4px; cursor:pointer; }
+.manage-others button:disabled { opacity:0.6; cursor:not-allowed; }
+.manage-others .move-btn { background:#6c757d; padding:4px 8px; font-size:12px; }
+.manage-others .remove-btn { position:absolute; top:6px; right:6px; width:22px; height:22px; display:flex; align-items:center; justify-content:center; border-radius:50%; background: rgba(220, 53, 69, 0.95); color:#fff; font-size:16px; line-height:1; padding:0; }
+
+.manage-others .existing h4 { margin: 8px 0; }
+.manage-others .existing .meta { margin-top:6px; font-size:12px; }
+.manage-others .existing .fname { display:block; max-width:140px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.manage-others .existing .btns { display:flex; gap:6px; margin-top:6px; }
+.manage-others .existing button { padding:4px 8px; font-size:12px; }
+.manage-others .replace-btn { background:#28a745; color:#fff; padding:4px 8px; border-radius:4px; cursor:pointer; display:inline-block; }
+

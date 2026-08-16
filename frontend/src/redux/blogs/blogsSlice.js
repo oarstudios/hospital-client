@@ -5,6 +5,7 @@ import {
   fetchBlogBySlugApi,
   fetchSimilarBlogsApi,
   fetchBlogCategoriesApi,
+  createBlogCategoryApi,
   createBlogApi,
   updateBlogApi,
   deleteBlogApi,
@@ -68,6 +69,18 @@ export const fetchBlogCategories = createAsyncThunk(
       return res.data.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || 'Failed to fetch categories');
+    }
+  },
+);
+
+export const createBlogCategory = createAsyncThunk(
+  'blogs/createCategory',
+  async (category, { rejectWithValue }) => {
+    try {
+      const res = await createBlogCategoryApi(category);
+      return res.data.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || 'Failed to create category');
     }
   },
 );
@@ -182,6 +195,17 @@ const blogsSlice = createSlice({
         state.categoriesLoading = false;
         state.categories = [];
       });
+
+    builder
+      .addCase(createBlogCategory.pending, (state) => { state.categoriesLoading = true; })
+      .addCase(createBlogCategory.fulfilled, (state, action) => {
+        state.categoriesLoading = false;
+        const newCategory = action.payload;
+        if (newCategory && !state.categories.find((c) => c.id === newCategory.id)) {
+          state.categories.push(newCategory);
+        }
+      })
+      .addCase(createBlogCategory.rejected, (state) => { state.categoriesLoading = false; });
 
     builder
       .addCase(createBlog.pending, pending)

@@ -23,6 +23,8 @@ import {
   createBlog,
   updateBlog,
   deleteBlog,
+  fetchBlogCategories,
+  createBlogCategory,
 } from "../../redux/blogs/blogsSlice";
 
 import { fetchTags, createTag } from "../../redux/tags/tagsSlice";
@@ -40,8 +42,9 @@ const imgSrc = (path) => {
 const emptyBlog = {
   title:           "",
   slug:            "",
+  type:            "Blog",
   date:            "",
-  category:        "",
+  categories:      [],
   author:          "",
   tags:            [],
   image:           null,
@@ -55,10 +58,14 @@ const ManageBlogs = () => {
 
   const { list = [], loading } = useSelector((state) => state.blogs || {});
   const { list: tagList = [] }  = useSelector((state) => state.tags  || {});
+  const { categories = [], categoriesLoading = false } = useSelector((state) => state.blogs || {});
 
   const blogs      = Array.isArray(list)    ? list    : [];
   const tagOptions = Array.isArray(tagList)
     ? tagList.map((t) => ({ value: t.id, label: t.tag }))
+    : [];
+  const categoryOptions = Array.isArray(categories)
+    ? categories.map((c) => ({ value: c.id, label: c.category }))
     : [];
 
   const [blog, setBlog]               = useState(emptyBlog);
@@ -72,6 +79,7 @@ const ManageBlogs = () => {
   useEffect(() => {
     dispatch(fetchBlogs());
     dispatch(fetchTags());
+    dispatch(fetchBlogCategories());
   }, [dispatch]);
 
   const editor = useEditor({
@@ -172,8 +180,9 @@ const ManageBlogs = () => {
     setBlog({
       title:           item.title           || "",
       slug:            item.slug            || "",
+      type:            item.type            || "Blog",
       date:            item.date            || "",
-      category:        item.category        || "",
+      categories: (item.categories || []).map((c) => ({ value: c.id, label: c.category })),
       author:          item.author          || "",
       tags: (item.tags || []).map((t) => ({ value: t.id, label: t.tag })),
       // Use API_BASE directly — same pattern as ManageCenters / ManageServices
@@ -213,8 +222,8 @@ const ManageBlogs = () => {
     const formData = new FormData();
     formData.append("title",           blog.title);
     formData.append("slug",            resolvedSlug);
+    formData.append("type",            blog.type            || "Blog");
     formData.append("date",            blog.date            || "");
-    formData.append("category",        blog.category        || "");
     formData.append("author",          blog.author          || "");
     formData.append("metaTitle",       blog.metaTitle       || "");
     formData.append("metaDescription", blog.metaDescription || "");
@@ -224,6 +233,11 @@ const ManageBlogs = () => {
     // Tags: each ID as a separate field so the backend @Transform picks them up
     blog.tags.forEach((tag) => {
       formData.append("tags", String(tag.value));
+    });
+
+    // Categories: each ID as a separate field
+    blog.categories.forEach((category) => {
+      formData.append("categories", String(category.value));
     });
 
     // Cover image — only if a new file was selected
@@ -267,8 +281,9 @@ const ManageBlogs = () => {
               <tr>
                 <th>Image</th>
                 <th>Title</th>
+                <th>Type</th>
                 <th>Author</th>
-                <th>Category</th>
+                <th>Categories</th>
                 <th>Tags</th>
                 <th>Date</th>
                 <th>Actions</th>
@@ -277,14 +292,14 @@ const ManageBlogs = () => {
             <tbody>
               {loading && (
                 <tr>
-                  <td colSpan={7} style={{ textAlign: "center", padding: 24 }}>
+                  <td colSpan={8} style={{ textAlign: "center", padding: 24 }}>
                     Loading…
                   </td>
                 </tr>
               )}
               {!loading && blogs.length === 0 && (
                 <tr>
-                  <td colSpan={7} style={{ textAlign: "center", padding: 24, color: "#94a3b8" }}>
+                  <td colSpan={8} style={{ textAlign: "center", padding: 24, color: "#94a3b8" }}>
                     No blogs found. Click "+ Add Blog" to create one.
                   </td>
                 </tr>
@@ -303,8 +318,13 @@ const ManageBlogs = () => {
                     )}
                   </td>
                   <td>{item.title}</td>
+                  <td>{item.type || "Blog"}</td>
                   <td>{item.author || "—"}</td>
-                  <td>{item.category || "—"}</td>
+                  <td>
+                    {item.categories?.length > 0
+                      ? item.categories.map((c) => c.category).join(", ")
+                      : "—"}
+                  </td>
                   <td>
                     {item.tags?.length > 0
                       ? item.tags.map((t) => t.tag).join(", ")
@@ -325,9 +345,9 @@ const ManageBlogs = () => {
       {showModal && (
         <div className="admin-modal-overlay">
           <div className="admin-modal">
-            <h3>{editId ? "Edit Blog" : "Add Blog"}</h3>
+            <h3>{editId ? `Edit ${blog.type}` : `Add ${blog.type}`}</h3>
 
-            <label>Blog Title</label>
+            <label>{blog.type === 'News' ? 'News Title' : 'Blog Title'}</label>
             <input
               className="blog-title"
               placeholder="Untitled"
@@ -365,6 +385,16 @@ const ManageBlogs = () => {
                 />
               </div>
               <div>
+                <label>Type</label>
+                <select
+                  value={blog.type}
+                  onChange={(e) => setBlog((prev) => ({ ...prev, type: e.target.value }))}
+                >
+                  <option value="Blog">Blog</option>
+                  <option value="News">News</option>
+                </select>
+              </div>
+              <div>
                 <label>Author</label>
                 <input
                   value={blog.author}
@@ -380,14 +410,38 @@ const ManageBlogs = () => {
                   onChange={(e) => setBlog((prev) => ({ ...prev, date: e.target.value }))}
                 />
               </div>
-              <div>
-                <label>Category</label>
-                <input
-                  value={blog.category}
-                  onChange={(e) => setBlog((prev) => ({ ...prev, category: e.target.value }))}
-                  placeholder="e.g. Patient Stories"
-                />
-              </div>
+            </div>
+
+            <div className="tags-section">
+              <label>Categories</label>
+              <CreatableSelect
+                classNamePrefix="tag-select"
+                options={categoryOptions}
+                isMulti
+                isLoading={categoriesLoading}
+                value={blog.categories}
+                onChange={(val) => setBlog((prev) => ({ ...prev, categories: val || [] }))}
+                onCreateOption={async (inputValue) => {
+                  try {
+                    const newCategory = await dispatch(createBlogCategory(inputValue)).unwrap();
+                    if (newCategory) {
+                      setBlog((prev) => ({
+                        ...prev,
+                        categories: [...prev.categories, { value: newCategory.id, label: newCategory.category }],
+                      }));
+                    }
+                  } catch {
+                    alert("Failed to create category. Please try again.");
+                  }
+                }}
+                placeholder="Select or type to add a new category..."
+                formatCreateLabel={(inputValue) => (
+                  <span style={{ color: "#2563eb", fontWeight: 600 }}>
+                    + Add new category "{inputValue}"
+                  </span>
+                )}
+                noOptionsMessage={() => categoryOptions.length === 0 ? "No categories available" : "No options"}
+              />
             </div>
 
             <div className="tags-section">
@@ -485,7 +539,7 @@ const ManageBlogs = () => {
                 onClick={saveBlog}
                 disabled={loading || imageUploading}
               >
-                {loading ? "Saving…" : editId ? "Update Blog" : "Publish Blog"}
+                {loading ? "Saving…" : editId ? `Update ${blog.type}` : `Publish ${blog.type}`}
               </button>
               <button
                 className="admin-cancel-btn"

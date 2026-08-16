@@ -19,11 +19,18 @@ export const fetchSimilarBlogsApi = (id, limit = 3) =>
   axiosInstance.get(`${BASE}/${id}/similar?limit=${limit}`);
 
 /**
- * Fetch distinct category strings from all active blogs.
+ * Fetch all categories.
  * GET /blogs/categories
  */
 export const fetchBlogCategoriesApi = () =>
   axiosInstance.get(`${BASE}/categories`);
+
+/**
+ * Create a new category.
+ * POST /blogs/categories
+ */
+export const createBlogCategoryApi = (category) =>
+  axiosInstance.post(`${BASE}/categories`, { category });
 
 export const createBlogApi = (formData) =>
   axiosInstance.post(BASE, formData, {

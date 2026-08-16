@@ -34,10 +34,23 @@ const BlogsSection = () => {
 
   const blogs = useMemo(() => (Array.isArray(list) ? list : []), [list]);
 
+  // Sort blogs by date, latest first
+  const sortedBlogs = useMemo(() => {
+    return [...blogs].sort((a, b) => {
+      const dateA = new Date(a.date || 0).getTime();
+      const dateB = new Date(b.date || 0).getTime();
+      return dateB - dateA; // latest first
+    });
+  }, [blogs]);
+
   const filteredBlogs = useMemo(() => {
-    if (!selectedCategory) return blogs;
-    return blogs.filter((b) => b.category === selectedCategory);
-  }, [blogs, selectedCategory]);
+    if (!selectedCategory) return sortedBlogs;
+    // Filter blogs that have the selected category in their categories array
+    return sortedBlogs.filter((b) => {
+      if (!Array.isArray(b.categories)) return false;
+      return b.categories.some((cat) => cat.id === selectedCategory);
+    });
+  }, [sortedBlogs, selectedCategory]);
 
   const totalPages = Math.ceil(filteredBlogs.length / POSTS_PER_PAGE);
   const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
@@ -94,17 +107,17 @@ const BlogsSection = () => {
                 </li>
                 {categories.map((cat) => (
                   <li
-                    key={cat}
+                    key={cat.id}
                     style={{
                       cursor: "pointer",
-                      fontWeight: selectedCategory === cat ? "600" : "400",
-                      color: selectedCategory === cat ? "#0f172a" : undefined,
+                      fontWeight: selectedCategory === cat.id ? "600" : "400",
+                      color: selectedCategory === cat.id ? "#0f172a" : undefined,
                     }}
                     onClick={() =>
-                      setSelectedCategory(selectedCategory === cat ? null : cat)
+                      setSelectedCategory(selectedCategory === cat.id ? null : cat.id)
                     }
                   >
-                    {cat}
+                    {cat.category}
                   </li>
                 ))}
               </ul>

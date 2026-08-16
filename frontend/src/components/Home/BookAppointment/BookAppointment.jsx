@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import axios from "../../../app/axiosinstance";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchActiveCenters } from "../../../redux/centers/centersSlice";
@@ -208,16 +209,16 @@ const BookAppointment = () => {
     );
 
     try {
-      const response = await fetch(
-        "https://script.google.com/macros/s/AKfycbwvMAutv6LdpzjigmueH0mBXUXNBn0YYh7zhQgLl4BoJ6fldYbuFH_SSBqB4-5U44aw/exec",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "text/plain;charset=utf-8",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      // get dynamic sheet link from backend; fall back to legacy script url
+      const othersRes = await axios.get("/others");
+      const sheetUrl = othersRes?.data?.sheetLink ||
+        "https://script.google.com/macros/s/AKfycbwvMAutv6LdpzjigmueH0mBXUXNBn0YYh7zhQgLl4BoJ6fldYbuFH_SSBqB4-5U44aw/exec";
+
+      const response = await fetch(sheetUrl, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(formData),
+      });
 
       const result = await response.json();
 

@@ -11,6 +11,7 @@ import ManageServices from "./pages/ManageServices";
 import ManageServiceCategories from "./pages/ManageServiceCategories";
 import ManageTestimonials from "./pages/ManageTestimonials";
 import ManageAppointments from "./pages/ManageAppointments";
+import ManageOthers from "./pages/ManageOthers";
 
 import "./AdminLayout.css";
 
@@ -33,6 +34,7 @@ const AdminLayout = () => {
             <Route path="service-categories" element={<ManageServiceCategories />} />
             <Route path="testimonials" element={<ManageTestimonials />} />
             <Route path="appointments" element={<ManageAppointments />} />
+            <Route path="others" element={<ManageOthers />} />
           </Routes>
         </div>
       </div>

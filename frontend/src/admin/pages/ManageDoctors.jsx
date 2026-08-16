@@ -608,8 +608,8 @@ const doctorFields = [
   { name: "designation", label: "Designation" },
   { name: "qualification", label: "Qualification" },
   { name: "phone", label: "Phone" },
-  { name: "rating", label: "Rating" },
-  { name: "reviews", label: "Reviews" },
+  { name: "rating", label: "Rating", type: "number", step: "0.1" },
+  { name: "reviews", label: "Reviews", type: "text" },
 ];
 
 /* -----------------------------------------
@@ -901,6 +901,8 @@ const ManageDoctors = () => {
               <th>Photo</th>
               <th>Name</th>
               <th>Designation</th>
+              <th>Rating</th>
+              <th>Reviews</th>
               <th>Centres</th>
               <th>Actions</th>
             </tr>
@@ -924,6 +926,8 @@ const ManageDoctors = () => {
                 </td>
                 <td>{doc.name}</td>
                 <td>{doc.designation}</td>
+                <td>{doc.rating || "-"}</td>
+                <td>{doc.reviews || "-"}</td>
                 <td>{getCentreNames(doc.centreIds)}</td>
                 <td className="admin-actions">
                   <button className="admin-edit-btn" onClick={() => handleEdit(doc)}>
@@ -955,9 +959,9 @@ const ManageDoctors = () => {
                     placeholder={field.label}
                     value={form[field.name] || ""}
                     onChange={handleChange}
-                    type={field.name === "rating" || field.name === "reviews" ? "number" : "text"}
-                    min={field.name === "rating" || field.name === "reviews" ? "0" : undefined}
-                    step={field.name === "rating" ? "0.1" : undefined}
+                    type={field.type || "text"}
+                    min={field.name === "rating" ? "0" : undefined}
+                    step={field.step || undefined}
                   />
                 </div>
               ))}
