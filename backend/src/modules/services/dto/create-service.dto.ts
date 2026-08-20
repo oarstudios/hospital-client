@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsString, IsOptional, IsInt } from 'class-validator';
-import { Type } from 'class-transformer';
+import { Transform } from 'class-transformer';
 
 export class FaqItemDto {
   @ApiProperty({ example: 'Is this treatment painful?' })
@@ -44,7 +44,11 @@ export class CreateServiceDto {
   // ✅ Category ID
   @ApiPropertyOptional({ example: 1 })
   @IsOptional()
-  @Type(() => Number)
+  @Transform(({ value }) => {
+    if (value === '' || value === null || value === undefined) return null;
+    const n = Number(value);
+    return Number.isNaN(n) ? null : n;
+  })
   @IsInt()
   categoryId?: number | null;
 

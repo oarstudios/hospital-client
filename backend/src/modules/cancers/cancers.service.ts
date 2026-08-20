@@ -106,6 +106,7 @@ export class CancersService {
         const cancer = await manager.save(Cancer, {
           slug: dto.slug,
           name: dto.name,
+          description: dto.description,
           altText: dto.altText,
           seoTitle: dto.seoTitle,
           metaDescription: dto.metaDescription,
@@ -206,7 +207,7 @@ export class CancersService {
 
         // Scalar fields
         const scalarFields: Array<keyof Cancer> = [
-          'slug', 'name', 'altText', 'seoTitle', 'metaDescription', 'categoryId',
+          'slug', 'name', 'description', 'altText', 'seoTitle', 'metaDescription', 'categoryId',
         ];
         for (const field of scalarFields) {
           if ((dto as any)[field] !== undefined) {

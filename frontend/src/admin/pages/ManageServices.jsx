@@ -27,6 +27,10 @@ import {
 import { fetchServiceCategories } from "../../redux/serviceCategories/serviceCategoriesSlice";
 
 import axiosInstance from "../../app/axiosinstance";
+import { showToast } from "../../redux/toast/toastSlice";
+import FieldError from "../../components/Common/FieldError";
+import useConfirmDialog from "../../components/Common/useConfirmDialog";
+import { notifyFirstError, clearField } from "../../components/Common/formFeedback";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:3001";
 
@@ -54,6 +58,8 @@ const ManageServices = () => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewHTML, setPreviewHTML] = useState("");
   const [imageUploading, setImageUploading] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [confirm, confirmDialog] = useConfirmDialog();
 
   /* ── Fetch on mount ─────────────────────────────────────────────────────── */
 
@@ -118,7 +124,7 @@ const ManageServices = () => {
         const url = res.data?.data?.url || res.data?.url;
         if (url) editor.chain().focus().setImage({ src: url }).run();
       } catch {
-        alert("Image upload failed. Please try again.");
+        dispatch(showToast.error("Image upload failed. Please try again."));
       } finally {
         setImageUploading(false);
       }
@@ -130,7 +136,10 @@ const ManageServices = () => {
   /* ── FAQ ────────────────────────────────────────────────────────────────── */
 
   const addFAQ = () => {
-    if (!faq.question || !faq.answer) return;
+    if (!faq.question.trim() || !faq.answer.trim()) {
+      dispatch(showToast.error("FAQ question and answer are both required."));
+      return;
+    }
     setService((prev) => ({ ...prev, faqs: [...prev.faqs, faq] }));
     setFaq({ question: "", answer: "" });
   };
@@ -147,13 +156,19 @@ const ManageServices = () => {
   /* ── Save (create or update) ────────────────────────────────────────────── */
 
   const saveService = async () => {
-    if (!service.title.trim()) {
-      alert("Title is required.");
+    const nextErrors = {};
+    if (!service.title.trim()) nextErrors.title = "Service title is required.";
+    const resolvedSlug = service.slug.trim() || slugify(service.title, { lower: true, strict: true });
+    if (!resolvedSlug) nextErrors.slug = "Slug is required.";
+
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length) {
+      notifyFirstError(dispatch, nextErrors);
       return;
     }
 
     const formData = new FormData();
-    formData.append("slug", service.slug || slugify(service.title, { lower: true, strict: true }));
+    formData.append("slug", resolvedSlug);
     formData.append("title", service.title);
     formData.append("altText", service.altText || "");
     formData.append("seoTitle", service.metaTitle || "");
@@ -192,6 +207,7 @@ const ManageServices = () => {
 
   const handleEdit = (item) => {
     setEditId(item.id);
+    setErrors({});
     setService({
       ...item,
       image: item.coverImage || null,
@@ -207,7 +223,12 @@ const ManageServices = () => {
   /* ── Delete ─────────────────────────────────────────────────────────────── */
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Delete service?")) return;
+    const ok = await confirm({
+      title: "Delete this service?",
+      message: "It will be removed from the website.",
+      confirmLabel: "Delete",
+    });
+    if (!ok) return;
     dispatch(deleteService(id));
   };
 
@@ -239,6 +260,7 @@ const ManageServices = () => {
             onClick={() => {
               setService(emptyService);
               setEditId(null);
+              setErrors({});
               if (editor) editor.commands.clearContent();
               setShowModal(true);
             }}
@@ -304,13 +326,17 @@ const ManageServices = () => {
           <div className="admin-modal">
             <h3>{editId ? "Edit Service" : "Add Service"}</h3>
 
-            <label>Service Title</label>
+            <label>Service Title *</label>
             <input
-              className="blog-title"
+              className={`blog-title${errors.title ? " input-invalid" : ""}`}
               placeholder="Add service title here"
               value={service.title}
-              onChange={(e) => setService((p) => ({ ...p, title: e.target.value }))}
+              onChange={(e) => {
+                clearField(setErrors, "title");
+                setService((p) => ({ ...p, title: e.target.value }));
+              }}
             />
+            <FieldError message={errors.title} />
 
             {/* ── CATEGORY DROPDOWN ── */}
             <label>Category</label>
@@ -367,12 +393,17 @@ const ManageServices = () => {
               onChange={(e) => setService((p) => ({ ...p, metaDescription: e.target.value }))}
             />
 
-            <label>Slug</label>
+            <label>Slug *</label>
             <input
+              className={errors.slug ? "input-invalid" : ""}
               placeholder="add-your-page-slug-here"
               value={service.slug}
-              onChange={(e) => setService((p) => ({ ...p, slug: e.target.value }))}
+              onChange={(e) => {
+                clearField(setErrors, "slug");
+                setService((p) => ({ ...p, slug: e.target.value }));
+              }}
             />
+            <FieldError message={errors.slug} />
 
             <div className="editor-section">
               {editor && (
@@ -471,6 +502,7 @@ const ManageServices = () => {
           </div>
         </div>
       )}
+      {confirmDialog}
     </>
   );
 };

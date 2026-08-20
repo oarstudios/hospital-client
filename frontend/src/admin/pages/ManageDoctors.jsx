@@ -595,6 +595,9 @@ import {
 } from "../../redux/doctors/doctorsSlice";
 
 import { fetchCenters } from "../../redux/centers/centersSlice";
+import FieldError from "../../components/Common/FieldError";
+import useConfirmDialog from "../../components/Common/useConfirmDialog";
+import { notifyFirstError, clearField, INDIAN_PHONE } from "../../components/Common/formFeedback";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:3001";
 
@@ -625,6 +628,7 @@ const emptyForm = {
   reviews: "",
   phone: "",
   centreIds: [],   // ← numeric IDs matching DB
+  centreMapLinks: {}, // ← { [centreId]: "https://maps.google.com/..." } doctor-specific map link per centre
   languages: [],
   stories: [],
   summary: "",
@@ -761,6 +765,8 @@ const ManageDoctors = () => {
   const [form, setForm] = useState(emptyForm);
   const [showModal, setShowModal] = useState(false);
   const [editId, setEditId] = useState(null);
+  const [errors, setErrors] = useState({});
+  const [confirm, confirmDialog] = useConfirmDialog();
 
   // ── Fetch on mount ───────────────────────────────────────────────────────
   useEffect(() => {
@@ -771,6 +777,7 @@ const ManageDoctors = () => {
   // ── Helpers ──────────────────────────────────────────────────────────────
 
   const handleChange = (e) => {
+    clearField(setErrors, e.target.name);
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -782,10 +789,24 @@ const ManageDoctors = () => {
 
   // Toggle centre by numeric ID
   const toggleCentre = (centreId) => {
-    const updated = form.centreIds.includes(centreId)
+    const isSelected = form.centreIds.includes(centreId);
+    const updated = isSelected
       ? form.centreIds.filter((id) => id !== centreId)
       : [...form.centreIds, centreId];
-    setForm({ ...form, centreIds: updated });
+
+    // Drop the stored map link when a centre is unchecked
+    const updatedLinks = { ...form.centreMapLinks };
+    if (isSelected) delete updatedLinks[centreId];
+
+    setForm({ ...form, centreIds: updated, centreMapLinks: updatedLinks });
+  };
+
+  // Update the doctor-specific map link for a given centre
+  const setCentreMapLink = (centreId, value) => {
+    setForm({
+      ...form,
+      centreMapLinks: { ...form.centreMapLinks, [centreId]: value },
+    });
   };
 
   // Resolve centre IDs → names for display in the table
@@ -798,8 +819,20 @@ const ManageDoctors = () => {
   // ── Submit ───────────────────────────────────────────────────────────────
 
   const handleSubmit = async () => {
-    if (!form.slug || !form.name) {
-      return alert("Slug and Name are required.");
+    const nextErrors = {};
+    if (!form.name?.trim()) nextErrors.name = "Doctor name is required.";
+    if (!form.slug?.trim()) nextErrors.slug = "Slug is required.";
+    if (form.phone && !INDIAN_PHONE.test(String(form.phone).replace(/\s+/g, ""))) {
+      nextErrors.phone = "Enter a valid 10-digit Indian phone number.";
+    }
+    if (form.rating !== "" && form.rating != null && (Number(form.rating) < 0 || Number(form.rating) > 5)) {
+      nextErrors.rating = "Rating must be between 0 and 5.";
+    }
+
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length) {
+      notifyFirstError(dispatch, nextErrors);
+      return;
     }
 
     try {
@@ -816,8 +849,15 @@ const ManageDoctors = () => {
       formData.append("summary", form.summary || "");
       formData.append("philosophy", form.philosophy || "");
 
+      // Centres — send as [{ centreId, mapLink }] so each assignment can carry
+      // its own doctor-specific map link (backend still accepts plain IDs too)
+      const centreAssignments = form.centreIds.map((centreId) => ({
+        centreId,
+        mapLink: (form.centreMapLinks[centreId] || "").trim() || undefined,
+      }));
+
       // Arrays — send as JSON strings (backend parseJsonArray handles this)
-      formData.append("centreIds", JSON.stringify(form.centreIds));
+      formData.append("centreIds", JSON.stringify(centreAssignments));
       formData.append("languages", JSON.stringify(form.languages));
       formData.append("stories", JSON.stringify(form.stories));
       formData.append("expertise", JSON.stringify(form.expertise));
@@ -840,7 +880,7 @@ const ManageDoctors = () => {
       setEditId(null);
       setShowModal(false);
     } catch (err) {
-      alert(typeof err === "string" ? err : err?.message || "Something went wrong");
+      console.error(err);
     }
   };
 
@@ -848,10 +888,20 @@ const ManageDoctors = () => {
 
   const handleEdit = (doc) => {
     setEditId(doc.id);
+    setErrors({});
+
+    // doc.centres (from backend) is [{ centreId, mapLink }] — rebuild the
+    // { [centreId]: mapLink } map the form uses
+    const centreMapLinks = {};
+    (Array.isArray(doc.centres) ? doc.centres : []).forEach((c) => {
+      if (c.mapLink) centreMapLinks[c.centreId] = c.mapLink;
+    });
+
     setForm({
       ...doc,
       // centreIds comes from backend as number[] — keep as-is
       centreIds: Array.isArray(doc.centreIds) ? doc.centreIds : [],
+      centreMapLinks,
       // Wrap existing image URL into { url } shape (no .file → won't be re-uploaded)
       image: doc.image
         ? { url: doc.image.startsWith("http") ? doc.image : `${API_BASE}${doc.image}` }
@@ -863,11 +913,16 @@ const ManageDoctors = () => {
   // ── Delete ───────────────────────────────────────────────────────────────
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Delete doctor?")) return;
+    const ok = await confirm({
+      title: "Delete this doctor?",
+      message: "They will be removed from the website.",
+      confirmLabel: "Delete",
+    });
+    if (!ok) return;
     try {
       await dispatch(deleteDoctor(id)).unwrap();
     } catch (err) {
-      alert(typeof err === "string" ? err : "Delete failed");
+      console.error(err);
     }
   };
 
@@ -884,6 +939,7 @@ const ManageDoctors = () => {
           onClick={() => {
             setForm(emptyForm);
             setEditId(null);
+            setErrors({});
             setShowModal(true);
           }}
         >
@@ -953,16 +1009,21 @@ const ManageDoctors = () => {
             <div className="admin-form-grid">
               {doctorFields.map((field) => (
                 <div key={field.name} className="admin-form-field">
-                  <label className="admin-field-label">{field.label}</label>
+                  <label className="admin-field-label">
+                    {field.label}{field.name === "slug" || field.name === "name" ? " *" : ""}
+                  </label>
                   <input
                     name={field.name}
+                    className={errors[field.name] ? "input-invalid" : ""}
                     placeholder={field.label}
                     value={form[field.name] || ""}
                     onChange={handleChange}
                     type={field.type || "text"}
                     min={field.name === "rating" ? "0" : undefined}
+                    max={field.name === "rating" ? "5" : undefined}
                     step={field.step || undefined}
                   />
+                  <FieldError message={errors[field.name]} />
                 </div>
               ))}
             </div>
@@ -988,17 +1049,32 @@ const ManageDoctors = () => {
                   No centres loaded. Make sure centres are created first.
                 </p>
               ) : (
-                <div className="admin-checkbox-group">
-                  {centers.map((c) => (
-                    <label key={c.id}>
-                      <input
-                        type="checkbox"
-                        checked={form.centreIds.includes(c.id)}
-                        onChange={() => toggleCentre(c.id)}
-                      />
-                      {c.name}
-                    </label>
-                  ))}
+                <div className="admin-checkbox-group admin-checkbox-group--with-links">
+                  {centers.map((c) => {
+                    const isSelected = form.centreIds.includes(c.id);
+                    return (
+                      <div key={c.id} className="admin-centre-assignment-row">
+                        <label className="admin-centre-assignment-check">
+                          <input
+                            type="checkbox"
+                            checked={isSelected}
+                            onChange={() => toggleCentre(c.id)}
+                          />
+                          <span className="admin-centre-assignment-name">{c.name}</span>
+                        </label>
+
+                        {isSelected && (
+                          <input
+                            type="url"
+                            className="admin-centre-map-link-input"
+                            placeholder="Map link for this doctor at this centre (optional)"
+                            value={form.centreMapLinks[c.id] || ""}
+                            onChange={(e) => setCentreMapLink(c.id, e.target.value)}
+                          />
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               )}
             </div>
@@ -1056,6 +1132,7 @@ const ManageDoctors = () => {
           </div>
         </div>
       )}
+      {confirmDialog}
     </div>
   );
 };

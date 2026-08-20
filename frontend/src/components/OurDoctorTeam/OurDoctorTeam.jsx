@@ -135,6 +135,11 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDoctors } from "../../redux/doctors/doctorsSlice";
 import imgSrc from "../Common/ImgSrc";
+import { encryptId } from "../Common/Idcrypto";
+import { doctorAlt } from "../../seo/pageSeo";
+import SeoHead from "../Common/SeoHead";
+import { getAllDoctorsSeo } from "../../seo/pageSeo";
+import usePublicSeoEnv from "../../seo/usePublicSeoEnv";
 import arrowIcon from "../../assets/cuida_dropdown-outline.png";
 
 const faqs = [
@@ -166,17 +171,19 @@ const OurDoctorTeam = () => {
   const isAboutUsPage = currentPath.startsWith("/aboutUs");
 
   const { list: doctors } = useSelector((state) => state.doctors);
+  const { siteUrl } = usePublicSeoEnv();
 
   useEffect(() => {
     dispatch(fetchDoctors());
   }, [dispatch]);
 
   const goToDoctorProfile = (doc) => {
-    navigate(`/doctor/${doc.slug}/${doc.id}`);
+    navigate(`/doctor/${doc.slug}/${encryptId(doc.id)}`);
   };
 
   return (
     <section className="our-doctor-team">
+      {!isAboutUsPage && <SeoHead {...getAllDoctorsSeo({ siteUrl })} />}
       <h2 className="our-doctor-team-title">Our Doctor Team</h2>
 
       {/* DOCTOR GRID */}
@@ -194,7 +201,7 @@ const OurDoctorTeam = () => {
           >
             {/* IMAGE + HOVER */}
             <div className="doctor-img-wrapper">
-              <img src={imgSrc(doc.image)} alt={doc.name} />
+              <img src={imgSrc(doc.image)} alt={doctorAlt(doc)} />
 
               <div className="doctor-hover">
                 <button

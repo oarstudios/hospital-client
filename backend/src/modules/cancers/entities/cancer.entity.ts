@@ -22,6 +22,9 @@ export class Cancer {
   @Column()
   name!: string;
 
+  @Column({ type: 'text', nullable: true })
+  description?: string;
+
   @Column({ nullable: true })
   coverImage?: string;
 

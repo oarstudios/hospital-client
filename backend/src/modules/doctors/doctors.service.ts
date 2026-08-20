@@ -15,7 +15,12 @@ import { DoctorAchievement } from './entities/doctor-achievement.entity';
 import { DoctorEducation } from './entities/doctor-education.entity';
 import { DoctorExperience } from './entities/doctor-experience.entity';
 
-import { CreateDoctorDto, EducationItemDto, ExperienceItemDto } from './dto/create-doctor.dto';
+import {
+  CreateDoctorDto,
+  EducationItemDto,
+  ExperienceItemDto,
+  CentreAssignmentDto,
+} from './dto/create-doctor.dto';
 import { UpdateDoctorDto } from './dto/update-doctor.dto';
 
 import { DB_CONSTANTS } from '../../common/constants/db.constants';
@@ -85,29 +90,61 @@ export class DoctorsService {
 
   /**
    * Parse centreIds — may arrive as:
-   *   1. Repeated fields:  -F 'centreIds=1' -F 'centreIds=2'  → number[]
-   *   2. JSON string:      -F 'centreIds=[1,2]'
-   *   3. CSV string:       -F 'centreIds=1,2'
-   *   4. Single value:     -F 'centreIds=1'
+   *   1. Repeated fields:  -F 'centreIds=1' -F 'centreIds=2'          → number[] (legacy)
+   *   2. JSON string (legacy): -F 'centreIds=[1,2]'
+   *   3. JSON string (new):    -F 'centreIds=[{"centreId":1,"mapLink":"https://..."}]'
+   *   4. CSV string:       -F 'centreIds=1,2'
+   *   5. Single value:     -F 'centreIds=1'
+   *
+   * Always normalized to { centreId, mapLink? }[] so a per-doctor,
+   * per-centre map link can travel alongside the assignment.
    */
-  private parseCentreIds(input: number[] | string | undefined): number[] {
+  private parseCentreAssignments(
+    input: CentreAssignmentDto[] | number[] | string | undefined,
+  ): CentreAssignmentDto[] {
     if (input === undefined || input === null || input === '') return [];
 
-    if (Array.isArray(input)) return input.map(Number).filter(Boolean);
+    const normalizeItem = (item: any): CentreAssignmentDto | null => {
+      if (item === null || item === undefined) return null;
+
+      // New shape: { centreId, mapLink }
+      if (typeof item === 'object') {
+        const centreId = Number(item.centreId ?? item.id);
+        if (!centreId) return null;
+        const mapLink =
+          typeof item.mapLink === 'string' && item.mapLink.trim() !== ''
+            ? item.mapLink.trim()
+            : undefined;
+        return { centreId, mapLink };
+      }
+
+      // Legacy shape: plain number/string ID
+      const centreId = Number(item);
+      return centreId ? { centreId } : null;
+    };
+
+    if (Array.isArray(input)) {
+      return input.map(normalizeItem).filter((v): v is CentreAssignmentDto => !!v);
+    }
 
     const str = input as string;
 
     if (str.trimStart().startsWith('[')) {
       try {
         const parsed = JSON.parse(str);
-        if (Array.isArray(parsed)) return parsed.map(Number).filter(Boolean);
+        if (Array.isArray(parsed)) {
+          return parsed.map(normalizeItem).filter((v): v is CentreAssignmentDto => !!v);
+        }
       } catch {
-        // fall through
+        // fall through to CSV handling
       }
     }
 
-    // CSV or single value
-    return str.split(',').map((v) => Number(v.trim())).filter(Boolean);
+    // CSV or single value of plain numeric IDs
+    return str
+      .split(',')
+      .map((v) => normalizeItem(v.trim()))
+      .filter((v): v is CentreAssignmentDto => !!v);
   }
 
   /** Build the full doctor response shape by fetching all related rows */
@@ -153,6 +190,9 @@ export class DoctorsService {
     return {
       ...doctor,
       centreIds: centres.map((c) => c.centreId),
+      // ✅ Per-doctor, per-centre map link (falls back to the centre's own
+      // mapLink on the frontend when not set for this doctor).
+      centres: centres.map((c) => ({ centreId: c.centreId, mapLink: c.mapLink || null })),
       stories: stories.map((s) => s.url),
       languages: languages.map((l) => l.language),
       expertise: expertise.map((e) => e.item),
@@ -164,10 +204,14 @@ export class DoctorsService {
 
   // ─── Internal save helpers (used inside transactions) ────────────────────
 
-  private async saveCentres(manager: any, doctorId: number, centreIds: number[]) {
+  private async saveCentres(
+    manager: any,
+    doctorId: number,
+    assignments: CentreAssignmentDto[],
+  ) {
     await manager.delete(DoctorCentre, { doctorId });
-    for (const centreId of centreIds) {
-      await manager.save(DoctorCentre, { doctorId, centreId });
+    for (const { centreId, mapLink } of assignments) {
+      await manager.save(DoctorCentre, { doctorId, centreId, mapLink: mapLink ?? null });
     }
   }
 
@@ -249,7 +293,7 @@ export class DoctorsService {
           image: imageFile ? `/uploads/${imageFile}` : null,
         });
 
-        const centreIds = this.parseCentreIds(dto.centreIds);
+        const centreAssignments = this.parseCentreAssignments(dto.centreIds);
         const stories = this.parseJsonArray<string>(dto.stories as any);
         const languages = this.parseJsonArray<string>(dto.languages as any);
         const expertise = this.parseJsonArray<string>(dto.expertise as any);
@@ -257,7 +301,7 @@ export class DoctorsService {
         const education = this.parseJsonArray<EducationItemDto>(dto.education as any);
         const experience = this.parseJsonArray<ExperienceItemDto>(dto.experience as any);
 
-        await this.saveCentres(manager, doctor.id, centreIds);
+        await this.saveCentres(manager, doctor.id, centreAssignments);
         await this.saveStories(manager, doctor.id, stories);
         await this.saveLanguages(manager, doctor.id, languages);
         await this.saveExpertise(manager, doctor.id, expertise);
@@ -307,6 +351,9 @@ export class DoctorsService {
     const result = doctors.map((doctor) => ({
       ...doctor,
       centreIds: centres.filter((c) => c.doctorId === doctor.id).map((c) => c.centreId),
+      centres: centres
+        .filter((c) => c.doctorId === doctor.id)
+        .map((c) => ({ centreId: c.centreId, mapLink: c.mapLink || null })),
       stories: stories.filter((s) => s.doctorId === doctor.id).map((s) => s.url),
       languages: languages.filter((l) => l.doctorId === doctor.id).map((l) => l.language),
       expertise: expertise.filter((e) => e.doctorId === doctor.id).map((e) => e.item),
@@ -384,7 +431,7 @@ export class DoctorsService {
 
         // Replace relational arrays only when provided
         if (dto.centreIds !== undefined) {
-          await this.saveCentres(manager, id, this.parseCentreIds(dto.centreIds));
+          await this.saveCentres(manager, id, this.parseCentreAssignments(dto.centreIds));
         }
         if (dto.stories !== undefined) {
           await this.saveStories(manager, id, this.parseJsonArray<string>(dto.stories as any));

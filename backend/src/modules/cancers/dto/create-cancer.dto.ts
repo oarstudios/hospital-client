@@ -21,6 +21,11 @@ export class CreateCancerDto {
   @IsString()
   name!: string;
 
+  @ApiPropertyOptional({ description: 'Public intro shown under the cancer type title' })
+  @IsOptional()
+  @IsString()
+  description?: string;
+
   @ApiPropertyOptional()
   @IsOptional()
   @IsString()

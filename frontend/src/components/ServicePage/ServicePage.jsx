@@ -101,6 +101,11 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchServiceById, clearSelectedService } from "../../redux/services/servicesSlice";
 import imgSrc from "../Common/ImgSrc";
+import formatServiceTitle from "../Common/formatServiceTitle";
+import { resolveUrlId } from "../Common/Idcrypto";
+import SeoHead from "../Common/SeoHead";
+import { getServiceSeo, serviceAlt } from "../../seo/pageSeo";
+import usePublicSeoEnv from "../../seo/usePublicSeoEnv";
 import "./ServicePage.css";
 
 import arrowIcon from "../../assets/cuida_dropdown-outline.png";
@@ -108,13 +113,16 @@ import arrowIcon from "../../assets/cuida_dropdown-outline.png";
 const ServicePage = () => {
   const { slug, id } = useParams();
   const dispatch = useDispatch();
+  const numericId = resolveUrlId(id);
   const { selected: data, loading, error } = useSelector((state) => state.services);
   const [activeIndex, setActiveIndex] = useState(null);
+  const seoEnv = usePublicSeoEnv();
 
   useEffect(() => {
-    dispatch(fetchServiceById(id));
+    if (!numericId) return;
+    dispatch(fetchServiceById(numericId));
     return () => dispatch(clearSelectedService());
-  }, [slug, dispatch]);
+  }, [numericId, dispatch]);
 
   if (loading) {
     return (
@@ -127,17 +135,21 @@ const ServicePage = () => {
   if (error || !data) {
     return (
       <section className="ictc-service-page">
+        <SeoHead title="Service not found | ICTC" index={false} />
         <h2 style={{ padding: "40px" }}>Service details not found</h2>
       </section>
     );
   }
 
+  const seo = getServiceSeo(data, seoEnv);
+
   return (
     <section className="ictc-service-page">
+      <SeoHead {...seo} />
       {/* HERO */}
       <div className="ictc-service-hero-card">
-        <img src={imgSrc(data.coverImage)} alt={data.title} />
-        <div className="ictc-service-hero-title">{data.title}</div>
+        <img src={imgSrc(data.coverImage)} alt={serviceAlt(data)} />
+        <div className="ictc-service-hero-title">{formatServiceTitle(data.title)}</div>
       </div>
 
       {/* RICH HTML CONTENT from TipTap editor */}

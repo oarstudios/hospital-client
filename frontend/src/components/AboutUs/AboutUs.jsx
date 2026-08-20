@@ -10,6 +10,9 @@ import OurDoctorTeam from "../OurDoctorTeam/OurDoctorTeam";
 
 import { fetchCenters } from "../../redux/centers/centersSlice";
 import { fetchServices } from "../../redux/services/servicesSlice";
+import SeoHead from "../Common/SeoHead";
+import { getAboutSeo } from "../../seo/pageSeo";
+import usePublicSeoEnv from "../../seo/usePublicSeoEnv";
 
 const AboutUs = () => {
   const navigate = useNavigate();
@@ -17,6 +20,7 @@ const AboutUs = () => {
 
   const { list: centersData = [] } = useSelector((state) => state.centers || {});
   const { list: servicesData = [] } = useSelector((state) => state.services || {});
+  const { siteUrl } = usePublicSeoEnv();
 
   useEffect(() => {
     if (!centersData.length) dispatch(fetchCenters());
@@ -57,6 +61,7 @@ const AboutUs = () => {
 
   return (
     <>
+      <SeoHead {...getAboutSeo({ siteUrl })} />
       <section className="ictc-about">
         {/* CONTENT */}
         <h2 className="ictc-about-title">About ICTC</h2>

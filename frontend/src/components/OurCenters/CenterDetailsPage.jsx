@@ -5,6 +5,10 @@ import {
   fetchCenterById,
   clearSelectedCenter,
 } from "../../redux/centers/centersSlice";
+import { resolveUrlId } from "../Common/Idcrypto";
+import SeoHead from "../Common/SeoHead";
+import { getCenterSeo } from "../../seo/pageSeo";
+import usePublicSeoEnv from "../../seo/usePublicSeoEnv";
 
 import CenterBreadcrumb from "./CenterBreadcrumb/CenterBreadcrumb";
 import OurCenterHero from "./OurCenterHero/OurCenterHero";
@@ -22,19 +26,21 @@ import ServicesatICTC from "../Home/ServicesatICTC/ServicesatICTC";
 const CenterDetailPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const numericId = resolveUrlId(id);
 
   const { selected: center, loading, error } = useSelector(
     (state) => state.centers
   );
+  const seoEnv = usePublicSeoEnv();
 
   useEffect(() => {
-    if (id) {
-      dispatch(fetchCenterById(id));
+    if (numericId) {
+      dispatch(fetchCenterById(numericId));
     }
     return () => {
       dispatch(clearSelectedCenter());
     };
-  }, [dispatch, id]);
+  }, [dispatch, numericId]);
 
   if (loading) return <div style={{ padding: "80px", textAlign: "center" }}>Loading...</div>;
   if (error) return <div style={{ padding: "80px", textAlign: "center" }}>Error: {error}</div>;
@@ -42,6 +48,7 @@ const CenterDetailPage = () => {
 
   return (
     <>
+      <SeoHead {...getCenterSeo(center, seoEnv)} />
       <CenterBreadcrumb center={center} />
       <OurCenterHero center={center} />
       <CenterDescription center={center} />

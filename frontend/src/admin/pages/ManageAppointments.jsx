@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import toast from "react-hot-toast";
 
 import {
   fetchAppointments,
   updateAppointment,
   deleteAppointment,
 } from "../../redux/appointments/appointmentsSlice";
+import useConfirmDialog from "../../components/Common/useConfirmDialog";
 
 import "./ManageAppointments.css";
 
@@ -16,27 +16,24 @@ const ManageAppointments = () => {
   const dispatch = useDispatch();
   const { list = [], loading } = useSelector((state) => state.appointments || {});
   const appointments = Array.isArray(list) ? list : [];
+  const [confirm, confirmDialog] = useConfirmDialog();
 
   useEffect(() => {
     dispatch(fetchAppointments());
   }, [dispatch]);
 
   const handleStatusChange = async (id, status) => {
-    try {
-      await dispatch(updateAppointment({ id, data: { status } })).unwrap();
-      toast.success("Status updated.");
-    } catch {
-      toast.error("Failed to update status.");
-    }
+    await dispatch(updateAppointment({ id, data: { status } }));
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Delete this appointment?")) return;
-    try {
-      await dispatch(deleteAppointment(id)).unwrap();
-    } catch {
-      toast.error("Failed to delete appointment.");
-    }
+    const ok = await confirm({
+      title: "Delete this appointment?",
+      message: "This cannot be undone.",
+      confirmLabel: "Delete",
+    });
+    if (!ok) return;
+    await dispatch(deleteAppointment(id));
   };
 
   return (
@@ -118,6 +115,7 @@ const ManageAppointments = () => {
           </tbody>
         </table>
       </div>
+      {confirmDialog}
     </div>
   );
 };

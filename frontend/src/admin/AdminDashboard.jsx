@@ -4,7 +4,7 @@ import { fetchDashboardStats } from "../redux/dashboard/dashboardSlice";
 import "./AdminDashboard.css";
 
 const CARDS = [
-  { label: "Total Centers",  key: "totalCenters" },
+  { label: "Total Centres",  key: "totalCenters" },
   { label: "Total Doctors",  key: "totalDoctors" },
   { label: "Total Blogs",    key: "totalBlogs" },
   { label: "Cancer Types",   key: "cancerTypes" },

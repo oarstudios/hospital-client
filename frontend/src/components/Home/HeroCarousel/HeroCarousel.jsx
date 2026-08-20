@@ -60,20 +60,22 @@ const HeroCarousel = () => {
   }, [slides.length]);
 
   return (
-    <section className="hero-carousel">
-      {/* SLIDES */}
-      {slides.map((slide, index) => (
-        <picture
-          key={index}
-          className={`hero-image ${index === current ? "active" : ""}`}
-        >
-          <source media="(max-width: 767px)" srcSet={slide.mobile} />
-          <source media="(max-width: 1024px)" srcSet={slide.tablet} />
-          <img src={slide.desktop} alt={`Hero slide ${index + 1}`} />
-        </picture>
-      ))}
+    <>
+      <section className="hero-carousel">
+        {/* SLIDES */}
+        {slides.map((slide, index) => (
+          <picture
+            key={index}
+            className={`hero-image ${index === current ? "active" : ""}`}
+          >
+            <source media="(max-width: 767px)" srcSet={slide.mobile} />
+            <source media="(max-width: 1024px)" srcSet={slide.tablet} />
+            <img src={slide.desktop} alt={`Hero slide ${index + 1}`} />
+          </picture>
+        ))}
+      </section>
 
-      {/* QUICK CTA */}
+      {/* QUICK CTA — fixed to the viewport, not the hero */}
       {showCTA && (
         <div className="quick-cta">
           <button className="cta-close" onClick={() => setShowCTA(false)}>
@@ -93,7 +95,7 @@ const HeroCarousel = () => {
           </button>
         </div>
       )}
-    </section>
+    </>
   );
 };
 

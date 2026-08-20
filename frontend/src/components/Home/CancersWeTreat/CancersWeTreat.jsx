@@ -83,6 +83,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchCancers } from "../../../redux/cancers/cancersSlice";
 import imgSrc from "../../Common/ImgSrc";
+import { encryptId } from "../../Common/Idcrypto";
 
 /* ICON IMAGES — kept as fallback when no coverImage is set */
 import cwt1 from "../../../assets/cwt1.png";
@@ -129,7 +130,7 @@ const CancersWeTreat = () => {
             <div
               key={cancer.id}
               className="cancer-card"
-              onClick={() => navigate(`/cancer/${cancer.slug}/${cancer.id}`)}
+              onClick={() => navigate(`/cancer/${cancer.slug}/${encryptId(cancer.id)}`)}
             >
               <div className="cancer-icon">
                 <img

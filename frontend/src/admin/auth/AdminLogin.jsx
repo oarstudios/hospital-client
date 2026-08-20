@@ -2,11 +2,14 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser, fetchCurrentUser } from "../../redux/auth/authSlice";
+import FieldError from "../../components/Common/FieldError";
+import { notifyFirstError, clearField } from "../../components/Common/formFeedback";
 import "./AdminLogin.css";
 
 const AdminLogin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -16,8 +19,13 @@ const AdminLogin = () => {
   );
 
   const handleLogin = async () => {
-    if (!username || !password) {
-      return alert("Please fill all fields");
+    const nextErrors = {};
+    if (!username.trim()) nextErrors.username = "Username is required.";
+    if (!password) nextErrors.password = "Password is required.";
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length) {
+      notifyFirstError(dispatch, nextErrors);
+      return;
     }
 
     const result = await dispatch(loginUser({ username, password }));
@@ -42,19 +50,29 @@ const AdminLogin = () => {
 
         <input
           type="text"
+          className={errors.username ? "input-invalid" : ""}
           placeholder="Username"
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={(e) => {
+            clearField(setErrors, "username");
+            setUsername(e.target.value);
+          }}
           onKeyDown={(e) => e.key === "Enter" && handleLogin()}
         />
+        <FieldError message={errors.username} />
 
         <input
           type="password"
+          className={errors.password ? "input-invalid" : ""}
           placeholder="Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => {
+            clearField(setErrors, "password");
+            setPassword(e.target.value);
+          }}
           onKeyDown={(e) => e.key === "Enter" && handleLogin()}
         />
+        <FieldError message={errors.password} />
 
         {error && <p className="error-text">{error}</p>}
 

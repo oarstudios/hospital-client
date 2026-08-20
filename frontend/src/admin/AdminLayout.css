@@ -29,3 +29,18 @@
   flex: 1;
   overflow-y: auto;
 }
+
+.field-error {
+  color: #b91c1c;
+  font-size: 12px;
+  font-weight: 600;
+  margin: 4px 0 10px;
+}
+
+.input-invalid,
+input.input-invalid,
+select.input-invalid,
+textarea.input-invalid {
+  border-color: #ef4444 !important;
+  background: #fef2f2;
+}

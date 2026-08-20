@@ -203,7 +203,6 @@ const Footer = () => {
             <h4>Useful Link</h4>
             <ul>
               <li><Link to="/blog">ICTC Blogs</Link></li>
-              <li><Link to="/newsletter">ICTC Newsletter</Link></li>
               <li><Link to="/privacy-policy">Privacy Policy</Link></li>
             </ul>
           </div>

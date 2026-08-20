@@ -10,6 +10,7 @@ import { fetchServices } from "../../../redux/services/servicesSlice";
 import { fetchServiceCategories } from "../../../redux/serviceCategories/serviceCategoriesSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCenters } from "../../../redux/centers/centersSlice";
+import { encryptId } from "../../Common/Idcrypto";
 
 const Navbar = () => {
   const [activeMenu, setActiveMenu] = useState(null);
@@ -167,6 +168,7 @@ const Navbar = () => {
             <li onClick={() => handleNavigate("/ourDoctors")}>OUR DOCTORS</li>
 
             <li onClick={() => handleNavigate("/blog")}>BLOGS</li>
+            <li onClick={() => handleNavigate("/news")}>NEWS</li>
           </ul>
 
           {/* DESKTOP BUTTON */}
@@ -201,6 +203,7 @@ const Navbar = () => {
             <li onClick={() => toggleMenu("cancer")}>Cancer Types</li>
             <li onClick={() => handleNavigate("/ourDoctors")}>Our Doctors</li>
             <li onClick={() => handleNavigate("/blog")}>Blogs</li>
+            <li onClick={() => handleNavigate("/news")}>News</li>
 
             <button
               className="appointment-btn mobile-btn"
@@ -224,7 +227,7 @@ const Navbar = () => {
                 {items.map((item) => (
                   <p
                     key={item.slug}
-                    onClick={() => handleNavigate(`/Services/${item.slug}/${item.id}`)}
+                    onClick={() => handleNavigate(`/Services/${item.slug}/${encryptId(item.id)}`)}
                   >
                     {item.name}
                   </p>
@@ -249,7 +252,7 @@ const Navbar = () => {
                     {centres.slice(0, mid).map((center) => (
                       <p
                         key={center.id || center.slug}
-                        onClick={() => handleNavigate(`/centre/${center.id}`)}
+                        onClick={() => handleNavigate(`/centre/${encryptId(center.id)}`)}
                       >
                         {center.name}
                       </p>
@@ -260,7 +263,7 @@ const Navbar = () => {
                     {centres.slice(mid).map((center) => (
                       <p
                         key={center.id || center.slug}
-                        onClick={() => handleNavigate(`/centre/${center.id}`)}
+                        onClick={() => handleNavigate(`/centre/${encryptId(center.id)}`)}
                       >
                         {center.name}
                       </p>
@@ -285,7 +288,7 @@ const Navbar = () => {
                 {items.map((item) => (
                   <p
                     key={item.id}
-                    onClick={() => handleNavigate(`/cancer/${item.slug}/${item.id}`)}
+                    onClick={() => handleNavigate(`/cancer/${item.slug}/${encryptId(item.id)}`)}
                   >
                     {item.name}
                   </p>

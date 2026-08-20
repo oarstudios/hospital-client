@@ -3,7 +3,18 @@ import { useState, useEffect } from "react";
 import imgSrc from "../../Common/ImgSrc";
 
 const CenterGallery = ({ center }) => {
-  const images = (center?.gallery || []).map((img) => imgSrc(img));
+  const images = (center?.gallery || [])
+    .map((img) => {
+      if (!img) return null;
+      if (typeof img === "string") {
+        return { src: imgSrc(img), alt: center?.name ? `${center.name} gallery` : "Centre gallery" };
+      }
+      return {
+        src: imgSrc(img.url || img.serverPath || ""),
+        alt: img.altText || img.alt || (center?.name ? `${center.name} gallery` : "Centre gallery"),
+      };
+    })
+    .filter((img) => img?.src);
 
   const [activeIndex, setActiveIndex] = useState(null);
 
@@ -35,7 +46,7 @@ const CenterGallery = ({ center }) => {
             key={index}
             onClick={() => setActiveIndex(index)}
           >
-            <img src={img} alt={`gallery-${index}`} />
+            <img src={img.src} alt={img.alt} />
           </div>
         ))}
       </div>
@@ -63,8 +74,8 @@ const CenterGallery = ({ center }) => {
             )}
 
             <img
-              src={images[activeIndex]}
-              alt="gallery-preview"
+              src={images[activeIndex].src}
+              alt={images[activeIndex].alt}
               className="gallery-modal__image"
             />
           </div>

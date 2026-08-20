@@ -909,6 +909,10 @@ import "./ManageServices.css";
 import "./ManageCancers.css";
 import { DraggableFAQList } from "../common/Draggablelist";
 import { fetchCancerCategories } from "../../redux/cancerCategories/cancerCategoriesSlice";
+import { showToast } from "../../redux/toast/toastSlice";
+import FieldError from "../../components/Common/FieldError";
+import useConfirmDialog from "../../components/Common/useConfirmDialog";
+import { notifyFirstError, clearField } from "../../components/Common/formFeedback";
 
 const IMAGE_BASE_URL =
   import.meta.env.VITE_IMAGE_BASE_URL || "";
@@ -927,6 +931,7 @@ const TABS = [
 const emptyCancer = {
   name: "",
   slug: "",
+  description: "",
   image: null,
   altText: "",
   metaTitle: "",
@@ -954,6 +959,8 @@ const ManageCancers = () => {
 
   const [cancer, setCancer] =
     useState(emptyCancer);
+  const [errors, setErrors] = useState({});
+  const [confirm, confirmDialog] = useConfirmDialog();
 
   const [faq, setFaq] = useState({
     question: "",
@@ -1107,8 +1114,10 @@ const ManageCancers = () => {
 
   const addFAQ = () => {
 
-    if (!faq.question || !faq.answer)
+    if (!faq.question?.trim() || !faq.answer?.trim()) {
+      dispatch(showToast.error("FAQ question and answer are both required."));
       return;
+    }
 
     setCancer({
       ...cancer,
@@ -1139,6 +1148,16 @@ const ManageCancers = () => {
 
   const saveCancer = async () => {
 
+    const nextErrors = {};
+    if (!cancer.name?.trim()) nextErrors.name = "Cancer name is required.";
+    const resolvedSlug = (cancer.slug || "").trim() || slugify(cancer.name || "", { lower: true, strict: true });
+    if (!resolvedSlug) nextErrors.slug = "Slug is required.";
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length) {
+      notifyFirstError(dispatch, nextErrors);
+      return;
+    }
+
     try {
 
       const updatedContent = {
@@ -1157,10 +1176,12 @@ const ManageCancers = () => {
 
       formData.append(
         "slug",
-        cancer.slug ||
-        slugify(cancer.name, {
-          lower: true
-        })
+        resolvedSlug
+      );
+
+      formData.append(
+        "description",
+        cancer.description || ""
       );
 
       formData.append(
@@ -1231,20 +1252,14 @@ const ManageCancers = () => {
       }
 
       if (editId) {
-
         await dispatch(
           updateCancer({
             id: editId,
             formData
           })
-        );
-
+        ).unwrap();
       } else {
-
-        await dispatch(
-          createCancer(formData)
-        );
-
+        await dispatch(createCancer(formData)).unwrap();
       }
 
       dispatch(fetchCancers());
@@ -1272,11 +1287,13 @@ const ManageCancers = () => {
   const handleEdit = (item) => {
 
     setEditId(item.id);
+    setErrors({});
 
     setCancer({
   ...item,
   image: item.coverImage,
   metaTitle: item.seoTitle,
+  description: item.description || "",
   categoryId: item.categoryId ?? "",
 });
 
@@ -1308,9 +1325,12 @@ const ManageCancers = () => {
 
   const handleDelete = async (id) => {
 
-    if (!window.confirm(
-      "Delete cancer type?"
-    )) return;
+    const ok = await confirm({
+      title: "Delete this cancer type?",
+      message: "It will be removed from the website.",
+      confirmLabel: "Delete",
+    });
+    if (!ok) return;
 
     await dispatch(deleteCancer(id));
 
@@ -1351,6 +1371,8 @@ const ManageCancers = () => {
               setCancer(emptyCancer);
 
               setEditId(null);
+
+              setErrors({});
 
               setTabContent({});
 
@@ -1458,18 +1480,34 @@ src={imgSrc(item.coverImage)}                        className="admin-table-img"
             </h3>
 
             <label>
-              Cancer Name
+              Cancer Name *
             </label>
 
             <input
-              className="blog-title"
+              className={`blog-title${errors.name ? " input-invalid" : ""}`}
               placeholder="Add cancer name here"
               value={cancer.name}
+              onChange={(e) => {
+                clearField(setErrors, "name");
+                setCancer({
+                  ...cancer,
+                  name: e.target.value
+                });
+              }}
+            />
+            <FieldError message={errors.name} />
+
+            <label>
+              Description
+            </label>
+
+            <textarea
+              placeholder="Add a short public description shown under the cancer type title"
+              value={cancer.description || ""}
               onChange={(e) =>
                 setCancer({
                   ...cancer,
-                  name:
-                    e.target.value
+                  description: e.target.value
                 })
               }
             />
@@ -1575,19 +1613,21 @@ src={imgSrc(item.coverImage)}                        className="admin-table-img"
               }
             />
 
-            <label>Slug</label>
+            <label>Slug *</label>
 
             <input
+              className={errors.slug ? "input-invalid" : ""}
               placeholder="slug"
               value={cancer.slug}
-              onChange={(e) =>
+              onChange={(e) => {
+                clearField(setErrors, "slug");
                 setCancer({
                   ...cancer,
-                  slug:
-                    e.target.value
-                })
-              }
+                  slug: e.target.value
+                });
+              }}
             />
+            <FieldError message={errors.slug} />
 
             <div className="tabs-wrapper">
 
@@ -1851,7 +1891,7 @@ src={imgSrc(item.coverImage)}                        className="admin-table-img"
         </div>
 
       )}
-
+      {confirmDialog}
     </>
   );
 

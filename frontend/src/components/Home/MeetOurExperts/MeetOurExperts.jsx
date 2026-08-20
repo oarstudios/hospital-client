@@ -101,6 +101,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDoctors } from "../../../redux/doctors/doctorsSlice";
 import imgSrc from "../../Common/ImgSrc";
+import { encryptId } from "../../Common/Idcrypto";
+import { doctorAlt } from "../../../seo/pageSeo";
 import "./MeetOurExperts.css";
 
 const MeetOurExperts = () => {
@@ -123,7 +125,7 @@ const MeetOurExperts = () => {
   };
 
   const goToDoctorProfile = (doc) => {
-    navigate(`/doctor/${doc.slug}/${doc.id}`);
+    navigate(`/doctor/${doc.slug}/${encryptId(doc.id)}`);
   };
 
   return (
@@ -153,7 +155,7 @@ const MeetOurExperts = () => {
           >
             {/* IMAGE + HOVER */}
             <div className="doctor-img-wrapper">
-              <img src={imgSrc(doc.image)} alt={doc.name} />
+              <img src={imgSrc(doc.image)} alt={doctorAlt(doc)} />
 
               <div className="doctor-hover">
                 <button

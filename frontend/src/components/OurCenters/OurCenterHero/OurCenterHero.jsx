@@ -3,15 +3,21 @@ import phoneIcon from "../../../assets/call (2).png";
 import locationIcon from "../../../assets/weui_location-filled.png";
 import starIcon from "../../../assets/Hearts.png";
 import imgSrc from "../../Common/ImgSrc";
+import formatReviews from "../../Common/formatReviews";
+import { centerHeroAlt } from "../../../seo/pageSeo";
 
 const OurCenterHero = ({ center }) => {
   if (!center) return null;
+
+  const reviewLabel = formatReviews(center.reviews);
 
   return (
     <section className="our-center-hero">
       {/* HERO IMAGE */}
       <div
         className="hero-banner"
+        role="img"
+        aria-label={centerHeroAlt(center)}
         style={{
           backgroundImage: `url(${imgSrc(center.heroImage)})`,
         }}
@@ -31,8 +37,12 @@ const OurCenterHero = ({ center }) => {
 
           <span className="rating-text">
             {center.rating}
-            <span className="divider"> | </span>
-            {center.reviews}
+            {reviewLabel && (
+              <>
+                <span className="divider"> | </span>
+                {reviewLabel}
+              </>
+            )}
           </span>
         </div>
 

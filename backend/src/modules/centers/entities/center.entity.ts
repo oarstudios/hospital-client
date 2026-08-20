@@ -60,7 +60,13 @@ import {
     heroImage?: string;
 
     @Column({ nullable: true })
-    centerImage?: string;
+  heroImageAltText?: string;
+
+  @Column({ nullable: true })
+  centerImage?: string;
+
+  @Column({ nullable: true })
+  centerImageAltText?: string;
 
     // ✅ Soft delete flag
     @Column({

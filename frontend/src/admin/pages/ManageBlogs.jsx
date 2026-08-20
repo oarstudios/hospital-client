@@ -28,6 +28,10 @@ import {
 } from "../../redux/blogs/blogsSlice";
 
 import { fetchTags, createTag } from "../../redux/tags/tagsSlice";
+import { showToast } from "../../redux/toast/toastSlice";
+import FieldError from "../../components/Common/FieldError";
+import useConfirmDialog from "../../components/Common/useConfirmDialog";
+import { notifyFirstError, clearField } from "../../components/Common/formFeedback";
 
 import "./ManageBlogs.css";
 
@@ -48,6 +52,7 @@ const emptyBlog = {
   author:          "",
   tags:            [],
   image:           null,
+  altText:         "",
   metaTitle:       "",
   metaDescription: "",
   keywords:        "",
@@ -75,6 +80,8 @@ const ManageBlogs = () => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewHTML, setPreviewHTML] = useState("");
   const [isCreatingTag, setIsCreatingTag] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [confirm, confirmDialog] = useConfirmDialog();
 
   useEffect(() => {
     dispatch(fetchBlogs());
@@ -154,7 +161,7 @@ const ManageBlogs = () => {
         const url = res.data?.data?.url || res.data?.url;
         if (url) editor.chain().focus().setImage({ src: url }).run();
       } catch {
-        alert("Image upload failed. Please try again.");
+        dispatch(showToast.error("Image upload failed. Please try again."));
       } finally {
         setImageUploading(false);
       }
@@ -167,6 +174,7 @@ const ManageBlogs = () => {
   const resetModal = () => {
     setBlog(emptyBlog);
     setEditId(null);
+    setErrors({});
     editor.commands.clearContent();
   };
 
@@ -177,10 +185,11 @@ const ManageBlogs = () => {
 
   const openEdit = (item) => {
     setEditId(item.id);
+    setErrors({});
     setBlog({
       title:           item.title           || "",
       slug:            item.slug            || "",
-      type:            item.type            || "Blog",
+      type:            /^news(letter)?$/i.test(item.type || "") ? "News" : (item.type || "Blog"),
       date:            item.date            || "",
       categories: (item.categories || []).map((c) => ({ value: c.id, label: c.category })),
       author:          item.author          || "",
@@ -207,16 +216,20 @@ const ManageBlogs = () => {
 
   /* ── Save ─────────────────────────────────────────────────────────────── */
   const saveBlog = async () => {
-    if (!blog.title.trim()) {
-      alert("Title is required.");
+    const nextErrors = {};
+    if (!blog.title.trim()) nextErrors.title = `${blog.type || "Post"} title is required.`;
+    const resolvedSlug =
+      blog.slug.trim() || slugify(blog.title, { lower: true, strict: true });
+    if (!resolvedSlug) nextErrors.slug = "Slug is required.";
+    if (!blog.date) nextErrors.date = "Date is required.";
+
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length) {
+      notifyFirstError(dispatch, nextErrors);
       return;
     }
 
-    const resolvedSlug =
-      blog.slug || slugify(blog.title, { lower: true, strict: true });
-
     // Content images are already uploaded; getJSON() has real /uploads/... URLs.
-    // No placeholder replacement needed — just stringify as-is.
     const content = editor.getJSON();
 
     const formData = new FormData();
@@ -225,6 +238,7 @@ const ManageBlogs = () => {
     formData.append("type",            blog.type            || "Blog");
     formData.append("date",            blog.date            || "");
     formData.append("author",          blog.author          || "");
+    formData.append("altText",         blog.altText         || "");
     formData.append("metaTitle",       blog.metaTitle       || "");
     formData.append("metaDescription", blog.metaDescription || "");
     formData.append("keywords",        blog.keywords        || "");
@@ -260,7 +274,12 @@ const ManageBlogs = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Delete this blog?")) return;
+    const ok = await confirm({
+      title: "Delete this post?",
+      message: "This will remove it from the website. You can restore it later from the database if needed.",
+      confirmLabel: "Delete",
+    });
+    if (!ok) return;
     await dispatch(deleteBlog(id));
   };
 
@@ -318,7 +337,7 @@ const ManageBlogs = () => {
                     )}
                   </td>
                   <td>{item.title}</td>
-                  <td>{item.type || "Blog"}</td>
+                  <td>{/^news(letter)?$/i.test(item.type || "") ? "News" : (item.type || "Blog")}</td>
                   <td>{item.author || "—"}</td>
                   <td>
                     {item.categories?.length > 0
@@ -347,13 +366,14 @@ const ManageBlogs = () => {
           <div className="admin-modal">
             <h3>{editId ? `Edit ${blog.type}` : `Add ${blog.type}`}</h3>
 
-            <label>{blog.type === 'News' ? 'News Title' : 'Blog Title'}</label>
+            <label>{blog.type === 'News' ? 'News Title' : 'Blog Title'} *</label>
             <input
-              className="blog-title"
+              className={`blog-title${errors.title ? " input-invalid" : ""}`}
               placeholder="Untitled"
               value={blog.title}
               onChange={(e) => {
                 const title = e.target.value;
+                clearField(setErrors, "title");
                 setBlog((prev) => ({
                   ...prev,
                   title,
@@ -361,6 +381,7 @@ const ManageBlogs = () => {
                 }));
               }}
             />
+            <FieldError message={errors.title} />
 
             <div {...getRootProps()} className="hero-upload">
               <input {...getInputProps()} />
@@ -370,19 +391,35 @@ const ManageBlogs = () => {
             {blog.image && (
               <img
                 src={blog.image.url}
-                alt="Blog cover"
+                alt={blog.altText || "Blog cover"}
                 className="hero-preview"
               />
             )}
 
+            {blog.image && (
+              <div>
+                <label>Alt Text (SEO)</label>
+                <input
+                  value={blog.altText}
+                  onChange={(e) => setBlog((prev) => ({ ...prev, altText: e.target.value }))}
+                  placeholder="Describe the image for accessibility and SEO"
+                />
+              </div>
+            )}
+
             <div className="meta-grid">
               <div>
-                <label>Slug</label>
+                <label>Slug *</label>
                 <input
+                  className={errors.slug ? "input-invalid" : ""}
                   value={blog.slug}
-                  onChange={(e) => setBlog((prev) => ({ ...prev, slug: e.target.value }))}
+                  onChange={(e) => {
+                    clearField(setErrors, "slug");
+                    setBlog((prev) => ({ ...prev, slug: e.target.value }));
+                  }}
                   placeholder="auto-generated from title"
                 />
+                <FieldError message={errors.slug} />
               </div>
               <div>
                 <label>Type</label>
@@ -403,12 +440,17 @@ const ManageBlogs = () => {
                 />
               </div>
               <div>
-                <label>Date</label>
+                <label>Date *</label>
                 <input
                   type="date"
+                  className={errors.date ? "input-invalid" : ""}
                   value={blog.date}
-                  onChange={(e) => setBlog((prev) => ({ ...prev, date: e.target.value }))}
+                  onChange={(e) => {
+                    clearField(setErrors, "date");
+                    setBlog((prev) => ({ ...prev, date: e.target.value }));
+                  }}
                 />
+                <FieldError message={errors.date} />
               </div>
             </div>
 
@@ -431,7 +473,7 @@ const ManageBlogs = () => {
                       }));
                     }
                   } catch {
-                    alert("Failed to create category. Please try again.");
+                    dispatch(showToast.error("Failed to create category. Please try again."));
                   }
                 }}
                 placeholder="Select or type to add a new category..."
@@ -465,7 +507,7 @@ const ManageBlogs = () => {
                       tags: [...prev.tags, { value: newTag.id, label: newTag.tag }],
                     }));
                   } catch {
-                    alert("Failed to create tag. Please try again.");
+                    dispatch(showToast.error("Failed to create tag. Please try again."));
                   } finally {
                     setIsCreatingTag(false);
                   }
@@ -580,6 +622,7 @@ const ManageBlogs = () => {
           </div>
         </div>
       )}
+      {confirmDialog}
     </>
   );
 };

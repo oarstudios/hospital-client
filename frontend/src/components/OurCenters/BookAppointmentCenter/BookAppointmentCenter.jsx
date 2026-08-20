@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createAppointment } from "../../../redux/appointments/appointmentsSlice";
+import { showToast } from "../../../redux/toast/toastSlice";
+import { notifyFirstError, clearField, INDIAN_PHONE } from "../../Common/formFeedback";
 import "./BookAppointmentCenter.css";
 
 const BookAppointmentCenter = ({ center }) => {
@@ -11,22 +13,35 @@ const BookAppointmentCenter = ({ center }) => {
     phone: "",
     date: "",
   });
+  const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
+    clearField(setErrors, e.target.name);
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async () => {
-    if (!form.name || !form.age || !form.phone || !form.date) {
-      alert("Please fill all details");
-      return;
+  const validate = () => {
+    const nextErrors = {};
+    if (!form.name.trim()) nextErrors.name = "Name is required.";
+    if (!form.age || Number(form.age) < 1 || Number(form.age) > 120) {
+      nextErrors.age = "Enter a valid age.";
     }
+    if (!form.phone) nextErrors.phone = "Phone number is required.";
+    else if (!INDIAN_PHONE.test(form.phone)) nextErrors.phone = "Enter a valid 10-digit Indian number.";
+    else if (/^(\d)\1{9}$/.test(form.phone)) nextErrors.phone = "Invalid phone number.";
+    if (!form.date) nextErrors.date = "Please select an appointment date.";
 
-    if (!/^[6-9]\d{9}$/.test(form.phone)) {
-      alert("Enter valid 10-digit phone number");
-      return;
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length) {
+      notifyFirstError(dispatch, nextErrors);
+      return false;
     }
+    return true;
+  };
+
+  const handleSubmit = async () => {
+    if (!validate()) return;
 
     setIsSubmitting(true);
 
@@ -45,13 +60,14 @@ const BookAppointmentCenter = ({ center }) => {
       );
 
       if (createAppointment.fulfilled.match(result)) {
-        alert(`Appointment booked at ${center?.name}`);
+        dispatch(showToast.success(`Appointment booked at ${center?.name}.`));
         setForm({ name: "", age: "", phone: "", date: "" });
+        setErrors({});
       } else {
-        alert("Failed to book appointment. Please try again.");
+        dispatch(showToast.error("Failed to book appointment. Please try again."));
       }
     } catch {
-      alert("Network error. Please try again.");
+      dispatch(showToast.error("Network error. Please try again."));
     } finally {
       setIsSubmitting(false);
     }
@@ -68,42 +84,50 @@ const BookAppointmentCenter = ({ center }) => {
       <p className="ictc-book-section-title">Patient Details</p>
 
       <div className="ictc-book-row">
-        <input
-          className="ictc-book-input"
-          type="text"
-          name="name"
-          placeholder="Name"
-          value={form.name}
-          onChange={handleChange}
-        />
-        <input
-          className="ictc-book-input"
-          type="number"
-          name="age"
-          placeholder="Age"
-          value={form.age}
-          onChange={handleChange}
-        />
+        <div style={{ flex: 1 }}>
+          <input
+            className={`ictc-book-input${errors.name ? " input-invalid" : ""}`}
+            type="text"
+            name="name"
+            placeholder="Name"
+            value={form.name}
+            onChange={handleChange}
+          />
+          {errors.name && <p className="ictc-book-error">{errors.name}</p>}
+        </div>
+        <div style={{ flex: 1 }}>
+          <input
+            className={`ictc-book-input${errors.age ? " input-invalid" : ""}`}
+            type="number"
+            name="age"
+            placeholder="Age"
+            value={form.age}
+            onChange={handleChange}
+          />
+          {errors.age && <p className="ictc-book-error">{errors.age}</p>}
+        </div>
       </div>
 
       <input
-        className="ictc-book-input ictc-book-full"
+        className={`ictc-book-input ictc-book-full${errors.phone ? " input-invalid" : ""}`}
         type="tel"
         name="phone"
         placeholder="Phone Number"
         value={form.phone}
         onChange={handleChange}
       />
+      {errors.phone && <p className="ictc-book-error">{errors.phone}</p>}
 
       <p className="ictc-book-section-title">Appointment Details</p>
 
       <input
-        className="ictc-book-input ictc-book-full"
+        className={`ictc-book-input ictc-book-full${errors.date ? " input-invalid" : ""}`}
         type="date"
         name="date"
         value={form.date}
         onChange={handleChange}
       />
+      {errors.date && <p className="ictc-book-error">{errors.date}</p>}
 
       <div className="ictc-book-btn-row">
         <button className="ictc-book-btn" onClick={handleSubmit} disabled={isSubmitting}>

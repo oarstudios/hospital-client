@@ -11,6 +11,9 @@ import {
 
 import PageLoader from "../common/PageLoader";
 import "./ManageServiceCategories.css"; // reuse the same styles
+import FieldError from "../../components/Common/FieldError";
+import useConfirmDialog from "../../components/Common/useConfirmDialog";
+import { notifyFirstError, clearField } from "../../components/Common/formFeedback";
 
 const emptyCategory = { name: "", slug: "", sequence: 0 };
 
@@ -23,6 +26,8 @@ const ManageCancerCategories = () => {
   const [category, setCategory] = useState(emptyCategory);
   const [showModal, setShowModal] = useState(false);
   const [editId, setEditId] = useState(null);
+  const [errors, setErrors] = useState({});
+  const [confirm, confirmDialog] = useConfirmDialog();
 
   useEffect(() => {
     dispatch(fetchCancerCategories());
@@ -41,18 +46,26 @@ const ManageCancerCategories = () => {
   const openAdd = () => {
     setCategory(emptyCategory);
     setEditId(null);
+    setErrors({});
     setShowModal(true);
   };
 
   const openEdit = (item) => {
     setCategory({ name: item.name, slug: item.slug, sequence: item.sequence ?? 0 });
     setEditId(item.id);
+    setErrors({});
     setShowModal(true);
   };
 
   const handleSave = async () => {
-    if (!category.name.trim()) { alert("Name is required."); return; }
-    if (!category.slug.trim()) { alert("Slug is required."); return; }
+    const nextErrors = {};
+    if (!category.name.trim()) nextErrors.name = "Name is required.";
+    if (!category.slug.trim()) nextErrors.slug = "Slug is required.";
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length) {
+      notifyFirstError(dispatch, nextErrors);
+      return;
+    }
 
     const payload = {
       name: category.name.trim(),
@@ -75,7 +88,12 @@ const ManageCancerCategories = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Delete this category? Cancer types assigned to it will become uncategorised.")) return;
+    const ok = await confirm({
+      title: "Delete this category?",
+      message: "Cancer types assigned to it will become uncategorised.",
+      confirmLabel: "Delete",
+    });
+    if (!ok) return;
     dispatch(deleteCancerCategory(id));
   };
 
@@ -148,20 +166,27 @@ const ManageCancerCategories = () => {
 
             <label>Category Name <span className="req">*</span></label>
             <input
-              className="blog-title"
+              className={`blog-title${errors.name ? " input-invalid" : ""}`}
               placeholder="e.g. Gynaecological Cancers"
               value={category.name}
-              onChange={handleNameChange}
+              onChange={(e) => {
+                clearField(setErrors, "name");
+                handleNameChange(e);
+              }}
             />
+            <FieldError message={errors.name} />
 
             <label>Slug <span className="req">*</span></label>
             <input
+              className={errors.slug ? "input-invalid" : ""}
               placeholder="e.g. gynaecological-cancers"
               value={category.slug}
-              onChange={(e) =>
-                setCategory((p) => ({ ...p, slug: e.target.value }))
-              }
+              onChange={(e) => {
+                clearField(setErrors, "slug");
+                setCategory((p) => ({ ...p, slug: e.target.value }));
+              }}
             />
+            <FieldError message={errors.slug} />
             <p className="field-hint">Used in URLs. Auto-generated from name, but you can edit it.</p>
 
             <label>Display Sequence</label>
@@ -194,6 +219,7 @@ const ManageCancerCategories = () => {
           </div>
         </div>
       )}
+      {confirmDialog}
     </>
   );
 };

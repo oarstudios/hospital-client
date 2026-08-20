@@ -40,3 +40,15 @@
 .admin-login-box button:hover {
   background: #0284c7;
 }
+
+.admin-login-box input.input-invalid {
+  border-color: #ef4444;
+  background: #fef2f2;
+}
+
+.admin-login-box .field-error {
+  color: #b91c1c;
+  font-size: 12px;
+  font-weight: 600;
+  margin: -8px 0 12px;
+}

@@ -1,5 +1,6 @@
 import "./CenterDescription.css";
 import imgSrc from "../../Common/ImgSrc";
+import { centerImageAlt } from "../../../seo/pageSeo";
 
 const CenterDescription = ({ center }) => {
   if (!center) return null;
@@ -18,7 +19,7 @@ const CenterDescription = ({ center }) => {
 
         {/* RIGHT IMAGE */}
         <div className="center-desc-image">
-          <img src={imgSrc(center.centerImage)} alt={center.name} />
+          <img src={imgSrc(center.centerImage)} alt={centerImageAlt(center)} />
         </div>
       </div>
     </section>

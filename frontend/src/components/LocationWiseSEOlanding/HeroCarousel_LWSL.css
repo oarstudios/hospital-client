@@ -3,7 +3,7 @@
 .hero-carousel {
   position: relative;
   background: #f5f5f5;
-  padding: 60px 0 120px;
+  padding: 60px 0;
   font-family: "DM Sans", sans-serif;
   overflow: hidden;
 }
@@ -62,8 +62,8 @@
 /* ================= QUICK CTA ================= */
 
 .quick-cta {
-  position: absolute;
-  bottom: 32px;
+  position: fixed;
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
   left: 50%;
   transform: translateX(-50%);
 
@@ -77,8 +77,9 @@
   background: rgba(255, 255, 255, 0.95);
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
 
-  z-index: 20;
+  z-index: 1200;
   overflow: visible;
 }
 
@@ -170,7 +171,7 @@
 
 @media (max-width: 1024px) {
   .hero-carousel {
-    padding: 40px 0 110px;
+    padding: 40px 0;
   }
 
   .hero-wrapper {
@@ -190,7 +191,7 @@
 
 @media (max-width: 768px) {
   .hero-carousel {
-    padding: 30px 0 180px;
+    padding: 30px 0;
   }
 
   .hero-wrapper {

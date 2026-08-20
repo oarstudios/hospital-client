@@ -210,7 +210,7 @@ color:#374151;
 INPUTS
 =================================================== */
 
-.admin-modal input,
+.admin-modal input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
 .admin-modal textarea{
 width:100%;
 padding:14px 16px;
@@ -223,7 +223,7 @@ transition:.2s;
 box-sizing:border-box;
 }
 
-.admin-modal input:focus,
+.admin-modal input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):focus,
 .admin-modal textarea:focus{
 border-color:#2563eb;
 box-shadow:0 0 0 3px rgba(37,99,235,0.1);

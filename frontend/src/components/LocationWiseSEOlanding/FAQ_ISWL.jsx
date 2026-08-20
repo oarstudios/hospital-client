@@ -1,18 +1,12 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 import "./FAQ_ISWL.css";
-
 import arrowIcon from "../../assets/cuida_dropdown-outline.png";
-import { slugToCentreName } from "../../data/centerData";
+import useLandingCenter, { centrePlaceName } from "./useLandingCenter";
 
 const FAQ_ISWL = () => {
   const [activeIndex, setActiveIndex] = useState(null);
-
-  const { slug } = useParams();
-
-  const locationName = (
-    slugToCentreName[slug?.toLowerCase()] || "Mumbai"
-  ).replace(/^ICTC\s+/i, "");
+  const { center } = useLandingCenter();
+  const locationName = centrePlaceName(center) || "Mumbai";
 
   const faqs = [
     {
@@ -56,36 +50,16 @@ const FAQ_ISWL = () => {
       <div className="ictc-faq-list">
         {faqs.map((faq, index) => {
           const isActive = activeIndex === index;
-
           return (
-            <div
-              key={index}
-              className={`ictc-faq-item_iswl ${
-                isActive ? "active" : ""
-              }`}
-            >
+            <div key={index} className={`ictc-faq-item_iswl ${isActive ? "active" : ""}`}>
               <button
                 className="ictc-faq-question"
-                onClick={() =>
-                  setActiveIndex(
-                    isActive ? null : index
-                  )
-                }
+                onClick={() => setActiveIndex(isActive ? null : index)}
               >
                 <span>{faq.question}</span>
-
-                <img
-                  src={arrowIcon}
-                  alt="toggle"
-                  className={isActive ? "rotate" : ""}
-                />
+                <img src={arrowIcon} alt="toggle" className={isActive ? "rotate" : ""} />
               </button>
-
-              {isActive && (
-                <div className="ictc-faq-answer">
-                  {faq.answer}
-                </div>
-              )}
+              {isActive && <div className="ictc-faq-answer">{faq.answer}</div>}
             </div>
           );
         })}

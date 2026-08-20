@@ -32,8 +32,8 @@
 /* ================= QUICK CTA ================= */
 
 .quick-cta {
-  position: absolute;
-  bottom: 32px;
+  position: fixed;
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -46,10 +46,9 @@
 
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(6px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
 
-  z-index: 999;
-
-  /* ❌ DO NOT HIDE OVERFLOW */
+  z-index: 1200;
   overflow: visible;
 }
 
@@ -133,37 +132,7 @@
   transform: translateX(4px);
 }
 
-/* ================= FLOATING MODE (DESKTOP ONLY) ================= */
-
-/* ================= FLOATING MODE (DESKTOP ONLY) ================= */
-
 @media (min-width: 1180px) {
-  .quick-cta {
-    /* was `position: fixed !important`, which pinned this to the
-       viewport bottom for the entire page scroll and made it float
-       on top of later sections (e.g. Meet Our Experts). Switched to
-       `absolute` so it stays anchored inside .hero-carousel instead. */
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 48px;
-    border: 1px solid rgba(18, 16, 18, 1);
-
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(6px);
-
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
-
-    z-index: 10;
-  }
-
   .cta-btn {
     width: auto;
     justify-content: center;
@@ -178,8 +147,6 @@
   }
 
   .quick-cta {
-    position: absolute;
-    bottom: 24px;
     border-radius: 36px;
   }
 }
@@ -228,7 +195,7 @@
   }
 
   .quick-cta {
-    bottom: 60px;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   }
 
   .cta-btn {

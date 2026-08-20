@@ -131,8 +131,17 @@ export class CentersService {
         const heroImage = files?.heroImage?.[0]?.filename;
         const centerImage = files?.centerImage?.[0]?.filename;
 
+        const {
+          description: _description,
+          existingGallery: _existingGallery,
+          gallery: _gallery,
+          heroImage: _heroFile,
+          centerImage: _centerFile,
+          ...centerFields
+        } = dto;
+
         const center = await manager.save(Center, {
-          ...dto,
+          ...centerFields,
           heroImage: heroImage ? `/uploads/${heroImage}` : null,
           centerImage: centerImage ? `/uploads/${centerImage}` : null,
         });
@@ -330,10 +339,17 @@ export class CentersService {
       : [];
     const doctors = await this.enrichDoctors(doctorBase);
 
+    const descriptionById = new Map(descriptions.map((d) => [d.id, d.content]));
+    const imageById = new Map(images.map((i) => [i.id, i.url]));
+
     return {
       ...center,
-      description: descriptions.map((d) => d.content),
-      gallery: images.map((i) => i.url),
+      description: descTxn
+        .map((t) => descriptionById.get(t.descriptionId))
+        .filter((v): v is string => Boolean(v)),
+      gallery: imgTxn
+        .map((t) => imageById.get(t.imageId))
+        .filter((v): v is string => Boolean(v)),
       doctors,
     };
   }
@@ -392,94 +408,110 @@ export class CentersService {
       // The frontend sends:
       //   • existingGallery[]  — server-relative URLs of images the user chose to keep
       //   • files.gallery[]    — newly uploaded files
-      // We always run this block so that removing an image (with no new upload) is also persisted.
+      // If existingGallery is missing AND there are no new files, leave the gallery
+      // unchanged. A missing field used to mean "keep none", which wiped images on save.
       {
-        // Normalise existingGallery to a string[] (multer body can give string or string[])
-        const rawExisting = (dto as any).existingGallery;
-        const keptUrls: string[] = rawExisting
-          ? Array.isArray(rawExisting) ? rawExisting : [rawExisting]
-          : [];
-
+        const hasExistingField = dto.existingGallery !== undefined;
         const newFiles: any[] = files?.gallery ?? [];
 
-        // Fetch current DB state for this center's gallery
-        const txn = await manager.find(EntityImage, {
-          where: { entityId: id, entityType: this.ENTITY },
-        });
-        const imageIds = txn.map((t) => t.imageId);
-        const currentImages = imageIds.length
-          ? await manager.findBy(Image, { id: In(imageIds) })
-          : [];
-
-        // Determine which existing DB images are no longer kept → delete them
-        const imagesToDelete = currentImages.filter(
-          (img) => !keptUrls.includes(img.url),
-        );
-
-        if (imagesToDelete.length) {
-          const deleteIds = imagesToDelete.map((img) => img.id);
-
-          // Remove junction rows for deleted images
-          await manager.delete(EntityImage, {
-            entityId: id,
-            entityType: this.ENTITY,
-            imageId: In(deleteIds),
+        if (hasExistingField || newFiles.length) {
+          const txn = await manager.find(EntityImage, {
+            where: { entityId: id, entityType: this.ENTITY },
           });
+          const imageIds = txn.map((t) => t.imageId);
+          const currentImages = imageIds.length
+            ? await manager.findBy(Image, { id: In(imageIds) })
+            : [];
 
-          // Delete physical files
-          imagesToDelete.forEach((img) => {
-            const filename = img.url.replace('/uploads/', '');
-            deleteFiles({ gallery: [{ filename }] });
-          });
+          // If the client omitted existingGallery but uploaded new files, keep
+          // everything already stored and append the new ones.
+          const keptUrls: string[] = hasExistingField
+            ? (Array.isArray(dto.existingGallery)
+                ? dto.existingGallery
+                : [dto.existingGallery]
+              ).filter((url): url is string => Boolean(url))
+            : currentImages.map((img) => img.url);
 
-          await manager.delete(Image, { id: In(deleteIds) });
-        }
+          const imagesToDelete = currentImages.filter(
+            (img) => !keptUrls.includes(img.url),
+          );
 
-        // Re-sequence all junction rows for kept images in the order the frontend sent them
-        // First, wipe existing junction rows for kept images so we can re-insert with new sequence
-        const keptImages = currentImages.filter((img) =>
-          keptUrls.includes(img.url),
-        );
+          if (imagesToDelete.length) {
+            const deleteIds = imagesToDelete.map((img) => img.id);
 
-        if (keptImages.length) {
-          await manager.delete(EntityImage, {
-            entityId: id,
-            entityType: this.ENTITY,
-            imageId: In(keptImages.map((i) => i.id)),
-          });
-        }
+            await manager.delete(EntityImage, {
+              entityId: id,
+              entityType: this.ENTITY,
+              imageId: In(deleteIds),
+            });
 
-        let sequence = 0;
+            imagesToDelete.forEach((img) => {
+              const filename = img.url.replace('/uploads/', '');
+              deleteFiles({ gallery: [{ filename }] });
+            });
 
-        // Insert kept images in the order the frontend provided
-        for (const url of keptUrls) {
-          const img = keptImages.find((i) => i.url === url);
-          if (!img) continue; // safety: skip if somehow not found
+            await manager.delete(Image, { id: In(deleteIds) });
+          }
 
-          await manager.save(EntityImage, {
-            entityId: id,
-            entityType: this.ENTITY,
-            imageId: img.id,
-            sequence: sequence++,
-          });
-        }
+          const keptImages = currentImages.filter((img) =>
+            keptUrls.includes(img.url),
+          );
 
-        // Insert newly uploaded images after the kept ones
-        for (const file of newFiles) {
-          const image = await manager.save(Image, {
-            url: `/uploads/${file.filename}`,
-          });
+          if (keptImages.length) {
+            await manager.delete(EntityImage, {
+              entityId: id,
+              entityType: this.ENTITY,
+              imageId: In(keptImages.map((i) => i.id)),
+            });
+          }
 
-          await manager.save(EntityImage, {
-            entityId: id,
-            entityType: this.ENTITY,
-            imageId: image.id,
-            sequence: sequence++,
-          });
+          let sequence = 0;
+
+          for (const url of keptUrls) {
+            const img = keptImages.find((i) => i.url === url);
+            if (!img) continue;
+
+            await manager.save(EntityImage, {
+              entityId: id,
+              entityType: this.ENTITY,
+              imageId: img.id,
+              sequence: sequence++,
+            });
+          }
+
+          for (const file of newFiles) {
+            const image = await manager.save(Image, {
+              url: `/uploads/${file.filename}`,
+            });
+
+            await manager.save(EntityImage, {
+              entityId: id,
+              entityType: this.ENTITY,
+              imageId: image.id,
+              sequence: sequence++,
+            });
+          }
         }
       }
 
-      Object.assign(center, dto);
+      const {
+        description: _description,
+        existingGallery: _existingGallery,
+        gallery: _gallery,
+        heroImage: _heroImage,
+        centerImage: _centerImage,
+        ...scalars
+      } = dto as UpdateCenterDto & Record<string, unknown>;
+
+      Object.assign(center, scalars);
+
+      if (files?.heroImage?.[0]) {
+        center.heroImage = `/uploads/${files.heroImage[0].filename}`;
+      }
+      if (files?.centerImage?.[0]) {
+        center.centerImage = `/uploads/${files.centerImage[0].filename}`;
+      }
+
       await manager.save(center);
 
       return await this.findOne(id);

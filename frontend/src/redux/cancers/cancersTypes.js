@@ -10,6 +10,7 @@
  * @property {number}      id
  * @property {string}      slug
  * @property {string}      name
+ * @property {string|null} description
  * @property {string|null} coverImage
  * @property {string|null} content     - rich HTML from TipTap editor
  * @property {CancerFaq[]} faqs

@@ -471,13 +471,6 @@ display: none;
   border-radius: 24px;
 }
 
-.ictc-blogpost-tags-title {
-  font-size: 20px;
-  font-weight: 700;
-  color: rgba(0, 0, 0, 1);
-  margin-bottom: 16px;
-}
-
 .ictc-blogpost-tags-list {
   display: flex;
   flex-wrap: wrap;
@@ -647,10 +640,6 @@ display: none;
   .ictc-blogpost-tags-section {
     margin: 16px;
     padding: 20px;
-  }
-
-  .ictc-blogpost-tags-title {
-    font-size: 18px;
   }
 
   .ictc-blogpost-tags-list span {

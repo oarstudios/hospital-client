@@ -57,12 +57,26 @@
   font-size: 40px;
   font-weight: 700;
   color: rgba(105, 60, 121, 1);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.pip {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
 .pip p {
   font-size: 20px;
   font-weight: 600;
   color: rgba(48, 45, 49, 1);
+  margin: 0;
+  line-height: 1.35;
+}
+
+.pip .tag-row {
+  margin-top: 12px;
 }
 
 /* ===================== */

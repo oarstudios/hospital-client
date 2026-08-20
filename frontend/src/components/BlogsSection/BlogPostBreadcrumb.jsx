@@ -1,15 +1,17 @@
 import "../OurCenters/CenterBreadcrumb/CenterBreadcrumb.css";
-import { useParams, useNavigate } from "react-router-dom";
-import blogData from "../../data/blogData";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import homeIcon from "../../assets/mdi-light_home.png";
+import { isNewsPost } from "../Common/postType";
 
 const BlogPostBreadcrumb = () => {
-  const { slug } = useParams();
   const navigate = useNavigate();
-
-  const blog = blogData[slug];
+  const blog = useSelector((state) => state.blogs?.selected);
 
   if (!blog) return null;
+
+  const parentPath = isNewsPost(blog) ? "/news" : "/blog";
+  const parentLabel = isNewsPost(blog) ? "News" : "Blogs";
 
   return (
     <nav className="center-breadcrumb">
@@ -27,16 +29,14 @@ const BlogPostBreadcrumb = () => {
         <span
           className="center-breadcrumb__text"
           style={{ cursor: "pointer" }}
-          onClick={() => navigate("/blog")}
+          onClick={() => navigate(parentPath)}
         >
-          Blogs and News
+          {parentLabel}
         </span>
 
         <span className="center-breadcrumb__sep">›</span>
 
-        <span className="center-breadcrumb__current">
-          {blog.title}
-        </span>
+        <span className="center-breadcrumb__current">{blog.title}</span>
       </div>
     </nav>
   );

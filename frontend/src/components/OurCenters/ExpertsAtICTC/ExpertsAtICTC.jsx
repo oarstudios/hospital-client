@@ -67,6 +67,8 @@
 import "./ExpertsAtICTC.css";
 import { useNavigate } from "react-router-dom";
 import imgSrc from "../../Common/ImgSrc";
+import { encryptId } from "../../Common/Idcrypto";
+import { doctorAlt } from "../../../seo/pageSeo";
 
 const ExpertsAtICTC = ({ center }) => {
   const navigate = useNavigate();
@@ -90,7 +92,7 @@ const ExpertsAtICTC = ({ center }) => {
             {/* LEFT CARD */}
             <div className="expert-card">
               <div className="expert-img">
-                <img src={imgSrc(doc.image)} alt={doc.name} />
+                <img src={imgSrc(doc.image)} alt={doctorAlt(doc)} />
               </div>
 
               <h3>{doc.name}</h3>
@@ -114,7 +116,7 @@ const ExpertsAtICTC = ({ center }) => {
 
               <span
                 className="know-more"
-                onClick={() => navigate(`/doctor/${doc.slug}/${doc.id}`)}
+                onClick={() => navigate(`/doctor/${doc.slug}/${encryptId(doc.id)}`)}
               >
                 Know More <span>→</span>
               </span>

@@ -2,13 +2,15 @@ import { addToast } from "../redux/toast/toastSlice";
 
 // ─── Import thunks directly — no hardcoded strings ───────────────────────────
 import { loginUser, registerUser, fetchCurrentUser, logoutUserAsync } from "../redux/auth/authSlice";
-import { createBlog, updateBlog, deleteBlog, restoreBlog, fetchBlogs, fetchBlogById, fetchBlogBySlug } from "../redux/blogs/blogsSlice";
+import { createBlog, updateBlog, deleteBlog, restoreBlog, fetchBlogs, fetchBlogById, fetchBlogBySlug, createBlogCategory } from "../redux/blogs/blogsSlice";
 import { createCancer, updateCancer, deleteCancer, restoreCancer, fetchCancers, fetchCancerById, fetchCancerBySlug } from "../redux/cancers/cancersSlice";
 import { fetchCancerCategories, createCancerCategory, updateCancerCategory, deleteCancerCategory } from "../redux/cancerCategories/cancerCategoriesSlice";
 import { createCenter, updateCenter, deleteCenter, restoreCenter, fetchCenters, fetchActiveCenters, fetchCenterById } from "../redux/centers/centersSlice";
 import { createDoctor, updateDoctor, deleteDoctor, restoreDoctor, fetchDoctors, fetchDoctorById, fetchDoctorBySlug } from "../redux/doctors/doctorsSlice";
 import { createService, updateService, deleteService, restoreService, fetchServices, fetchServiceById, fetchServiceBySlug } from "../redux/services/servicesSlice";
-import { fetchTags } from "../redux/tags/tagsSlice";
+import { fetchServiceCategories, createServiceCategory, updateServiceCategory, deleteServiceCategory } from "../redux/serviceCategories/serviceCategoriesSlice";
+import { fetchTags, createTag } from "../redux/tags/tagsSlice";
+import { deleteAppointment, updateAppointment } from "../redux/appointments/appointmentsSlice";
 
 // ─── Mutations: show a success toast on fulfilled ─────────────────────────────
 const SUCCESS_MESSAGES = new Map([
@@ -50,6 +52,19 @@ const SUCCESS_MESSAGES = new Map([
   [updateService,  'Service updated successfully!'],
   [deleteService,  'Service deleted.'],
   [restoreService, 'Service restored.'],
+
+  // Service categories
+  [createServiceCategory,  'Service category created successfully!'],
+  [updateServiceCategory,  'Service category updated successfully!'],
+  [deleteServiceCategory,  'Service category deleted.'],
+
+  // Blog extras
+  [createBlogCategory, 'Category created successfully!'],
+  [createTag,          'Tag created successfully!'],
+
+  // Appointments
+  [updateAppointment, 'Appointment updated.'],
+  [deleteAppointment, 'Appointment deleted.'],
 ]);
 
 // ─── Silent: no toast at all (background fetches, session checks) ─────────────
@@ -62,6 +77,7 @@ const SILENT_THUNKS = new Set([
   fetchCenters, fetchActiveCenters, fetchCenterById,
   fetchDoctors, fetchDoctorById, fetchDoctorBySlug,
   fetchServices, fetchServiceById, fetchServiceBySlug,
+  fetchServiceCategories,
   fetchTags,
 ]);
 

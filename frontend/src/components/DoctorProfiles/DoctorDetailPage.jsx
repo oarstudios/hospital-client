@@ -68,20 +68,26 @@ import PatientStoriesEmbed from "./PatientStoriesEmbed/PatientStoriesEmbed";
 import PatientTestimonials from "../OurCenters/PatientTestimonials/PatientTestimonials";
 import OurNetworkOfCare from "../Home/OurNetworkOfCare/OurNetworkOfCare";
 import RequestCallback from "../Home/RequestCallback/RequestCallback";
+import { resolveUrlId } from "../Common/Idcrypto";
+import SeoHead from "../Common/SeoHead";
+import { getDoctorSeo } from "../../seo/pageSeo";
+import usePublicSeoEnv from "../../seo/usePublicSeoEnv";
 
 const DoctorDetailPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const numericId = resolveUrlId(id);
 
   const { selected: doctor, loading, error } = useSelector(
     (state) => state.doctors
   );
   const { list: centers } = useSelector((state) => state.centers);
+  const seoEnv = usePublicSeoEnv();
 
   useEffect(() => {
-    if (id) dispatch(fetchDoctorById(id));
+    if (numericId) dispatch(fetchDoctorById(numericId));
     return () => dispatch(clearSelectedDoctor());
-  }, [dispatch, id]);
+  }, [dispatch, numericId]);
 
   // Fetch centers list if not already loaded (needed to resolve centreIds → name/phone)
   useEffect(() => {
@@ -94,6 +100,7 @@ const DoctorDetailPage = () => {
 
   return (
     <>
+      <SeoHead {...getDoctorSeo(doctor, seoEnv)} />
       <DoctorBreadcrumb doctor={doctor} />
       <DoctorProfile doctor={doctor} centers={centers} />
       <PatientStoriesEmbed doctor={doctor} />

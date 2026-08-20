@@ -250,7 +250,7 @@ color:#374151;
 INPUTS
 ========================================================= */
 
-input,
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="submit"]):not([type="button"]),
 textarea,
 select{
 width:100%;
@@ -265,7 +265,7 @@ font-family:inherit;
 background:white;
 }
 
-input:focus,
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):focus,
 textarea:focus,
 select:focus{
 border-color:#2563eb;

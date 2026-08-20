@@ -4,6 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchServices } from "../../redux/services/servicesSlice";
 import { fetchServiceCategories } from "../../redux/serviceCategories/serviceCategoriesSlice";
 import imgSrc from "../Common/ImgSrc";
+import { encryptId } from "../Common/Idcrypto";
+import SeoHead from "../Common/SeoHead";
+import { getAllServicesSeo, serviceAlt } from "../../seo/pageSeo";
+import usePublicSeoEnv from "../../seo/usePublicSeoEnv";
 import "./AllServicePage.css";
 
 function AllServicePage() {
@@ -11,6 +15,8 @@ function AllServicePage() {
   const dispatch = useDispatch();
   const { list: services, loading } = useSelector((state) => state.services);
   const { list: categoriesData } = useSelector((state) => state.serviceCategories);
+  const { siteUrl } = usePublicSeoEnv();
+  const listingSeo = getAllServicesSeo({ siteUrl });
 
   useEffect(() => {
     dispatch(fetchServices());
@@ -54,6 +60,7 @@ function AllServicePage() {
   if (loading) {
     return (
       <section className="all-services-page">
+        <SeoHead {...listingSeo} />
         <p style={{ padding: "40px" }}>Loading...</p>
       </section>
     );
@@ -61,6 +68,7 @@ function AllServicePage() {
 
   return (
     <section className="all-services-page">
+      <SeoHead {...listingSeo} />
       {servicesByCategory.map(([category, items]) => (
         <div key={category} style={{ marginBottom: "50px" }}>
 
@@ -84,10 +92,10 @@ function AllServicePage() {
               <div
                 key={service.slug}
                 className="service-card"
-                onClick={() => navigate(`/service/${service.slug}/${service.id}`)}
+                onClick={() => navigate(`/service/${service.slug}/${encryptId(service.id)}`)}
               >
                 <div className="service-icon">
-                  <img src={imgSrc(service.coverImage)} alt={service.title} />
+                  <img src={imgSrc(service.coverImage)} alt={serviceAlt(service)} />
                 </div>
 
                 <div className="service-content">

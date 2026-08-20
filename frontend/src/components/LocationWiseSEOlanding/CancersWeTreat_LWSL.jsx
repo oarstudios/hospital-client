@@ -1,8 +1,12 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCancers } from "../../redux/cancers/cancersSlice";
+import imgSrc from "../Common/ImgSrc";
+import { encryptId } from "../Common/Idcrypto";
+import useLandingCenter, { centrePlaceName } from "./useLandingCenter";
 import "./CancersWeTreat_LWSL.css";
-import { useParams, useNavigate } from "react-router-dom";
-import centerData from "../../data/centerData";
 
-/* ICON IMAGES */
 import cwt1 from "../../assets/cwt1.png";
 import cwt2 from "../../assets/cwt2.png";
 import cwt3 from "../../assets/cwt3.png";
@@ -12,43 +16,54 @@ import cwt6 from "../../assets/cwt6.png";
 import cwt7 from "../../assets/cwt7.png";
 import cwt8 from "../../assets/cwt8.png";
 
-const cancerTypes = [
-  { title: "Gastrointestinal Cancers", slug: "gastrointestinal-cancer", icon: cwt1 },
-  { title: "Brain Cancers", slug: "brain-cancer", icon: cwt2 },
-  { title: "Lung Cancers", slug: "lung-cancer", icon: cwt8 },
-  { title: "Urological Cancers", slug: "urological-cancer", icon: cwt3 },
-  { title: "Blood Cancers", slug: "blood-cancer", icon: cwt6 },
-  { title: "Bone & Soft Tissue Cancers", slug: "bone-soft-tissue-cancer", icon: cwt7 },
-  { title: "Breast Cancers", slug: "breast-cancer", icon: cwt5 },
-  { title: "Gynecological Cancers", slug: "gynecological-cancer", icon: cwt4 },
-];
+const FALLBACK_ICONS = {
+  "gastrointestinal-cancer": cwt1,
+  "brain-cancer": cwt2,
+  "lung-cancer": cwt8,
+  "urological-cancer": cwt3,
+  "blood-cancer": cwt6,
+  "bone-soft-tissue-cancer": cwt7,
+  "breast-cancer": cwt5,
+  "gynecological-cancer": cwt4,
+};
 
 const CancersWeTreat_LWSL = () => {
-      const { slug } = useParams();
   const navigate = useNavigate();
-  const centre = centerData[slug];
+  const dispatch = useDispatch();
+  const { center } = useLandingCenter();
+  const { list: cancers = [] } = useSelector((s) => s.cancers || {});
 
-  if (!centre) return null;
+  useEffect(() => {
+    if (!cancers.length) dispatch(fetchCancers());
+  }, [dispatch, cancers.length]);
 
-  const place = centre.name.replace(/^ICTC\s+/i, "");
+  if (!center) return null;
+
+  const place = centrePlaceName(center);
 
   return (
     <section className="cancers-ictc">
       <h2 className="cancers-title">Cancer Treatment at {place}</h2>
 
       <div className="cancers-grid">
-        {cancerTypes.map((cancer, index) => (
+        {cancers.map((cancer) => (
           <div
-            key={index}
+            key={cancer.id}
             className="cancer-card"
-            onClick={() => navigate(`/cancer/${cancer.slug}`)}
+            onClick={() => navigate(`/cancer/${cancer.slug}/${encryptId(cancer.id)}`)}
           >
             <div className="cancer-icon">
-              <img src={cancer.icon} alt={cancer.title} />
+              <img
+                src={
+                  cancer.coverImage
+                    ? imgSrc(cancer.coverImage)
+                    : FALLBACK_ICONS[cancer.slug] || cwt1
+                }
+                alt={cancer.altText || cancer.name}
+              />
             </div>
-
             <div className="cancer-content">
-              <h3>{cancer.title}</h3>
+              <h3>{cancer.name}</h3>
             </div>
           </div>
         ))}

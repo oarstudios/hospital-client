@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import toast from "react-hot-toast";
 
 import {
   fetchCenters,
@@ -8,6 +7,9 @@ import {
   updateCenter,
   deleteCenter,
 } from "../../redux/centers/centersSlice";
+import FieldError from "../../components/Common/FieldError";
+import useConfirmDialog from "../../components/Common/useConfirmDialog";
+import { notifyFirstError, clearField, INDIAN_PHONE } from "../../components/Common/formFeedback";
 
 import "./ManageCenters.css";
 
@@ -45,7 +47,9 @@ const ManageCenters = () => {
   const [showModal, setShowModal]   = useState(false);
   const [editId, setEditId]         = useState(null);
   const [dragIndex, setDragIndex]   = useState(null);
-  const [isSubmitting, setIsSubmitting] = useState(false); // ✅ Fix 2: loading state
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [confirm, confirmDialog] = useConfirmDialog();
 
   /* ================= FETCH CENTERS ================= */
 
@@ -56,6 +60,7 @@ const ManageCenters = () => {
   /* ================= INPUT CHANGE ================= */
 
   const handleChange = (e) => {
+    clearField(setErrors, e.target.name);
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -91,9 +96,21 @@ const ManageCenters = () => {
   /* ================= CREATE / UPDATE ================= */
 
   const handleSubmit = async () => {
-    // Basic validation
-    if (!form.slug.trim() || !form.name.trim() || !form.fullName.trim()) {
-      toast.error("Slug, Name, and Full Name are required.");
+    const nextErrors = {};
+    if (!form.slug.trim()) nextErrors.slug = "Slug is required.";
+    if (!form.name.trim()) nextErrors.name = "Name is required.";
+    if (!form.fullName.trim()) nextErrors.fullName = "Full name is required.";
+    if (form.phone && !INDIAN_PHONE.test(form.phone.replace(/\s+/g, ""))) {
+      nextErrors.phone = "Enter a valid 10-digit Indian phone number.";
+    }
+    if (form.rating && (Number(form.rating) < 0 || Number(form.rating) > 5)) {
+      nextErrors.rating = "Rating must be between 0 and 5.";
+    }
+    if (!form.area) nextErrors.area = "Please select an area.";
+
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length) {
+      notifyFirstError(dispatch, nextErrors);
       return;
     }
 
@@ -168,12 +185,6 @@ const ManageCenters = () => {
       setShowModal(false);
       dispatch(fetchCenters());
     } catch (err) {
-      // ✅ Fix 3: show error to admin instead of silently logging
-      const message =
-        typeof err === "string"
-          ? err
-          : err?.message || "Something went wrong. Please try again.";
-      toast.error(message);
       console.error("Submit error:", err);
     } finally {
       setIsSubmitting(false);
@@ -184,6 +195,7 @@ const ManageCenters = () => {
 
   const handleEdit = (center) => {
     setEditId(center.id);
+    setErrors({});
     setForm({
       ...center,
       // ✅ Fix 1: use API_BASE instead of hardcoded localhost
@@ -208,13 +220,16 @@ const ManageCenters = () => {
   /* ================= DELETE ================= */
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Delete this center?")) return;
+    const ok = await confirm({
+      title: "Delete this centre?",
+      message: "It will be removed from the website.",
+      confirmLabel: "Delete",
+    });
+    if (!ok) return;
     try {
       await dispatch(deleteCenter(id)).unwrap();
-      // toast.success("Center deleted.");
       dispatch(fetchCenters());
     } catch (err) {
-      toast.error("Failed to delete center. Please try again.");
       console.error("Delete error:", err);
     }
   };
@@ -244,6 +259,7 @@ const ManageCenters = () => {
           onClick={() => {
             setForm(emptyForm);
             setEditId(null);
+            setErrors({});
             setShowModal(true);
           }}
         >
@@ -300,24 +316,29 @@ const ManageCenters = () => {
 
             <div className="admin-form-grid">
               <div className="admin-form-field">
-                <label className="admin-field-label">Slug</label>
-                <input name="slug" placeholder="Slug" value={form.slug} onChange={handleChange} />
+                <label className="admin-field-label">Slug *</label>
+                <input name="slug" className={errors.slug ? "input-invalid" : ""} placeholder="Slug" value={form.slug} onChange={handleChange} />
+                <FieldError message={errors.slug} />
               </div>
               <div className="admin-form-field">
-                <label className="admin-field-label">Name</label>
-                <input name="name" placeholder="Name" value={form.name} onChange={handleChange} />
+                <label className="admin-field-label">Name *</label>
+                <input name="name" className={errors.name ? "input-invalid" : ""} placeholder="Name" value={form.name} onChange={handleChange} />
+                <FieldError message={errors.name} />
               </div>
               <div className="admin-form-field">
-                <label className="admin-field-label">Full Name</label>
-                <input name="fullName" placeholder="Full Name" value={form.fullName} onChange={handleChange} />
+                <label className="admin-field-label">Full Name *</label>
+                <input name="fullName" className={errors.fullName ? "input-invalid" : ""} placeholder="Full Name" value={form.fullName} onChange={handleChange} />
+                <FieldError message={errors.fullName} />
               </div>
               <div className="admin-form-field">
                 <label className="admin-field-label">Phone</label>
-                <input name="phone" placeholder="Phone" value={form.phone} onChange={handleChange} />
+                <input name="phone" className={errors.phone ? "input-invalid" : ""} placeholder="10-digit phone" value={form.phone} onChange={handleChange} />
+                <FieldError message={errors.phone} />
               </div>
               <div className="admin-form-field">
                 <label className="admin-field-label">Rating</label>
-                <input name="rating" placeholder="Rating" value={form.rating} onChange={handleChange} />
+                <input name="rating" className={errors.rating ? "input-invalid" : ""} placeholder="Rating (0–5)" value={form.rating} onChange={handleChange} />
+                <FieldError message={errors.rating} />
               </div>
               <div className="admin-form-field">
                 <label className="admin-field-label">Reviews</label>
@@ -348,13 +369,14 @@ const ManageCenters = () => {
                 <input name="mapLink" placeholder="https://maps.app.goo.gl/..." value={form.mapLink} onChange={handleChange} />
               </div>
               <div className="admin-form-field">
-                <label className="admin-field-label">Area</label>
-                <select name="area" value={form.area} onChange={handleChange}>
+                <label className="admin-field-label">Area *</label>
+                <select name="area" className={errors.area ? "input-invalid" : ""} value={form.area} onChange={handleChange}>
                   <option value="">Select Area</option>
                   <option value="Mumbai">Mumbai</option>
                   <option value="Navi Mumbai">Navi Mumbai</option>
                   <option value="Thane">Thane</option>
                 </select>
+                <FieldError message={errors.area} />
               </div>
               <div className="admin-form-field admin-form-field--full">
                 <label className="admin-field-label">Address</label>
@@ -437,7 +459,7 @@ const ManageCenters = () => {
           </div>
         </div>
       )}
-
+      {confirmDialog}
     </div>
   );
 };

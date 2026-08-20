@@ -30,6 +30,19 @@ export class ExperienceItemDto {
   place?: string;
 }
 
+// ✅ One assigned centre + an optional doctor-specific map link for that centre.
+// When mapLink is omitted, the frontend falls back to the centre's own mapLink.
+export class CentreAssignmentDto {
+  @ApiProperty()
+  @IsNumber()
+  centreId!: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  mapLink?: string;
+}
+
 export class CreateDoctorDto {
   @ApiProperty()
   @IsString()
@@ -79,10 +92,21 @@ export class CreateDoctorDto {
   @IsOptional()
   image?: any;
 
-  // ✅ Arrays of strings — sent as JSON string from form-data
-  @ApiPropertyOptional({ type: [Number] })
+  @ApiPropertyOptional()
   @IsOptional()
-  centreIds?: number[] | string;
+  @IsString()
+  altText?: string;
+
+  // ✅ Assigned centres — sent as a JSON string from form-data.
+  // Accepts either the legacy shape (number[] of centre IDs) or the new
+  // shape (CentreAssignmentDto[] with an optional per-centre mapLink).
+  @ApiPropertyOptional({
+    type: [CentreAssignmentDto],
+    description:
+      'Assigned centres. Either [1,2] (legacy) or [{"centreId":1,"mapLink":"https://..."}]',
+  })
+  @IsOptional()
+  centreIds?: CentreAssignmentDto[] | number[] | string;
 
   @ApiPropertyOptional({ type: [String] })
   @IsOptional()

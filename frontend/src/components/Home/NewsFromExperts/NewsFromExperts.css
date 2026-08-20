@@ -50,6 +50,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
+  align-items: stretch;
 }
 
 /* CARD */
@@ -61,8 +62,18 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
+  align-items: stretch;
+  height: 100%;
+  text-align: left;
+}
+
+/* IMAGE */
+.news-img-wrapper {
+  position: relative;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 /* IMAGE */
@@ -114,6 +125,13 @@
   color: rgba(63, 34, 74, 1);
   margin: 16px 0;
   text-align: left;
+  width: 100%;
+  flex: 1;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* READ MORE */
@@ -127,8 +145,11 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   color: rgba(63, 34, 74, 1);
+  align-self: center;
+  margin-top: auto;
 }
 
 /* VIEW ALL */

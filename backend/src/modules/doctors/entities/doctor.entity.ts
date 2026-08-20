@@ -37,6 +37,9 @@ export class Doctor {
   @Column({ nullable: true })
   image?: string;
 
+  @Column({ nullable: true })
+  altText?: string;
+
   @Column({ type: 'text', nullable: true })
   summary?: string;
 

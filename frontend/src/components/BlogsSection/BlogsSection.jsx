@@ -5,12 +5,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchBlogs, fetchBlogCategories } from "../../redux/blogs/blogsSlice";
 import { encryptId } from "../Common/Idcrypto";
 import imgSrc from "../Common/ImgSrc";
+import { displayPostType, isNewsPost, sortByDateDesc } from "../Common/postType";
+import SeoHead from "../Common/SeoHead";
+import { getAllBlogsSeo, getAllNewsSeo, blogAlt } from "../../seo/pageSeo";
+import usePublicSeoEnv from "../../seo/usePublicSeoEnv";
 
 const POSTS_PER_PAGE = 6;
 
-const BlogsSection = () => {
+const BlogsSection = ({ variant = "blog" }) => {
+  const isNewsPage = variant === "news";
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { siteUrl } = usePublicSeoEnv();
+  const listingSeo = isNewsPage ? getAllNewsSeo({ siteUrl }) : getAllBlogsSeo({ siteUrl });
 
   const {
     list = [],
@@ -32,16 +39,12 @@ const BlogsSection = () => {
     setCurrentPage(1);
   }, [selectedCategory]);
 
-  const blogs = useMemo(() => (Array.isArray(list) ? list : []), [list]);
+  const blogs = useMemo(() => {
+    const all = Array.isArray(list) ? list : [];
+    return all.filter((item) => (isNewsPage ? isNewsPost(item) : !isNewsPost(item)));
+  }, [list, isNewsPage]);
 
-  // Sort blogs by date, latest first
-  const sortedBlogs = useMemo(() => {
-    return [...blogs].sort((a, b) => {
-      const dateA = new Date(a.date || 0).getTime();
-      const dateB = new Date(b.date || 0).getTime();
-      return dateB - dateA; // latest first
-    });
-  }, [blogs]);
+  const sortedBlogs = useMemo(() => sortByDateDesc(blogs), [blogs]);
 
   const filteredBlogs = useMemo(() => {
     if (!selectedCategory) return sortedBlogs;
@@ -75,14 +78,18 @@ const BlogsSection = () => {
   if (loading) {
     return (
       <section className="blogs-wrapper">
-        <p style={{ textAlign: "center", padding: "60px 0" }}>Loading blogs...</p>
+        <SeoHead {...listingSeo} />
+        <p style={{ textAlign: "center", padding: "60px 0" }}>
+          Loading {isNewsPage ? "news" : "blogs"}...
+        </p>
       </section>
     );
   }
 
   return (
     <section className="blogs-wrapper">
-      <h2 className="blogs-heading">ICTC Blogs</h2>
+      <SeoHead {...listingSeo} />
+      <h2 className="blogs-heading">{isNewsPage ? "ICTC News" : "ICTC Blogs"}</h2>
 
       <div className="blogs-layout">
         {/* LEFT SIDEBAR */}
@@ -131,9 +138,9 @@ const BlogsSection = () => {
           {/* Latest Posts */}
           <div className="sidebar-card">
             <h3>Latest Posts</h3>
-            {blogs.length > 0 ? (
+            {sortedBlogs.length > 0 ? (
               <ol>
-                {blogs.slice(0, 5).map((post, index) => (
+                {sortedBlogs.slice(0, 5).map((post, index) => (
                   <li
                     key={post.id}
                     style={{ cursor: "pointer" }}
@@ -147,8 +154,8 @@ const BlogsSection = () => {
                       <p>{post.title}</p>
 
                       <div className="tag-row">
-                        <span className={`tag ${(post.type || "blog").toLowerCase()}`}>
-                          {post.type || "Blog"}
+                        <span className={`tag ${displayPostType(post).toLowerCase()}`}>
+                          {displayPostType(post)}
                         </span>
                         <span className="date">{formatDate(post.date)}</span>
                       </div>
@@ -175,12 +182,12 @@ const BlogsSection = () => {
                 }
               >
                 {blog.image && (
-                  <img src={imgSrc(blog.image)} alt={blog.title} />
+                  <img src={imgSrc(blog.image)} alt={blogAlt(blog)} />
                 )}
 
                 <div className="blog-card-body">
                   <div className="tag-row">
-                    <span className="tag blog">{blog.type || "Blog"}</span>
+                    <span className={`tag ${displayPostType(blog).toLowerCase()}`}>{displayPostType(blog)}</span>
                     <span className="date">{formatDate(blog.date)}</span>
                   </div>
 
@@ -191,8 +198,8 @@ const BlogsSection = () => {
           ) : (
             <div style={{ padding: "40px 0", color: "#64748b" }}>
               {selectedCategory
-                ? `No blogs found in "${selectedCategory}".`
-                : "No blogs available yet."}
+                ? `No ${isNewsPage ? "news" : "blogs"} found in this category.`
+                : `No ${isNewsPage ? "news" : "blogs"} available yet.`}
             </div>
           )}
         </div>

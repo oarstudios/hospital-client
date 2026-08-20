@@ -29,8 +29,12 @@ export class AuthController {
     @Res({ passthrough: true })
     res: Response,
   ) {
-    res.clearCookie('access_token');
-    res.clearCookie('refresh_token');
+    const secure = this.configService.get<string>('COOKIE_SECURE') === 'true';
+    const sameSite = this.configService.get<string>('COOKIE_SAMESITE') as any;
+    const cookieOpts = { httpOnly: true, secure, sameSite };
+
+    res.clearCookie('access_token', cookieOpts);
+    res.clearCookie('refresh_token', cookieOpts);
 
     return {
       message: 'Logged out successfully',

@@ -1,75 +1,70 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDoctors } from "../../redux/doctors/doctorsSlice";
+import imgSrc from "../Common/ImgSrc";
+import { encryptId } from "../Common/Idcrypto";
+import { doctorAlt } from "../../seo/pageSeo";
+import useLandingCenter from "./useLandingCenter";
 import "./ExpertsAtICTC_LWSL.css";
-import { useParams, useNavigate } from "react-router-dom";
-import doctorData from "../../data/doctorData";
-import centerData from "../../data/centerData";
+
+const doctorBelongsToCentre = (doctor, centerId) => {
+  if (!centerId) return false;
+  if (Array.isArray(doctor.centreIds) && doctor.centreIds.includes(centerId)) return true;
+  if (Array.isArray(doctor.centres) && doctor.centres.some((c) => c.centreId === centerId)) {
+    return true;
+  }
+  return false;
+};
 
 const ExpertsAtICTC_LWSL = () => {
-  const { slug } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { center } = useLandingCenter();
+  const { list: doctors = [] } = useSelector((s) => s.doctors || {});
 
-  const centre = centerData[slug];
+  useEffect(() => {
+    if (!doctors.length) dispatch(fetchDoctors());
+  }, [dispatch, doctors.length]);
 
-  if (!centre) return null;
+  if (!center) return null;
 
-  const doctors = Object.values(doctorData).filter((doctor) =>
-    doctor.centres?.includes(centre.name)
-  );
+  const centreDoctors = doctors.filter((doc) => doctorBelongsToCentre(doc, center.id));
 
   return (
     <section className="experts-section-dark">
-      <h2 className="experts-heading">
-        Experts at {centre.name}
-      </h2>
+      <h2 className="experts-heading">Experts at {center.name}</h2>
 
-      {doctors.length === 0 ? (
-        <p className="no-doctors">
-          No doctors available at this centre.
-        </p>
+      {centreDoctors.length === 0 ? (
+        <p className="no-doctors">No doctors available at this centre.</p>
       ) : (
-        doctors.map((doc, index) => (
+        centreDoctors.map((doc, index) => (
           <div
-            key={doc.slug}
-            className={`expert-row ${
-              index % 2 !== 0 ? "reverse" : ""
-            }`}
+            key={doc.id || doc.slug}
+            className={`expert-row ${index % 2 !== 0 ? "reverse" : ""}`}
           >
-            {/* LEFT CARD */}
             <div className="expert-card">
               <div className="expert-img">
-                <img src={doc.image} alt={doc.name} />
+                <img src={imgSrc(doc.image)} alt={doctorAlt(doc)} />
               </div>
-
               <h3>{doc.name}</h3>
-
               <p className="expert-short">
-                {doc.qualification
-                  ?.split(",")
-                  .map((item, idx) => (
-                    <span key={idx}>
-                      {item.trim()}
-                      <br />
-                    </span>
-                  ))}
+                {(doc.qualification || "").split(",").map((item, idx) => (
+                  <span key={idx}>
+                    {item.trim()}
+                    <br />
+                  </span>
+                ))}
               </p>
-
-              <div className="expert-tag">
-                {doc.designation}
-              </div>
+              <div className="expert-tag">{doc.designation}</div>
             </div>
 
-            {/* RIGHT CONTENT */}
             <div className="expert-content">
               <h3>{doc.name}</h3>
-
-              <p className="expert-summary">
-                {doc.summary}
-              </p>
-
+              <p className="expert-summary">{doc.summary}</p>
               <span
                 className="know-more"
-                onClick={() =>
-                  navigate(`/doctor/${doc.slug}`)
-                }
+                onClick={() => navigate(`/doctor/${doc.slug}/${encryptId(doc.id)}`)}
               >
                 Know More <span>→</span>
               </span>

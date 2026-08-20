@@ -41,16 +41,16 @@ export class OthersController {
     return this.service.removeCarouselFile(name);
   }
 
+  @Put('carousel/order')
+  reorderCarousel(@Body() body: { carousel?: string[] }) {
+    return this.service.reorderCarousel(body?.carousel || []);
+  }
+
   @Put('carousel/:name')
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(AnyFilesInterceptor({ storage: multerStorage, limits: { fileSize: 10 * 1024 * 1024 } }))
   replaceCarousel(@Param('name') name: string, @UploadedFiles() files: Express.Multer.File[]) {
     return this.service.replaceCarouselFile(name, files);
-  }
-
-  @Put('carousel/order')
-  reorderCarousel(@Body() body: { carousel?: string[] }) {
-    return this.service.reorderCarousel(body?.carousel || []);
   }
 
   @Put('sheet-link')

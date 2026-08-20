@@ -3,8 +3,13 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBlogById, fetchSimilarBlogs, clearSimilarBlogs } from "../../redux/blogs/blogsSlice";
-import { encryptId, decryptId } from "../Common/Idcrypto";
+import { encryptId, resolveUrlId } from "../Common/Idcrypto";
 import imgSrc from "../Common/ImgSrc";
+import { displayPostType } from "../Common/postType";
+import { showToast } from "../../redux/toast/toastSlice";
+import SeoHead from "../Common/SeoHead";
+import { getBlogSeo, blogAlt } from "../../seo/pageSeo";
+import usePublicSeoEnv from "../../seo/usePublicSeoEnv";
 
 import userIcon from "../../assets/solar_user-bold.png";
 import shareIcon from "../../assets/ri_share-line.png";
@@ -52,8 +57,9 @@ const BlogPost = () => {
   const { selected: blog, similar: similarBlogs, loading } = useSelector(
     (state) => state.blogs || {}
   );
+  const seoEnv = usePublicSeoEnv();
 
-  const numericId = decryptId(id) ?? Number(id);
+  const numericId = resolveUrlId(id);
 
   useEffect(() => {
     if (numericId) {
@@ -63,7 +69,7 @@ const BlogPost = () => {
     return () => {
       dispatch(clearSimilarBlogs());
     };
-  }, [id, dispatch]);
+  }, [numericId, dispatch]);
 
   if (loading) {
     return <p style={{ padding: "40px" }}>Loading blog...</p>;
@@ -72,6 +78,7 @@ const BlogPost = () => {
   if (!blog || !blog.content) {
     return (
       <div style={{ padding: "60px", textAlign: "center" }}>
+        <SeoHead title="Blog not found | ICTC" index={false} />
         <h2>Blog not found</h2>
         <p style={{ color: "#64748b", marginTop: "8px" }}>
           The blog you're looking for doesn't exist or has been removed.
@@ -87,7 +94,7 @@ const BlogPost = () => {
         await navigator.share({ title: blog.title, text: blog.title, url: shareUrl });
       } else {
         await navigator.clipboard.writeText(shareUrl);
-        alert("Link copied! You can now share it.");
+        dispatch(showToast.success("Link copied! You can now share it."));
       }
     } catch (error) {
       console.error("Share failed:", error);
@@ -122,20 +129,21 @@ const BlogPost = () => {
 
   return (
     <>
+      <SeoHead {...getBlogSeo(blog, seoEnv)} />
       <main className="ictc-blogpost-layout">
         {/* LEFT CONTENT */}
         <article className="ictc-blogpost-article">
           <div className="blg">
             <img
               src={imgSrc(blog.image)}
-              alt={blog.title}
+              alt={blogAlt(blog)}
               className="ictc-blogpost-hero"
             />
 
             <div className="ictc-blg-padd">
               <div className="ictc-blogpost-meta-row">
                 <div className="ictc-blogpost-meta-tags">
-                  <span className="tag blog">{blog.type || "Blog"}</span>
+                  <span className={`tag ${displayPostType(blog).toLowerCase()}`}>{displayPostType(blog)}</span>
 
                   {blog.tags?.map((tag) => (
                     <span key={tag.id} className="tag childhood-cancer">
@@ -184,10 +192,10 @@ const BlogPost = () => {
                 }
                 style={{ cursor: "pointer" }}
               >
-                <img src={imgSrc(item.image)} alt={item.title} />
+                <img src={imgSrc(item.image)} alt={blogAlt(item)} />
 
                 <div className="ictc-blogpost-meta-tags">
-                  <span className="tag blog">{item.type || "Blog"}</span>
+                  <span className={`tag ${displayPostType(item).toLowerCase()}`}>{displayPostType(item)}</span>
                   <span className="date">{formatDate(item.date)}</span>
                 </div>
 
@@ -233,8 +241,6 @@ const BlogPost = () => {
 
       {/* TAGS */}
       <section className="ictc-blogpost-tags-section">
-        <h3 className="ictc-blogpost-tags-title">Tags</h3>
-
         <div className="ictc-blogpost-tags-list">
           {blog.tags?.map((tag) => (
             <span key={tag.id}>{tag.tag}</span>

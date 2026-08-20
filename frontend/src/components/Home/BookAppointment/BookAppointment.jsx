@@ -4,10 +4,13 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchActiveCenters } from "../../../redux/centers/centersSlice";
 import { createAppointment } from "../../../redux/appointments/appointmentsSlice";
+import { encryptId } from "../../Common/Idcrypto";
 import "./BookAppointment.css";
 import doctorImg from "../../../assets/ICTC female doctor 1.png";
 import tickIcon from "../../../assets/Vector (8).png";
 import ThankYouPopup from "../../ThankYouPopup";
+import { showToast } from "../../../redux/toast/toastSlice";
+import { notifyFirstError } from "../../Common/formFeedback";
 
 const BookAppointment = () => {
   /* ============================
@@ -28,9 +31,9 @@ const BookAppointment = () => {
     return acc;
   }, {});
 
-  // slug lookup for the "visit the centre page" link further down
-  const centerSlugMap = activeCenters.reduce((acc, c) => {
-    acc[c.name] = c.slug;
+  // id lookup for the "visit the centre page" link
+  const centerIdMap = activeCenters.reduce((acc, c) => {
+    acc[c.name] = c.id;
     return acc;
   }, {});
 
@@ -174,7 +177,14 @@ const BookAppointment = () => {
     }
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    if (Object.keys(newErrors).length) {
+      const first = Object.values(newErrors)[0];
+      if (first && first !== "SUNDAY_BLOCK" && first !== "SAME_DAY_BLOCK") {
+        notifyFirstError(dispatch, newErrors);
+      }
+      return false;
+    }
+    return true;
   };
 
   /* ============================
@@ -211,7 +221,8 @@ const BookAppointment = () => {
     try {
       // get dynamic sheet link from backend; fall back to legacy script url
       const othersRes = await axios.get("/others");
-      const sheetUrl = othersRes?.data?.sheetLink ||
+      const payload = othersRes?.data?.data ?? othersRes?.data ?? {};
+      const sheetUrl = payload.sheetLink ||
         "https://script.google.com/macros/s/AKfycbwvMAutv6LdpzjigmueH0mBXUXNBn0YYh7zhQgLl4BoJ6fldYbuFH_SSBqB4-5U44aw/exec";
 
       const response = await fetch(sheetUrl, {
@@ -241,9 +252,9 @@ const BookAppointment = () => {
         setShowSameDayNotice(false);
         setShowTomorrowHint(false);
         // Navigate to /BookAppoinment/success to show popup
-        navigate("success", { replace: false });
+        navigate(`${location.pathname}?booked=success`, { replace: false });
       } else {
-        alert("Failed to save appointment");
+        dispatch(showToast.error("Failed to save appointment. Please try again."));
       }
     } catch {
       // Google Sheets request itself failed — fall back to checking whether
@@ -262,9 +273,9 @@ const BookAppointment = () => {
         setErrors({});
         setShowSameDayNotice(false);
         setShowTomorrowHint(false);
-        navigate("success", { replace: false });
+        navigate(`${location.pathname}?booked=success`, { replace: false });
       } else {
-        alert("Network error. Please try again.");
+        dispatch(showToast.error("Network error. Please try again."));
       }
     } finally {
       setIsSubmitting(false);
@@ -413,7 +424,7 @@ const BookAppointment = () => {
                         style={{ textDecoration: "underline", cursor: "pointer" }}
                         onClick={() =>
                           window.open(
-                            `/centre/${centerSlugMap[formData.center]}`,
+                            `/centre/${encryptId(centerIdMap[formData.center])}`,
                             "_blank"
                           )
                         }

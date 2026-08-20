@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import serviceSeo from './vite-plugin-service-seo.js'
 
 export default defineConfig({
   plugins: [
@@ -8,6 +9,7 @@ export default defineConfig({
         plugins: [['babel-plugin-react-compiler']],
       },
     }),
+    serviceSeo(),
   ],
 
   

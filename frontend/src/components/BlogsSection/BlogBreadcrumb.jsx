@@ -2,7 +2,7 @@ import "../OurCenters/CenterBreadcrumb/CenterBreadcrumb.css";
 import { useNavigate } from "react-router-dom";
 import homeIcon from "../../assets/mdi-light_home.png";
 
-const BlogBreadcrumb = () => {
+const BlogBreadcrumb = ({ label = "Blogs" }) => {
   const navigate = useNavigate();
 
   return (
@@ -19,7 +19,7 @@ const BlogBreadcrumb = () => {
         <span className="center-breadcrumb__sep">›</span>
 
         <span className="center-breadcrumb__current">
-          Blogs and News
+          {label}
         </span>
       </div>
     </nav>

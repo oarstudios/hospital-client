@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import axios from "../../app/axiosinstance";
+import { showToast } from "../../redux/toast/toastSlice";
+import useConfirmDialog from "../../components/Common/useConfirmDialog";
 import "./ManageOthers.css";
 
 const ManageOthers = () => {
+  const dispatch = useDispatch();
   const [sheetLink, setSheetLink] = useState("");
   const [files, setFiles] = useState([]);
   const [previews, setPreviews] = useState([]);
   const [carousel, setCarousel] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [confirm, confirmDialog] = useConfirmDialog();
 
   useEffect(() => {
     fetchData();
@@ -52,13 +57,16 @@ const ManageOthers = () => {
       return true;
     } catch (err) {
       console.error(err);
-      alert("Could not save image order");
+      dispatch(showToast.error("Could not save image order."));
       return false;
     }
   };
 
   const uploadImages = async () => {
-    if (!files.length) return;
+    if (!files.length) {
+      dispatch(showToast.error("Please select at least one image."));
+      return;
+    }
     setLoading(true);
     try {
       const form = new FormData();
@@ -69,24 +77,30 @@ const ManageOthers = () => {
       setFiles([]);
       setPreviews([]);
       await fetchData();
-      alert("Uploaded successfully");
+      dispatch(showToast.success("Images uploaded successfully."));
     } catch (err) {
       console.error(err);
-      alert("Upload failed");
+      dispatch(showToast.error("Upload failed. Please try again."));
     } finally {
       setLoading(false);
     }
   };
 
   const deleteImage = async (name) => {
-    if (!confirm("Delete this image?")) return;
+    const ok = await confirm({
+      title: "Delete this image?",
+      message: "It will be removed from the carousel.",
+      confirmLabel: "Delete",
+    });
+    if (!ok) return;
     try {
       await axios.delete(`/others/carousel/${encodeURIComponent(name)}`);
       setCarousel((prev) => prev.filter((item) => item !== name));
       await fetchData();
+      dispatch(showToast.success("Image deleted."));
     } catch (err) {
       console.error(err);
-      alert("Delete failed");
+      dispatch(showToast.error("Delete failed. Please try again."));
     }
   };
 
@@ -99,20 +113,24 @@ const ManageOthers = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
       await fetchData();
-      alert("Replaced");
+      dispatch(showToast.success("Image replaced."));
     } catch (err) {
       console.error(err);
-      alert("Replace failed");
+      dispatch(showToast.error("Replace failed. Please try again."));
     }
   };
 
   const saveSheetLink = async () => {
+    if (sheetLink.trim() && !/^https?:\/\//i.test(sheetLink.trim())) {
+      dispatch(showToast.error("Please enter a valid URL starting with http or https."));
+      return;
+    }
     try {
       await axios.put("/others/sheet-link", { sheetLink });
-      alert("Saved");
+      dispatch(showToast.success("Sheet link saved."));
     } catch (err) {
       console.error(err);
-      alert("Save failed");
+      dispatch(showToast.error("Could not save the sheet link."));
     }
   };
 
@@ -181,6 +199,7 @@ const ManageOthers = () => {
           </button>
         </div>
       </section>
+      {confirmDialog}
     </div>
   );
 };

@@ -81,4 +81,9 @@ export class CreateBlogDto {
 
   @ApiProperty({ type: 'string', format: 'binary', required: false })
   image?: any;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  altText?: string;
 }

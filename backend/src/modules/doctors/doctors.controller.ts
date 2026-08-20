@@ -77,6 +77,12 @@ export class DoctorsController {
     return this.service.findAll(this.parseBoolean(isDeleted));
   }
 
+  // ── FIND BY SLUG — must be before GET(':id') ─────────────────────────────
+  @Get('slug/:slug')
+  findBySlug(@Param('slug') slug: string) {
+    return this.service.findBySlug(slug);
+  }
+
   // ── FIND ONE ─────────────────────────────────────────────────────────────
   @Get(':id')
   findOne(
@@ -84,12 +90,6 @@ export class DoctorsController {
     @Query('isDeleted') isDeleted?: any,
   ) {
     return this.service.findOne(+id, this.parseBoolean(isDeleted));
-  }
-
-  // ── FIND BY SLUG ─────────────────────────────────────────────────────────
-  @Get('slug/:slug')
-  findBySlug(@Param('slug') slug: string) {
-    return this.service.findBySlug(slug);
   }
 
   // ── RESTORE — must be before PUT(':id') to avoid route conflict ──────────

@@ -167,6 +167,10 @@ import {
   fetchCancerById,
   clearSelectedCancer,
 } from "../../redux/cancers/cancersSlice";
+import { resolveUrlId } from "../Common/Idcrypto";
+import SeoHead from "../Common/SeoHead";
+import { getCancerSeo } from "../../seo/pageSeo";
+import usePublicSeoEnv from "../../seo/usePublicSeoEnv";
 
 const TABS = [
   { label: "Overview",      field: "overview"     },
@@ -183,7 +187,9 @@ const TABS = [
 const CancerDetails = () => {
   const { slug, id }   = useParams();
   const dispatch   = useDispatch();
+  const numericId = resolveUrlId(id);
   const { selected: cancer, loading, error } = useSelector((s) => s.cancers);
+  const seoEnv = usePublicSeoEnv();
 
   const tabsRef = useRef(null);
   const [activeTab, setActiveTab] = useState("Overview");
@@ -191,10 +197,11 @@ const CancerDetails = () => {
 
   /* Fetch on slug change */
   useEffect(() => {
-    dispatch(fetchCancerById(id));
+    if (!numericId) return;
+    dispatch(fetchCancerById(numericId));
     setActiveTab("Overview");
     return () => dispatch(clearSelectedCancer());
-  }, [dispatch, id]);
+  }, [dispatch, numericId]);
 
   /* Sticky bar shadow */
   useEffect(() => {
@@ -215,6 +222,7 @@ const CancerDetails = () => {
   if (error || !cancer) {
     return (
       <section className="ictc-cancer-details">
+        <SeoHead title="Cancer details not found | ICTC" index={false} />
         <h1 className="ictc-cancer-title">Cancer Details Not Found</h1>
         <p className="ictc-placeholder-text">
           The requested cancer information is not available.
@@ -222,6 +230,8 @@ const CancerDetails = () => {
       </section>
     );
   }
+
+  const seo = getCancerSeo(cancer, seoEnv);
 
   /* ── Helpers ── */
   const handleTabClick = (label) => {
@@ -237,6 +247,7 @@ const CancerDetails = () => {
 
   return (
     <>
+      <SeoHead {...seo} />
       <section className="ictc-cancer-details">
         {/* INTRO */}
         {/* <div className="ictc-cancer-intro-block">
@@ -245,8 +256,8 @@ const CancerDetails = () => {
 
         <div className="ictc-cancer-intro-block">
            <h1 className="ictc-cancer-title">{cancer.name}</h1>
-          {cancer.metaDescription && (
-             <p className="ictc-cancer-intro">{cancer.metaDescription}</p>
+          {cancer.description && (
+             <p className="ictc-cancer-intro">{cancer.description}</p>
            )}
          </div>
 

@@ -35,6 +35,10 @@ export class Blog {
   @Column({ nullable: true })
   image?: string;
 
+  // alt text for image (SEO)
+  @Column({ nullable: true })
+  altText?: string;
+
   // TipTap rich-text stored as JSON string
   @Column({ type: 'text', nullable: true })
   content?: string;

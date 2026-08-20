@@ -2,6 +2,7 @@ import "./DoctorProfile.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import imgSrc from "../../Common/ImgSrc";
+import { doctorAlt } from "../../../seo/pageSeo";
 
 /* ICONS */
 import starIcon from "../../../assets/star.png";
@@ -12,6 +13,7 @@ import languageIcon from "../../../assets/language.png";
 import userss from "../../../assets/Container.png";
 
 import BookAppointment from "../../Home/BookAppointment/BookAppointment";
+import formatReviews from "../../Common/formatReviews";
 
 const DoctorProfile = ({ doctor, centers = [] }) => {
   const navigate = useNavigate();
@@ -20,16 +22,23 @@ const DoctorProfile = ({ doctor, centers = [] }) => {
   if (!doctor) return null;
 
   const normalizedRating = doctor.rating ?? "";
-  const normalizedReviews = String(doctor.reviews ?? "").trim();
-  const reviewLabel = normalizedReviews
-    ? normalizedReviews.includes("Ratings") || normalizedReviews.includes("Rating")
-      ? normalizedReviews
-      : `${normalizedReviews}+ Ratings`
-    : "";
+  const reviewLabel = formatReviews(doctor.reviews);
 
-  // Resolve centreIds → full center objects from the centers list
-  const doctorCentres = (doctor.centreIds || [])
-    .map((id) => centers.find((c) => c.id === id))
+  // Resolve assigned centres → full center objects from the centers list.
+  // Prefer doctor.centres (has a per-doctor, per-centre mapLink); fall back
+  // to plain centreIds for older API responses that don't include it yet.
+  const centreAssignments =
+    Array.isArray(doctor.centres) && doctor.centres.length > 0
+      ? doctor.centres
+      : (doctor.centreIds || []).map((centreId) => ({ centreId, mapLink: null }));
+
+  const doctorCentres = centreAssignments
+    .map(({ centreId, mapLink }) => {
+      const centre = centers.find((c) => c.id === centreId);
+      if (!centre) return null;
+      // Doctor-specific map link takes priority; otherwise use the centre's own link
+      return { ...centre, mapLink: mapLink || centre.mapLink };
+    })
     .filter(Boolean);
 
   return (
@@ -39,7 +48,7 @@ const DoctorProfile = ({ doctor, centers = [] }) => {
         <aside className="doctor-profile__sidebar">
           <div className="doctor-card">
             <div className="doctor-card__image">
-              <img src={imgSrc(doctor.image)} alt={doctor.name} />
+              <img src={imgSrc(doctor.image)} alt={doctorAlt(doctor)} />
             </div>
 
             <h2 className="doctor-card__name">{doctor.name}</h2>

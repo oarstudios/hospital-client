@@ -96,7 +96,9 @@ function App() {
 
   const navigate = useNavigate();
 
-  const showThankYou = location.pathname.endsWith("/success");
+  const showThankYou =
+    location.pathname.endsWith("/success") ||
+    new URLSearchParams(location.search).get("booked") === "success";
 
   return (
     <>
@@ -112,7 +114,7 @@ function App() {
 
       {!isAdminRoute && <Navbar />}
 
-      <main>
+      <main className={isAdminRoute ? undefined : "public-site"}>
         <Routes>
           {/* HOME */}
           <Route
@@ -124,7 +126,7 @@ function App() {
                 <WhyChooseICTCImage />
                 <CancersWeTreat />
                 <MeetOurExperts />
-                <ServicesatICTC />
+                <ServicesatICTC featuredOnly />
                 <NewsFromExperts />
                 <BookAppointment />
                 <OurNetworkOfCare />
@@ -232,8 +234,8 @@ function App() {
             path="/Blogs"
             element={
               <>
-                <BlogBreadcrumb />
-                <BlogsSection />
+                <BlogBreadcrumb label="Blogs" />
+                <BlogsSection variant="blog" />
                 <BookAppointment />
                 <OurNetworkOfCare />
                 <RequestCallback />
@@ -258,13 +260,25 @@ function App() {
             path="/blog"
             element={
               <>
-                <BlogBreadcrumb />
-                <BlogsSection />
+                <BlogBreadcrumb label="Blogs" />
+                <BlogsSection variant="blog" />
                 <OurNetworkOfCare />
                 <RequestCallback />
               </>
             }
           />
+          <Route
+            path="/news"
+            element={
+              <>
+                <BlogBreadcrumb label="News" />
+                <BlogsSection variant="news" />
+                <OurNetworkOfCare />
+                <RequestCallback />
+              </>
+            }
+          />
+          <Route path="/newsletter" element={<Navigate to="/news" replace />} />
           <Route
             path="/blog/:id/:slug"
             element={
@@ -434,6 +448,8 @@ function App() {
         </Routes>
       </main>
 
+      {!isAdminRoute && <Footer />}
+
       {/* Hide website extras in admin and on /success popup */}
       {(() => {
         const isSuccessPopup = location.pathname.endsWith("/success");
@@ -441,7 +457,6 @@ function App() {
           <>
             {!isAdminRoute && !isSuccessPopup && <WhatsAppFloat />}
             {!isAdminRoute && !isSuccessPopup && <Chatbot />}
-            {!isAdminRoute && <Footer />}
           </>
         );
       })()}

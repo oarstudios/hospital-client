@@ -4,6 +4,11 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCenters } from "../../redux/centers/centersSlice";
 import imgSrc from "../Common/ImgSrc";
+import formatReviews from "../Common/formatReviews";
+import { encryptId } from "../Common/Idcrypto";
+import SeoHead from "../Common/SeoHead";
+import { getAllCentersSeo } from "../../seo/pageSeo";
+import usePublicSeoEnv from "../../seo/usePublicSeoEnv";
 
 /* ICONS */
 import callIcon from "../../assets/fluent_call-12-filled.png";
@@ -32,6 +37,7 @@ const AllCentres = () => {
 
   const { list: centersData } = useSelector((state) => state.centers);
   const [centres, setCentres] = useState([]);
+  const { siteUrl } = usePublicSeoEnv();
 
   useEffect(() => {
     if (!centersData || !centersData.length) dispatch(fetchCenters());
@@ -73,6 +79,7 @@ const AllCentres = () => {
 
   return (
     <section className="ictc-centres-page">
+      <SeoHead {...getAllCentersSeo({ siteUrl })} />
       <h2 className="ictc-centres-title">ICTC Cancer Care Centres</h2>
 
       <div className="ictc-centres-list">
@@ -80,7 +87,7 @@ const AllCentres = () => {
           <article
             className="ictc-centre-card"
             key={centre.id || centre.slug}
-            onClick={() => navigate(`/centre/${centre.id}`)}
+            onClick={() => navigate(`/centre/${encryptId(centre.id)}`)}
             style={{ cursor: "pointer" }}
           >
             {/* MAP */}
@@ -120,7 +127,7 @@ const AllCentres = () => {
 
                 <span className="rating-score">{centre.rating}</span>
                 <span className="rating-sep">|</span>
-                <span className="rating-count">{centre.reviews ? `${centre.reviews}+ Ratings` : ""}</span>
+                <span className="rating-count">{formatReviews(centre.reviews)}</span>
 
                 {centre.distance && (
                   <span className="centre-distance">

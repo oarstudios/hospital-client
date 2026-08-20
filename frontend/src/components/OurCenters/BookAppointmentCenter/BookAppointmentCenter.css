@@ -44,6 +44,18 @@
   background: #ffffff;
 }
 
+.ictc-book-input.input-invalid {
+  border-color: #ef4444;
+  background: #fef2f2;
+}
+
+.ictc-book-error {
+  color: #fecaca;
+  font-size: 12px;
+  font-weight: 600;
+  margin: 6px 0 0;
+}
+
 .ictc-book-full {
   width: 60%;
   margin-bottom: 28px;

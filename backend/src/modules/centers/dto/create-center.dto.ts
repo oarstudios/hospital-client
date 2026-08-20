@@ -96,8 +96,18 @@ import { ApiProperty } from '@nestjs/swagger';
     @ApiProperty({ type: 'string', format: 'binary', required: false })
     heroImage?: any;
 
+    @ApiProperty({ required: false })
+    @IsOptional()
+    @IsString()
+    heroImageAltText?: string;
+
     @ApiProperty({ type: 'string', format: 'binary', required: false })
     centerImage?: any;
+
+    @ApiProperty({ required: false })
+    @IsOptional()
+    @IsString()
+    centerImageAltText?: string;
 
     @ApiProperty({
       type: 'array',
@@ -105,4 +115,19 @@ import { ApiProperty } from '@nestjs/swagger';
       required: false,
     })
     gallery?: any[];
+
+    @ApiProperty({
+      type: [String],
+      required: false,
+      description: 'Server-relative URLs of gallery images to keep on update',
+    })
+    @IsOptional()
+    @Transform(({ value }) => {
+      if (value === undefined || value === null || value === '') return undefined;
+      if (Array.isArray(value)) return value.filter(Boolean);
+      return [value];
+    })
+    @IsArray()
+    @IsString({ each: true })
+    existingGallery?: string[];
   } 

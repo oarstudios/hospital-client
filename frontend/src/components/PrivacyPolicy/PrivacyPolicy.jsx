@@ -17,7 +17,7 @@ const PrivacyPolicy = () => {
 
       <p>
         We may collect personal information that you voluntarily provide to us
-        when you register on the Website, subscribe to our newsletter, respond
+        when you register on the Website, subscribe to our news updates, respond
         to surveys, contact us, or interact in other ways.
       </p>
 
@@ -47,7 +47,7 @@ const PrivacyPolicy = () => {
       <ul>
         <li>Providing and maintaining our Website</li>
         <li>Responding to your inquiries</li>
-        <li>Sending newsletters, updates, or promotional content (with consent)</li>
+        <li>Sending news, updates, or promotional content (with consent)</li>
         <li>Improving our services and user experience</li>
         <li>Security and fraud prevention</li>
       </ul>
