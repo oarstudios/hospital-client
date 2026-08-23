@@ -217,99 +217,197 @@ export default function siteSeoPlugin() {
         return injectHeadTags(html, seo);
       },
     },
-    async generateBundle(_, bundle) {
-      const indexAsset = bundle["index.html"];
-      if (!indexAsset || indexAsset.type !== "asset") return;
-
-      const html = String(indexAsset.source);
-      const catalog = await loadCatalog();
-      const opts = envOpts();
-      const { services, cancers, blogs, doctors, centers } = catalog;
-      const hasAny =
-        services.length || cancers.length || blogs.length || doctors.length || centers.length;
-
-      if (!hasAny) {
-        console.warn(
-          "[site-seo] Could not load CMS data from the API. Static SEO HTML was not generated. Start the backend before `vite build`.",
-        );
-        this.emitFile({
-          type: "asset",
-          fileName: "robots.txt",
-          source: buildRobotsTxt(siteUrl),
-        });
-        return;
-      }
-
-      emitHtml(this, html, "AllService/index.html", getAllServicesSeo(opts));
-      emitHtml(this, html, "CancerTypes/index.html", getAllCancersSeo(opts));
-      emitHtml(this, html, "AllCancer/index.html", getAllCancersSeo(opts));
-      emitHtml(this, html, "Blogs/index.html", getAllBlogsSeo(opts));
-      emitHtml(this, html, "news/index.html", getAllNewsSeo(opts));
-      emitHtml(this, html, "OurDoctors/index.html", getAllDoctorsSeo(opts));
-      emitHtml(this, html, "OurCentres/index.html", getAllCentersSeo(opts));
-      emitHtml(this, html, "allCenters/index.html", getAllCentersSeo(opts));
-      emitHtml(this, html, "aboutUs/index.html", getAboutSeo(opts));
-
-      for (const service of services) {
-        const seo = getServiceSeo(service, opts);
-        if (seo.token && service.slug) {
-          emitHtml(this, html, `service/${service.slug}/${seo.token}/index.html`, seo);
-        }
-      }
-
-      for (const cancer of cancers) {
-        const seo = getCancerSeo(cancer, opts);
-        if (seo.token && cancer.slug) {
-          emitHtml(this, html, `cancer/${cancer.slug}/${seo.token}/index.html`, seo);
-        }
-      }
-
-      for (const blog of blogs) {
-        const seo = getBlogSeo(blog, opts);
-        if (seo.token && blog.slug) {
-          emitHtml(this, html, `blog/${seo.token}/${blog.slug}/index.html`, seo);
-          emitHtml(this, html, `Blogs/${blog.slug}/index.html`, seo);
-        }
-      }
-
-      for (const doctor of doctors) {
-        const seo = getDoctorSeo(doctor, opts);
-        if (seo.token && doctor.slug) {
-          emitHtml(this, html, `doctor/${doctor.slug}/${seo.token}/index.html`, seo);
-        }
-      }
-
-      for (const center of centers) {
-        const seo = getCenterSeo(center, opts);
-        if (seo.token) {
-          emitHtml(this, html, `centre/${seo.token}/index.html`, seo);
-        }
-        if (center.slug) {
-          emitHtml(
-            this,
-            html,
-            `cancer-treatment/${center.slug}/index.html`,
-            getLandingSeo(center, center.slug, opts),
-          );
-        }
-      }
-
-      this.emitFile({
-        type: "asset",
-        fileName: "sitemap.xml",
-        source: buildSitemap(catalog, siteUrl),
-      });
-      this.emitFile({
-        type: "asset",
-        fileName: "robots.txt",
-        source: buildRobotsTxt(siteUrl),
-      });
-    },
     async writeBundle(options) {
-      const { writeFile } = await import("node:fs/promises");
-      const { resolve } = await import("node:path");
-      const dir = options.dir || resolve(root, outDir);
-      await writeFile(resolve(dir, "robots.txt"), buildRobotsTxt(siteUrl));
-    },
+  const { readFile, writeFile, mkdir } = await import("node:fs/promises");
+  const { resolve, dirname } = await import("node:path");
+
+  const dir = options.dir || resolve(root, outDir);
+
+  // Read the final Vite-generated index.html
+  const indexPath = resolve(dir, "index.html");
+  const html = await readFile(indexPath, "utf8");
+
+  // Load CMS data
+  const catalog = await loadCatalog();
+  const opts = envOpts();
+
+  const { services, cancers, blogs, doctors, centers } = catalog;
+
+  const hasAny =
+    services.length ||
+    cancers.length ||
+    blogs.length ||
+    doctors.length ||
+    centers.length;
+
+  if (!hasAny) {
+    console.warn(
+      "[site-seo] Could not load CMS data from the API. Static SEO HTML was not generated."
+    );
+
+    await writeFile(
+      resolve(dir, "robots.txt"),
+      buildRobotsTxt(siteUrl)
+    );
+
+    return;
+  }
+
+  // Helper to write generated HTML
+  async function writeSeoHtml(fileName, seo) {
+    if (!fileName || !seo) return;
+
+    const filePath = resolve(dir, fileName);
+
+    await mkdir(dirname(filePath), { recursive: true });
+
+    await writeFile(
+      filePath,
+      injectHeadTags(html, seo),
+      "utf8"
+    );
+  }
+
+  // Static SEO pages
+  await writeSeoHtml(
+    "AllService/index.html",
+    getAllServicesSeo(opts)
+  );
+
+  await writeSeoHtml(
+    "CancerTypes/index.html",
+    getAllCancersSeo(opts)
+  );
+
+  await writeSeoHtml(
+    "AllCancer/index.html",
+    getAllCancersSeo(opts)
+  );
+
+  await writeSeoHtml(
+    "Blogs/index.html",
+    getAllBlogsSeo(opts)
+  );
+
+  await writeSeoHtml(
+    "news/index.html",
+    getAllNewsSeo(opts)
+  );
+
+  await writeSeoHtml(
+    "OurDoctors/index.html",
+    getAllDoctorsSeo(opts)
+  );
+
+  await writeSeoHtml(
+    "OurCentres/index.html",
+    getAllCentersSeo(opts)
+  );
+
+  await writeSeoHtml(
+    "allCenters/index.html",
+    getAllCentersSeo(opts)
+  );
+
+  await writeSeoHtml(
+    "aboutUs/index.html",
+    getAboutSeo(opts)
+  );
+
+  // Services
+  for (const service of services) {
+    const seo = getServiceSeo(service, opts);
+
+    if (seo.token && service.slug) {
+      await writeSeoHtml(
+        `service/${service.slug}/${seo.token}/index.html`,
+        seo
+      );
+    }
+  }
+
+  // Cancers
+  for (const cancer of cancers) {
+    const seo = getCancerSeo(cancer, opts);
+
+    if (seo.token && cancer.slug) {
+      await writeSeoHtml(
+        `cancer/${cancer.slug}/${seo.token}/index.html`,
+        seo
+      );
+    }
+  }
+
+  // Blogs
+  for (const blog of blogs) {
+    const seo = getBlogSeo(blog, opts);
+
+    if (seo.token && blog.slug) {
+      await writeSeoHtml(
+        `blog/${seo.token}/${blog.slug}/index.html`,
+        seo
+      );
+
+      await writeSeoHtml(
+        `Blogs/${blog.slug}/index.html`,
+        seo
+      );
+    }
+  }
+
+  // Doctors
+  for (const doctor of doctors) {
+    const seo = getDoctorSeo(doctor, opts);
+
+    if (seo.token && doctor.slug) {
+      await writeSeoHtml(
+        `doctor/${doctor.slug}/${seo.token}/index.html`,
+        seo
+      );
+    }
+  }
+
+  // Centres
+  for (const center of centers) {
+    const seo = getCenterSeo(center, opts);
+
+    if (seo.token) {
+      await writeSeoHtml(
+        `centre/${seo.token}/index.html`,
+        seo
+      );
+    }
+
+    if (center.slug) {
+      await writeSeoHtml(
+        `cancer-treatment/${center.slug}/index.html`,
+        getLandingSeo(center, center.slug, opts)
+      );
+    }
+  }
+
+  // Sitemap
+  await writeFile(
+    resolve(dir, "sitemap.xml"),
+    buildSitemap(catalog, siteUrl),
+    "utf8"
+  );
+
+  // Robots
+  await writeFile(
+    resolve(dir, "robots.txt"),
+    buildRobotsTxt(siteUrl),
+    "utf8"
+  );
+
+  console.log(
+    `[site-seo] Generated SEO pages: ${services.length} services, ${cancers.length} cancers, ${blogs.length} blogs, ${doctors.length} doctors, ${centers.length} centers`
+  );
+
+  console.log(
+    `[site-seo] Sitemap: ${resolve(dir, "sitemap.xml")}`
+  );
+}
   };
 }
+
