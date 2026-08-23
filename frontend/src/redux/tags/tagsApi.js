@@ -10,3 +10,6 @@ export const fetchTagsApi = () =>
  *  name already matches (case-insensitive) something already stored. */
 export const createTagApi = (tag) =>
   axiosInstance.post(BASE, { tag });
+
+export const deleteTagApi = (id) =>
+  axiosInstance.delete(`${BASE}/${id}`);

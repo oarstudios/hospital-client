@@ -287,6 +287,13 @@ export default function siteSeoPlugin() {
     getAllBlogsSeo(opts)
   );
 
+  // /blog listing — required because individual posts live under blog/*/
+  // Without this, refresh on /blog/ hits a real directory with no index → 403
+  await writeSeoHtml(
+    "blog/index.html",
+    getAllBlogsSeo(opts)
+  );
+
   await writeSeoHtml(
     "news/index.html",
     getAllNewsSeo(opts)

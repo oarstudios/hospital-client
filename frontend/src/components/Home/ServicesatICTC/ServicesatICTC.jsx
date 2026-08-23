@@ -124,7 +124,7 @@ const ServicesAtICTC = ({ featuredOnly = false }) => {
         className="view-all all-services-btn"
         onClick={() => navigate("/AllService")}
       >
-        {featuredOnly ? "Read More" : "View All"} <span>→</span>
+        View All <span>→</span>
       </button>
     </section>
   );

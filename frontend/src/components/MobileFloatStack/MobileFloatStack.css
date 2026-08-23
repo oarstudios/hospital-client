@@ -1,0 +1,10 @@
+.mobile-float-stack {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-float-stack {
+    display: block;
+    pointer-events: none;
+  }
+}

@@ -4,8 +4,9 @@
 
 .whatsapp-float {
   position: fixed;
-  bottom: 90px; /* ABOVE chatbot */
+  bottom: 90px;
   right: 10px;
+  left: auto;
 
   width: 65px;
   height: 65px;
@@ -89,8 +90,13 @@
 
 @media (max-width: 768px) {
   .whatsapp-float {
-    bottom: 75px;
+    bottom: calc(
+      var(--mobile-stack-bottom, 8px) + var(--mobile-cta-height, 46px) +
+        var(--mobile-float-gap, 8px) + var(--mobile-action-size, 56px) +
+        var(--mobile-float-gap, 8px)
+    );
     right: 10px;
+    left: auto;
     width: 56px;
     height: 56px;
   }

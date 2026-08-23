@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../../../app/axiosinstance";
-import MobileQuickCTA from "../../MobileQuickCTA/MobileQuickCTA";
 import "./HeroCarousel.css";
 
 import slide1Desktop from "../../../assets/car.webp";
@@ -94,7 +93,6 @@ const HeroCarousel = () => {
           </picture>
         ))}
 
-        <MobileQuickCTA attached />
       </section>
 
       {/* Desktop / tablet CTA — fixed to viewport */}

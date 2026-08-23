@@ -32,6 +32,9 @@ export const fetchBlogCategoriesApi = () =>
 export const createBlogCategoryApi = (category) =>
   axiosInstance.post(`${BASE}/categories`, { category });
 
+export const deleteBlogCategoryApi = (id) =>
+  axiosInstance.delete(`${BASE}/categories/${id}`);
+
 export const createBlogApi = (formData) =>
   axiosInstance.post(BASE, formData, {
     headers: { 'Content-Type': 'multipart/form-data' },

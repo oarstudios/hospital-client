@@ -8,6 +8,7 @@ import ScrollToTop from "./components/Common/ScrollToTop";
 import NotFound from "./components/Common/NotFound";
 import WhatsAppFloat from "./components/WhatsAppFloat/WhatsAppFloat";
 import Chatbot from "./components/Chatbot/Chatbot";
+import MobileFloatStack from "./components/MobileFloatStack/MobileFloatStack";
 
 /* ================= HOME ================= */
 import HeroCarousel from "./components/Home/HeroCarousel/HeroCarousel";
@@ -234,7 +235,7 @@ function App() {
             path="/Blogs"
             element={
               <>
-                <BlogBreadcrumb label="Blogs" />
+                <BlogBreadcrumb label="Blogs/News" />
                 <BlogsSection />
                 <BookAppointment />
                 <OurNetworkOfCare />
@@ -260,7 +261,7 @@ function App() {
             path="/blog"
             element={
               <>
-                <BlogBreadcrumb label="Blogs" />
+                <BlogBreadcrumb label="Blogs/News" />
                 <BlogsSection />
                 <OurNetworkOfCare />
                 <RequestCallback />
@@ -445,6 +446,7 @@ function App() {
         const isSuccessPopup = location.pathname.endsWith("/success");
         return (
           <>
+            {!isAdminRoute && !isSuccessPopup && <MobileFloatStack />}
             {!isAdminRoute && !isSuccessPopup && <WhatsAppFloat />}
             {!isAdminRoute && !isSuccessPopup && <Chatbot />}
           </>

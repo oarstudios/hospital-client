@@ -2,14 +2,14 @@ import { addToast } from "../redux/toast/toastSlice";
 
 // ─── Import thunks directly — no hardcoded strings ───────────────────────────
 import { loginUser, registerUser, fetchCurrentUser, logoutUserAsync } from "../redux/auth/authSlice";
-import { createBlog, updateBlog, deleteBlog, restoreBlog, fetchBlogs, fetchBlogById, fetchBlogBySlug, createBlogCategory } from "../redux/blogs/blogsSlice";
+import { createBlog, updateBlog, deleteBlog, restoreBlog, fetchBlogs, fetchBlogById, fetchBlogBySlug, createBlogCategory, deleteBlogCategory } from "../redux/blogs/blogsSlice";
 import { createCancer, updateCancer, deleteCancer, restoreCancer, fetchCancers, fetchCancerById, fetchCancerBySlug } from "../redux/cancers/cancersSlice";
 import { fetchCancerCategories, createCancerCategory, updateCancerCategory, deleteCancerCategory } from "../redux/cancerCategories/cancerCategoriesSlice";
 import { createCenter, updateCenter, deleteCenter, restoreCenter, fetchCenters, fetchActiveCenters, fetchCenterById } from "../redux/centers/centersSlice";
 import { createDoctor, updateDoctor, deleteDoctor, restoreDoctor, fetchDoctors, fetchDoctorById, fetchDoctorBySlug } from "../redux/doctors/doctorsSlice";
 import { createService, updateService, deleteService, restoreService, fetchServices, fetchServiceById, fetchServiceBySlug } from "../redux/services/servicesSlice";
 import { fetchServiceCategories, createServiceCategory, updateServiceCategory, deleteServiceCategory } from "../redux/serviceCategories/serviceCategoriesSlice";
-import { fetchTags, createTag } from "../redux/tags/tagsSlice";
+import { fetchTags, createTag, deleteTag } from "../redux/tags/tagsSlice";
 import { deleteAppointment, updateAppointment } from "../redux/appointments/appointmentsSlice";
 
 // ─── Mutations: show a success toast on fulfilled ─────────────────────────────
@@ -59,8 +59,8 @@ const SUCCESS_MESSAGES = new Map([
   [deleteServiceCategory,  'Service category deleted.'],
 
   // Blog extras
-  [createBlogCategory, 'Category created successfully!'],
-  [createTag,          'Tag created successfully!'],
+  [deleteBlogCategory, 'Category deleted.'],
+  [deleteTag,          'Tag deleted.'],
 
   // Appointments
   [updateAppointment, 'Appointment updated.'],
@@ -79,6 +79,8 @@ const SILENT_THUNKS = new Set([
   fetchServices, fetchServiceById, fetchServiceBySlug,
   fetchServiceCategories,
   fetchTags,
+  createBlogCategory,
+  createTag,
 ]);
 
 // ─── Build lookup sets from thunk objects at startup (cheap, runs once) ───────

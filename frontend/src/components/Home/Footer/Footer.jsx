@@ -202,7 +202,7 @@ const Footer = () => {
           <div className="footer-col">
             <h4>Useful Link</h4>
             <ul>
-              <li><Link to="/blog">ICTC Blogs</Link></li>
+              <li><Link to="/blog">ICTC Blogs/News</Link></li>
               <li><Link to="/privacy-policy">Privacy Policy</Link></li>
             </ul>
           </div>

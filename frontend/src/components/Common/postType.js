@@ -7,6 +7,11 @@ export const displayPostType = (item) => {
 
 export const isNewsPost = (item) => displayPostType(item) === "News";
 
+export const matchesPostTypeFilter = (item, selectedType) => {
+  if (!selectedType) return true;
+  return displayPostType(item) === selectedType;
+};
+
 export const sortByDateDesc = (items) =>
   [...items].sort((a, b) => {
     const dateA = new Date(a.date || 0).getTime();

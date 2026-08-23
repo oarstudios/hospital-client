@@ -6,6 +6,7 @@ import {
   fetchSimilarBlogsApi,
   fetchBlogCategoriesApi,
   createBlogCategoryApi,
+  deleteBlogCategoryApi,
   createBlogApi,
   updateBlogApi,
   deleteBlogApi,
@@ -81,6 +82,18 @@ export const createBlogCategory = createAsyncThunk(
       return res.data.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || 'Failed to create category');
+    }
+  },
+);
+
+export const deleteBlogCategory = createAsyncThunk(
+  'blogs/deleteCategory',
+  async (id, { rejectWithValue }) => {
+    try {
+      await deleteBlogCategoryApi(id);
+      return id;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || 'Failed to delete category');
     }
   },
 );
@@ -206,6 +219,14 @@ const blogsSlice = createSlice({
         }
       })
       .addCase(createBlogCategory.rejected, (state) => { state.categoriesLoading = false; });
+
+    builder
+      .addCase(deleteBlogCategory.fulfilled, (state, action) => {
+        state.categories = state.categories.filter((c) => c.id !== action.payload);
+      })
+      .addCase(deleteBlogCategory.rejected, (state, action) => {
+        state.error = action.payload;
+      });
 
     builder
       .addCase(createBlog.pending, pending)

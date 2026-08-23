@@ -14,6 +14,7 @@ import * as fs from 'fs';
 import cookieParser from 'cookie-parser';
 import { DataSource } from 'typeorm';
 import { seedBlogTags } from './database/seeders/blog-tags.seeder';
+import { cleanupTypePseudoCategories } from './database/seeders/blog-categories.seeder';
 
 async function bootstrap() {
 
@@ -71,6 +72,7 @@ async function bootstrap() {
   // ✅ Run seeders
   const dataSource = app.get(DataSource);
   await seedBlogTags(dataSource);
+  await cleanupTypePseudoCategories(dataSource);
 
   // ✅ Port from env
   const port = configService.get<number>('PORT', 3000);

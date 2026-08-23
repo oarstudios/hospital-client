@@ -1,12 +1,17 @@
 import { Link } from "react-router-dom";
 import "./MobileQuickCTA.css";
 
-const MobileQuickCTA = ({ attached = false }) => {
+const MobileQuickCTA = ({ attached = false, floating = false }) => {
+  const className = [
+    "mobile-quick-cta",
+    attached ? "mobile-quick-cta--attached" : "",
+    floating ? "mobile-quick-cta--floating" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <nav
-      className={`mobile-quick-cta${attached ? " mobile-quick-cta--attached" : ""}`}
-      aria-label="Quick actions"
-    >
+    <nav className={className} aria-label="Quick actions">
       <Link to="/allCenters" className="mobile-quick-cta__btn mobile-quick-cta__btn--locate">
         Locate Centre
       </Link>

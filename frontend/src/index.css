@@ -25,6 +25,15 @@ body {
 
 }
 
+@media (max-width: 768px) {
+  :root {
+    --mobile-cta-height: 46px;
+    --mobile-float-gap: 8px;
+    --mobile-action-size: 56px;
+    --mobile-stack-bottom: 8px;
+  }
+}
+
 
 
 /* 4. Remove list styles */

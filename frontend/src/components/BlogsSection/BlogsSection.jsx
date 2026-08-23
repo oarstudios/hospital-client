@@ -5,12 +5,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchBlogs, fetchBlogCategories } from "../../redux/blogs/blogsSlice";
 import { encryptId } from "../Common/Idcrypto";
 import imgSrc from "../Common/ImgSrc";
-import { displayPostType, sortByDateDesc } from "../Common/postType";
+import {
+  displayPostType,
+  sortByDateDesc,
+  matchesPostTypeFilter,
+} from "../Common/postType";
 import SeoHead from "../Common/SeoHead";
 import { getAllBlogsSeo, blogAlt } from "../../seo/pageSeo";
 import usePublicSeoEnv from "../../seo/usePublicSeoEnv";
 
 const POSTS_PER_PAGE = 6;
+
+const filterItemStyle = (active) => ({
+  cursor: "pointer",
+  fontWeight: active ? "600" : "400",
+  color: active ? "#0f172a" : undefined,
+});
 
 const BlogsSection = () => {
   const navigate = useNavigate();
@@ -25,6 +35,7 @@ const BlogsSection = () => {
     categoriesLoading,
   } = useSelector((state) => state.blogs || {});
 
+  const [selectedType, setSelectedType] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -33,10 +44,9 @@ const BlogsSection = () => {
     dispatch(fetchBlogCategories());
   }, [dispatch]);
 
-  // Reset page when category filter changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedCategory]);
+  }, [selectedType, selectedCategory]);
 
   const sortedBlogs = useMemo(() => {
     const all = Array.isArray(list) ? list : [];
@@ -44,13 +54,15 @@ const BlogsSection = () => {
   }, [list]);
 
   const filteredBlogs = useMemo(() => {
-    if (!selectedCategory) return sortedBlogs;
-    // Filter blogs that have the selected category in their categories array
-    return sortedBlogs.filter((b) => {
-      if (!Array.isArray(b.categories)) return false;
-      return b.categories.some((cat) => cat.id === selectedCategory);
+    return sortedBlogs.filter((post) => {
+      if (!matchesPostTypeFilter(post, selectedType)) return false;
+
+      if (!selectedCategory) return true;
+
+      if (!Array.isArray(post.categories)) return false;
+      return post.categories.some((cat) => cat.id === selectedCategory);
     });
-  }, [sortedBlogs, selectedCategory]);
+  }, [sortedBlogs, selectedType, selectedCategory]);
 
   const totalPages = Math.ceil(filteredBlogs.length / POSTS_PER_PAGE);
   const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
@@ -72,6 +84,15 @@ const BlogsSection = () => {
     });
   };
 
+  const emptyMessage = (() => {
+    if (selectedType && selectedCategory) {
+      return "No posts found for this type and category.";
+    }
+    if (selectedType) return "No posts found for this type.";
+    if (selectedCategory) return "No posts found in this category.";
+    return "No posts available yet.";
+  })();
+
   if (loading) {
     return (
       <section className="blogs-wrapper">
@@ -86,12 +107,36 @@ const BlogsSection = () => {
   return (
     <section className="blogs-wrapper">
       <SeoHead {...listingSeo} />
-      <h2 className="blogs-heading">ICTC Blogs</h2>
+      <div className="blogs-header-row">
+        <h2 className="blogs-heading">ICTC Blogs/News</h2>
+
+        <div className="blogs-type-toggle" role="group" aria-label="Filter by post type">
+          <button
+            type="button"
+            className={!selectedType ? "active" : ""}
+            onClick={() => setSelectedType(null)}
+          >
+            All
+          </button>
+          <button
+            type="button"
+            className={selectedType === "Blog" ? "active" : ""}
+            onClick={() => setSelectedType("Blog")}
+          >
+            Blogs
+          </button>
+          <button
+            type="button"
+            className={selectedType === "News" ? "active" : ""}
+            onClick={() => setSelectedType("News")}
+          >
+            News
+          </button>
+        </div>
+      </div>
 
       <div className="blogs-layout">
-        {/* LEFT SIDEBAR */}
         <aside className="blogs-sidebar">
-          {/* Categories from backend */}
           <div className="sidebar-card">
             <h3>Categories</h3>
 
@@ -100,11 +145,7 @@ const BlogsSection = () => {
             ) : categories.length > 0 ? (
               <ul>
                 <li
-                  style={{
-                    cursor: "pointer",
-                    fontWeight: !selectedCategory ? "600" : "400",
-                    color: !selectedCategory ? "#0f172a" : undefined,
-                  }}
+                  style={filterItemStyle(!selectedCategory)}
                   onClick={() => setSelectedCategory(null)}
                 >
                   All
@@ -112,16 +153,15 @@ const BlogsSection = () => {
                 {categories.map((cat) => (
                   <li
                     key={cat.id}
-                    style={{
-                      cursor: "pointer",
-                      fontWeight: selectedCategory === cat.id ? "600" : "400",
-                      color: selectedCategory === cat.id ? "#0f172a" : undefined,
-                    }}
+                    style={filterItemStyle(selectedCategory === cat.id)}
                     onClick={() =>
-                      setSelectedCategory(selectedCategory === cat.id ? null : cat.id)
+                      setSelectedCategory(
+                        selectedCategory === cat.id ? null : cat.id,
+                      )
                     }
                   >
                     {cat.category}
+                    {typeof cat.count === "number" ? ` (${cat.count})` : ""}
                   </li>
                 ))}
               </ul>
@@ -132,7 +172,6 @@ const BlogsSection = () => {
             )}
           </div>
 
-          {/* Latest Posts */}
           <div className="sidebar-card">
             <h3>Latest Posts</h3>
             {sortedBlogs.length > 0 ? (
@@ -166,7 +205,6 @@ const BlogsSection = () => {
           </div>
         </aside>
 
-        {/* BLOG GRID */}
         <div className="blogs-grid">
           {currentBlogs.length > 0 ? (
             currentBlogs.map((blog) => (
@@ -184,7 +222,9 @@ const BlogsSection = () => {
 
                 <div className="blog-card-body">
                   <div className="tag-row">
-                    <span className={`tag ${displayPostType(blog).toLowerCase()}`}>{displayPostType(blog)}</span>
+                    <span className={`tag ${displayPostType(blog).toLowerCase()}`}>
+                      {displayPostType(blog)}
+                    </span>
                     <span className="date">{formatDate(blog.date)}</span>
                   </div>
 
@@ -194,15 +234,12 @@ const BlogsSection = () => {
             ))
           ) : (
             <div style={{ padding: "40px 0", color: "#64748b" }}>
-              {selectedCategory
-                ? "No posts found in this category."
-                : "No posts available yet."}
+              {emptyMessage}
             </div>
           )}
         </div>
       </div>
 
-      {/* PAGINATION */}
       {totalPages > 1 && (
         <div className="pagination">
           <button

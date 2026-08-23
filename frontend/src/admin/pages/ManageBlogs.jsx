@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import slugify from "slugify";
 import CreatableSelect from "react-select/creatable";
@@ -7,7 +7,6 @@ import axiosInstance from "../../app/axiosinstance";
 
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import Image from "@tiptap/extension-image";
 import Placeholder from "@tiptap/extension-placeholder";
 import Highlight from "@tiptap/extension-highlight";
 import Typography from "@tiptap/extension-typography";
@@ -25,13 +24,20 @@ import {
   deleteBlog,
   fetchBlogCategories,
   createBlogCategory,
+  deleteBlogCategory,
 } from "../../redux/blogs/blogsSlice";
 
-import { fetchTags, createTag } from "../../redux/tags/tagsSlice";
+import { fetchTags, createTag, deleteTag } from "../../redux/tags/tagsSlice";
 import { showToast } from "../../redux/toast/toastSlice";
 import FieldError from "../../components/Common/FieldError";
 import useConfirmDialog from "../../components/Common/useConfirmDialog";
 import { notifyFirstError, clearField } from "../../components/Common/formFeedback";
+import {
+  EditorImage,
+  insertContentImages,
+  updateImageAltAtPos,
+} from "../editor/contentImage";
+import ContentImageAltModal from "../editor/ContentImageAltModal";
 
 import "./ManageBlogs.css";
 
@@ -58,6 +64,11 @@ const emptyBlog = {
   keywords:        "",
 };
 
+const isPendingOption = (option) =>
+  option?.isPending || String(option?.value ?? "").startsWith("new:");
+
+const pendingValue = (label) => `new:${label.trim()}`;
+
 const ManageBlogs = () => {
   const dispatch = useDispatch();
 
@@ -79,7 +90,12 @@ const ManageBlogs = () => {
   const [imageUploading, setImageUploading] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewHTML, setPreviewHTML] = useState("");
-  const [isCreatingTag, setIsCreatingTag] = useState(false);
+  const [pendingContentImages, setPendingContentImages] = useState([]);
+  const [contentImageAltOpen, setContentImageAltOpen] = useState(false);
+  const [contentImageAltMode, setContentImageAltMode] = useState("insert");
+  const [contentImageSaving, setContentImageSaving] = useState(false);
+  const openImageAltEditorRef = useRef(null);
+  const editingImagePosRef = useRef(null);
   const [errors, setErrors] = useState({});
   const [confirm, confirmDialog] = useConfirmDialog();
 
@@ -98,7 +114,7 @@ const ManageBlogs = () => {
         underline: false,
         link: false,
       }),
-      Image,
+      EditorImage,
       Highlight,
       Typography,
       Underline,
@@ -113,9 +129,30 @@ const ManageBlogs = () => {
     onUpdate({ editor }) {
       setPreviewHTML(editor.getHTML());
     },
+    editorProps: {
+      handleClickOn(_view, _pos, node, nodePos) {
+        if (node.type.name === "image" && openImageAltEditorRef.current) {
+          openImageAltEditorRef.current({
+            url: node.attrs.src,
+            alt: node.attrs.alt || "",
+            nodePos,
+          });
+        }
+        return false;
+      },
+    },
   });
 
-  if (!editor) return null;
+  useEffect(() => {
+    openImageAltEditorRef.current = ({ url, alt, nodePos }) => {
+      editingImagePosRef.current = nodePos;
+      setContentImageAltMode("edit");
+      setPendingContentImages([
+        { url, alt, previewUrl: imgSrc(url) },
+      ]);
+      setContentImageAltOpen(true);
+    };
+  }, []);
 
   /* ── Cover image dropzone ─────────────────────────────────────────────── */
   const onDrop = (files) => {
@@ -132,6 +169,8 @@ const ManageBlogs = () => {
     onDrop,
   });
 
+  if (!editor) return null;
+
   /* ── Inline content image upload ──────────────────────────────────────────
    * Same pattern as ManageServices / ManageCancers:
    * upload immediately to /blogs/upload-content-image → get a real server URL
@@ -142,24 +181,41 @@ const ManageBlogs = () => {
    * ─────────────────────────────────────────────────────────────────────────── */
   const addImage = () => {
     const input = document.createElement("input");
-    input.type   = "file";
+    input.type = "file";
     input.accept = "image/*";
+    input.multiple = true;
 
     input.onchange = async () => {
-      const file = input.files?.[0];
-      if (!file) return;
+      const files = Array.from(input.files || []);
+      if (files.length === 0) return;
 
       setImageUploading(true);
       try {
-        const form = new FormData();
-        form.append("file", file);
-        const res = await axiosInstance.post(
-          "/blogs/upload-content-image",
-          form,
-          { headers: { "Content-Type": "multipart/form-data" } }
+        const uploaded = await Promise.all(
+          files.map(async (file) => {
+            const form = new FormData();
+            form.append("file", file);
+            const res = await axiosInstance.post(
+              "/blogs/upload-content-image",
+              form,
+              { headers: { "Content-Type": "multipart/form-data" } },
+            );
+            const url = res.data?.data?.url || res.data?.url;
+            if (!url) return null;
+            return {
+              url,
+              alt: "",
+              previewUrl: imgSrc(url),
+            };
+          }),
         );
-        const url = res.data?.data?.url || res.data?.url;
-        if (url) editor.chain().focus().setImage({ src: url }).run();
+
+        const ready = uploaded.filter(Boolean);
+        if (ready.length === 0) return;
+
+        setContentImageAltMode("insert");
+        setPendingContentImages(ready);
+        setContentImageAltOpen(true);
       } catch {
         dispatch(showToast.error("Image upload failed. Please try again."));
       } finally {
@@ -168,6 +224,40 @@ const ManageBlogs = () => {
     };
 
     input.click();
+  };
+
+  const closeContentImageAltModal = () => {
+    setContentImageAltOpen(false);
+    setPendingContentImages([]);
+    setContentImageSaving(false);
+    setContentImageAltMode("insert");
+    editingImagePosRef.current = null;
+  };
+
+  const confirmContentImageAlt = (images = pendingContentImages) => {
+    setContentImageSaving(true);
+
+    if (contentImageAltMode === "edit") {
+      const saved = updateImageAltAtPos(
+        editor,
+        editingImagePosRef.current,
+        images[0]?.alt || "",
+        images[0]?.url,
+      );
+      if (!saved) {
+        dispatch(showToast.error("Could not update image alt text. Click the image and try again."));
+        setContentImageSaving(false);
+        return;
+      }
+      closeContentImageAltModal();
+      return;
+    }
+
+    insertContentImages(
+      editor,
+      images.map(({ url, alt }) => ({ url, alt: alt.trim() })),
+    );
+    closeContentImageAltModal();
   };
 
   /* ── Helpers ──────────────────────────────────────────────────────────── */
@@ -215,6 +305,114 @@ const ManageBlogs = () => {
   };
 
   /* ── Save ─────────────────────────────────────────────────────────────── */
+  const addLocalCategory = (inputValue) => {
+    const label = inputValue.trim();
+    if (!label) return;
+
+    const existing = categories.find(
+      (c) => c.category.toLowerCase() === label.toLowerCase(),
+    );
+
+    setBlog((prev) => {
+      if (existing) {
+        if (prev.categories.some((c) => c.value === existing.id)) return prev;
+        return {
+          ...prev,
+          categories: [...prev.categories, { value: existing.id, label: existing.category }],
+        };
+      }
+
+      const value = pendingValue(label);
+      if (prev.categories.some((c) => c.label.toLowerCase() === label.toLowerCase())) {
+        return prev;
+      }
+
+      return {
+        ...prev,
+        categories: [...prev.categories, { value, label, isPending: true }],
+      };
+    });
+  };
+
+  const addLocalTag = (inputValue) => {
+    const label = inputValue.trim();
+    if (!label) return;
+
+    const existing = tagList.find(
+      (t) => t.tag.toLowerCase() === label.toLowerCase(),
+    );
+
+    setBlog((prev) => {
+      if (existing) {
+        if (prev.tags.some((t) => t.value === existing.id)) return prev;
+        return {
+          ...prev,
+          tags: [...prev.tags, { value: existing.id, label: existing.tag }],
+        };
+      }
+
+      const value = pendingValue(label);
+      if (prev.tags.some((t) => t.label.toLowerCase() === label.toLowerCase())) {
+        return prev;
+      }
+
+      return {
+        ...prev,
+        tags: [...prev.tags, { value, label, isPending: true }],
+      };
+    });
+  };
+
+  const resolveCategoryIds = async () => {
+    const ids = [];
+
+    for (const category of blog.categories) {
+      if (isPendingOption(category)) {
+        const name = category.label.trim();
+        const existing = categories.find(
+          (c) => c.category.toLowerCase() === name.toLowerCase(),
+        );
+
+        if (existing) {
+          ids.push(existing.id);
+          continue;
+        }
+
+        const created = await dispatch(createBlogCategory(name)).unwrap();
+        if (created?.id) ids.push(created.id);
+      } else {
+        ids.push(Number(category.value));
+      }
+    }
+
+    return ids;
+  };
+
+  const resolveTagIds = async () => {
+    const ids = [];
+
+    for (const tag of blog.tags) {
+      if (isPendingOption(tag)) {
+        const name = tag.label.trim();
+        const existing = tagList.find(
+          (t) => t.tag.toLowerCase() === name.toLowerCase(),
+        );
+
+        if (existing) {
+          ids.push(existing.id);
+          continue;
+        }
+
+        const created = await dispatch(createTag(name)).unwrap();
+        if (created?.id) ids.push(created.id);
+      } else {
+        ids.push(Number(tag.value));
+      }
+    }
+
+    return ids;
+  };
+
   const saveBlog = async () => {
     const nextErrors = {};
     if (!blog.title.trim()) nextErrors.title = `${blog.type || "Post"} title is required.`;
@@ -244,28 +442,29 @@ const ManageBlogs = () => {
     formData.append("keywords",        blog.keywords        || "");
     formData.append("content",         JSON.stringify(content));
 
-    // Tags: each ID as a separate field so the backend @Transform picks them up
-    blog.tags.forEach((tag) => {
-      formData.append("tags", String(tag.value));
-    });
-
-    // Categories: each ID as a separate field
-    blog.categories.forEach((category) => {
-      formData.append("categories", String(category.value));
-    });
-
-    // Cover image — only if a new file was selected
-    if (blog.image?.file) {
-      formData.append("image", blog.image.file);
-    }
-
     try {
+      const [categoryIds, tagIds] = await Promise.all([
+        resolveCategoryIds(),
+        resolveTagIds(),
+      ]);
+
+      categoryIds.forEach((id) => formData.append("categories", String(id)));
+      tagIds.forEach((id) => formData.append("tags", String(id)));
+
+      // Cover image — only if a new file was selected
+      if (blog.image?.file) {
+        formData.append("image", blog.image.file);
+      }
+
       if (editId) {
         await dispatch(updateBlog({ id: editId, data: formData })).unwrap();
         dispatch(fetchBlogs());
       } else {
         await dispatch(createBlog(formData)).unwrap();
       }
+
+      dispatch(fetchBlogCategories());
+      dispatch(fetchTags());
       resetModal();
       setShowModal(false);
     } catch (err) {
@@ -281,6 +480,94 @@ const ManageBlogs = () => {
     });
     if (!ok) return;
     await dispatch(deleteBlog(id));
+  };
+
+  const handleDeleteCategoryOption = async (option) => {
+    if (isPendingOption(option)) {
+      setBlog((prev) => ({
+        ...prev,
+        categories: prev.categories.filter((c) => c.value !== option.value),
+      }));
+      return;
+    }
+
+    const ok = await confirm({
+      title: "Delete this category?",
+      message: `"${option.label}" will be removed from all posts that use it.`,
+      confirmLabel: "Delete",
+    });
+    if (!ok) return;
+
+    try {
+      await dispatch(deleteBlogCategory(option.value)).unwrap();
+      setBlog((prev) => ({
+        ...prev,
+        categories: prev.categories.filter((c) => c.value !== option.value),
+      }));
+    } catch {
+      dispatch(showToast.error("Failed to delete category. Please try again."));
+    }
+  };
+
+  const handleDeleteTagOption = async (option) => {
+    if (isPendingOption(option)) {
+      setBlog((prev) => ({
+        ...prev,
+        tags: prev.tags.filter((t) => t.value !== option.value),
+      }));
+      return;
+    }
+
+    const ok = await confirm({
+      title: "Delete this tag?",
+      message: `"${option.label}" will be removed from all posts that use it.`,
+      confirmLabel: "Delete",
+    });
+    if (!ok) return;
+
+    try {
+      await dispatch(deleteTag(option.value)).unwrap();
+      setBlog((prev) => ({
+        ...prev,
+        tags: prev.tags.filter((t) => t.value !== option.value),
+      }));
+    } catch {
+      dispatch(showToast.error("Failed to delete tag. Please try again."));
+    }
+  };
+
+  const formatOptionWithRemove = (option, { context }, onRemove) => {
+    if (context === "value") return option.label;
+
+    return (
+      <div className="tag-select-option-row">
+        <span className="tag-select-option-label">{option.label}</span>
+        <button
+          type="button"
+          className="tag-select-option-remove"
+          aria-label={`Remove ${option.label}`}
+          onMouseDown={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onRemove(option);
+          }}
+        >
+          ×
+        </button>
+      </div>
+    );
+  };
+
+  const selectMenuPortalProps = {
+    menuPortalTarget: typeof document !== "undefined" ? document.body : null,
+    menuPosition: "fixed",
+    styles: {
+      menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+    },
   };
 
   /* ── Render ───────────────────────────────────────────────────────────── */
@@ -458,24 +745,16 @@ const ManageBlogs = () => {
               <label>Categories</label>
               <CreatableSelect
                 classNamePrefix="tag-select"
+                {...selectMenuPortalProps}
                 options={categoryOptions}
                 isMulti
                 isLoading={categoriesLoading}
                 value={blog.categories}
                 onChange={(val) => setBlog((prev) => ({ ...prev, categories: val || [] }))}
-                onCreateOption={async (inputValue) => {
-                  try {
-                    const newCategory = await dispatch(createBlogCategory(inputValue)).unwrap();
-                    if (newCategory) {
-                      setBlog((prev) => ({
-                        ...prev,
-                        categories: [...prev.categories, { value: newCategory.id, label: newCategory.category }],
-                      }));
-                    }
-                  } catch {
-                    dispatch(showToast.error("Failed to create category. Please try again."));
-                  }
-                }}
+                formatOptionLabel={(option, meta) =>
+                  formatOptionWithRemove(option, meta, handleDeleteCategoryOption)
+                }
+                onCreateOption={addLocalCategory}
                 placeholder="Select or type to add a new category..."
                 formatCreateLabel={(inputValue) => (
                   <span style={{ color: "#2563eb", fontWeight: 600 }}>
@@ -490,28 +769,15 @@ const ManageBlogs = () => {
               <label>Tags</label>
               <CreatableSelect
                 classNamePrefix="tag-select"
+                {...selectMenuPortalProps}
                 options={tagOptions}
                 isMulti
-                isLoading={isCreatingTag}
                 value={blog.tags}
                 onChange={(val) => setBlog((prev) => ({ ...prev, tags: val || [] }))}
-                onCreateOption={async (inputValue) => {
-                  setIsCreatingTag(true);
-                  try {
-                    const newTag = await dispatch(createTag(inputValue)).unwrap();
-                    // newTag may be a brand-new row, or an existing one the
-                    // backend matched by name (case-insensitive) — either
-                    // way it now has a real id we can attach to this blog.
-                    setBlog((prev) => ({
-                      ...prev,
-                      tags: [...prev.tags, { value: newTag.id, label: newTag.tag }],
-                    }));
-                  } catch {
-                    dispatch(showToast.error("Failed to create tag. Please try again."));
-                  } finally {
-                    setIsCreatingTag(false);
-                  }
-                }}
+                formatOptionLabel={(option, meta) =>
+                  formatOptionWithRemove(option, meta, handleDeleteTagOption)
+                }
+                onCreateOption={addLocalTag}
                 placeholder="Select or type to add a new tag..."
                 formatCreateLabel={(inputValue) => (
                   <span style={{ color: "#2563eb", fontWeight: 600 }}>
@@ -549,6 +815,12 @@ const ManageBlogs = () => {
                   {imageUploading ? "Uploading…" : "Image"}
                 </button>
               </div>
+
+              <p className="editor-image-hint">
+                <span className="editor-image-hint-icon" aria-hidden="true">ⓘ</span>
+                Click any image in the editor to add or edit SEO alt text.
+                Images without alt are highlighted in orange.
+              </p>
 
               <EditorContent editor={editor} className="notion-editor" />
             </div>
@@ -623,6 +895,15 @@ const ManageBlogs = () => {
         </div>
       )}
       {confirmDialog}
+
+      <ContentImageAltModal
+        open={contentImageAltOpen}
+        mode={contentImageAltMode}
+        images={pendingContentImages}
+        onConfirm={confirmContentImageAlt}
+        onCancel={closeContentImageAltModal}
+        saving={contentImageSaving}
+      />
     </>
   );
 };

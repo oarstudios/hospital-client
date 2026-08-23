@@ -138,6 +138,11 @@ export class BlogsController {
     return this.service.createCategory(category);
   }
 
+  @Delete('categories/:id')
+  deleteCategory(@Param('id', ParseIntPipe) id: number) {
+    return this.service.deleteCategory(id);
+  }
+
   @Get('slug/:slug')
   findBySlug(@Param('slug') slug: string) {
     return this.service.findBySlug(slug);

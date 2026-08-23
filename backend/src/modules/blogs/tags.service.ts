@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, ILike } from 'typeorm';
 import { Tag } from '../blogs/entities/tag.entity';
+import { BlogTag } from '../blogs/entities/blog-tag.entity';
 import { CreateTagDto } from './dto/create-tag.dto';
 
 @Injectable()
@@ -9,6 +10,8 @@ export class TagsService {
   constructor(
     @InjectRepository(Tag)
     private readonly repo: Repository<Tag>,
+    @InjectRepository(BlogTag)
+    private readonly blogTagRepo: Repository<BlogTag>,
   ) {}
 
   findAll() {
@@ -31,5 +34,15 @@ export class TagsService {
     if (existing) return existing;
 
     return this.repo.save({ tag: name });
+  }
+
+  async remove(id: number) {
+    const tag = await this.repo.findOne({ where: { id } });
+    if (!tag) throw new NotFoundException('Tag not found');
+
+    await this.blogTagRepo.delete({ tagId: id });
+    await this.repo.remove(tag);
+
+    return { message: 'Tag deleted successfully' };
   }
 }

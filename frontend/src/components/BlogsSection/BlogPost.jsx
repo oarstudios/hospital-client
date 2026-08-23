@@ -19,7 +19,7 @@ import doctorImg from "../../assets/High res images 1.png";
 // TipTap — used to convert stored JSON back to HTML for rendering
 import { generateHTML } from "@tiptap/core";
 import StarterKit from "@tiptap/starter-kit";
-import Image from "@tiptap/extension-image";
+import { EditorImage } from "../../admin/editor/contentImage";
 import Highlight from "@tiptap/extension-highlight";
 import Typography from "@tiptap/extension-typography";
 import TaskList from "@tiptap/extension-task-list";
@@ -38,7 +38,7 @@ const BLOG_EXTENSIONS = [
     underline: false,
     link: false,
   }),
-  Image,
+  EditorImage,
   Highlight,
   Typography,
   Underline,

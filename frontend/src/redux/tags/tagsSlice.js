@@ -28,6 +28,18 @@ export const createTag = createAsyncThunk(
   },
 );
 
+export const deleteTag = createAsyncThunk(
+  'tags/delete',
+  async (id, { rejectWithValue }) => {
+    try {
+      await axiosInstance.delete(`/tags/${id}`);
+      return id;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || 'Failed to delete tag');
+    }
+  },
+);
+
 const tagsSlice = createSlice({
   name: 'tags',
   initialState: {
@@ -61,6 +73,14 @@ const tagsSlice = createSlice({
         if (!alreadyInList) state.list.push(newTag);
       })
       .addCase(createTag.rejected, (state, action) => {
+        state.error = action.payload;
+      });
+
+    builder
+      .addCase(deleteTag.fulfilled, (state, action) => {
+        state.list = state.list.filter((t) => t.id !== action.payload);
+      })
+      .addCase(deleteTag.rejected, (state, action) => {
         state.error = action.payload;
       });
   },

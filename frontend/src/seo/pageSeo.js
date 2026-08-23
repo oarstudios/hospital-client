@@ -427,9 +427,9 @@ export function getAllCancersSeo({ siteUrl = "" } = {}) {
 
 export function getAllBlogsSeo({ siteUrl = "" } = {}) {
   return listingSeo(
-    `Blogs | ${SITE_NAME}`,
+    `ICTC Blogs/News | ${SITE_NAME}`,
     "Cancer care articles, news, and expert updates from Indian Cancer Treatment Centre.",
-    "/Blogs",
+    "/blog",
     siteUrl,
   );
 }
@@ -561,7 +561,7 @@ export function buildSitemap(
   const urls = [
     { loc: `${origin}/AllService`, priority: "0.8" },
     { loc: `${origin}/CancerTypes`, priority: "0.8" },
-    { loc: `${origin}/Blogs`, priority: "0.8" },
+    { loc: `${origin}/blog`, priority: "0.8" },
     { loc: `${origin}/OurDoctors`, priority: "0.8" },
     { loc: `${origin}/OurCentres`, priority: "0.8" },
     { loc: `${origin}/aboutUs`, priority: "0.7" },

@@ -40,6 +40,8 @@ export class BlogsService {
     private readonly dataSource: DataSource,
   ) {}
 
+  private readonly TYPE_PSEUDO_CATEGORIES = new Set(['News', 'Blogs']);
+
   private async attachBlogData(blogs: Blog[]) {
     if (!blogs.length) return [];
 
@@ -322,12 +324,35 @@ export class BlogsService {
   }
 
   /**
-   * Return all categories with their IDs.
+   * Return all categories with post counts, sorted by count (desc).
    */
   async findCategories() {
-    return this.masterCategoryRepo.find({
-      order: { category: 'ASC' },
-    });
+    const categories = await this.masterCategoryRepo.find();
+
+    const counts = await this.categoryRepo
+      .createQueryBuilder('bc')
+      .select('bc.categoryId', 'categoryId')
+      .addSelect('COUNT(DISTINCT bc.blogId)', 'count')
+      .innerJoin(Blog, 'b', 'b.id = bc.blogId AND b.isDeleted = :isDeleted', {
+        isDeleted: DB_CONSTANTS.IS_DELETED.NO,
+      })
+      .groupBy('bc.categoryId')
+      .getRawMany<{ categoryId: string; count: string }>();
+
+    const countMap = new Map(
+      counts.map((row) => [Number(row.categoryId), Number(row.count)]),
+    );
+
+    return categories
+      .filter((category) => !this.TYPE_PSEUDO_CATEGORIES.has(category.category))
+      .map((category) => ({
+        ...category,
+        count: countMap.get(category.id) || 0,
+      }))
+      .sort((a, b) => {
+        if (b.count !== a.count) return b.count - a.count;
+        return a.category.localeCompare(b.category);
+      });
   }
 
   async update(id: number, dto: UpdateBlogDto, files?: any) {
@@ -465,6 +490,16 @@ export class BlogsService {
     }
 
     return this.masterCategoryRepo.save({ category });
+  }
+
+  async deleteCategory(id: number) {
+    const category = await this.masterCategoryRepo.findOne({ where: { id } });
+    if (!category) throw new NotFoundException('Category not found');
+
+    await this.categoryRepo.delete({ categoryId: id });
+    await this.masterCategoryRepo.remove(category);
+
+    return { message: 'Category deleted successfully' };
   }
 
   async getAllCategories() {

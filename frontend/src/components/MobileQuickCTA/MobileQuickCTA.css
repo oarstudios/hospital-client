@@ -17,13 +17,28 @@
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
   }
 
+  .mobile-quick-cta--floating {
+    display: flex;
+    position: fixed;
+    left: 10px;
+    right: 10px;
+    bottom: var(--mobile-stack-bottom, 8px);
+    z-index: 1200;
+    border: 1px solid rgba(18, 16, 18, 1);
+    border-radius: 999px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    pointer-events: auto;
+  }
+
   .mobile-quick-cta__btn {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 58px;
-    padding: 8px 6px;
+    min-height: 46px;
+    padding: 4px 6px;
     text-align: center;
     font-family: "DM Sans", sans-serif;
     font-size: 11px;
@@ -58,7 +73,7 @@
 @media (max-width: 360px) {
   .mobile-quick-cta__btn {
     font-size: 10px;
-    min-height: 54px;
-    padding: 8px 4px;
+    min-height: 42px;
+    padding: 4px 4px;
   }
 }
