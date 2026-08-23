@@ -145,9 +145,9 @@ const BlogPost = () => {
                 <div className="ictc-blogpost-meta-tags">
                   <span className={`tag ${displayPostType(blog).toLowerCase()}`}>{displayPostType(blog)}</span>
 
-                  {blog.tags?.map((tag) => (
-                    <span key={tag.id} className="tag childhood-cancer">
-                      {tag.tag}
+                  {blog.categories?.map((cat) => (
+                    <span key={cat.id} className="tag childhood-cancer">
+                      {cat.category}
                     </span>
                   ))}
 
@@ -239,14 +239,15 @@ const BlogPost = () => {
         </aside>
       </main>
 
-      {/* TAGS */}
-      <section className="ictc-blogpost-tags-section">
-        <div className="ictc-blogpost-tags-list">
-          {blog.tags?.map((tag) => (
-            <span key={tag.id}>{tag.tag}</span>
-          ))}
-        </div>
-      </section>
+      {blog.tags?.length > 0 && (
+        <section className="ictc-blogpost-tags-section">
+          <div className="ictc-blogpost-tags-list">
+            {blog.tags.map((tag) => (
+              <span key={tag.id}>{tag.tag}</span>
+            ))}
+          </div>
+        </section>
+      )}
     </>
   );
 };

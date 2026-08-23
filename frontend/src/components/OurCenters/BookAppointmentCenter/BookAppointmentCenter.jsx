@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { createAppointment } from "../../../redux/appointments/appointmentsSlice";
 import { showToast } from "../../../redux/toast/toastSlice";
 import { notifyFirstError, clearField, INDIAN_PHONE } from "../../Common/formFeedback";
+import { postToBookingSheet } from "../../Common/bookingSheet";
 import "./BookAppointmentCenter.css";
 
 const BookAppointmentCenter = ({ center }) => {
@@ -46,7 +47,17 @@ const BookAppointmentCenter = ({ center }) => {
     setIsSubmitting(true);
 
     try {
-      const result = await dispatch(
+      const sheetPayload = {
+        patientname: form.name,
+        age: form.age,
+        phone: form.phone,
+        area: center?.area,
+        center: center?.name,
+        date: form.date,
+        source: "Center_Page",
+      };
+
+      const savePromise = dispatch(
         createAppointment({
           patientName: form.name,
           age: Number(form.age),
@@ -59,7 +70,17 @@ const BookAppointmentCenter = ({ center }) => {
         })
       );
 
-      if (createAppointment.fulfilled.match(result)) {
+      let sheetOk = false;
+      try {
+        const sheetResult = await postToBookingSheet(sheetPayload);
+        sheetOk = sheetResult?.status === "success";
+      } catch {
+        sheetOk = false;
+      }
+
+      const result = await savePromise;
+
+      if (createAppointment.fulfilled.match(result) || sheetOk) {
         dispatch(showToast.success(`Appointment booked at ${center?.name}.`));
         setForm({ name: "", age: "", phone: "", date: "" });
         setErrors({});

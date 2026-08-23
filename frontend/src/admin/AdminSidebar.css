@@ -5,12 +5,18 @@
 .admin-sidebar {
   width: 280px;
   height: 100vh;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
   background: #2d2a2e;
   padding: 20px;
   color: white;
   display: flex;
   flex-direction: column;
   transition: 0.3s;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /* COLLAPSED */

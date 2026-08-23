@@ -35,7 +35,7 @@ export function matchSeoRoute(pathname) {
   if (m) return { type: "blog", token: m[1], slug: decodeURIComponent(m[2]) };
   m = path.match(BLOG_SLUG_RE);
   if (m) return { type: "blog", slug: decodeURIComponent(m[1]) };
-  if (ALL_NEWS_RE.test(path)) return { type: "all-news" };
+  if (ALL_NEWS_RE.test(path)) return { type: "all-blogs" };
   if (ALL_BLOGS_RE.test(path)) return { type: "all-blogs" };
 
   m = path.match(DOCTOR_DETAIL_RE);
@@ -428,19 +428,14 @@ export function getAllCancersSeo({ siteUrl = "" } = {}) {
 export function getAllBlogsSeo({ siteUrl = "" } = {}) {
   return listingSeo(
     `Blogs | ${SITE_NAME}`,
-    "Cancer care articles and expert blogs from Indian Cancer Treatment Centre.",
+    "Cancer care articles, news, and expert updates from Indian Cancer Treatment Centre.",
     "/Blogs",
     siteUrl,
   );
 }
 
-export function getAllNewsSeo({ siteUrl = "" } = {}) {
-  return listingSeo(
-    `News | ${SITE_NAME}`,
-    "Latest news from Indian Cancer Treatment Centre.",
-    "/news",
-    siteUrl,
-  );
+export function getAllNewsSeo(opts = {}) {
+  return getAllBlogsSeo(opts);
 }
 
 export function getAllDoctorsSeo({ siteUrl = "" } = {}) {
@@ -567,7 +562,6 @@ export function buildSitemap(
     { loc: `${origin}/AllService`, priority: "0.8" },
     { loc: `${origin}/CancerTypes`, priority: "0.8" },
     { loc: `${origin}/Blogs`, priority: "0.8" },
-    { loc: `${origin}/news`, priority: "0.8" },
     { loc: `${origin}/OurDoctors`, priority: "0.8" },
     { loc: `${origin}/OurCentres`, priority: "0.8" },
     { loc: `${origin}/aboutUs`, priority: "0.7" },

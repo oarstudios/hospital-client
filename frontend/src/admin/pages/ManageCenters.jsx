@@ -9,7 +9,7 @@ import {
 } from "../../redux/centers/centersSlice";
 import FieldError from "../../components/Common/FieldError";
 import useConfirmDialog from "../../components/Common/useConfirmDialog";
-import { notifyFirstError, clearField, INDIAN_PHONE } from "../../components/Common/formFeedback";
+import { notifyFirstError, clearField, INDIAN_PHONE, CENTER_AREAS, getSelectError } from "../../components/Common/formFeedback";
 
 import "./ManageCenters.css";
 
@@ -106,7 +106,11 @@ const ManageCenters = () => {
     if (form.rating && (Number(form.rating) < 0 || Number(form.rating) > 5)) {
       nextErrors.rating = "Rating must be between 0 and 5.";
     }
-    if (!form.area) nextErrors.area = "Please select an area.";
+    const areaError = getSelectError(form.area, {
+      label: "an area",
+      allowedValues: CENTER_AREAS,
+    });
+    if (areaError) nextErrors.area = areaError;
 
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length) {
@@ -198,6 +202,7 @@ const ManageCenters = () => {
     setErrors({});
     setForm({
       ...center,
+      area: center.area || "",
       // ✅ Fix 1: use API_BASE instead of hardcoded localhost
       heroBg: center.heroImage
         ? { url: `${API_BASE}${center.heroImage}` }
@@ -371,10 +376,14 @@ const ManageCenters = () => {
               <div className="admin-form-field">
                 <label className="admin-field-label">Area *</label>
                 <select name="area" className={errors.area ? "input-invalid" : ""} value={form.area} onChange={handleChange}>
-                  <option value="">Select Area</option>
-                  <option value="Mumbai">Mumbai</option>
-                  <option value="Navi Mumbai">Navi Mumbai</option>
-                  <option value="Thane">Thane</option>
+                  <option value="" disabled hidden>
+                    Select Area
+                  </option>
+                  {CENTER_AREAS.map((area) => (
+                    <option key={area} value={area}>
+                      {area}
+                    </option>
+                  ))}
                 </select>
                 <FieldError message={errors.area} />
               </div>

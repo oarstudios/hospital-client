@@ -1,33 +1,26 @@
 .admin-container {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   background: #f4f6f9;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
 }
 
 .admin-main {
   flex: 1;
-  /* margin-left: 260px; */
+  min-width: 0;
+  min-height: 0;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .admin-content {
-  padding: 30px;
-}
-
-.admin-main {
   flex: 1;
-  /* margin-left: 260px; */
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.admin-content {
+  min-height: 0;
   padding: 30px;
-  flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .field-error {

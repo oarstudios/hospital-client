@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../../../app/axiosinstance";
+import MobileQuickCTA from "../../MobileQuickCTA/MobileQuickCTA";
 import "./HeroCarousel.css";
 
 import slide1Desktop from "../../../assets/car.webp";
@@ -29,22 +30,42 @@ const HeroCarousel = () => {
     return `${base}${normalized}`;
   };
 
+  const normalizeSlides = (raw) => {
+    if (!Array.isArray(raw)) return [];
+    return raw
+      .map((item) => {
+        if (typeof item === "string" && item.trim()) {
+          const url = toImageUrl(item.trim());
+          return { desktop: url, tablet: url, mobile: url };
+        }
+        if (item && typeof item === "object") {
+          const desktop = toImageUrl(item.desktop);
+          const tablet = toImageUrl(item.tablet || item.desktop);
+          const mobile = toImageUrl(item.mobile || item.tablet || item.desktop);
+          if (!desktop && !tablet && !mobile) return null;
+          return {
+            desktop: desktop || tablet || mobile,
+            tablet: tablet || desktop || mobile,
+            mobile: mobile || tablet || desktop,
+          };
+        }
+        return null;
+      })
+      .filter(Boolean);
+  };
+
   useEffect(() => {
     const load = async () => {
       try {
         const res = await axios.get("/others");
         const payload = res?.data?.data ?? res?.data ?? {};
-        const carousel = Array.isArray(payload.carousel) ? payload.carousel : [];
-        if (carousel.length) {
-          const slidesFromApi = carousel.map((name) => {
-            const url = toImageUrl(name);
-            return { desktop: url, tablet: url, mobile: url };
-          });
+        const slidesFromApi = normalizeSlides(payload.carousel);
+        if (slidesFromApi.length) {
           setSlides(slidesFromApi);
         } else {
           setSlides(defaultSlides);
         }
-      } catch (err) {
+      } catch {
         setSlides(defaultSlides);
       }
     };
@@ -60,9 +81,8 @@ const HeroCarousel = () => {
   }, [slides.length]);
 
   return (
-    <>
+    <div className="hero-carousel-shell">
       <section className="hero-carousel">
-        {/* SLIDES */}
         {slides.map((slide, index) => (
           <picture
             key={index}
@@ -73,9 +93,11 @@ const HeroCarousel = () => {
             <img src={slide.desktop} alt={`Hero slide ${index + 1}`} />
           </picture>
         ))}
+
+        <MobileQuickCTA attached />
       </section>
 
-      {/* QUICK CTA — fixed to the viewport, not the hero */}
+      {/* Desktop / tablet CTA — fixed to viewport */}
       {showCTA && (
         <div className="quick-cta">
           <button className="cta-close" onClick={() => setShowCTA(false)}>
@@ -95,7 +117,7 @@ const HeroCarousel = () => {
           </button>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

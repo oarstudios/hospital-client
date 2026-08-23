@@ -168,7 +168,6 @@ const Navbar = () => {
             <li onClick={() => handleNavigate("/ourDoctors")}>OUR DOCTORS</li>
 
             <li onClick={() => handleNavigate("/blog")}>BLOGS</li>
-            <li onClick={() => handleNavigate("/news")}>NEWS</li>
           </ul>
 
           {/* DESKTOP BUTTON */}
@@ -203,7 +202,6 @@ const Navbar = () => {
             <li onClick={() => toggleMenu("cancer")}>Cancer Types</li>
             <li onClick={() => handleNavigate("/ourDoctors")}>Our Doctors</li>
             <li onClick={() => handleNavigate("/blog")}>Blogs</li>
-            <li onClick={() => handleNavigate("/news")}>News</li>
 
             <button
               className="appointment-btn mobile-btn"

@@ -3,14 +3,41 @@ import { useDispatch } from "react-redux";
 import axios from "../../app/axiosinstance";
 import { showToast } from "../../redux/toast/toastSlice";
 import useConfirmDialog from "../../components/Common/useConfirmDialog";
+import { getApiErrorMessage } from "../../components/Common/formFeedback";
 import "./ManageOthers.css";
+
+const LAST_SLIDE_MESSAGE = "You can't delete the last carousel slide.";
+
+const EMPTY_SLIDE_FILES = { desktop: null, tablet: null, mobile: null };
+
+const normalizeSlides = (raw) => {
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .map((item) => {
+      if (typeof item === "string" && item.trim()) {
+        return { desktop: item, tablet: item, mobile: item };
+      }
+      if (item && typeof item === "object") {
+        const desktop = String(item.desktop || "").trim();
+        const tablet = String(item.tablet || desktop).trim();
+        const mobile = String(item.mobile || tablet || desktop).trim();
+        if (!desktop && !tablet && !mobile) return null;
+        return {
+          desktop: desktop || tablet || mobile,
+          tablet: tablet || desktop || mobile,
+          mobile: mobile || tablet || desktop,
+        };
+      }
+      return null;
+    })
+    .filter(Boolean);
+};
 
 const ManageOthers = () => {
   const dispatch = useDispatch();
   const [sheetLink, setSheetLink] = useState("");
-  const [files, setFiles] = useState([]);
-  const [previews, setPreviews] = useState([]);
   const [carousel, setCarousel] = useState([]);
+  const [newSlideFiles, setNewSlideFiles] = useState(EMPTY_SLIDE_FILES);
   const [loading, setLoading] = useState(false);
   const [confirm, confirmDialog] = useConfirmDialog();
 
@@ -32,52 +59,63 @@ const ManageOthers = () => {
       const payload = res?.data?.data ?? res?.data ?? {};
       if (payload) {
         setSheetLink(payload.sheetLink || "");
-        setCarousel(Array.isArray(payload.carousel) ? payload.carousel : []);
+        setCarousel(normalizeSlides(payload.carousel));
       }
     } catch (err) {
       console.error(err);
     }
   };
 
-  const handleFiles = (e) => {
-    const list = Array.from(e.target.files || []);
-    setFiles(list);
-    setPreviews(list.map((file) => ({ id: `${file.name}-${file.lastModified}-${file.size}`, file, src: URL.createObjectURL(file) })));
-  };
-
-  const removeSelectedPreview = (index) => {
-    setFiles((prev) => prev.filter((_, i) => i !== index));
-    setPreviews((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const reorderCarouselImages = async (nextOrder) => {
+  const saveSlideOrder = async (nextSlides) => {
     try {
-      await axios.put("/others/carousel/order", { carousel: nextOrder });
-      await fetchData();
+      await axios.put("/others/carousel/slides/order", { carousel: nextSlides });
+      setCarousel(nextSlides);
       return true;
     } catch (err) {
       console.error(err);
-      dispatch(showToast.error("Could not save image order."));
+      dispatch(showToast.error("Could not save slide order."));
       return false;
     }
   };
 
-  const uploadImages = async () => {
-    if (!files.length) {
-      dispatch(showToast.error("Please select at least one image."));
+  const handleNewSlideFile = (variant, file) => {
+    if (!file) return;
+    setNewSlideFiles((prev) => ({ ...prev, [variant]: file }));
+  };
+
+  const clearNewSlideForm = () => {
+    setNewSlideFiles(EMPTY_SLIDE_FILES);
+  };
+
+  const hasNewSlideImage =
+    Boolean(newSlideFiles.desktop) ||
+    Boolean(newSlideFiles.tablet) ||
+    Boolean(newSlideFiles.mobile);
+
+  const uploadNewSlide = async () => {
+    if (!hasNewSlideImage) {
+      dispatch(
+        showToast.error(
+          "Upload at least one image for the slide (desktop, tablet, or mobile).",
+        ),
+      );
       return;
     }
+
     setLoading(true);
     try {
       const form = new FormData();
-      files.forEach((file) => form.append("carousel", file));
-      await axios.post("/others/carousel", form, {
+      if (newSlideFiles.desktop) form.append("desktop", newSlideFiles.desktop);
+      if (newSlideFiles.tablet) form.append("tablet", newSlideFiles.tablet);
+      if (newSlideFiles.mobile) form.append("mobile", newSlideFiles.mobile);
+
+      await axios.post("/others/carousel/slide", form, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      setFiles([]);
-      setPreviews([]);
+
+      clearNewSlideForm();
       await fetchData();
-      dispatch(showToast.success("Images uploaded successfully."));
+      dispatch(showToast.success("Carousel slide added."));
     } catch (err) {
       console.error(err);
       dispatch(showToast.error("Upload failed. Please try again."));
@@ -86,38 +124,65 @@ const ManageOthers = () => {
     }
   };
 
-  const deleteImage = async (name) => {
-    const ok = await confirm({
-      title: "Delete this image?",
-      message: "It will be removed from the carousel.",
-      confirmLabel: "Delete",
-    });
-    if (!ok) return;
-    try {
-      await axios.delete(`/others/carousel/${encodeURIComponent(name)}`);
-      setCarousel((prev) => prev.filter((item) => item !== name));
-      await fetchData();
-      dispatch(showToast.success("Image deleted."));
-    } catch (err) {
-      console.error(err);
-      dispatch(showToast.error("Delete failed. Please try again."));
-    }
-  };
-
-  const replaceImage = async (oldName, file) => {
+  const replaceSlideVariant = async (slideIndex, variant, file) => {
     if (!file) return;
     const form = new FormData();
-    form.append("carousel", file);
+    form.append(variant, file);
+
     try {
-      await axios.put(`/others/carousel/${encodeURIComponent(oldName)}`, form, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      await axios.put(
+        `/others/carousel/slide/${slideIndex}/${variant}`,
+        form,
+        { headers: { "Content-Type": "multipart/form-data" } },
+      );
       await fetchData();
-      dispatch(showToast.success("Image replaced."));
+      dispatch(showToast.success(`${variant} image updated.`));
     } catch (err) {
       console.error(err);
       dispatch(showToast.error("Replace failed. Please try again."));
     }
+  };
+
+  const deleteSlide = async (slideIndex) => {
+    if (carousel.length <= 1) {
+      dispatch(showToast.error(LAST_SLIDE_MESSAGE));
+      return;
+    }
+
+    const ok = await confirm({
+      title: "Delete this slide?",
+      message: "Desktop, tablet, and mobile images for this slide will be removed.",
+      confirmLabel: "Delete",
+    });
+    if (!ok) return;
+
+    if (carousel.length <= 1) {
+      dispatch(showToast.error(LAST_SLIDE_MESSAGE));
+      return;
+    }
+
+    try {
+      await axios.delete(`/others/carousel/slide/${slideIndex}`);
+      await fetchData();
+      dispatch(showToast.success("Slide deleted."));
+    } catch (err) {
+      console.error(err);
+      const apiMessage = getApiErrorMessage(err, "");
+      const isLastSlideError =
+        /last carousel slide|at least one carousel slide/i.test(apiMessage);
+
+      dispatch(
+        showToast.error(isLastSlideError ? LAST_SLIDE_MESSAGE : apiMessage || "Delete failed. Please try again."),
+      );
+    }
+  };
+
+  const moveSlide = async (index, direction) => {
+    const target = index + direction;
+    if (target < 0 || target >= carousel.length) return;
+    const nextSlides = [...carousel];
+    [nextSlides[index], nextSlides[target]] = [nextSlides[target], nextSlides[index]];
+    await saveSlideOrder(nextSlides);
   };
 
   const saveSheetLink = async () => {
@@ -132,6 +197,32 @@ const ManageOthers = () => {
       console.error(err);
       dispatch(showToast.error("Could not save the sheet link."));
     }
+  };
+
+  const renderVariantSlot = (slideIndex, variant, filename, label) => {
+    const src = buildImageUrl(filename);
+    return (
+      <div className="carousel-variant" key={`${slideIndex}-${variant}`}>
+        <span className="carousel-variant__label">{label}</span>
+        {src ? (
+          <img src={src} alt={`${label} slide ${slideIndex + 1}`} />
+        ) : (
+          <div className="carousel-variant__empty">No image</div>
+        )}
+        <label className="replace-btn">
+          Replace
+          <input
+            type="file"
+            accept="image/*"
+            style={{ display: "none" }}
+            onChange={(e) => {
+              replaceSlideVariant(slideIndex, variant, e.target.files?.[0]);
+              e.target.value = "";
+            }}
+          />
+        </label>
+      </div>
+    );
   };
 
   return (
@@ -152,51 +243,99 @@ const ManageOthers = () => {
       </section>
 
       <section className="card">
-        <h3>Carousel Images</h3>
-        <input type="file" multiple accept="image/*" onChange={handleFiles} />
+        <h3>Hero Carousel</h3>
+        <p className="carousel-help">
+          Upload separate images for desktop, tablet, and mobile when you can.
+          Each slide needs at least one image, and the carousel must always keep
+          at least one slide.
+        </p>
 
-        {previews.length > 0 && (
-          <div className="previews">
-            {previews.map((item, i) => (
-              <div className="preview-item" key={item.id || `${item.src}-${i}`}>
-                <button type="button" className="remove-btn" onClick={() => removeSelectedPreview(i)} aria-label="Remove selected image">×</button>
-                <img src={item.src} alt={`preview-${i}`} />
+        <div className="carousel-add">
+          <h4>Add New Slide</h4>
+          <div className="carousel-add-grid">
+            {[
+              { key: "desktop", label: "Desktop" },
+              { key: "tablet", label: "Tablet" },
+              { key: "mobile", label: "Mobile" },
+            ].map(({ key, label }) => (
+              <div className="carousel-add-field" key={key}>
+                <label htmlFor={`new-slide-${key}`}>{label}</label>
+                <input
+                  id={`new-slide-${key}`}
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleNewSlideFile(key, e.target.files?.[0] || null)}
+                />
+                {newSlideFiles[key] && (
+                  <img
+                    src={URL.createObjectURL(newSlideFiles[key])}
+                    alt={`${label} preview`}
+                    className="carousel-add-preview"
+                  />
+                )}
               </div>
             ))}
           </div>
-        )}
-
-        <div className="existing">
-          <h4>Existing Images</h4>
-          <div className="previews">
-            {carousel.map((name, index) => {
-              const src = buildImageUrl(name);
-              return (
-                <div
-                  className="existing-item"
-                  key={`${name}-${index}`}
-                >
-                  <button type="button" className="remove-btn" onClick={() => deleteImage(name)} aria-label={`Remove ${name}`}>×</button>
-                  <img src={src} alt={name} />
-                  <div className="meta">
-                    <span className="fname">{name}</span>
-                    <div className="btns">
-                      <label className="replace-btn">
-                        Replace
-                        <input type="file" accept="image/*" style={{ display: 'none' }} onChange={(e) => replaceImage(name, e.target.files?.[0])} />
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+          <div className="actions">
+            <button
+              type="button"
+              onClick={uploadNewSlide}
+              disabled={loading || !hasNewSlideImage}
+            >
+              {loading ? "Uploading..." : "Add Slide"}
+            </button>
           </div>
         </div>
 
-        <div className="actions">
-          <button type="button" onClick={uploadImages} disabled={loading || !files.length}>
-            {loading ? "Uploading..." : "Upload Images"}
-          </button>
+        <div className="existing">
+          <h4>Existing Slides</h4>
+          {carousel.length === 0 ? (
+            <p className="carousel-empty">No carousel slides yet.</p>
+          ) : (
+            carousel.map((slide, slideIndex) => (
+              <div className="carousel-slide-card" key={`slide-${slideIndex}`}>
+                <div className="carousel-slide-header">
+                  <strong>Slide {slideIndex + 1}</strong>
+                  <div className="carousel-slide-actions">
+                    <button
+                      type="button"
+                      className="move-btn"
+                      onClick={() => moveSlide(slideIndex, -1)}
+                      disabled={slideIndex === 0}
+                    >
+                      ↑
+                    </button>
+                    <button
+                      type="button"
+                      className="move-btn"
+                      onClick={() => moveSlide(slideIndex, 1)}
+                      disabled={slideIndex === carousel.length - 1}
+                    >
+                      ↓
+                    </button>
+                    <button
+                      type="button"
+                      className={`delete-slide-btn${carousel.length <= 1 ? " is-disabled" : ""}`}
+                      onClick={() => deleteSlide(slideIndex)}
+                      title={
+                        carousel.length <= 1
+                          ? LAST_SLIDE_MESSAGE
+                          : "Delete slide"
+                      }
+                    >
+                      Delete Slide
+                    </button>
+                  </div>
+                </div>
+
+                <div className="carousel-slide-grid">
+                  {renderVariantSlot(slideIndex, "desktop", slide.desktop, "Desktop")}
+                  {renderVariantSlot(slideIndex, "tablet", slide.tablet, "Tablet")}
+                  {renderVariantSlot(slideIndex, "mobile", slide.mobile, "Mobile")}
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </section>
       {confirmDialog}

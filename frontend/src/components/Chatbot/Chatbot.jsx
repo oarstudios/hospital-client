@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { postToBookingSheet } from "../Common/bookingSheet";
 import "./Chatbot.css";
 
 /* ASSETS */
@@ -270,17 +271,7 @@ export default function Chatbot() {
     setMessages((prev) => [...prev, { from: "user", text: d }]);
 
     try {
-      await fetch(
-        "https://script.google.com/macros/s/AKfycbwvMAutv6LdpzjigmueH0mBXUXNBn0YYh7zhQgLl4BoJ6fldYbuFH_SSBqB4-5U44aw/exec",
-        {
-          method: "POST",
-          mode: "no-cors",
-          headers: {
-            "Content-Type": "text/plain;charset=utf-8",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      await postToBookingSheet(payload, { noCors: true });
 
       setMessages((prev) => [
         ...prev,

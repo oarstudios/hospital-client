@@ -1,4 +1,15 @@
-import { Controller, Get, Post, UseInterceptors, UploadedFiles, Body, Put, Delete, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  UseInterceptors,
+  UploadedFiles,
+  Body,
+  Put,
+  Delete,
+  Param,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname, join } from 'path';
@@ -18,6 +29,11 @@ const multerStorage = diskStorage({
   },
 });
 
+const uploadInterceptor = AnyFilesInterceptor({
+  storage: multerStorage,
+  limits: { fileSize: 10 * 1024 * 1024 },
+});
+
 @ApiTags('Others')
 @Controller('others')
 export class OthersController {
@@ -28,10 +44,39 @@ export class OthersController {
     return this.service.getAll();
   }
 
+  @Post('carousel/slide')
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({ type: Object })
+  @UseInterceptors(uploadInterceptor)
+  uploadCarouselSlide(@UploadedFiles() files: Express.Multer.File[]) {
+    return this.service.addCarouselSlide(files);
+  }
+
+  @Put('carousel/slides/order')
+  reorderCarouselSlides(@Body() body: { carousel?: unknown[] }) {
+    return this.service.reorderCarousel(body?.carousel || []);
+  }
+
+  @Put('carousel/slide/:index/:variant')
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(uploadInterceptor)
+  replaceCarouselSlideVariant(
+    @Param('index', ParseIntPipe) index: number,
+    @Param('variant') variant: 'desktop' | 'tablet' | 'mobile',
+    @UploadedFiles() files: Express.Multer.File[],
+  ) {
+    return this.service.replaceCarouselSlideVariant(index, variant, files);
+  }
+
+  @Delete('carousel/slide/:index')
+  removeCarouselSlide(@Param('index', ParseIntPipe) index: number) {
+    return this.service.removeCarouselSlide(index);
+  }
+
   @Post('carousel')
   @ApiConsumes('multipart/form-data')
   @ApiBody({ type: Object })
-  @UseInterceptors(AnyFilesInterceptor({ storage: multerStorage, limits: { fileSize: 10 * 1024 * 1024 } }))
+  @UseInterceptors(uploadInterceptor)
   uploadCarousel(@UploadedFiles() files: Express.Multer.File[]) {
     return this.service.addCarouselFiles(files);
   }
@@ -42,13 +87,13 @@ export class OthersController {
   }
 
   @Put('carousel/order')
-  reorderCarousel(@Body() body: { carousel?: string[] }) {
+  reorderCarousel(@Body() body: { carousel?: unknown[] }) {
     return this.service.reorderCarousel(body?.carousel || []);
   }
 
   @Put('carousel/:name')
   @ApiConsumes('multipart/form-data')
-  @UseInterceptors(AnyFilesInterceptor({ storage: multerStorage, limits: { fileSize: 10 * 1024 * 1024 } }))
+  @UseInterceptors(uploadInterceptor)
   replaceCarousel(@Param('name') name: string, @UploadedFiles() files: Express.Multer.File[]) {
     return this.service.replaceCarouselFile(name, files);
   }

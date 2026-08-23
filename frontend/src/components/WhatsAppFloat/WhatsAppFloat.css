@@ -101,13 +101,7 @@
   }
 
   .whatsapp-tooltip {
-    right: 58px;
-    font-size: 13px;
-    padding: 6px 12px;
-
-    /* Mobile: show then auto-hide */
-    opacity: 1;
-    animation: hideWhatsappText 20s ease forwards;
+    display: none;
   }
 }
 

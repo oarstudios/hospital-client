@@ -76,32 +76,33 @@ h6 {
 
 
 /* ================================
-   Public site side spacing
-   Scales with viewport; admin is unchanged.
+   Global Responsive Layout Wrapper
 ================================ */
-:root {
-  --page-gutter: clamp(16px, 4.2vw, 72px);
+
+.app-layout {
+  width: 100%;
+  margin: 0 auto;
 }
 
-.public-site {
-  padding-left: var(--page-gutter);
-  padding-right: var(--page-gutter);
-}
-
-@media (max-width: 767px) {
-  .public-site {
-    --page-gutter: clamp(12px, 4vw, 20px);
+/* Laptop */
+@media (min-width: 1024px) {
+  .app-layout {
+    max-width: 1300px;
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 
-@media (min-width: 768px) and (max-width: 1199px) {
-  .public-site {
-    --page-gutter: clamp(24px, 4vw, 40px);
+/* Large Desktop */
+@media (min-width: 1440px) {
+  .app-layout {
+    max-width: 1320px;
   }
 }
 
-@media (min-width: 1680px) {
-  .public-site {
-    --page-gutter: 80px;
+/* Ultra-wide screens */
+@media (min-width: 1600px) {
+  .app-layout {
+    max-width: 1400px;
   }
 }

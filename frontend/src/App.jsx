@@ -114,7 +114,7 @@ function App() {
 
       {!isAdminRoute && <Navbar />}
 
-      <main className={isAdminRoute ? undefined : "public-site"}>
+      <main className={isAdminRoute ? undefined : "app-layout"}>
         <Routes>
           {/* HOME */}
           <Route
@@ -235,7 +235,7 @@ function App() {
             element={
               <>
                 <BlogBreadcrumb label="Blogs" />
-                <BlogsSection variant="blog" />
+                <BlogsSection />
                 <BookAppointment />
                 <OurNetworkOfCare />
                 <RequestCallback />
@@ -261,24 +261,14 @@ function App() {
             element={
               <>
                 <BlogBreadcrumb label="Blogs" />
-                <BlogsSection variant="blog" />
+                <BlogsSection />
                 <OurNetworkOfCare />
                 <RequestCallback />
               </>
             }
           />
-          <Route
-            path="/news"
-            element={
-              <>
-                <BlogBreadcrumb label="News" />
-                <BlogsSection variant="news" />
-                <OurNetworkOfCare />
-                <RequestCallback />
-              </>
-            }
-          />
-          <Route path="/newsletter" element={<Navigate to="/news" replace />} />
+          <Route path="/news" element={<Navigate to="/blog" replace />} />
+          <Route path="/newsletter" element={<Navigate to="/blog" replace />} />
           <Route
             path="/blog/:id/:slug"
             element={

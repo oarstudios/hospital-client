@@ -2,7 +2,6 @@ import "../OurCenters/CenterBreadcrumb/CenterBreadcrumb.css";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import homeIcon from "../../assets/mdi-light_home.png";
-import { isNewsPost } from "../Common/postType";
 
 const BlogPostBreadcrumb = () => {
   const navigate = useNavigate();
@@ -10,8 +9,8 @@ const BlogPostBreadcrumb = () => {
 
   if (!blog) return null;
 
-  const parentPath = isNewsPost(blog) ? "/news" : "/blog";
-  const parentLabel = isNewsPost(blog) ? "News" : "Blogs";
+  const parentPath = "/blog";
+  const parentLabel = "Blogs";
 
   return (
     <nav className="center-breadcrumb">

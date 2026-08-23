@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "../../../app/axiosinstance";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchActiveCenters } from "../../../redux/centers/centersSlice";
@@ -10,7 +9,8 @@ import doctorImg from "../../../assets/ICTC female doctor 1.png";
 import tickIcon from "../../../assets/Vector (8).png";
 import ThankYouPopup from "../../ThankYouPopup";
 import { showToast } from "../../../redux/toast/toastSlice";
-import { notifyFirstError } from "../../Common/formFeedback";
+import { notifyFirstError, isUnsetSelect } from "../../Common/formFeedback";
+import { postToBookingSheet } from "../../Common/bookingSheet";
 
 const BookAppointment = () => {
   /* ============================
@@ -151,10 +151,10 @@ const BookAppointment = () => {
     else if (/^(\d)\1{9}$/.test(formData.phone))
       newErrors.phone = "Invalid phone number";
 
-    if (!formData.area)
+    if (isUnsetSelect(formData.area))
       newErrors.area = "Please select an area";
 
-    if (!formData.center)
+    if (isUnsetSelect(formData.center))
       newErrors.center = "Please select a center";
 
     if (!formData.date) {
@@ -219,19 +219,7 @@ const BookAppointment = () => {
     );
 
     try {
-      // get dynamic sheet link from backend; fall back to legacy script url
-      const othersRes = await axios.get("/others");
-      const payload = othersRes?.data?.data ?? othersRes?.data ?? {};
-      const sheetUrl = payload.sheetLink ||
-        "https://script.google.com/macros/s/AKfycbwvMAutv6LdpzjigmueH0mBXUXNBn0YYh7zhQgLl4BoJ6fldYbuFH_SSBqB4-5U44aw/exec";
-
-      const response = await fetch(sheetUrl, {
-        method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify(formData),
-      });
-
-      const result = await response.json();
+      const result = await postToBookingSheet(formData);
 
       // Wait for the backend save too, but don't let a Sheets-only failure
       // block a successful DB save (and vice versa) — see catch below.

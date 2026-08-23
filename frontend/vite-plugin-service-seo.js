@@ -86,8 +86,6 @@ export default function siteSeoPlugin() {
         return getAllCancersSeo(opts);
       case "all-blogs":
         return getAllBlogsSeo(opts);
-      case "all-news":
-        return getAllNewsSeo(opts);
       case "all-doctors":
         return getAllDoctorsSeo(opts);
       case "all-centers":

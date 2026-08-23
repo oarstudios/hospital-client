@@ -4,8 +4,12 @@ import { ApiProperty } from '@nestjs/swagger';
     IsString,
     IsNumber,
     IsArray,
+    IsNotEmpty,
+    IsIn,
   } from 'class-validator';
   import { Transform, Type } from 'class-transformer';
+
+  export const CENTER_AREAS = ['Mumbai', 'Navi Mumbai', 'Thane'] as const;
 
   export class CreateCenterDto {
 
@@ -68,10 +72,11 @@ import { ApiProperty } from '@nestjs/swagger';
     @IsString()
     mapLink?: string;
 
-    @ApiProperty({ required: false }) 
-    @IsOptional() 
+    @ApiProperty({ enum: CENTER_AREAS })
     @IsString()
-    area?: string;
+    @IsNotEmpty({ message: 'Please select an area.' })
+    @IsIn(CENTER_AREAS, { message: 'Please select a valid area.' })
+    area!: string;
 
     @ApiProperty({ required: false }) 
     @IsOptional() 

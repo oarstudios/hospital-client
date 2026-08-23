@@ -1,17 +1,16 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { fetchBlogs } from "../../../redux/blogs/blogsSlice";
 import imgSrc from "../../Common/ImgSrc";
 import { encryptId } from "../../Common/Idcrypto";
-import { displayPostType, isNewsPost, sortByDateDesc } from "../../Common/postType";
+import { displayPostType, sortByDateDesc } from "../../Common/postType";
 import { blogAlt } from "../../../seo/pageSeo";
 import "./NewsFromExperts.css";
 
 const NewsFromExperts = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [activeTab, setActiveTab] = useState("blogs");
 
   const { list = [], loading } = useSelector((state) => state.blogs || {});
 
@@ -21,12 +20,8 @@ const NewsFromExperts = () => {
 
   const items = useMemo(() => {
     const all = Array.isArray(list) ? list : [];
-    const filtered =
-      activeTab === "news"
-        ? all.filter(isNewsPost)
-        : all.filter((item) => !isNewsPost(item));
-    return sortByDateDesc(filtered).slice(0, 4);
-  }, [list, activeTab]);
+    return sortByDateDesc(all).slice(0, 4);
+  }, [list]);
 
   const formatDate = (dateString) => {
     if (!dateString) return "";
@@ -42,8 +37,6 @@ const NewsFromExperts = () => {
     navigate(`/blog/${encryptId(item.id)}/${item.slug}`);
   };
 
-  const emptyLabel = activeTab === "news" ? "news" : "blogs";
-
   return (
     <section className="news-section">
       <h2 className="news-heading">
@@ -55,24 +48,9 @@ const NewsFromExperts = () => {
         experts.
       </p>
 
-      <div className="news-tabs">
-        <button
-          className={`tab-btn${activeTab === "blogs" ? " active" : ""}`}
-          onClick={() => setActiveTab("blogs")}
-        >
-          From Our Blogs
-        </button>
-        <button
-          className={`tab-btn${activeTab === "news" ? " active" : ""}`}
-          onClick={() => setActiveTab("news")}
-        >
-          News
-        </button>
-      </div>
-
       {loading && (
         <div style={{ textAlign: "center", padding: "40px 0", color: "#666" }}>
-          Loading {emptyLabel}...
+          Loading posts...
         </div>
       )}
 
@@ -108,15 +86,12 @@ const NewsFromExperts = () => {
 
       {!loading && items.length === 0 && (
         <div style={{ textAlign: "center", padding: "40px 0", color: "#999" }}>
-          No {emptyLabel} available yet.
+          No posts available yet.
         </div>
       )}
 
       {items.length > 0 && (
-        <button
-          className="view-all"
-          onClick={() => navigate(activeTab === "news" ? "/news" : "/blog")}
-        >
+        <button className="view-all" onClick={() => navigate("/blog")}>
           View All <span>→</span>
         </button>
       )}

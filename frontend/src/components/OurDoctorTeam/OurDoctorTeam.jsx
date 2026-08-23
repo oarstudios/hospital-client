@@ -130,7 +130,7 @@
 
 
 import "./OurDoctorTeam.css";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDoctors } from "../../redux/doctors/doctorsSlice";
@@ -140,28 +140,8 @@ import { doctorAlt } from "../../seo/pageSeo";
 import SeoHead from "../Common/SeoHead";
 import { getAllDoctorsSeo } from "../../seo/pageSeo";
 import usePublicSeoEnv from "../../seo/usePublicSeoEnv";
-import arrowIcon from "../../assets/cuida_dropdown-outline.png";
-
-const faqs = [
-  {
-    question: "Can chemotherapy be used to treat cancer?",
-    answer:
-      "Most patients don't feel any pain while receiving treatment, especially if they're taking tablets or using cream topically.",
-  },
-  {
-    question: "Does receiving chemotherapy hurt?",
-    answer:
-      "Chemotherapy itself does not usually cause pain. Some discomfort may occur due to IV insertion or side effects.",
-  },
-  {
-    question: "What stage of cancer receives chemotherapy treatment?",
-    answer:
-      "Chemotherapy can be used in early, advanced, or metastatic stages depending on treatment goals.",
-  },
-];
 
 const OurDoctorTeam = () => {
-  const [activeIndex, setActiveIndex] = useState(2);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -234,38 +214,6 @@ const OurDoctorTeam = () => {
           </div>
         ))}
       </div>
-
-      {/* FAQ SECTION */}
-      {!isAboutUsPage && (
-        <div className="ictc-service-faq">
-          <h2>FAQ's</h2>
-
-          {faqs.map((faq, index) => {
-            const isActive = activeIndex === index;
-
-            return (
-              <div
-                key={index}
-                className={`ictc-faq-item ${isActive ? "ictc-faq-active" : ""}`}
-                onClick={() => setActiveIndex(isActive ? -1 : index)}
-              >
-                <div className="ictc-faq-question">
-                  <span>{faq.question}</span>
-                  <img
-                    src={arrowIcon}
-                    className={isActive ? "rotate" : ""}
-                    alt="toggle"
-                  />
-                </div>
-
-                {isActive && (
-                  <div className="ictc-faq-answer">{faq.answer}</div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      )}
     </section>
   );
 };

@@ -5,19 +5,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchBlogs, fetchBlogCategories } from "../../redux/blogs/blogsSlice";
 import { encryptId } from "../Common/Idcrypto";
 import imgSrc from "../Common/ImgSrc";
-import { displayPostType, isNewsPost, sortByDateDesc } from "../Common/postType";
+import { displayPostType, sortByDateDesc } from "../Common/postType";
 import SeoHead from "../Common/SeoHead";
-import { getAllBlogsSeo, getAllNewsSeo, blogAlt } from "../../seo/pageSeo";
+import { getAllBlogsSeo, blogAlt } from "../../seo/pageSeo";
 import usePublicSeoEnv from "../../seo/usePublicSeoEnv";
 
 const POSTS_PER_PAGE = 6;
 
-const BlogsSection = ({ variant = "blog" }) => {
-  const isNewsPage = variant === "news";
+const BlogsSection = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { siteUrl } = usePublicSeoEnv();
-  const listingSeo = isNewsPage ? getAllNewsSeo({ siteUrl }) : getAllBlogsSeo({ siteUrl });
+  const listingSeo = getAllBlogsSeo({ siteUrl });
 
   const {
     list = [],
@@ -39,12 +38,10 @@ const BlogsSection = ({ variant = "blog" }) => {
     setCurrentPage(1);
   }, [selectedCategory]);
 
-  const blogs = useMemo(() => {
+  const sortedBlogs = useMemo(() => {
     const all = Array.isArray(list) ? list : [];
-    return all.filter((item) => (isNewsPage ? isNewsPost(item) : !isNewsPost(item)));
-  }, [list, isNewsPage]);
-
-  const sortedBlogs = useMemo(() => sortByDateDesc(blogs), [blogs]);
+    return sortByDateDesc(all);
+  }, [list]);
 
   const filteredBlogs = useMemo(() => {
     if (!selectedCategory) return sortedBlogs;
@@ -80,7 +77,7 @@ const BlogsSection = ({ variant = "blog" }) => {
       <section className="blogs-wrapper">
         <SeoHead {...listingSeo} />
         <p style={{ textAlign: "center", padding: "60px 0" }}>
-          Loading {isNewsPage ? "news" : "blogs"}...
+          Loading posts...
         </p>
       </section>
     );
@@ -89,7 +86,7 @@ const BlogsSection = ({ variant = "blog" }) => {
   return (
     <section className="blogs-wrapper">
       <SeoHead {...listingSeo} />
-      <h2 className="blogs-heading">{isNewsPage ? "ICTC News" : "ICTC Blogs"}</h2>
+      <h2 className="blogs-heading">ICTC Blogs</h2>
 
       <div className="blogs-layout">
         {/* LEFT SIDEBAR */}
@@ -198,8 +195,8 @@ const BlogsSection = ({ variant = "blog" }) => {
           ) : (
             <div style={{ padding: "40px 0", color: "#64748b" }}>
               {selectedCategory
-                ? `No ${isNewsPage ? "news" : "blogs"} found in this category.`
-                : `No ${isNewsPage ? "news" : "blogs"} available yet.`}
+                ? "No posts found in this category."
+                : "No posts available yet."}
             </div>
           )}
         </div>

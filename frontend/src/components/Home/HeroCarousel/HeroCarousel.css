@@ -1,5 +1,10 @@
 /* ================= HERO CAROUSEL ================= */
 
+.hero-carousel-shell {
+  position: relative;
+  width: 100%;
+}
+
 .hero-carousel {
   position: relative;
   width: 100%;
@@ -153,38 +158,14 @@
 
 /* ================= MOBILE ================= */
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .hero-carousel {
     height: 420px;
   }
 
-  .quick-cta {
-    flex-direction: column;
-    width: calc(100% - 32px);
-    left: 16px;
-    transform: none;
-    border-radius: 20px;
+  .hero-carousel-shell .quick-cta {
+    display: none;
   }
-
-  .cta-btn {
-    width: 100%;
-    justify-content: space-between;
-    padding: 14px 20px;
-  }
-  .cta-btn.light {
-    border-top-right-radius: 20px;
-  border-top-left-radius: 20px;
-  border-bottom-left-radius: 0px;
-}
-
-
-
-.cta-btn.grey {
-
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 20px;
-    border-bottom-left-radius: 20px;
-}
 }
 
 /* ================= SMALL MOBILE ================= */
@@ -192,10 +173,6 @@
 @media (max-width: 480px) {
   .hero-carousel {
     height: 560px;
-  }
-
-  .quick-cta {
-    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   }
 
   .cta-btn {

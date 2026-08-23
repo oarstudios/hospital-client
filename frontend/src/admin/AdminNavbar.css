@@ -1,5 +1,6 @@
 .admin-navbar {
   height: 70px;
+  flex-shrink: 0;
   background: white;
   display: flex;
   justify-content: space-between;
