@@ -2,44 +2,61 @@ import { useEffect } from "react";
 
 const MOBILE_MAX_WIDTH = 768;
 const STACK_BOTTOM_VAR = "--mobile-stack-bottom";
-
-function stackBottomOffset(defaultBottom, gap) {
-  const viewportHeight = window.innerHeight;
-  const section = document.querySelector(".appointment-wrapper");
-
-  if (!section) return defaultBottom;
-
-  const { top, bottom } = section.getBoundingClientRect();
-
-  if (top >= viewportHeight) return defaultBottom;
-
-  if (bottom <= 0) return viewportHeight + 200;
-
-  return Math.max(defaultBottom, viewportHeight - top + gap);
-}
+const CTA_HEIGHT_VAR = "--mobile-cta-height";
+const HIDDEN_CLASS = "mobile-floats-hidden";
 
 export default function useMobileFloatStackBottom(defaultBottom = 8) {
   useEffect(() => {
-    const update = () => {
-      const root = document.documentElement;
+    const root = document.documentElement;
+    let resizeObserver;
 
+    const clearDesktop = () => {
+      root.style.removeProperty(STACK_BOTTOM_VAR);
+      root.style.removeProperty(CTA_HEIGHT_VAR);
+      root.classList.remove(HIDDEN_CLASS);
+    };
+
+    const update = () => {
       if (window.innerWidth > MOBILE_MAX_WIDTH) {
-        root.style.removeProperty(STACK_BOTTOM_VAR);
+        clearDesktop();
         return;
       }
 
-      root.style.setProperty(
-        STACK_BOTTOM_VAR,
-        `${stackBottomOffset(defaultBottom, 10)}px`,
-      );
+      root.style.setProperty(STACK_BOTTOM_VAR, `${defaultBottom}px`);
+
+      const cta = document.querySelector(".mobile-quick-cta--floating");
+      if (cta) {
+        root.style.setProperty(CTA_HEIGHT_VAR, `${cta.offsetHeight}px`);
+      }
+
+      const footer = document.querySelector("footer.footer");
+      if (!footer) {
+        root.classList.remove(HIDDEN_CLASS);
+        return;
+      }
+
+      const footerTop = footer.getBoundingClientRect().top;
+      const hide = footerTop < window.innerHeight;
+      root.classList.toggle(HIDDEN_CLASS, hide);
+    };
+
+    const observeCta = () => {
+      resizeObserver?.disconnect();
+      const cta = document.querySelector(".mobile-quick-cta--floating");
+      if (!cta || typeof ResizeObserver === "undefined") return;
+      resizeObserver = new ResizeObserver(update);
+      resizeObserver.observe(cta);
     };
 
     update();
+    observeCta();
+
     window.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update);
 
     return () => {
-      document.documentElement.style.removeProperty(STACK_BOTTOM_VAR);
+      resizeObserver?.disconnect();
+      clearDesktop();
       window.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
     };

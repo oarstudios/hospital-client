@@ -479,11 +479,16 @@
 
   .chat-float-wrapper {
     bottom: calc(
-      var(--mobile-stack-bottom, 8px) + var(--mobile-cta-height, 46px) +
-        var(--mobile-float-gap, 8px)
+      var(--mobile-stack-bottom, 8px) + env(safe-area-inset-bottom, 0px) +
+        var(--mobile-cta-height, 52px) + var(--mobile-float-gap, 8px)
     );
     right: 10px;
     left: auto;
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+  }
+
+  .chat-icon {
+    width: 56px;
   }
 
   .chat-hover-text {

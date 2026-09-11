@@ -14,7 +14,8 @@ import SeoHead from "../Common/SeoHead";
 import { getAllBlogsSeo, blogAlt } from "../../seo/pageSeo";
 import usePublicSeoEnv from "../../seo/usePublicSeoEnv";
 
-const POSTS_PER_PAGE = 6;
+const POSTS_PER_PAGE = 10;
+const CATEGORIES_COLLAPSED_COUNT = 6;
 
 const filterItemStyle = (active) => ({
   cursor: "pointer",
@@ -38,6 +39,7 @@ const BlogsSection = () => {
   const [selectedType, setSelectedType] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [showAllCategories, setShowAllCategories] = useState(false);
 
   useEffect(() => {
     dispatch(fetchBlogs());
@@ -67,6 +69,16 @@ const BlogsSection = () => {
   const totalPages = Math.ceil(filteredBlogs.length / POSTS_PER_PAGE);
   const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
   const currentBlogs = filteredBlogs.slice(startIndex, startIndex + POSTS_PER_PAGE);
+
+  const visibleCategories = useMemo(() => {
+    if (showAllCategories) return categories;
+    const collapsed = categories.slice(0, CATEGORIES_COLLAPSED_COUNT);
+    if (!selectedCategory) return collapsed;
+    if (collapsed.some((c) => c.id === selectedCategory)) return collapsed;
+    const selected = categories.find((c) => c.id === selectedCategory);
+    return selected ? [...collapsed, selected] : collapsed;
+  }, [categories, showAllCategories, selectedCategory]);
+  const hasHiddenCategories = categories.length > CATEGORIES_COLLAPSED_COUNT;
 
   const changePage = (page) => {
     if (page < 1 || page > totalPages) return;
@@ -150,7 +162,7 @@ const BlogsSection = () => {
                 >
                   All
                 </li>
-                {categories.map((cat) => (
+                {visibleCategories.map((cat) => (
                   <li
                     key={cat.id}
                     style={filterItemStyle(selectedCategory === cat.id)}
@@ -164,6 +176,19 @@ const BlogsSection = () => {
                     {typeof cat.count === "number" ? ` (${cat.count})` : ""}
                   </li>
                 ))}
+                {hasHiddenCategories && (
+                  <li className="categories-toggle-item">
+                    <button
+                      type="button"
+                      className="categories-toggle"
+                      onClick={() => setShowAllCategories((open) => !open)}
+                    >
+                      {showAllCategories
+                        ? "Show less"
+                        : `View all (${categories.length})`}
+                    </button>
+                  </li>
+                )}
               </ul>
             ) : (
               <p style={{ color: "#94a3b8", fontSize: "14px" }}>

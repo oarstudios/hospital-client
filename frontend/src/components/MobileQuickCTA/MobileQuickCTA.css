@@ -22,7 +22,9 @@
     position: fixed;
     left: 10px;
     right: 10px;
-    bottom: var(--mobile-stack-bottom, 8px);
+    bottom: calc(
+      var(--mobile-stack-bottom, 8px) + env(safe-area-inset-bottom, 0px)
+    );
     z-index: 1200;
     border: 1px solid rgba(18, 16, 18, 1);
     border-radius: 999px;
@@ -30,6 +32,7 @@
     background: #fff;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
     pointer-events: auto;
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
   }
 
   .mobile-quick-cta__btn {

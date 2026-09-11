@@ -9,7 +9,7 @@ import {
 } from "../../redux/centers/centersSlice";
 import FieldError from "../../components/Common/FieldError";
 import useConfirmDialog from "../../components/Common/useConfirmDialog";
-import { notifyFirstError, clearField, INDIAN_PHONE, CENTER_AREAS, getSelectError } from "../../components/Common/formFeedback";
+import { notifyFirstError, clearField, CENTER_AREAS, getSelectError } from "../../components/Common/formFeedback";
 
 import "./ManageCenters.css";
 
@@ -100,9 +100,6 @@ const ManageCenters = () => {
     if (!form.slug.trim()) nextErrors.slug = "Slug is required.";
     if (!form.name.trim()) nextErrors.name = "Name is required.";
     if (!form.fullName.trim()) nextErrors.fullName = "Full name is required.";
-    if (form.phone && !INDIAN_PHONE.test(form.phone.replace(/\s+/g, ""))) {
-      nextErrors.phone = "Enter a valid 10-digit Indian phone number.";
-    }
     if (form.rating && (Number(form.rating) < 0 || Number(form.rating) > 5)) {
       nextErrors.rating = "Rating must be between 0 and 5.";
     }
@@ -337,8 +334,7 @@ const ManageCenters = () => {
               </div>
               <div className="admin-form-field">
                 <label className="admin-field-label">Phone</label>
-                <input name="phone" className={errors.phone ? "input-invalid" : ""} placeholder="10-digit phone" value={form.phone} onChange={handleChange} />
-                <FieldError message={errors.phone} />
+                <input name="phone" placeholder="Phone numbers" value={form.phone} onChange={handleChange} />
               </div>
               <div className="admin-form-field">
                 <label className="admin-field-label">Rating</label>

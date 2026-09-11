@@ -91,14 +91,15 @@
 @media (max-width: 768px) {
   .whatsapp-float {
     bottom: calc(
-      var(--mobile-stack-bottom, 8px) + var(--mobile-cta-height, 46px) +
-        var(--mobile-float-gap, 8px) + var(--mobile-action-size, 56px) +
-        var(--mobile-float-gap, 8px)
+      var(--mobile-stack-bottom, 8px) + env(safe-area-inset-bottom, 0px) +
+        var(--mobile-cta-height, 52px) + var(--mobile-float-gap, 8px) +
+        var(--mobile-action-size, 56px) + var(--mobile-float-gap, 8px)
     );
     right: 10px;
     left: auto;
     width: 56px;
     height: 56px;
+    transition: transform 0.25s ease, opacity 0.25s ease, visibility 0.25s ease;
   }
 
   .whatsapp-icon {

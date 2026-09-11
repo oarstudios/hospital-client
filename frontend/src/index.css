@@ -27,10 +27,19 @@ body {
 
 @media (max-width: 768px) {
   :root {
-    --mobile-cta-height: 46px;
+    --mobile-cta-height: 52px;
     --mobile-float-gap: 8px;
     --mobile-action-size: 56px;
     --mobile-stack-bottom: 8px;
+  }
+
+  html.mobile-floats-hidden .whatsapp-float,
+  html.mobile-floats-hidden .chat-float-wrapper,
+  html.mobile-floats-hidden .mobile-quick-cta--floating {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(16px);
   }
 }
 
