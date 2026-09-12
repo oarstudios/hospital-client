@@ -1,9 +1,15 @@
 import React from "react";
 import "./PrivacyPolicy.css";
+import SeoHead from "../Common/SeoHead";
+import { getPrivacySeo } from "../../seo/pageSeo";
+import usePublicSeoEnv from "../../seo/usePublicSeoEnv";
 
 const PrivacyPolicy = () => {
+  const { siteUrl } = usePublicSeoEnv();
+
   return (
     <div className="privacy-policy">
+      <SeoHead {...getPrivacySeo({ siteUrl })} />
       <h1>Privacy Policy</h1>
 
       <p>
@@ -52,7 +58,7 @@ const PrivacyPolicy = () => {
         <li>Security and fraud prevention</li>
       </ul>
 
-      <h2>3. Cookies and Tracking Technologies</h2>
+      <h2 id="cookies">3. Cookies and Tracking Technologies</h2>
       <p>
         We use cookies and similar tracking technologies to track activity on
         our Website and hold certain information. You can choose to disable

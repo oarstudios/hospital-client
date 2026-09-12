@@ -204,6 +204,7 @@ const Footer = () => {
             <ul>
               <li><Link to="/blog">ICTC Blogs/News</Link></li>
               <li><Link to="/privacy-policy">Privacy Policy</Link></li>
+              <li><Link to="/privacy-policy#cookies">Cookie Policy</Link></li>
             </ul>
           </div>
 

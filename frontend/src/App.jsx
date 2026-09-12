@@ -9,6 +9,10 @@ import NotFound from "./components/Common/NotFound";
 import WhatsAppFloat from "./components/WhatsAppFloat/WhatsAppFloat";
 import Chatbot from "./components/Chatbot/Chatbot";
 import MobileFloatStack from "./components/MobileFloatStack/MobileFloatStack";
+import CookieConsent from "./components/Common/CookieConsent";
+import SeoHead from "./components/Common/SeoHead";
+import { getHomeSeo } from "./seo/pageSeo";
+import usePublicSeoEnv from "./seo/usePublicSeoEnv";
 
 /* ================= HOME ================= */
 import HeroCarousel from "./components/Home/HeroCarousel/HeroCarousel";
@@ -93,6 +97,8 @@ function App() {
 
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith("/ctrl");
+  const { siteUrl } = usePublicSeoEnv();
+  const isHome = location.pathname === "/" || location.pathname === "/success";
 
 
   const navigate = useNavigate();
@@ -113,6 +119,8 @@ function App() {
         onClose={() => navigate(-1)}
       />
 
+      {isHome && <SeoHead {...getHomeSeo({ siteUrl })} />}
+      {!isAdminRoute && <CookieConsent />}
       {!isAdminRoute && <Navbar />}
 
       <main className={isAdminRoute ? undefined : "app-layout"}>

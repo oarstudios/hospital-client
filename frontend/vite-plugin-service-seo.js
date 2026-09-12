@@ -15,8 +15,11 @@ import {
   getAllCentersSeo,
   getLandingSeo,
   getAboutSeo,
+  getHomeSeo,
+  getPrivacySeo,
   findCenterByLandingSlug,
   injectHeadTags,
+  injectSearchConsoleVerification,
   buildSitemap,
   buildRobotsTxt,
 } from "./src/seo/pageSeo.js";
@@ -42,6 +45,7 @@ export default function siteSeoPlugin() {
   let apiBase = "http://localhost:3001";
   let imageBase = "http://localhost:3001";
   let siteUrl = "http://localhost:5173";
+  let verification = "";
   let outDir = "dist";
   let root = process.cwd();
 
@@ -90,6 +94,10 @@ export default function siteSeoPlugin() {
         return getAllDoctorsSeo(opts);
       case "all-centers":
         return getAllCentersSeo(opts);
+      case "home":
+        return getHomeSeo(opts);
+      case "privacy":
+        return getPrivacySeo(opts);
       case "about":
         return getAboutSeo(opts);
       case "service": {
@@ -178,6 +186,7 @@ export default function siteSeoPlugin() {
       apiBase = (env.VITE_API_BASE_URL || apiBase).replace(/\/$/, "");
       imageBase = (env.VITE_IMAGE_BASE_URL || imageBase).replace(/\/$/, "");
       if (env.VITE_SITE_URL) siteUrl = env.VITE_SITE_URL.replace(/\/$/, "");
+      verification = env.VITE_GOOGLE_SITE_VERIFICATION || "";
     },
     configResolved(config) {
       root = config.root;
@@ -209,10 +218,10 @@ export default function siteSeoPlugin() {
     transformIndexHtml: {
       order: "post",
       async handler(html, ctx) {
-        const pathname = (ctx.originalUrl || ctx.path || "").split("?")[0];
-        const seo = await seoForPath(pathname);
-        if (!seo) return html;
-        return injectHeadTags(html, seo);
+        let out = injectSearchConsoleVerification(html, verification);
+        const pathname = (ctx.originalUrl || ctx.path || "/").split("?")[0];
+        const seo = await seoForPath(pathname === "/index.html" ? "/" : pathname);
+        return seo ? injectHeadTags(out, seo) : out;
       },
     },
     async writeBundle(options) {
@@ -223,7 +232,10 @@ export default function siteSeoPlugin() {
 
   // Read the final Vite-generated index.html
   const indexPath = resolve(dir, "index.html");
-  const html = await readFile(indexPath, "utf8");
+  const html = injectSearchConsoleVerification(
+    await readFile(indexPath, "utf8"),
+    verification,
+  );
 
   // Load CMS data
   const catalog = await loadCatalog();
@@ -265,6 +277,11 @@ export default function siteSeoPlugin() {
       "utf8"
     );
   }
+
+  await writeSeoHtml(
+    "index.html",
+    getHomeSeo(opts)
+  );
 
   // Static SEO pages
   await writeSeoHtml(
@@ -317,6 +334,11 @@ export default function siteSeoPlugin() {
   await writeSeoHtml(
     "aboutUs/index.html",
     getAboutSeo(opts)
+  );
+
+  await writeSeoHtml(
+    "privacy-policy/index.html",
+    getPrivacySeo(opts)
   );
 
   // Services

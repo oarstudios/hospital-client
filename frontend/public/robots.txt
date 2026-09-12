@@ -2,3 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /ctrl
 Disallow: /ctrl/
+Disallow: /BookAppoinment
+Disallow: /BookSecondOpinion
+
+Sitemap: https://ictconco.org/sitemap.xml

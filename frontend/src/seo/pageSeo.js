@@ -1,8 +1,10 @@
 import { encryptId } from "../components/Common/Idcrypto.js";
 import formatServiceTitle from "../components/Common/formatServiceTitle.js";
 
-export const DEFAULT_TITLE = "ICTC";
+export const DEFAULT_TITLE = "ICTC | Indian Cancer Treatment Centre";
 export const SITE_NAME = "Indian Cancer Treatment Centre";
+export const DEFAULT_DESCRIPTION =
+  "Indian Cancer Treatment Centre provides compassionate, high-quality, affordable cancer treatment across Mumbai and Navi Mumbai.";
 
 const SERVICE_DETAIL_RE = /^\/(service|Services)\/([^/]+)\/([^/]+)\/?$/;
 const ALL_SERVICES_RE = /^\/AllService\/?$/;
@@ -19,9 +21,13 @@ const CENTRE_NAMED_RE = /^\/OurCentres\/([^/]+)\/([^/]+)\/?$/;
 const ALL_CENTRES_RE = /^\/(OurCentres|allCenters)\/?$/;
 const LANDING_RE = /^\/cancer-treatment\/([^/]+)\/?$/;
 const ABOUT_RE = /^\/aboutUs\/?$/;
+const HOME_RE = /^\/$/;
+const PRIVACY_RE = /^\/privacy-policy\/?$/;
 
 export function matchSeoRoute(pathname) {
   const path = String(pathname || "").split("?")[0];
+
+  if (HOME_RE.test(path)) return { type: "home" };
 
   let m = path.match(SERVICE_DETAIL_RE);
   if (m) return { type: "service", slug: decodeURIComponent(m[2]), token: m[3] };
@@ -51,6 +57,7 @@ export function matchSeoRoute(pathname) {
   m = path.match(LANDING_RE);
   if (m) return { type: "landing", slug: decodeURIComponent(m[1]) };
   if (ABOUT_RE.test(path)) return { type: "about" };
+  if (PRIVACY_RE.test(path)) return { type: "privacy" };
 
   return null;
 }
@@ -466,6 +473,49 @@ export function getAboutSeo({ siteUrl = "" } = {}) {
   );
 }
 
+export function getHomeSeo({ siteUrl = "" } = {}) {
+  const canonical = absoluteUrl(siteUrl, "/");
+  return {
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+    canonical,
+    index: true,
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "MedicalOrganization",
+      name: SITE_NAME,
+      url: canonical || undefined,
+      description: DEFAULT_DESCRIPTION,
+    },
+  };
+}
+
+export function getPrivacySeo({ siteUrl = "" } = {}) {
+  return listingSeo(
+    `Privacy Policy | ${SITE_NAME}`,
+    "How Indian Cancer Treatment Centre collects, uses, and protects your information, including cookies and Google Analytics.",
+    "/privacy-policy",
+    siteUrl,
+    "WebPage",
+  );
+}
+
+export function injectSearchConsoleVerification(html, verification) {
+  if (!html || !verification) return html;
+  const token = String(verification).trim();
+  if (!token) return html;
+
+  let out = String(html);
+  out = out.replace(
+    /<meta\s+name=["']google-site-verification["'][^>]*>\s*/gi,
+    "",
+  );
+  return out.replace(
+    /<\/head>/i,
+    `    <meta name="google-site-verification" content="${escapeAttr(token)}" />\n  </head>`,
+  );
+}
+
 export function injectHeadTags(html, seo) {
   if (!html || !seo) return html;
 
@@ -559,12 +609,14 @@ export function buildSitemap(
 ) {
   const origin = String(siteUrl || "").replace(/\/$/, "");
   const urls = [
+    { loc: `${origin}/`, priority: "1.0" },
     { loc: `${origin}/AllService`, priority: "0.8" },
     { loc: `${origin}/CancerTypes`, priority: "0.8" },
     { loc: `${origin}/blog`, priority: "0.8" },
     { loc: `${origin}/OurDoctors`, priority: "0.8" },
     { loc: `${origin}/OurCentres`, priority: "0.8" },
     { loc: `${origin}/aboutUs`, priority: "0.7" },
+    { loc: `${origin}/privacy-policy`, priority: "0.4" },
     ...services
       .filter((s) => s?.slug && s?.id != null)
       .map((s) => ({
@@ -621,6 +673,8 @@ export function buildRobotsTxt(siteUrl) {
 Allow: /
 Disallow: /ctrl
 Disallow: /ctrl/
+Disallow: /BookAppoinment
+Disallow: /BookSecondOpinion
 
 ${sitemap}`;
 }

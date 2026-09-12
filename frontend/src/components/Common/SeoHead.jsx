@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { DEFAULT_TITLE } from "../../seo/serviceSeo";
+import { DEFAULT_DESCRIPTION, DEFAULT_TITLE } from "../../seo/serviceSeo";
 
 function upsertMeta(attr, key, content) {
   const selector = `meta[${attr}="${key}"]`;
@@ -45,7 +45,7 @@ function upsertJsonLd(data) {
 
 /**
  * Sets crawlable head tags for the current public page.
- * Restores the default ICTC / noindex shell when the page unmounts.
+ * Restores the default ICTC indexable home tags when the page unmounts.
  */
 export default function SeoHead({
   title,
@@ -84,9 +84,9 @@ export default function SeoHead({
 
     return () => {
       document.title = DEFAULT_TITLE;
-      upsertMeta("name", "description", "");
-      upsertMeta("name", "robots", "noindex, nofollow, noarchive, nosnippet");
-      upsertMeta("name", "googlebot", "noindex, nofollow");
+      upsertMeta("name", "description", DEFAULT_DESCRIPTION);
+      upsertMeta("name", "robots", "index, follow");
+      upsertMeta("name", "googlebot", "index, follow");
       upsertLink("canonical", "");
       upsertMeta("property", "og:title", "");
       upsertMeta("property", "og:description", "");
