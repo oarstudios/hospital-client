@@ -95,7 +95,9 @@
   position: absolute;
   bottom: 12px;
   left: 12px;
+  right: 12px;
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
 }
 
@@ -104,9 +106,10 @@
   border: 1px solid rgba(189, 187, 191, 1);
   padding: 6px 10px;
   border-radius: 16px;
-  font-size: 10px;
+  font-size: 8px;
   font-weight: 700;
   color: rgba(48, 45, 49, 1);
+  white-space: nowrap;
 }
 .badgeType {
   background: rgba(236, 223, 242, 1);
@@ -257,9 +260,10 @@
  padding: 10px;
   }
 
-  .news-badges{
+  .news-badges {
     bottom: 10px;
-    left: 0px;
+    left: 8px;
+    right: 8px;
   }
 
   .news-title {

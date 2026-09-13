@@ -107,7 +107,13 @@
 /* CONTENT BELOW HEADING */
 .dropdown-content {
   display: flex;
-  gap: 60px;
+  flex-wrap: wrap;
+  gap: 24px 48px;
+}
+
+.column {
+  min-width: 160px;
+  flex: 1 1 160px;
 }
 
 /* Columns */

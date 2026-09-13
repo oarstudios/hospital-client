@@ -38,7 +38,9 @@
 
 .quick-cta {
   position: fixed;
-  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  bottom: calc(
+    20px + env(safe-area-inset-bottom, 0px) + var(--cookie-banner-offset, 0px)
+  );
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -55,6 +57,7 @@
 
   z-index: 1200;
   overflow: visible;
+  transition: bottom 0.2s ease;
 }
 
 /* ================= CLOSE BUTTON ================= */

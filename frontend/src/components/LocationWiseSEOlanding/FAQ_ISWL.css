@@ -35,8 +35,9 @@
   background: transparent;
 
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
+  gap: 16px;
 
   padding: 22px 24px;
 
@@ -50,12 +51,16 @@
 
 .ictc-faq-question span {
   flex: 1;
-  padding-right: 20px;
+  min-width: 0;
+  padding-right: 8px;
+  line-height: 1.35;
 }
 
 .ictc-faq-question img {
   width: 28px;
   height: 28px;
+  flex-shrink: 0;
+  margin-top: 2px;
   transition: transform 0.3s ease;
 }
 

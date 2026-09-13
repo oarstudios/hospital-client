@@ -4,7 +4,7 @@
 
 .whatsapp-float {
   position: fixed;
-  bottom: 90px;
+  bottom: calc(90px + var(--cookie-banner-offset, 0px));
   right: 10px;
   left: auto;
 
@@ -93,7 +93,8 @@
     bottom: calc(
       var(--mobile-stack-bottom, 8px) + env(safe-area-inset-bottom, 0px) +
         var(--mobile-cta-height, 52px) + var(--mobile-float-gap, 8px) +
-        var(--mobile-action-size, 56px) + var(--mobile-float-gap, 8px)
+        var(--mobile-action-size, 56px) + var(--mobile-float-gap, 8px) +
+        var(--cookie-banner-offset, 0px)
     );
     right: 10px;
     left: auto;

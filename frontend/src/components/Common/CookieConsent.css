@@ -1,17 +1,19 @@
 .ictc-cookie-banner {
   position: fixed;
-  inset: auto 20px 20px;
-  z-index: 1200;
+  left: 50%;
+  right: auto;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  z-index: 1400;
   display: flex;
-  width: calc(100% - 40px);
-  max-width: 1100px;
+  width: min(760px, calc(100% - 40px));
+  max-width: 760px;
   border: 1px solid #ead7f4;
-  margin: 0 auto;
+  margin: 0;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  max-width: 1100px;
-  padding: 18px 22px;
+  padding: 14px 18px;
   background: #ffffff;
   border-radius: 16px;
   box-shadow: 0 12px 40px rgba(105, 60, 121, 0.16);
@@ -61,10 +63,12 @@
   .ictc-cookie-banner {
     left: 12px;
     right: 12px;
-    bottom: 12px;
+    width: auto;
+    max-width: none;
+    transform: none;
     flex-direction: column;
     align-items: stretch;
-    padding: 16px;
+    padding: 14px;
   }
 
   .ictc-cookie-actions {
