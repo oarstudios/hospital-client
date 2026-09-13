@@ -87,7 +87,7 @@ const AllCentres = () => {
           <article
             className="ictc-centre-card"
             key={centre.id || centre.slug}
-            onClick={() => navigate(`/centre/${encryptId(centre.id)}`)}
+            onClick={() => navigate(`/centre/${centre.slug}/${encryptId(centre.id)}`)}
             style={{ cursor: "pointer" }}
           >
             {/* MAP */}

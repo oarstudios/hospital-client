@@ -105,26 +105,125 @@ gap:10px;
 STATUS SELECT
 ========================================================= */
 
+.admin-status-cell{
+overflow:visible;
+min-width:160px;
+}
+
+.admin-status-wrap{
+position:relative;
+display:inline-flex;
+align-items:center;
+min-width:148px;
+cursor:pointer;
+}
+
+.sr-only{
+position:absolute;
+width:1px;
+height:1px;
+padding:0;
+margin:-1px;
+overflow:hidden;
+clip:rect(0,0,0,0);
+white-space:nowrap;
+border:0;
+}
+
 .admin-status-select{
-border:none;
+-webkit-appearance:none;
+appearance:none;
+box-sizing:border-box;
+width:100%;
+min-width:148px;
+border:1px solid rgba(17,24,39,0.12);
 border-radius:8px;
+padding:8px 36px 8px 12px;
+font-size:13px;
+font-weight:600;
+line-height:1.2;
+cursor:pointer;
+color:inherit;
+background-repeat:no-repeat;
+background-position:right 12px center;
+background-size:12px;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23111827' d='M1.2 1.5 L6 6.3 L10.8 1.5'/%3E%3C/svg%3E");
+transition:box-shadow .15s ease, transform .15s ease, border-color .15s ease;
+}
+
+.admin-status-select:hover{
+border-color:rgba(17,24,39,0.35);
+box-shadow:0 0 0 3px rgba(67,56,202,0.12);
+}
+
+.admin-status-select:focus{
+outline:none;
+border-color:#4338ca;
+box-shadow:0 0 0 3px rgba(67,56,202,0.22);
+}
+
+.admin-status-select:active{
+transform:scale(0.98);
+}
+
+.admin-status-pending{
+background-color:#fef3c7;
+color:#92400e;
+}
+
+.admin-status-confirmed{
+background-color:#d1fae5;
+color:#065f46;
+}
+
+.admin-status-cancelled{
+background-color:#fee2e2;
+color:#991b1b;
+}
+
+.admin-appointments-pagination{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:16px;
+flex-wrap:wrap;
+margin-top:20px;
+}
+
+.admin-appointments-range{
+font-size:13px;
+font-weight:600;
+color:#6b7280;
+}
+
+.admin-appointments-pages{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+}
+
+.admin-appointments-pages button{
+border:1px solid #e5e7eb;
+background:#fff;
+color:#111827;
 padding:8px 12px;
+border-radius:8px;
 font-size:13px;
 font-weight:600;
 cursor:pointer;
 }
 
-.admin-status-pending{
-background:#fef3c7;
-color:#92400e;
+.admin-appointments-pages button:hover:not(:disabled){
+background:#f8fafc;
 }
 
-.admin-status-confirmed{
-background:#d1fae5;
-color:#065f46;
+.admin-appointments-pages button.is-active{
+background:#4338ca;
+border-color:#4338ca;
+color:#fff;
 }
 
-.admin-status-cancelled{
-background:#fee2e2;
-color:#991b1b;
+.admin-appointments-pages button:disabled{
+opacity:.45;
+cursor:not-allowed;
 }

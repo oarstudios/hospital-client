@@ -219,7 +219,7 @@ export class CentersService {
 
     const centers = await this.repo.find({
       where: { isDeleted: filter },
-      order: { createdAt: 'ASC' }, // first-come-first-served: oldest created shows first
+      order: { id: 'ASC' },
     });
 
     if (!centers.length) return [];
@@ -337,7 +337,11 @@ export class CentersService {
           where: { id: In(doctorIds), isDeleted: false },
         })
       : [];
-    const doctors = await this.enrichDoctors(doctorBase);
+    const enrichedDoctors = await this.enrichDoctors(doctorBase);
+    const doctorsById = new Map(enrichedDoctors.map((d) => [d.id, d]));
+    const doctors = doctorCentres
+      .map((dc) => doctorsById.get(dc.doctorId))
+      .filter((d): d is (typeof enrichedDoctors)[number] => Boolean(d));
 
     const descriptionById = new Map(descriptions.map((d) => [d.id, d.content]));
     const imageById = new Map(images.map((i) => [i.id, i.url]));

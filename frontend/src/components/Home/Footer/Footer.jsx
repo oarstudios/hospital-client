@@ -166,7 +166,7 @@ const Footer = () => {
               ) : centersData.length > 0 ? (
                 centersData.map((centre) => (
                   <li key={centre.id || centre.slug}>
-                    <Link to={`/centre/${encryptId(centre.id)}`}>
+                    <Link to={`/centre/${centre.slug}/${encryptId(centre.id)}`}>
                       <span className="sp">{centre.name}</span>
                     </Link>
                     {centre.phone && <span>{centre.phone}</span>}

@@ -26,15 +26,28 @@ export class AppointmentsService {
     return appointment;
   }
 
-  // ✅ FIND ALL — used by the admin Manage Appointments table
-  async findAll(isDeleted?: boolean) {
+  // ✅ FIND ALL — used by the admin Manage Appointments table (paginated)
+  async findAll(isDeleted?: boolean, page = 1, limit = 10) {
     const filter =
       typeof isDeleted === 'boolean' ? isDeleted : DB_CONSTANTS.IS_DELETED.NO;
 
-    return this.repo.find({
+    const safePage = Math.max(1, Number(page) || 1);
+    const safeLimit = Math.min(100, Math.max(1, Number(limit) || 10));
+
+    const [items, total] = await this.repo.findAndCount({
       where: { isDeleted: filter },
-      order: { createdAt: 'ASC' }, // first-come-first-served: oldest created shows first
+      order: { createdAt: 'ASC' },
+      skip: (safePage - 1) * safeLimit,
+      take: safeLimit,
     });
+
+    return {
+      items,
+      total,
+      page: safePage,
+      limit: safeLimit,
+      totalPages: Math.max(1, Math.ceil(total / safeLimit)),
+    };
   }
 
   // ✅ FIND ONE

@@ -16,8 +16,7 @@ const ALL_BLOGS_RE = /^\/(Blogs|blog)\/?$/;
 const ALL_NEWS_RE = /^\/news\/?$/;
 const DOCTOR_DETAIL_RE = /^\/(doctor|OurDoctors)\/([^/]+)\/([^/]+)\/?$/;
 const ALL_DOCTORS_RE = /^\/(OurDoctors|ourDoctors)\/?$/;
-const CENTRE_TOKEN_RE = /^\/centre\/([^/]+)\/?$/;
-const CENTRE_NAMED_RE = /^\/OurCentres\/([^/]+)\/([^/]+)\/?$/;
+const CENTRE_DETAIL_RE = /^\/(centre|OurCentres)\/([^/]+)\/([^/]+)\/?$/;
 const ALL_CENTRES_RE = /^\/(OurCentres|allCenters)\/?$/;
 const LANDING_RE = /^\/cancer-treatment\/([^/]+)\/?$/;
 const ABOUT_RE = /^\/aboutUs\/?$/;
@@ -48,10 +47,8 @@ export function matchSeoRoute(pathname) {
   if (m) return { type: "doctor", slug: decodeURIComponent(m[2]), token: m[3] };
   if (ALL_DOCTORS_RE.test(path)) return { type: "all-doctors" };
 
-  m = path.match(CENTRE_NAMED_RE);
-  if (m) return { type: "center", slug: decodeURIComponent(m[1]), token: m[2] };
-  m = path.match(CENTRE_TOKEN_RE);
-  if (m) return { type: "center", token: m[1] };
+  m = path.match(CENTRE_DETAIL_RE);
+  if (m) return { type: "center", slug: decodeURIComponent(m[2]), token: m[3] };
   if (ALL_CENTRES_RE.test(path)) return { type: "all-centers" };
 
   m = path.match(LANDING_RE);
@@ -350,8 +347,9 @@ export function getCenterSeo(center, { siteUrl = "", imageBase = "" } = {}) {
     center?.address && `Cancer care at ${name}, ${center.address}.`,
   );
   const alt = centerHeroAlt(center);
+  const slug = center?.slug || "";
   const token = tokenFor(center?.id);
-  const path = token ? `/centre/${token}` : "";
+  const path = slug && token ? `/centre/${slug}/${token}` : "";
   const canonical = path ? absoluteUrl(siteUrl, path) : "";
   const image = absoluteUrl(imageBase, center?.heroImage || center?.centerImage);
 
@@ -642,9 +640,9 @@ export function buildSitemap(
         priority: "0.8",
       })),
     ...centers
-      .filter((c) => c?.id != null)
+      .filter((c) => c?.slug && c?.id != null)
       .map((c) => ({
-        loc: `${origin}/centre/${encryptId(c.id)}`,
+        loc: `${origin}/centre/${c.slug}/${encryptId(c.id)}`,
         priority: "0.8",
       })),
     ...centers

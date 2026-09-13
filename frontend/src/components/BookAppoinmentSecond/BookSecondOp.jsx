@@ -31,9 +31,9 @@ const BookSecondOp = () => {
     return acc;
   }, {});
 
-  // slug lookup for the "visit the centre page" link further down
-  const centerIdMap = activeCenters.reduce((acc, c) => {
-    acc[c.name] = c.id;
+  // lookup for the "visit the centre page" link further down
+  const centerByName = activeCenters.reduce((acc, c) => {
+    acc[c.name] = c;
     return acc;
   }, {});
 
@@ -413,7 +413,12 @@ const BookSecondOp = () => {
                         style={{ textDecoration: "underline", cursor: "pointer" }}
                         onClick={() =>
                           window.open(
-                            `/centre/${encryptId(centerIdMap[formData.center])}`,
+                            (() => {
+                              const c = centerByName[formData.center];
+                              return c?.slug
+                                ? `/centre/${c.slug}/${encryptId(c.id)}`
+                                : `/OurCentres`;
+                            })(),
                             "_blank"
                           )
                         }

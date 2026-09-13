@@ -28,7 +28,7 @@ const HeroCarousel_LWSL = () => {
   return (
     <>
       {center && <SeoHead {...getLandingSeo(center, slug, seoEnv)} />}
-      <section className="hero-carousel">
+      <section className="lwsl-hero">
         <div className="hero-wrapper">
           <div className="hero-content">
             <h1>Cancer Care & Oncology Services in {locationName}</h1>

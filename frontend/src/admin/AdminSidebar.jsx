@@ -96,7 +96,6 @@ const menu = [
   { name: "Cancer Types", path: "/ctrl/cancers", icon: cancerIcon },
   { name: "Doctors", path: "/ctrl/doctors", icon: doctorIcon },
   { name: "Blogs/News", path: "/ctrl/blogs", icon: blogIcon },
-  { name: "Appointments", path: "/ctrl/appointments", icon: testimonialIcon },
   { name: "Others", path: "/ctrl/others", icon: testimonialIcon },
 ];
 

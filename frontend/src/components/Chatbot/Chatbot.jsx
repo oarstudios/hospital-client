@@ -1,5 +1,9 @@
 import { useState, useRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { postToBookingSheet } from "../Common/bookingSheet";
+import { fetchActiveCenters } from "../../redux/centers/centersSlice";
+import { encryptId } from "../Common/Idcrypto";
+import { centerSlugMap } from "../../data/centerData";
 import "./Chatbot.css";
 
 /* ASSETS */
@@ -24,7 +28,25 @@ const areacenterMap = {
   Thane: ["Kalyan", "Dombivli"],
 };
 
+function centrePagePath(name, centers = []) {
+  const slugHint = centerSlugMap[name] || String(name || "").toLowerCase();
+  const center =
+    centers.find((c) => c.slug?.toLowerCase() === slugHint) ||
+    centers.find((c) => c.name?.toLowerCase().includes(String(name || "").toLowerCase()));
+  if (center?.slug && center?.id != null) {
+    return `/centre/${center.slug}/${encryptId(center.id)}`;
+  }
+  return "/OurCentres";
+}
+
 export default function Chatbot() {
+  const dispatch = useDispatch();
+  const { activeCenters = [] } = useSelector((state) => state.centers || {});
+
+  useEffect(() => {
+    if (!activeCenters.length) dispatch(fetchActiveCenters());
+  }, [dispatch, activeCenters.length]);
+
   /* ================= STATE ================= */
   const [open, setOpen] = useState(false);
   const [view, setView] = useState("menu");
@@ -228,7 +250,7 @@ export default function Chatbot() {
           style={{ textDecoration: "underline", cursor: "pointer" }}
           onClick={() =>
             window.open(
-              `/centre/${selectedcenterRef.current.toLowerCase()}`,
+              centrePagePath(selectedcenterRef.current, activeCenters),
               "_blank"
             )
           }

@@ -36,8 +36,18 @@ export class AppointmentsController {
   // ✅ FIND ALL — admin Manage Appointments table
   @Get()
   @ApiQuery({ name: 'isDeleted', required: false, type: Boolean })
-  findAll(@Query('isDeleted') isDeleted?: any) {
-    return this.service.findAll(this.parseBoolean(isDeleted));
+  @ApiQuery({ name: 'page', required: false, type: Number })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
+  findAll(
+    @Query('isDeleted') isDeleted?: any,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+  ) {
+    return this.service.findAll(
+      this.parseBoolean(isDeleted),
+      page ? Number(page) : 1,
+      limit ? Number(limit) : 10,
+    );
   }
 
   // ✅ STATS — admin dashboard count card

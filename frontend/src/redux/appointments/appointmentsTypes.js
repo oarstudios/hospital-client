@@ -17,14 +17,22 @@
  * @property {string}      updatedAt
  *
  * @typedef {Object} AppointmentsState
- * @property {Appointment[]} list      - All appointments (admin table)
- * @property {Object|null}   stats     - { totalAppointments, pending, confirmed, cancelled }
+ * @property {Appointment[]} list
+ * @property {number}        total
+ * @property {number}        page
+ * @property {number}        limit
+ * @property {number}        totalPages
+ * @property {Object|null}   stats
  * @property {boolean}       loading
  * @property {string|null}   error
  */
 
 export const APPOINTMENTS_INITIAL_STATE = {
   list: [],
+  total: 0,
+  page: 1,
+  limit: 10,
+  totalPages: 1,
   stats: null,
   loading: false,
   error: null,

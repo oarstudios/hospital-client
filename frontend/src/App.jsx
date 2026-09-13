@@ -194,7 +194,7 @@ function App() {
               </>
             }
           />
-          <Route path="/centre/:id" element={<CenterDetailPage />} />
+          <Route path="/centre/:slug/:id" element={<CenterDetailPage />} />
 
           {/* DOCTORS */}
           <Route

@@ -398,9 +398,9 @@ export default function siteSeoPlugin() {
   for (const center of centers) {
     const seo = getCenterSeo(center, opts);
 
-    if (seo.token) {
+    if (seo.token && center.slug) {
       await writeSeoHtml(
-        `centre/${seo.token}/index.html`,
+        `centre/${center.slug}/${seo.token}/index.html`,
         seo
       );
     }

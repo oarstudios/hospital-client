@@ -36,6 +36,7 @@ const normalizeSlides = (raw) => {
 const ManageOthers = () => {
   const dispatch = useDispatch();
   const [sheetLink, setSheetLink] = useState("");
+  const [savedSheetLink, setSavedSheetLink] = useState("");
   const [carousel, setCarousel] = useState([]);
   const [newSlideFiles, setNewSlideFiles] = useState(EMPTY_SLIDE_FILES);
   const [loading, setLoading] = useState(false);
@@ -59,6 +60,7 @@ const ManageOthers = () => {
       const payload = res?.data?.data ?? res?.data ?? {};
       if (payload) {
         setSheetLink(payload.sheetLink || "");
+        setSavedSheetLink(payload.sheetLink || "");
         setCarousel(normalizeSlides(payload.carousel));
       }
     } catch (err) {
@@ -190,8 +192,22 @@ const ManageOthers = () => {
       dispatch(showToast.error("Please enter a valid URL starting with http or https."));
       return;
     }
+    if (sheetLink.trim() === savedSheetLink.trim()) {
+      dispatch(showToast.info("No changes to save."));
+      return;
+    }
+    const ok = await confirm({
+      title: "Save booking sheet link?",
+      message:
+        "This will replace the current booking sheet link. Accidental changes can send bookings to the wrong sheet.",
+      confirmLabel: "Save",
+      cancelLabel: "Cancel",
+      danger: true,
+    });
+    if (!ok) return;
     try {
       await axios.put("/others/sheet-link", { sheetLink });
+      setSavedSheetLink(sheetLink);
       dispatch(showToast.success("Sheet link saved."));
     } catch (err) {
       console.error(err);

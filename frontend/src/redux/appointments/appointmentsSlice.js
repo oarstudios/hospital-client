@@ -109,12 +109,23 @@ const appointmentsSlice = createSlice({
       })
       .addCase(createAppointment.rejected, rejected);
 
-    // fetchAppointments (admin table — all records)
     builder
       .addCase(fetchAppointments.pending, pending)
       .addCase(fetchAppointments.fulfilled, (state, action) => {
         state.loading = false;
-        state.list = action.payload || [];
+        const payload = action.payload;
+        if (payload && Array.isArray(payload.items)) {
+          state.list = payload.items;
+          state.total = payload.total ?? payload.items.length;
+          state.page = payload.page ?? 1;
+          state.limit = payload.limit ?? 10;
+          state.totalPages = payload.totalPages ?? 1;
+        } else {
+          state.list = Array.isArray(payload) ? payload : [];
+          state.total = state.list.length;
+          state.page = 1;
+          state.totalPages = 1;
+        }
       })
       .addCase(fetchAppointments.rejected, rejected);
 
@@ -147,6 +158,7 @@ const appointmentsSlice = createSlice({
         state.loading = false;
         const deletedId = action.payload;
         state.list = state.list.filter((a) => a.id !== deletedId);
+        state.total = Math.max(0, state.total - 1);
       })
       .addCase(deleteAppointment.rejected, rejected);
 

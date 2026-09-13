@@ -250,7 +250,7 @@ const Navbar = () => {
                     {centres.slice(0, mid).map((center) => (
                       <p
                         key={center.id || center.slug}
-                        onClick={() => handleNavigate(`/centre/${encryptId(center.id)}`)}
+                        onClick={() => handleNavigate(`/centre/${center.slug}/${encryptId(center.id)}`)}
                       >
                         {center.name}
                       </p>
@@ -261,7 +261,7 @@ const Navbar = () => {
                     {centres.slice(mid).map((center) => (
                       <p
                         key={center.id || center.slug}
-                        onClick={() => handleNavigate(`/centre/${encryptId(center.id)}`)}
+                        onClick={() => handleNavigate(`/centre/${center.slug}/${encryptId(center.id)}`)}
                       >
                         {center.name}
                       </p>

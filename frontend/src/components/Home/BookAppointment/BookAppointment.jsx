@@ -31,9 +31,9 @@ const BookAppointment = () => {
     return acc;
   }, {});
 
-  // id lookup for the "visit the centre page" link
-  const centerIdMap = activeCenters.reduce((acc, c) => {
-    acc[c.name] = c.id;
+  // lookup for the "visit the centre page" link
+  const centerByName = activeCenters.reduce((acc, c) => {
+    acc[c.name] = c;
     return acc;
   }, {});
 
@@ -412,7 +412,12 @@ const BookAppointment = () => {
                         style={{ textDecoration: "underline", cursor: "pointer" }}
                         onClick={() =>
                           window.open(
-                            `/centre/${encryptId(centerIdMap[formData.center])}`,
+                            (() => {
+                              const c = centerByName[formData.center];
+                              return c?.slug
+                                ? `/centre/${c.slug}/${encryptId(c.id)}`
+                                : `/OurCentres`;
+                            })(),
                             "_blank"
                           )
                         }
