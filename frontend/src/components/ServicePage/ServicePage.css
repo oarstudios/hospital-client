@@ -236,76 +236,94 @@
 /* ================================
    FAQ SECTION
 ================================ */
+/* Scoped under .ictc-service-faq: .ictc-faq-* class names are also styled
+   (unscoped) by the cancer and location-landing FAQs, and all CSS is global. */
 .ictc-service-faq {
-  margin-top: 96px;
-
+  margin-top: 72px;
+  padding-bottom: 64px;
 }
 
 .ictc-service-faq h2 {
   font-size: 30px;
   font-weight: 700;
-  margin-bottom: 32px;
+  line-height: 1.25;
+  color: rgba(48, 45, 49, 1);
+  margin: 0 0 28px;
 }
 
 /* ================================
    FAQ ITEM
 ================================ */
-.ictc-faq-item {
+.ictc-service-faq .ictc-faq-item {
   background: #ffffff;
   border: 1px solid rgba(228, 227, 229, 1);
-  border-radius: 24px;
-  padding: 24px;
-  margin-bottom: 20px;
+  border-radius: 20px;
+  padding: 0;
+  margin: 0 0 16px;
+  overflow: hidden;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.ictc-faq-item:hover {
-  background: rgba(236, 223, 242, 1);
+.ictc-service-faq .ictc-faq-item:hover {
+  background: rgba(236, 223, 242, 0.45);
 }
 
-.ictc-faq-active {
+.ictc-service-faq .ictc-faq-item.ictc-faq-active {
+  background: #ffffff;
   border-color: rgba(176, 104, 205, 1);
+  box-shadow: 0 6px 20px rgba(88, 13, 121, 0.08);
 }
 
 /* ================================
    FAQ QUESTION
 ================================ */
-.ictc-faq-question {
+.ictc-service-faq .ictc-faq-question {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   gap: 16px;
-  font-size: 22px;
+  width: 100%;
+  margin: 0;
+  padding: 20px 24px;
+  border: none;
+  background: transparent;
+  font-size: 20px;
   font-weight: 600;
+  line-height: 1.4;
+  text-align: left;
+  color: rgba(48, 45, 49, 1);
 }
 
-.ictc-faq-question span {
+.ictc-service-faq .ictc-faq-question span {
   flex: 1;
   min-width: 0;
-  padding-right: 8px;
-  line-height: 1.35;
+  padding: 0;
+  overflow-wrap: anywhere;
 }
 
-.ictc-faq-question img {
-  width: 28px;
-  height: 28px;
+.ictc-service-faq .ictc-faq-question img {
+  width: 24px;
+  height: 24px;
   flex-shrink: 0;
-  margin-top: 2px;
+  margin: 0;
   transition: transform 0.3s ease;
 }
 
-.rotate {
+.ictc-service-faq .ictc-faq-question img.rotate {
   transform: rotate(180deg);
 }
 
 /* ================================
    FAQ ANSWER
 ================================ */
-.ictc-faq-answer {
-  margin-top: 16px;
-  font-size: 18px;
+.ictc-service-faq .ictc-faq-answer {
+  margin: 0;
+  padding: 0 24px 22px;
+  font-size: 17px;
   line-height: 1.7;
+  color: #5b5560;
+  cursor: auto;
 }
 
 /* ================================
@@ -329,6 +347,10 @@
    RESPONSIVE – MOBILE
 ================================ */
 @media (max-width: 768px) {
+  .ictc-service-faq h2 {
+    font-size: 24px;
+  }
+
   .ictc-service-page {
     padding: 32px 24px 0;
   }
@@ -351,11 +373,11 @@
     font-size: 15px;
   }
 
-  .ictc-faq-question {
+  .ictc-service-faq .ictc-faq-question {
     font-size: 18px;
   }
 
-  .ictc-faq-answer {
+  .ictc-service-faq .ictc-faq-answer {
     font-size: 16px;
   }
 }
@@ -390,16 +412,23 @@
     font-size: 14px;
   }
 
-  .ictc-faq-item {
-    padding: 16px;
+  .ictc-service-faq .ictc-faq-item {
     border-radius: 16px;
   }
 
-  .ictc-faq-question {
+  .ictc-service-faq .ictc-faq-question {
+    padding: 16px;
+  }
+
+  .ictc-service-faq .ictc-faq-answer {
+    padding: 0 16px 16px;
+  }
+
+  .ictc-service-faq .ictc-faq-question {
     font-size: 16px;
   }
 
-  .ictc-faq-answer {
+  .ictc-service-faq .ictc-faq-answer {
     font-size: 14px;
   }
 }

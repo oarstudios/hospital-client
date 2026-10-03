@@ -18,6 +18,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
+    "seed:data": "node scripts/seed-frontend-data.js",
     "seed:blogs": "node scripts/seed-sample-blogs.js",
     "migrate:ctas": "node scripts/migrate-blog-ctas-to-global.js"
   },

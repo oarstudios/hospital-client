@@ -9,7 +9,9 @@
   max-width: 100%;
   box-sizing: border-box;
   margin: 28px 0;
-  background: linear-gradient(90deg, #45000f 0%, #7a0020 50%, #a8002c 100%);
+  border-radius: 20px;
+  /* darker purple holds across most of the banner, easing to the lighter tone on the right */
+  background: linear-gradient(90deg, #580D79 0%, #580D79 45%, #794191 100%);
   color: #fff;
   overflow: hidden;
 }
@@ -133,6 +135,8 @@
 }
 
 @media (max-width: 640px) {
+  .cta-slider { border-radius: 14px; }
+
   .cta-slider__slide,
   .cta-slider--multi .cta-slider__slide {
     flex-direction: column;

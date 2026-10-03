@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "../../../app/axiosinstance";
+import DesktopQuickCta from "../../Common/DesktopQuickCta";
 import "./HeroCarousel.css";
 
 import slide1Desktop from "../../../assets/car.webp";
@@ -17,9 +17,7 @@ const defaultSlides = [
 
 const HeroCarousel = () => {
   const [current, setCurrent] = useState(0);
-  const [showCTA, setShowCTA] = useState(true);
   const [slides, setSlides] = useState(defaultSlides);
-  const navigate = useNavigate();
 
   const toImageUrl = (name) => {
     if (!name) return "";
@@ -96,25 +94,7 @@ const HeroCarousel = () => {
       </section>
 
       {/* Desktop / tablet CTA — fixed to viewport */}
-      {showCTA && (
-        <div className="quick-cta">
-          <button className="cta-close" onClick={() => setShowCTA(false)}>
-            ✕
-          </button>
-
-          <button className="cta-btn light" onClick={() => navigate("/allCenters")}>
-            Locate Centre <span>→</span>
-          </button>
-
-          <button className="cta-btn white" onClick={() => navigate("/BookAppoinment")}>
-            Book an Appointment <span>→</span>
-          </button>
-
-          <button className="cta-btn grey" onClick={() => navigate("/BookSecondOpinion")}>
-            Get Second Opinion <span>→</span>
-          </button>
-        </div>
-      )}
+      <DesktopQuickCta />
     </div>
   );
 };

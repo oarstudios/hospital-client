@@ -139,7 +139,7 @@
 .cta-picker-btn {
   padding: 2px 10px;
   border-radius: 999px;
-  background: linear-gradient(90deg, #45000f, #a8002c);
+  background: linear-gradient(90deg, #580D79 0%, #580D79 45%, #794191 100%);
   color: #fff;
   font-size: 12px;
   font-weight: 700;

@@ -118,3 +118,44 @@
   line-height: 1;
   padding-top: 2px;
 }
+/* Scoped overrides: the chatbot's global .faq-item rule (flex-direction: column,
+   hover border) would otherwise stack the handle, text and delete button. */
+.draggable-faq-list .faq-item.faq-item-draggable {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 14px;
+  margin: 0;
+  padding: 16px 18px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+
+.draggable-faq-list .faq-item.faq-item-draggable:hover {
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+}
+
+.draggable-faq-list .faq-item-draggable .faq-remove-btn {
+  margin-left: auto;
+  align-self: flex-start;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 8px;
+  background: #ef4444;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.draggable-faq-list .faq-item-draggable .faq-remove-btn:hover {
+  background: #dc2626;
+}

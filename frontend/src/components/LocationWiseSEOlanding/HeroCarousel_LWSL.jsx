@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "./HeroCarousel_LWSL.css";
+import DesktopQuickCta from "../Common/DesktopQuickCta";
 import useLandingCenter, { centrePlaceName } from "./useLandingCenter";
 import SeoHead from "../Common/SeoHead";
 import { getLandingSeo } from "../../seo/pageSeo";
@@ -12,8 +12,6 @@ const slides = [{ image: slide1Desktop }, { image: slide1Desktop }, { image: sli
 
 const HeroCarousel_LWSL = () => {
   const [current, setCurrent] = useState(0);
-  const [showCTA, setShowCTA] = useState(true);
-  const navigate = useNavigate();
   const { center, slug } = useLandingCenter();
   const locationName = centrePlaceName(center) || "Mumbai";
   const seoEnv = usePublicSeoEnv();
@@ -49,19 +47,7 @@ const HeroCarousel_LWSL = () => {
         </div>
       </section>
 
-      {showCTA && (
-        <div className="quick-cta">
-          <button className="cta-close" onClick={() => setShowCTA(false)}>
-            ✕
-          </button>
-          <button className="cta-btn white" onClick={() => navigate("/BookAppoinment")}>
-            Book an Appointment <span>→</span>
-          </button>
-          <button className="cta-btn grey" onClick={() => navigate("/BookSecondOpinion")}>
-            Get Second Opinion <span>→</span>
-          </button>
-        </div>
-      )}
+      <DesktopQuickCta hideLocate />
     </>
   );
 };

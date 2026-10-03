@@ -104,6 +104,7 @@ import imgSrc from "../Common/ImgSrc";
 import formatServiceTitle from "../Common/formatServiceTitle";
 import { resolveUrlId } from "../Common/Idcrypto";
 import SeoHead from "../Common/SeoHead";
+import BlogContent from "../Common/BlogContent";
 import { getServiceSeo, serviceAlt } from "../../seo/pageSeo";
 import usePublicSeoEnv from "../../seo/usePublicSeoEnv";
 import "./ServicePage.css";
@@ -154,10 +155,7 @@ const ServicePage = () => {
 
       {/* RICH HTML CONTENT from TipTap editor */}
       {data.content && (
-        <div
-          className="ictc-service-content"
-          dangerouslySetInnerHTML={{ __html: data.content }}
-        />
+        <BlogContent as="div" className="ictc-service-content" html={data.content} />
       )}
 
       {/* FAQ */}

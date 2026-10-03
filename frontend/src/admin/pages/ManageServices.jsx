@@ -4,16 +4,10 @@ import { useDropzone } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import { DraggableFAQList } from "../common/Draggablelist";
 
-import { EditorContent, useEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Image from "@tiptap/extension-image";
-import Placeholder from "@tiptap/extension-placeholder";
-import Highlight from "@tiptap/extension-highlight";
-import Typography from "@tiptap/extension-typography";
-import Link from "@tiptap/extension-link";
-import Underline from "@tiptap/extension-underline";
-import TextAlign from "@tiptap/extension-text-align";
-import Dropcursor from "@tiptap/extension-dropcursor";
+import RichEditor from "../editor/RichEditor";
+import useRichEditor from "../editor/useRichEditor";
+import { hoistFullWidthBlocks } from "../editor/blogBlocks";
+import BlogContent from "../../components/Common/BlogContent";
 
 import "./ManageServices.css";
 
@@ -26,7 +20,6 @@ import {
 
 import { fetchServiceCategories } from "../../redux/serviceCategories/serviceCategoriesSlice";
 
-import axiosInstance from "../../app/axiosinstance";
 import { showToast } from "../../redux/toast/toastSlice";
 import FieldError from "../../components/Common/FieldError";
 import useConfirmDialog from "../../components/Common/useConfirmDialog";
@@ -57,7 +50,6 @@ const ManageServices = () => {
   const [editId, setEditId] = useState(null);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewHTML, setPreviewHTML] = useState("");
-  const [imageUploading, setImageUploading] = useState(false);
   const [errors, setErrors] = useState({});
   const [confirm, confirmDialog] = useConfirmDialog();
 
@@ -79,59 +71,12 @@ const ManageServices = () => {
     onDrop,
   });
 
-  /* ── TipTap editor ──────────────────────────────────────────────────────── */
+  /* ── Rich-text editor (same features as the blog editor, stored as HTML) ── */
 
-  const editor = useEditor({
-    extensions: [
-      StarterKit.configure({
-        dropcursor: false,
-        underline: false,
-        link: false,
-      }),
-      Image,
-      Highlight,
-      Typography,
-      Underline,
-      Dropcursor,
-      Link.configure({ openOnClick: false }),
-      TextAlign.configure({ types: ["heading", "paragraph"] }),
-      Placeholder.configure({ placeholder: "Start writing your service..." }),
-    ],
-    content: "",
-    onUpdate({ editor }) {
-      setPreviewHTML(editor.getHTML());
-    },
+  const { editor, bridge } = useRichEditor({
+    placeholder: "Start writing your service...",
+    onUpdate: (ed) => setPreviewHTML(ed.getHTML()),
   });
-
-  /* ── Inline image upload (inside editor) ────────────────────────────────── */
-
-  const addImage = () => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "image/*";
-
-    input.onchange = async () => {
-      const file = input.files[0];
-      if (!file) return;
-
-      setImageUploading(true);
-      try {
-        const form = new FormData();
-        form.append("file", file);
-        const res = await axiosInstance.post("/services/upload-content-image", form, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-        const url = res.data?.data?.url || res.data?.url;
-        if (url) editor.chain().focus().setImage({ src: url }).run();
-      } catch {
-        dispatch(showToast.error("Image upload failed. Please try again."));
-      } finally {
-        setImageUploading(false);
-      }
-    };
-
-    input.click();
-  };
 
   /* ── FAQ ────────────────────────────────────────────────────────────────── */
 
@@ -173,6 +118,7 @@ const ManageServices = () => {
     formData.append("altText", service.altText || "");
     formData.append("seoTitle", service.metaTitle || "");
     formData.append("metaDescription", service.metaDescription || "");
+    if (editor) hoistFullWidthBlocks(editor);
     formData.append("content", editor ? editor.getHTML() : "");
     formData.append("faqs", JSON.stringify(service.faqs));
 
@@ -215,8 +161,10 @@ const ManageServices = () => {
       categoryId: item.categoryId ?? "",
     });
     setShowModal(true);
-    if (editor && item.content) {
-      editor.commands.setContent(item.content);
+    if (editor) {
+      editor.commands.setContent(item.content || "");
+      hoistFullWidthBlocks(editor);
+      setPreviewHTML(editor.getHTML());
     }
   };
 
@@ -405,39 +353,7 @@ const ManageServices = () => {
             />
             <FieldError message={errors.slug} />
 
-            <div className="editor-section">
-              {editor && (
-                <div className="editor-toolbar">
-                  <button type="button" onClick={() => editor.chain().focus().toggleBold().run()}><b>B</b></button>
-                  <button type="button" onClick={() => editor.chain().focus().toggleItalic().run()}><i>I</i></button>
-                  <button type="button" onClick={() => editor.chain().focus().toggleUnderline().run()}><u>U</u></button>
-                  <button type="button" onClick={() => editor.chain().focus().toggleStrike().run()}>S</button>
-                  <button type="button" onClick={() => editor.chain().focus().toggleHighlight().run()}>Highlight</button>
-                  <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}>H1</button>
-                  <button type="button" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}>H2</button>
-                  <button type="button" onClick={() => editor.chain().focus().setParagraph().run()}>P</button>
-                  <button type="button" onClick={() => editor.chain().focus().toggleBulletList().run()}>• List</button>
-                  <button type="button" onClick={() => editor.chain().focus().toggleOrderedList().run()}>1. List</button>
-                  <button type="button" onClick={() => editor.chain().focus().setTextAlign("left").run()}>Left</button>
-                  <button type="button" onClick={() => editor.chain().focus().setTextAlign("center").run()}>Center</button>
-                  <button type="button" onClick={() => editor.chain().focus().setTextAlign("right").run()}>Right</button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const url = prompt("Enter URL");
-                      if (url) editor.chain().focus().setLink({ href: url }).run();
-                    }}
-                  >
-                    Link
-                  </button>
-                  <button type="button" onClick={addImage} disabled={imageUploading}>
-                    {imageUploading ? "Uploading..." : "Image"}
-                  </button>
-                </div>
-              )}
-
-              <EditorContent editor={editor} className="notion-editor" />
-            </div>
+            <RichEditor editor={editor} bridge={bridge} uploadPath="/services/upload-content-image" />
 
             <h3 style={{ marginTop: "40px" }}>FAQs</h3>
             <label>Question</label>
@@ -498,7 +414,7 @@ const ManageServices = () => {
               <img src={imgSrc(service.image)} className="preview-hero" alt="" />
             )}
             <h1 className="preview-title">{service.title || "Service Title"}</h1>
-            <div className="preview-body" dangerouslySetInnerHTML={{ __html: previewHTML }} />
+            <BlogContent as="div" className="preview-body" html={previewHTML} preview />
           </div>
         </div>
       )}
