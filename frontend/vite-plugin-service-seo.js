@@ -23,6 +23,13 @@ import {
   buildSitemap,
   buildRobotsTxt,
 } from "./src/seo/pageSeo.js";
+import {
+  blogBody,
+  serviceBody,
+  cancerBody,
+  doctorBody,
+  centerBody,
+} from "./src/seo/bodySnapshot.js";
 
 function unwrap(payload) {
   if (!payload) return null;
@@ -67,6 +74,28 @@ export default function siteSeoPlugin() {
     return Array.isArray(data) ? data : [];
   }
 
+  /** Attaches the crawler-visible body snapshot (see src/seo/bodySnapshot.js). */
+  function withBody(seo, bodyHtml) {
+    if (seo && bodyHtml) seo.bodyHtml = bodyHtml;
+    return seo;
+  }
+
+  async function loadCtas() {
+    const others = await loadOne("/others");
+    return Array.isArray(others?.ctas) ? others.ctas : [];
+  }
+
+  async function blogSeoWithBody(blog, opts, { ctas, doctors } = {}) {
+    const authorDoctor = blog.authorId
+      ? (doctors || []).find((d) => String(d.id) === String(blog.authorId))
+        || (doctors ? null : await loadOne(`/doctors/${blog.authorId}`))
+      : null;
+    return withBody(
+      getBlogSeo(blog, opts),
+      blogBody(blog, { ...opts, ctas: ctas ?? (await loadCtas()), authorDoctor }),
+    );
+  }
+
   async function loadCatalog() {
     const [services, cancers, blogs, doctors, centers] = await Promise.all([
       loadList("/services"),
@@ -102,11 +131,11 @@ export default function siteSeoPlugin() {
         return getAboutSeo(opts);
       case "service": {
         const service = await loadOne(`/services/slug/${encodeURIComponent(route.slug)}`);
-        return service ? getServiceSeo(service, opts) : null;
+        return service ? withBody(getServiceSeo(service, opts), serviceBody(service, opts)) : null;
       }
       case "cancer": {
         const cancer = await loadOne(`/cancers/slug/${encodeURIComponent(route.slug)}`);
-        return cancer ? getCancerSeo(cancer, opts) : null;
+        return cancer ? withBody(getCancerSeo(cancer, opts), cancerBody(cancer, opts)) : null;
       }
       case "blog": {
         let blog = route.slug
@@ -116,11 +145,11 @@ export default function siteSeoPlugin() {
           const id = decryptId(route.token) || route.token;
           if (id) blog = await loadOne(`/blogs/${id}`);
         }
-        return blog ? getBlogSeo(blog, opts) : null;
+        return blog ? blogSeoWithBody(blog, opts) : null;
       }
       case "doctor": {
         const doctor = await loadOne(`/doctors/slug/${encodeURIComponent(route.slug)}`);
-        return doctor ? getDoctorSeo(doctor, opts) : null;
+        return doctor ? withBody(getDoctorSeo(doctor, opts), doctorBody(doctor, opts)) : null;
       }
       case "center": {
         const centers = await loadList("/centers");
@@ -131,7 +160,7 @@ export default function siteSeoPlugin() {
           ? centers.find((c) => String(c.id) === String(decryptId(route.token) || route.token))
           : null;
         const center = bySlug || byId;
-        return center ? getCenterSeo(center, opts) : null;
+        return center ? withBody(getCenterSeo(center, opts), centerBody(center, opts)) : null;
       }
       case "landing": {
         const centers = await loadList("/centers");
@@ -242,6 +271,7 @@ export default function siteSeoPlugin() {
   const opts = envOpts();
 
   const { services, cancers, blogs, doctors, centers } = catalog;
+  const ctas = await loadCtas();
 
   const hasAny =
     services.length ||
@@ -343,7 +373,7 @@ export default function siteSeoPlugin() {
 
   // Services
   for (const service of services) {
-    const seo = getServiceSeo(service, opts);
+    const seo = withBody(getServiceSeo(service, opts), serviceBody(service, opts));
 
     if (seo.token && service.slug) {
       await writeSeoHtml(
@@ -355,7 +385,7 @@ export default function siteSeoPlugin() {
 
   // Cancers
   for (const cancer of cancers) {
-    const seo = getCancerSeo(cancer, opts);
+    const seo = withBody(getCancerSeo(cancer, opts), cancerBody(cancer, opts));
 
     if (seo.token && cancer.slug) {
       await writeSeoHtml(
@@ -367,7 +397,7 @@ export default function siteSeoPlugin() {
 
   // Blogs
   for (const blog of blogs) {
-    const seo = getBlogSeo(blog, opts);
+    const seo = await blogSeoWithBody(blog, opts, { ctas, doctors });
 
     if (seo.token && blog.slug) {
       await writeSeoHtml(
@@ -384,7 +414,7 @@ export default function siteSeoPlugin() {
 
   // Doctors
   for (const doctor of doctors) {
-    const seo = getDoctorSeo(doctor, opts);
+    const seo = withBody(getDoctorSeo(doctor, opts), doctorBody(doctor, opts));
 
     if (seo.token && doctor.slug) {
       await writeSeoHtml(
@@ -396,7 +426,7 @@ export default function siteSeoPlugin() {
 
   // Centres
   for (const center of centers) {
-    const seo = getCenterSeo(center, opts);
+    const seo = withBody(getCenterSeo(center, opts), centerBody(center, opts));
 
     if (seo.token && center.slug) {
       await writeSeoHtml(

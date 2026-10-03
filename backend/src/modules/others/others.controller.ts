@@ -15,7 +15,26 @@ import { diskStorage } from 'multer';
 import { extname, join } from 'path';
 import * as fs from 'fs';
 import { ApiTags, ApiConsumes, ApiBody } from '@nestjs/swagger';
+import { IsString, MaxLength } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 import { OthersService } from './others.service';
+
+class CtaDto {
+  @ApiProperty({ example: 'Have you noticed a persistent voice change?' })
+  @IsString()
+  @MaxLength(300)
+  text!: string;
+
+  @ApiProperty({ example: 'Book a Consultation' })
+  @IsString()
+  @MaxLength(60)
+  buttonText!: string;
+
+  @ApiProperty({ example: '/BookAppoinment' })
+  @IsString()
+  @MaxLength(500)
+  link!: string;
+}
 
 const multerStorage = diskStorage({
   destination: (_req, _file, cb) => {
@@ -96,6 +115,29 @@ export class OthersController {
   @UseInterceptors(uploadInterceptor)
   replaceCarousel(@Param('name') name: string, @UploadedFiles() files: Express.Multer.File[]) {
     return this.service.replaceCarouselFile(name, files);
+  }
+
+  /* ── CTAs (site-wide, inserted into blogs from the editor) ── */
+
+  @Post('ctas')
+  addCta(@Body() body: CtaDto) {
+    return this.service.addCta(body);
+  }
+
+  // Declared before 'ctas/:id' so "order" isn't treated as an id
+  @Put('ctas/order')
+  reorderCtas(@Body() body: { ids?: unknown[] }) {
+    return this.service.reorderCtas(body?.ids || []);
+  }
+
+  @Put('ctas/:id')
+  updateCta(@Param('id') id: string, @Body() body: CtaDto) {
+    return this.service.updateCta(id, body);
+  }
+
+  @Delete('ctas/:id')
+  removeCta(@Param('id') id: string) {
+    return this.service.removeCta(id);
   }
 
   @Put('sheet-link')

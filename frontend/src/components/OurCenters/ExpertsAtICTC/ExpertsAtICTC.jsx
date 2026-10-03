@@ -65,14 +65,9 @@
 
 
 import "./ExpertsAtICTC.css";
-import { useNavigate } from "react-router-dom";
-import imgSrc from "../../Common/ImgSrc";
-import { encryptId } from "../../Common/Idcrypto";
-import { doctorAlt } from "../../../seo/pageSeo";
+import ExpertProfileRow from "./ExpertProfileRow";
 
 const ExpertsAtICTC = ({ center }) => {
-  const navigate = useNavigate();
-
   const doctors = center?.doctors || [];
 
   if (!center) return null;
@@ -85,43 +80,11 @@ const ExpertsAtICTC = ({ center }) => {
         <p className="no-doctors">No doctors available at this centre.</p>
       ) : (
         doctors.map((doc, index) => (
-          <div
+          <ExpertProfileRow
             key={doc.slug || doc.id}
-            className={`expert-row ${index % 2 !== 0 ? "reverse" : ""}`}
-          >
-            {/* LEFT CARD */}
-            <div className="expert-card">
-              <div className="expert-img">
-                <img src={imgSrc(doc.image)} alt={doctorAlt(doc)} />
-              </div>
-
-              <h3>{doc.name}</h3>
-              <p className="expert-short">
-                {(doc.qualification || "").split(",").map((item, i) => (
-                  <span key={i}>
-                    {item.trim()}
-                    <br />
-                  </span>
-                ))}
-              </p>
-
-              <div className="expert-tag">{doc.designation}</div>
-            </div>
-
-            {/* RIGHT CONTENT */}
-            <div className="expert-content">
-              <h3>{doc.name}</h3>
-
-              <p className="expert-summary">{doc.summary}</p>
-
-              <span
-                className="know-more"
-                onClick={() => navigate(`/doctor/${doc.slug}/${encryptId(doc.id)}`)}
-              >
-                Know More <span>→</span>
-              </span>
-            </div>
-          </div>
+            doctor={doc}
+            reverse={index % 2 !== 0}
+          />
         ))
       )}
     </section>

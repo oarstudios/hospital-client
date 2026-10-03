@@ -3,6 +3,7 @@ import {
   IsOptional,
   IsString,
   IsArray,
+  IsInt,
 } from 'class-validator';
 import { Transform } from 'class-transformer';
 
@@ -44,6 +45,19 @@ export class CreateBlogDto {
   @IsOptional()
   @IsString()
   author?: string;
+
+  // Doctor id of the author; empty / missing means "ICTC"
+  @ApiProperty({ required: false, type: Number, nullable: true })
+  @IsOptional()
+  @Transform(({ value }) => {
+    if (value === '' || value === null || value === undefined || value === 'null') {
+      return null;
+    }
+    const n = Number(value);
+    return Number.isFinite(n) && n > 0 ? n : null;
+  })
+  @IsInt()
+  authorId?: number | null;
 
   @ApiProperty({ type: [Number], required: false })
   @IsOptional()

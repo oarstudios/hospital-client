@@ -1,6 +1,6 @@
 import "./BlogPost.css";
 import { useParams, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBlogById, fetchSimilarBlogs, clearSimilarBlogs } from "../../redux/blogs/blogsSlice";
 import { encryptId, resolveUrlId } from "../Common/Idcrypto";
@@ -10,6 +10,8 @@ import { showToast } from "../../redux/toast/toastSlice";
 import SeoHead from "../Common/SeoHead";
 import { getBlogSeo, blogAlt } from "../../seo/pageSeo";
 import usePublicSeoEnv from "../../seo/usePublicSeoEnv";
+import BlogContent from "../Common/BlogContent";
+import BlogAuthor from "./BlogAuthor";
 
 import userIcon from "../../assets/solar_user-bold.png";
 import shareIcon from "../../assets/ri_share-line.png";
@@ -20,6 +22,7 @@ import doctorImg from "../../assets/High res images 1.png";
 import { generateHTML } from "@tiptap/core";
 import StarterKit from "@tiptap/starter-kit";
 import { EditorImage } from "../../admin/editor/contentImage";
+import { BLOG_BLOCKS } from "../../admin/editor/blogBlocks";
 import Highlight from "@tiptap/extension-highlight";
 import Typography from "@tiptap/extension-typography";
 import TaskList from "@tiptap/extension-task-list";
@@ -47,7 +50,36 @@ const BLOG_EXTENSIONS = [
   TextAlign.configure({ types: ["heading", "paragraph"] }),
   TaskList,
   TaskItem.configure({ nested: true }),
+  ...BLOG_BLOCKS,
 ];
+
+// Empty text nodes are invalid in ProseMirror and make generateHTML throw for
+// the whole post, so drop them before rendering.
+const withoutEmptyText = (node) => {
+  if (!node || !Array.isArray(node.content)) return node;
+  return {
+    ...node,
+    content: node.content
+      .filter((child) => !(child?.type === "text" && !child.text))
+      .map(withoutEmptyText),
+  };
+};
+
+const getHTML = (content) => {
+  if (!content) return "";
+  try {
+    // Stored as JSON object (TipTap getJSON format)
+    const json = typeof content === "string" ? JSON.parse(content) : content;
+    if (json && json.type === "doc") {
+      return generateHTML(withoutEmptyText(json), BLOG_EXTENSIONS);
+    }
+  } catch (err) {
+    console.error("Could not render blog content:", err);
+  }
+  // Fallback: already an HTML string (older blogs)
+  if (typeof content === "string") return content;
+  return "";
+};
 
 const BlogPost = () => {
   const { id, slug } = useParams();
@@ -70,6 +102,10 @@ const BlogPost = () => {
       dispatch(clearSimilarBlogs());
     };
   }, [numericId, dispatch]);
+
+  // Memoised so the body's innerHTML (and the CTA sliders mounted into it)
+  // isn't rebuilt on every render
+  const bodyHTML = useMemo(() => getHTML(blog?.content), [blog?.content]);
 
   if (loading) {
     return <p style={{ padding: "40px" }}>Loading blog...</p>;
@@ -99,22 +135,6 @@ const BlogPost = () => {
     } catch (error) {
       console.error("Share failed:", error);
     }
-  };
-
-  const getHTML = (content) => {
-    if (!content) return "";
-    try {
-      // Stored as JSON object (TipTap getJSON format)
-      const json = typeof content === "string" ? JSON.parse(content) : content;
-      if (json && json.type === "doc") {
-        return generateHTML(json, BLOG_EXTENSIONS);
-      }
-    } catch {
-      // fall through
-    }
-    // Fallback: already an HTML string (older blogs)
-    if (typeof content === "string") return content;
-    return "";
   };
 
   const formatDate = (dateString) => {
@@ -160,7 +180,7 @@ const BlogPost = () => {
               <div className="ictc-bp-flex">
                 <div className="ictc-blogpost-author">
                   <img src={userIcon} alt="Author" />
-                  <span>by {blog.author || "ICTC Team"}</span>
+                  <span>by {blog.author || "ICTC"}</span>
                 </div>
 
                 <button className="ictc-blogpost-share-btn" onClick={handleShare}>
@@ -172,10 +192,7 @@ const BlogPost = () => {
           </div>
 
           {/* BODY */}
-          <section
-            className="ictc-blogpost-body"
-            dangerouslySetInnerHTML={{ __html: getHTML(blog.content) }}
-          />
+          <BlogContent className="ictc-blogpost-body" html={bodyHTML} />
         </article>
 
         {/* RIGHT SIDEBAR */}
@@ -248,6 +265,8 @@ const BlogPost = () => {
           </div>
         </section>
       )}
+
+      <BlogAuthor authorId={blog.authorId} />
     </>
   );
 };

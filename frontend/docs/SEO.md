@@ -125,6 +125,22 @@ dist/robots.txt
 
 Static hosts (nginx `try_files`) can then serve those HTML files to crawlers without Node.
 
+### Body snapshot (image alt text in the page source)
+
+Head tags alone don't put any `<img alt="…">` in the HTML response, because every image is rendered by React. So the plugin also fills `<div id="root">` with a plain-HTML snapshot of the page's main content, built by `src/seo/bodySnapshot.js`:
+
+| Page | Snapshot contains |
+|---|---|
+| Blog / News | Cover image + alt, title (H1), author, date, full content (inline images with the alt set in the editor, text boxes, CTAs, YouTube thumbnails), About the Author |
+| Service | Cover image + alt, title, content HTML |
+| Cancer | Cover image + alt, name, description, all sections |
+| Doctor | Photo + alt, name, designation, qualifications, summary |
+| Centre | Hero image + alt, name, description, address, centre image + alt |
+
+React's `createRoot` replaces the snapshot as soon as the app loads, so visitors only see it for a moment on slow connections. CMS HTML is scrubbed of `<script>` tags and inline event handlers before it is inlined.
+
+Check it with: `curl -s http://localhost:5173/blog/<token>/<slug> | grep -o '<img[^>]*>'`
+
 ---
 
 ## 6. Runtime flow (one service URL)

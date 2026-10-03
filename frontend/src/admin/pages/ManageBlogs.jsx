@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import slugify from "slugify";
+import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
 import { useDropzone } from "react-dropzone";
 import axiosInstance from "../../app/axiosinstance";
@@ -28,6 +29,7 @@ import {
 } from "../../redux/blogs/blogsSlice";
 
 import { fetchTags, createTag, deleteTag } from "../../redux/tags/tagsSlice";
+import { fetchDoctors } from "../../redux/doctors/doctorsSlice";
 import { showToast } from "../../redux/toast/toastSlice";
 import FieldError from "../../components/Common/FieldError";
 import useConfirmDialog from "../../components/Common/useConfirmDialog";
@@ -38,6 +40,19 @@ import {
   updateImageAltAtPos,
 } from "../editor/contentImage";
 import ContentImageAltModal from "../editor/ContentImageAltModal";
+import {
+  CtaSliderNode,
+  TextBox,
+  YoutubeEmbed,
+  getYoutubeId,
+  hoistFullWidthBlocks,
+} from "../editor/blogBlocks";
+import CtaPickerModal from "../editor/CtaPickerModal";
+import EditorToolbar from "../editor/EditorToolbar";
+import UrlInputModal from "../editor/UrlInputModal";
+import { LuLink, LuYoutube } from "react-icons/lu";
+import BlogContent from "../../components/Common/BlogContent";
+import { useGlobalCtas, loadGlobalCtas } from "../../components/Common/globalCtas";
 
 import "./ManageBlogs.css";
 
@@ -49,13 +64,37 @@ const imgSrc = (path) => {
   return `${API_BASE}${path}`;
 };
 
+// Posts with no doctor selected are attributed to ICTC
+const DEFAULT_AUTHOR = "ICTC";
+
+/** "example.com" → "https://example.com"; keeps /paths, #anchors, mailto:, tel:. */
+const normalizeLinkHref = (url) => {
+  const value = url.trim();
+  if (/^(https?:|mailto:|tel:)/i.test(value) || value.startsWith("/") || value.startsWith("#")) {
+    return value;
+  }
+  return `https://${value}`;
+};
+
+const validateLink = (url) => {
+  if (/^\s*(javascript|data|vbscript):/i.test(url)) return "This kind of link isn't allowed.";
+  if (/\s/.test(url.trim())) return "A link can't contain spaces.";
+  return "";
+};
+
+const validateYoutube = (url) =>
+  getYoutubeId(url)
+    ? ""
+    : "Paste a YouTube video link, e.g. https://www.youtube.com/watch?v=… or https://youtu.be/…";
+
 const emptyBlog = {
   title:           "",
   slug:            "",
   type:            "Blog",
   date:            "",
   categories:      [],
-  author:          "",
+  author:          DEFAULT_AUTHOR,
+  authorId:        null,
   tags:            [],
   image:           null,
   altText:         "",
@@ -84,6 +123,24 @@ const ManageBlogs = () => {
     ? categories.map((c) => ({ value: c.id, label: c.category }))
     : [];
 
+  const { list: doctorList = [], loading: doctorsLoading = false } =
+    useSelector((state) => state.doctors || {});
+  const ictcAuthorOption = { value: null, label: DEFAULT_AUTHOR };
+  const authorOptions = [
+    ictcAuthorOption,
+    ...(Array.isArray(doctorList) ? doctorList : []).map((d) => ({
+      value: d.id,
+      label: d.name,
+      designation: d.designation,
+    })),
+  ];
+  const authorOptionFor = ({ authorId, author }) => (
+    authorId
+      ? authorOptions.find((o) => o.value === authorId)
+        || { value: authorId, label: author || `Doctor #${authorId}` }
+      : ictcAuthorOption
+  );
+
   const [blog, setBlog]               = useState(emptyBlog);
   const [showModal, setShowModal]     = useState(false);
   const [editId, setEditId]           = useState(null);
@@ -98,11 +155,18 @@ const ManageBlogs = () => {
   const editingImagePosRef = useRef(null);
   const [errors, setErrors] = useState({});
   const [confirm, confirmDialog] = useConfirmDialog();
+  // URL popup: { kind: "link" | "youtube", initial } while open, else null
+  const [urlModal, setUrlModal] = useState(null);
+  // CTA picker: { mode: "insert" | "edit", ids, pos } while open, else null
+  const [ctaPicker, setCtaPicker] = useState(null);
+  const openCtaEditorRef = useRef(null);
+  const { ctas: globalCtas, loading: globalCtasLoading } = useGlobalCtas();
 
   useEffect(() => {
     dispatch(fetchBlogs());
     dispatch(fetchTags());
     dispatch(fetchBlogCategories());
+    dispatch(fetchDoctors());
   }, [dispatch]);
 
   const editor = useEditor({
@@ -123,11 +187,19 @@ const ManageBlogs = () => {
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       TaskList,
       TaskItem.configure({ nested: true }),
+      CtaSliderNode.configure({
+        onEdit: (ids, pos) => openCtaEditorRef.current?.(ids, pos),
+      }),
+      TextBox,
+      YoutubeEmbed,
       Placeholder.configure({ placeholder: "Start writing your blog..." }),
     ],
     content: "",
     onUpdate({ editor }) {
       setPreviewHTML(editor.getHTML());
+      // e.g. a YouTube link pasted inside a list → move the video out of it.
+      // Deferred so we don't dispatch while this update is still running.
+      queueMicrotask(() => hoistFullWidthBlocks(editor));
     },
     editorProps: {
       handleClickOn(_view, _pos, node, nodePos) {
@@ -152,6 +224,10 @@ const ManageBlogs = () => {
       ]);
       setContentImageAltOpen(true);
     };
+  }, []);
+
+  useEffect(() => {
+    openCtaEditorRef.current = (ids, pos) => setCtaPicker({ mode: "edit", ids, pos });
   }, []);
 
   /* ── Cover image dropzone ─────────────────────────────────────────────── */
@@ -260,6 +336,55 @@ const ManageBlogs = () => {
     closeContentImageAltModal();
   };
 
+  /* ── CTAs ─────────────────────────────────────────────────────────────────
+   * CTAs are site-wide (Admin → Others). The editor stores only their ids,
+   * so one CTA → banner, several → slider.
+   * ─────────────────────────────────────────────────────────────────────── */
+  const openCtaPicker = () => {
+    loadGlobalCtas({ force: true }); // pick up CTAs created in another tab
+    setCtaPicker({ mode: "insert", ids: [], pos: null });
+  };
+
+  const confirmCtaPicker = (ids) => {
+    if (ctaPicker?.mode === "edit" && ctaPicker.pos != null) {
+      editor.chain().focus().updateCtaSliderAt(ctaPicker.pos, ids).run();
+    } else {
+      editor.chain().focus().insertCtaSlider(ids).run();
+    }
+    setCtaPicker(null);
+  };
+
+  /* ── Link / YouTube popups ────────────────────────────────────────────── */
+  const openLinkModal = () => {
+    setUrlModal({ kind: "link", initial: editor.getAttributes("link").href || "" });
+  };
+
+  const confirmLink = (url) => {
+    const href = normalizeLinkHref(url);
+    const { empty } = editor.state.selection;
+    if (empty && !editor.isActive("link")) {
+      // Nothing selected: insert the URL itself as linked text
+      editor
+        .chain()
+        .focus()
+        .insertContent({ type: "text", text: url, marks: [{ type: "link", attrs: { href } }] })
+        .run();
+    } else {
+      editor.chain().focus().extendMarkRange("link").setLink({ href }).run();
+    }
+    setUrlModal(null);
+  };
+
+  const removeLink = () => {
+    editor.chain().focus().extendMarkRange("link").unsetLink().run();
+    setUrlModal(null);
+  };
+
+  const confirmYoutube = (url) => {
+    editor.chain().focus().setYoutubeVideo(url).run();
+    setUrlModal(null);
+  };
+
   /* ── Helpers ──────────────────────────────────────────────────────────── */
   const resetModal = () => {
     setBlog(emptyBlog);
@@ -273,6 +398,21 @@ const ManageBlogs = () => {
     setShowModal(true);
   };
 
+  // Older posts stored a free-text author; match it to a doctor where possible.
+  const resolveAuthorForEdit = (item) => {
+    if (item.authorId) {
+      return { authorId: Number(item.authorId), author: item.author || DEFAULT_AUTHOR };
+    }
+    const name = (item.author || "").trim().toLowerCase();
+    const doctor = name
+      && (Array.isArray(doctorList) ? doctorList : []).find(
+        (d) => (d.name || "").trim().toLowerCase() === name,
+      );
+    return doctor
+      ? { authorId: doctor.id, author: doctor.name }
+      : { authorId: null, author: DEFAULT_AUTHOR };
+  };
+
   const openEdit = (item) => {
     setEditId(item.id);
     setErrors({});
@@ -282,11 +422,12 @@ const ManageBlogs = () => {
       type:            /^news(letter)?$/i.test(item.type || "") ? "News" : (item.type || "Blog"),
       date:            item.date            || "",
       categories: (item.categories || []).map((c) => ({ value: c.id, label: c.category })),
-      author:          item.author          || "",
+      ...resolveAuthorForEdit(item),
       tags: (item.tags || []).map((t) => ({ value: t.id, label: t.tag })),
       // Use API_BASE directly — same pattern as ManageCenters / ManageServices
       image: item.image ? { url: `${API_BASE}${item.image}` } : null,
-      metaTitle:       item.metaTitle       || "",
+      altText:         item.altText         || "",
+      metaTitle:      item.metaTitle       || "",
       metaDescription: item.metaDescription || "",
       keywords:        item.keywords        || "",
     });
@@ -297,6 +438,7 @@ const ManageBlogs = () => {
           ? (() => { try { return JSON.parse(item.content); } catch { return item.content; } })()
           : item.content;
       editor.commands.setContent(content);
+      hoistFullWidthBlocks(editor); // older posts may have CTAs nested in lists
     } else {
       editor.commands.clearContent();
     }
@@ -428,6 +570,7 @@ const ManageBlogs = () => {
     }
 
     // Content images are already uploaded; getJSON() has real /uploads/... URLs.
+    hoistFullWidthBlocks(editor);
     const content = editor.getJSON();
 
     const formData = new FormData();
@@ -435,7 +578,8 @@ const ManageBlogs = () => {
     formData.append("slug",            resolvedSlug);
     formData.append("type",            blog.type            || "Blog");
     formData.append("date",            blog.date            || "");
-    formData.append("author",          blog.author          || "");
+    formData.append("author",          blog.authorId ? blog.author : DEFAULT_AUTHOR);
+    formData.append("authorId",        blog.authorId ? String(blog.authorId) : "");
     formData.append("altText",         blog.altText         || "");
     formData.append("metaTitle",       blog.metaTitle       || "");
     formData.append("metaDescription", blog.metaDescription || "");
@@ -720,10 +864,32 @@ const ManageBlogs = () => {
               </div>
               <div>
                 <label>Author</label>
-                <input
-                  value={blog.author}
-                  onChange={(e) => setBlog((prev) => ({ ...prev, author: e.target.value }))}
-                  placeholder="Add author name here"
+                <Select
+                  classNamePrefix="tag-select"
+                  className="author-select"
+                  {...selectMenuPortalProps}
+                  options={authorOptions}
+                  value={authorOptionFor(blog)}
+                  isLoading={doctorsLoading}
+                  isClearable={Boolean(blog.authorId)}
+                  getOptionValue={(o) => String(o.value ?? "ictc")}
+                  formatOptionLabel={(option, { context }) =>
+                    context === "menu" && option.designation ? (
+                      <div className="author-option">
+                        <span>{option.label}</span>
+                        <small>{option.designation}</small>
+                      </div>
+                    ) : option.label
+                  }
+                  onChange={(option) =>
+                    setBlog((prev) => ({
+                      ...prev,
+                      authorId: option?.value || null,
+                      author:   option?.value ? option.label : DEFAULT_AUTHOR,
+                    }))
+                  }
+                  placeholder="Select a doctor"
+                  noOptionsMessage={() => "No doctors found"}
                 />
               </div>
               <div>
@@ -789,37 +955,21 @@ const ManageBlogs = () => {
             </div>
 
             <div className="editor-section">
-              <div className="editor-toolbar">
-                <button onClick={() => editor.chain().focus().toggleBold().run()}><b>B</b></button>
-                <button onClick={() => editor.chain().focus().toggleItalic().run()}><i>I</i></button>
-                <button onClick={() => editor.chain().focus().toggleUnderline().run()}><u>U</u></button>
-                <button onClick={() => editor.chain().focus().toggleStrike().run()}>S</button>
-                <button onClick={() => editor.chain().focus().toggleHighlight().run()}>Highlight</button>
-                <button onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}>H1</button>
-                <button onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}>H2</button>
-                <button onClick={() => editor.chain().focus().setParagraph().run()}>P</button>
-                <button onClick={() => editor.chain().focus().toggleBulletList().run()}>• List</button>
-                <button onClick={() => editor.chain().focus().toggleOrderedList().run()}>1. List</button>
-                <button onClick={() => editor.chain().focus().setTextAlign("left").run()}>Left</button>
-                <button onClick={() => editor.chain().focus().setTextAlign("center").run()}>Center</button>
-                <button onClick={() => editor.chain().focus().setTextAlign("right").run()}>Right</button>
-                <button
-                  onClick={() => {
-                    const url = prompt("Enter URL");
-                    if (url) editor.chain().focus().setLink({ href: url }).run();
-                  }}
-                >
-                  Link
-                </button>
-                <button onClick={addImage} disabled={imageUploading}>
-                  {imageUploading ? "Uploading…" : "Image"}
-                </button>
-              </div>
+              <EditorToolbar
+                editor={editor}
+                onLink={openLinkModal}
+                onImage={addImage}
+                imageUploading={imageUploading}
+                onYoutube={() => setUrlModal({ kind: "youtube", initial: "" })}
+                onCta={openCtaPicker}
+              />
 
               <p className="editor-image-hint">
                 <span className="editor-image-hint-icon" aria-hidden="true">ⓘ</span>
                 Click any image in the editor to add or edit SEO alt text.
                 Images without alt are highlighted in orange.
+                Paste a YouTube link to embed the video. Inside a text box, press Enter twice to continue below it.
+                Insert CTA places one CTA, or a slider if you pick several (CTAs are managed in Others).
               </p>
 
               <EditorContent editor={editor} className="notion-editor" />
@@ -887,14 +1037,66 @@ const ManageBlogs = () => {
               {blog.date   && <span>{blog.date}</span>}
             </div>
 
-            <div
-              className="preview-body"
-              dangerouslySetInnerHTML={{ __html: previewHTML }}
-            />
+            <BlogContent as="div" className="preview-body" html={previewHTML} preview />
           </div>
         </div>
       )}
       {confirmDialog}
+
+      {urlModal?.kind === "youtube" && (
+        <UrlInputModal
+          title="Embed YouTube video"
+          description="Paste the link of a YouTube video. It will play right inside the post."
+          label="YouTube link"
+          placeholder="https://www.youtube.com/watch?v=…"
+          confirmLabel="Embed video"
+          icon={<LuYoutube />}
+          validate={validateYoutube}
+          renderPreview={(url) => (
+            <span className="url-modal-yt">
+              <img
+                src={`https://img.youtube.com/vi/${getYoutubeId(url)}/hqdefault.jpg`}
+                alt="Video thumbnail"
+              />
+              <span className="url-modal-yt-play" aria-hidden="true" />
+            </span>
+          )}
+          onConfirm={confirmYoutube}
+          onCancel={() => setUrlModal(null)}
+        />
+      )}
+
+      {urlModal?.kind === "link" && (
+        <UrlInputModal
+          title={urlModal.initial ? "Edit link" : "Add link"}
+          description={
+            editor.state.selection.empty && !urlModal.initial
+              ? "No text is selected, so the link itself will be inserted. Select text first to link it instead."
+              : "The selected text will link to this address."
+          }
+          label="Link address"
+          placeholder="https://example.com or /BookAppoinment"
+          initialValue={urlModal.initial}
+          confirmLabel={urlModal.initial ? "Update link" : "Add link"}
+          icon={<LuLink />}
+          validate={validateLink}
+          onConfirm={confirmLink}
+          onCancel={() => setUrlModal(null)}
+          onRemove={urlModal.initial ? removeLink : undefined}
+          removeLabel="Remove link"
+        />
+      )}
+
+      {ctaPicker && (
+        <CtaPickerModal
+          mode={ctaPicker.mode}
+          ctas={globalCtas}
+          loading={globalCtasLoading}
+          initialSelected={ctaPicker.ids}
+          onConfirm={confirmCtaPicker}
+          onCancel={() => setCtaPicker(null)}
+        />
+      )}
 
       <ContentImageAltModal
         open={contentImageAltOpen}

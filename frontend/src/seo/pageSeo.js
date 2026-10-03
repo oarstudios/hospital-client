@@ -585,7 +585,18 @@ export function injectHeadTags(html, seo) {
     .filter(Boolean)
     .join("\n    ");
 
-  return out.replace(/<\/head>/i, `    ${tags}\n  </head>`);
+  out = out.replace(/<\/head>/i, `    ${tags}\n  </head>`);
+
+  // Crawler-visible page content (headings, text, <img alt>) — see bodySnapshot.js.
+  // React's createRoot replaces it when the app mounts.
+  if (seo.bodyHtml) {
+    out = out.replace(
+      /<div id=["']root["']>\s*<\/div>/i,
+      () => `<div id="root">${seo.bodyHtml}</div>`,
+    );
+  }
+
+  return out;
 }
 
 function sitemapUrls(entries) {

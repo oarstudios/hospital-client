@@ -89,6 +89,12 @@ export class BlogsService {
     }
   }
 
+  /** Author falls back to "ICTC" when no doctor is selected. */
+  private resolveAuthor(author?: string, authorId?: number | null) {
+    if (!authorId) return { author: 'ICTC', authorId: null };
+    return { author: (author || '').trim() || 'ICTC', authorId };
+  }
+
   async create(dto: CreateBlogDto, files: any) {
     return await this.dataSource.transaction(async (manager) => {
 
@@ -147,8 +153,9 @@ export class BlogsService {
         slug: dto.slug,
         type: dto.type || 'Blog',
         date: dto.date,
-        author: dto.author,
+        ...this.resolveAuthor(dto.author, dto.authorId),
         image: coverFile ? `/uploads/${coverFile}` : null,
+        altText: dto.altText,
         content: parsedContent ? JSON.stringify(parsedContent) : null,
         metaTitle: dto.metaTitle,
         metaDescription: dto.metaDescription,
@@ -438,9 +445,20 @@ export class BlogsService {
         });
       }
 
-      const { tags: _tags, categories: _categories, content: _content, ...scalarDto } = dto;
+      const {
+        tags: _tags,
+        categories: _categories,
+        content: _content,
+        author,
+        authorId,
+        ...scalarDto
+      } = dto;
 
       Object.assign(blog, scalarDto);
+
+      if (author !== undefined || authorId !== undefined) {
+        Object.assign(blog, this.resolveAuthor(author, authorId));
+      }
 
       blog.content = parsedContent
         ? JSON.stringify(parsedContent)

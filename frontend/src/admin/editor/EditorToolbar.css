@@ -1,0 +1,93 @@
+/* Overrides the generic button look from ManageBlogs.css (.editor-toolbar button) */
+
+.editor-toolbar {
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+}
+
+.tb-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+}
+
+.tb-divider {
+  width: 1px;
+  height: 24px;
+  margin: 0 4px;
+  background: #e5e7eb;
+  flex: 0 0 auto;
+}
+
+.editor-toolbar .tb-btn {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 8px;
+  gap: 6px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.editor-toolbar .tb-btn svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+}
+
+.editor-toolbar .tb-btn:hover:not(:disabled) {
+  background: #f1f5f9;
+  border-color: transparent;
+  color: #0f172a;
+}
+
+.editor-toolbar .tb-btn.is-active {
+  background: #e0e7ff;
+  border-color: #c7d2fe;
+  color: #3730a3;
+}
+
+.editor-toolbar .tb-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.editor-toolbar .tb-btn:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 1px;
+}
+
+/* Insert buttons carry a text label next to the icon */
+.editor-toolbar .tb-btn--labelled {
+  padding: 0 10px;
+  border-color: #e5e7eb;
+  background: #f8fafc;
+}
+
+.tb-group--insert {
+  gap: 6px;
+}
+
+/* spinner for "Uploading…" */
+.editor-toolbar .tb-btn.is-loading svg {
+  animation: tb-spin 1s linear infinite;
+}
+
+@keyframes tb-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .editor-toolbar .tb-btn.is-loading svg { animation: none; }
+}
+
+@media (max-width: 640px) {
+  .tb-divider { display: none; }
+  .editor-toolbar .tb-btn--labelled span { display: none; }
+}

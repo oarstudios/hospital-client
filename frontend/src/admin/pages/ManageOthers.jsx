@@ -1,10 +1,27 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "../../app/axiosinstance";
 import { showToast } from "../../redux/toast/toastSlice";
+import { fetchBlogs } from "../../redux/blogs/blogsSlice";
 import useConfirmDialog from "../../components/Common/useConfirmDialog";
-import { getApiErrorMessage } from "../../components/Common/formFeedback";
+import FieldError from "../../components/Common/FieldError";
+import { getApiErrorMessage, clearField } from "../../components/Common/formFeedback";
+import CtaSlider from "../../components/Common/CtaSlider";
+import { normalizeCtas, setGlobalCtas } from "../../components/Common/globalCtas";
 import "./ManageOthers.css";
+
+const EMPTY_CTA_DRAFT = { text: "", buttonText: "", link: "" };
+
+/** Number of posts whose content includes this CTA id. */
+const countCtaUsage = (blogs, id) =>
+  blogs.filter((b) => {
+    try {
+      const content = typeof b.content === "string" ? b.content : JSON.stringify(b.content || "");
+      return content.includes(id);
+    } catch {
+      return false;
+    }
+  }).length;
 
 const LAST_SLIDE_MESSAGE = "You can't delete the last carousel slide.";
 
@@ -41,10 +58,18 @@ const ManageOthers = () => {
   const [newSlideFiles, setNewSlideFiles] = useState(EMPTY_SLIDE_FILES);
   const [loading, setLoading] = useState(false);
   const [confirm, confirmDialog] = useConfirmDialog();
+  const [ctas, setCtas] = useState([]);
+  const [ctaDraft, setCtaDraft] = useState(EMPTY_CTA_DRAFT);
+  const [ctaEditingId, setCtaEditingId] = useState(null);
+  const [ctaErrors, setCtaErrors] = useState({});
+  const [ctaSaving, setCtaSaving] = useState(false);
+  const { list: blogList = [] } = useSelector((state) => state.blogs || {});
+  const blogs = Array.isArray(blogList) ? blogList : [];
 
   useEffect(() => {
     fetchData();
-  }, []);
+    dispatch(fetchBlogs());
+  }, [dispatch]);
 
   const buildImageUrl = (name) => {
     if (!name) return "";
@@ -62,9 +87,101 @@ const ManageOthers = () => {
         setSheetLink(payload.sheetLink || "");
         setSavedSheetLink(payload.sheetLink || "");
         setCarousel(normalizeSlides(payload.carousel));
+        applyCtas(payload.ctas);
       }
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  /* ── CTAs ─────────────────────────────────────────────────────────────── */
+
+  // Keep this page and the shared cache (used by the blog editor) in sync
+  const applyCtas = (raw) => {
+    const list = normalizeCtas(raw);
+    setCtas(list);
+    setGlobalCtas(list);
+  };
+
+  const resetCtaForm = () => {
+    setCtaDraft(EMPTY_CTA_DRAFT);
+    setCtaEditingId(null);
+    setCtaErrors({});
+  };
+
+  const saveCta = async () => {
+    const draft = {
+      text: ctaDraft.text.trim(),
+      buttonText: ctaDraft.buttonText.trim(),
+      link: ctaDraft.link.trim(),
+    };
+    const nextErrors = {};
+    if (!draft.text) nextErrors.text = "CTA text is required.";
+    if (!draft.buttonText) nextErrors.buttonText = "Button text is required.";
+    if (!draft.link) nextErrors.link = "Button link is required.";
+    setCtaErrors(nextErrors);
+    if (Object.keys(nextErrors).length) return;
+
+    setCtaSaving(true);
+    try {
+      const res = ctaEditingId
+        ? await axios.put(`/others/ctas/${ctaEditingId}`, draft)
+        : await axios.post("/others/ctas", draft);
+      const payload = res?.data?.data ?? res?.data ?? {};
+      applyCtas(payload.ctas);
+      dispatch(showToast.success(ctaEditingId ? "CTA updated." : "CTA added."));
+      resetCtaForm();
+    } catch (err) {
+      console.error(err);
+      dispatch(showToast.error(getApiErrorMessage(err, "Could not save the CTA.")));
+    } finally {
+      setCtaSaving(false);
+    }
+  };
+
+  const editCta = (cta) => {
+    setCtaEditingId(cta.id);
+    setCtaDraft({ text: cta.text, buttonText: cta.buttonText, link: cta.link });
+    setCtaErrors({});
+  };
+
+  const deleteCta = async (cta) => {
+    const used = countCtaUsage(blogs, cta.id);
+    const ok = await confirm({
+      title: "Delete this CTA?",
+      message: used
+        ? `It is used in ${used} post${used > 1 ? "s" : ""} and will stop showing there.`
+        : "It isn't used in any post.",
+      confirmLabel: "Delete",
+    });
+    if (!ok) return;
+
+    try {
+      const res = await axios.delete(`/others/ctas/${cta.id}`);
+      const payload = res?.data?.data ?? res?.data ?? {};
+      applyCtas(payload.ctas);
+      if (ctaEditingId === cta.id) resetCtaForm();
+      dispatch(showToast.success("CTA deleted."));
+    } catch (err) {
+      console.error(err);
+      dispatch(showToast.error(getApiErrorMessage(err, "Could not delete the CTA.")));
+    }
+  };
+
+  const moveCta = async (index, direction) => {
+    const target = index + direction;
+    if (target < 0 || target >= ctas.length) return;
+    const next = [...ctas];
+    [next[index], next[target]] = [next[target], next[index]];
+    setCtas(next);
+    try {
+      const res = await axios.put("/others/ctas/order", { ids: next.map((c) => c.id) });
+      const payload = res?.data?.data ?? res?.data ?? {};
+      applyCtas(payload.ctas);
+    } catch (err) {
+      console.error(err);
+      dispatch(showToast.error("Could not save CTA order."));
+      fetchData();
     }
   };
 
@@ -255,6 +372,147 @@ const ManageOthers = () => {
             placeholder="Paste sheet link for booking"
           />
           <button type="button" onClick={saveSheetLink}>Save</button>
+        </div>
+      </section>
+
+      <section className="card cta-card">
+        <h3>Call to Action (CTA)</h3>
+        <p className="carousel-help">
+          CTAs are shared by all blogs and news. In the blog editor use{" "}
+          <strong>Insert CTA</strong> to place one — or pick several to show them
+          as a slider. Editing a CTA here updates it everywhere it is used.
+        </p>
+
+        <div className="cta-form">
+          <div className="cta-form-text">
+            <label htmlFor="cta-text">CTA Text *</label>
+            <textarea
+              id="cta-text"
+              rows={2}
+              className={ctaErrors.text ? "input-invalid" : ""}
+              value={ctaDraft.text}
+              onChange={(e) => {
+                clearField(setCtaErrors, "text");
+                setCtaDraft((prev) => ({ ...prev, text: e.target.value }));
+              }}
+              placeholder="e.g. Have you noticed a persistent voice change, sore throat or swallowing difficulty?"
+            />
+            <FieldError message={ctaErrors.text} />
+          </div>
+          <div>
+            <label htmlFor="cta-button-text">Button Text *</label>
+            <input
+              id="cta-button-text"
+              type="text"
+              className={ctaErrors.buttonText ? "input-invalid" : ""}
+              value={ctaDraft.buttonText}
+              onChange={(e) => {
+                clearField(setCtaErrors, "buttonText");
+                setCtaDraft((prev) => ({ ...prev, buttonText: e.target.value }));
+              }}
+              placeholder="e.g. Book a Consultation"
+            />
+            <FieldError message={ctaErrors.buttonText} />
+          </div>
+          <div>
+            <label htmlFor="cta-link">Button Link *</label>
+            <input
+              id="cta-link"
+              type="text"
+              className={ctaErrors.link ? "input-invalid" : ""}
+              value={ctaDraft.link}
+              onChange={(e) => {
+                clearField(setCtaErrors, "link");
+                setCtaDraft((prev) => ({ ...prev, link: e.target.value }));
+              }}
+              placeholder="/BookAppoinment or https://..."
+            />
+            <FieldError message={ctaErrors.link} />
+          </div>
+        </div>
+
+        {(ctaDraft.text.trim() || ctaDraft.buttonText.trim()) && (
+          <div className="cta-draft-preview">
+            <span className="cta-label">Preview</span>
+            <CtaSlider
+              preview
+              ctas={[{
+                id: "draft",
+                text: ctaDraft.text || "CTA text",
+                buttonText: ctaDraft.buttonText || "Button",
+                link: ctaDraft.link,
+              }]}
+            />
+          </div>
+        )}
+
+        <div className="actions cta-form-actions">
+          <button type="button" onClick={saveCta} disabled={ctaSaving}>
+            {ctaSaving ? "Saving…" : ctaEditingId ? "Update CTA" : "+ Add CTA"}
+          </button>
+          {ctaEditingId && (
+            <button type="button" className="cta-cancel-btn" onClick={resetCtaForm}>
+              Cancel
+            </button>
+          )}
+        </div>
+
+        <div className="existing">
+          <h4>Existing CTAs</h4>
+          {ctas.length === 0 ? (
+            <p className="carousel-empty">No CTAs yet.</p>
+          ) : (
+            <ul className="cta-list">
+              {ctas.map((cta, index) => {
+                const used = countCtaUsage(blogs, cta.id);
+                return (
+                  <li
+                    key={cta.id}
+                    className={`cta-list-item${ctaEditingId === cta.id ? " is-editing" : ""}`}
+                  >
+                    <div className="cta-list-head">
+                      <strong>CTA {index + 1}</strong>
+                      <span className="cta-usage">
+                        {used ? `Used in ${used} post${used > 1 ? "s" : ""}` : "Not used yet"}
+                      </span>
+                      <div className="carousel-slide-actions">
+                        <button
+                          type="button"
+                          className="move-btn"
+                          onClick={() => moveCta(index, -1)}
+                          disabled={index === 0}
+                          aria-label="Move up"
+                        >
+                          ↑
+                        </button>
+                        <button
+                          type="button"
+                          className="move-btn"
+                          onClick={() => moveCta(index, 1)}
+                          disabled={index === ctas.length - 1}
+                          aria-label="Move down"
+                        >
+                          ↓
+                        </button>
+                        <button type="button" className="cta-edit-btn" onClick={() => editCta(cta)}>
+                          Edit
+                        </button>
+                        <button
+                          type="button"
+                          className="delete-slide-btn"
+                          onClick={() => deleteCta(cta)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                    <CtaSlider ctas={[cta]} preview />
+                    <span className="cta-link">→ {cta.link}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
         </div>
       </section>
 

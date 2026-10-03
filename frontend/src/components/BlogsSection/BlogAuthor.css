@@ -1,0 +1,21 @@
+/* "About the Author" — reuses the centre page's expert row styles
+   (ExpertsAtICTC.css); only the section spacing is tuned for blog posts. */
+
+.blog-author-section {
+  padding: 56px 40px 24px;
+}
+
+.blog-author-section .experts-heading {
+  margin-bottom: 24px;
+}
+
+.blog-author-section .expert-row {
+  max-width: 1360px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .blog-author-section {
+    padding: 40px 16px 16px;
+  }
+}

@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { join } from 'path';
 import * as fs from 'fs';
+import { randomUUID } from 'crypto';
 
 const STORE_PATH = join(process.cwd(), 'uploads', 'others.json');
 
@@ -11,6 +12,16 @@ export type CarouselSlide = {
 };
 
 type CarouselVariant = 'desktop' | 'tablet' | 'mobile';
+
+/** Site-wide call-to-action banner, placed into blogs from the editor. */
+export type Cta = {
+  id: string;
+  text: string;
+  buttonText: string;
+  link: string;
+};
+
+export type CtaInput = Omit<Cta, 'id'>;
 
 @Injectable()
 export class OthersService {
@@ -104,10 +115,82 @@ export class OthersService {
       .filter((item): item is CarouselSlide => Boolean(item));
   }
 
+  normalizeCtas(raw: unknown): Cta[] {
+    if (!Array.isArray(raw)) return [];
+    return raw
+      .filter((c) => c && typeof c === 'object')
+      .map((c: any) => ({
+        id: String(c.id ?? '').trim(),
+        text: String(c.text ?? '').trim(),
+        buttonText: String(c.buttonText ?? '').trim(),
+        link: String(c.link ?? '').trim(),
+      }))
+      .filter((c) => c.id && c.text && c.buttonText);
+  }
+
+  private cleanCtaInput(input: Partial<CtaInput>): CtaInput {
+    const cta = {
+      text: String(input?.text ?? '').trim(),
+      buttonText: String(input?.buttonText ?? '').trim(),
+      link: String(input?.link ?? '').trim(),
+    };
+    if (!cta.text || !cta.buttonText || !cta.link) {
+      throw new BadRequestException('CTA text, button text and link are required.');
+    }
+    return cta;
+  }
+
   read() {
     const current = this.readRaw();
     const carousel = this.normalizeCarousel(current.carousel);
-    return { ...current, carousel };
+    const ctas = this.normalizeCtas(current.ctas);
+    return { ...current, carousel, ctas };
+  }
+
+  /* ── CTAs ─────────────────────────────────────────────────────────────── */
+
+  addCta(input: Partial<CtaInput>) {
+    const cta: Cta = { id: randomUUID(), ...this.cleanCtaInput(input) };
+    const current = this.readRaw();
+    current.ctas = [...this.normalizeCtas(current.ctas), cta];
+    this.write(current);
+    return this.read();
+  }
+
+  updateCta(id: string, input: Partial<CtaInput>) {
+    const current = this.readRaw();
+    const ctas = this.normalizeCtas(current.ctas);
+    const index = ctas.findIndex((c) => c.id === id);
+    if (index === -1) throw new NotFoundException('CTA not found.');
+
+    ctas[index] = { id, ...this.cleanCtaInput(input) };
+    current.ctas = ctas;
+    this.write(current);
+    return this.read();
+  }
+
+  removeCta(id: string) {
+    const current = this.readRaw();
+    const ctas = this.normalizeCtas(current.ctas);
+    if (!ctas.some((c) => c.id === id)) throw new NotFoundException('CTA not found.');
+
+    current.ctas = ctas.filter((c) => c.id !== id);
+    this.write(current);
+    return this.read();
+  }
+
+  reorderCtas(ids: unknown) {
+    const current = this.readRaw();
+    const ctas = this.normalizeCtas(current.ctas);
+    if (!Array.isArray(ids)) throw new BadRequestException('CTA order must be a list of ids.');
+
+    const byId = new Map(ctas.map((c) => [c.id, c]));
+    const ordered = ids.map((id) => byId.get(String(id))).filter((c): c is Cta => Boolean(c));
+    // Keep any CTA missing from the request at the end rather than dropping it
+    const rest = ctas.filter((c) => !ordered.includes(c));
+    current.ctas = [...ordered, ...rest];
+    this.write(current);
+    return this.read();
   }
 
   getAll() {

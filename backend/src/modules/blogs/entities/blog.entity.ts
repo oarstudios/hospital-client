@@ -28,8 +28,13 @@ export class Blog {
   @Column({ nullable: true })
   date?: string;
 
+  // Display name of the author — a doctor's name, or "ICTC" when no doctor is selected
   @Column({ nullable: true })
   author?: string;
+
+  // hospital.doctors.id of the author doctor; null means the post is by ICTC
+  @Column({ type: 'int', nullable: true })
+  authorId?: number | null;
 
   // cover image path e.g. /uploads/abc.jpg
   @Column({ nullable: true })

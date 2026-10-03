@@ -1,0 +1,152 @@
+/* =========================================================
+   CTA banner / slider — blog content, admin editor and Others page
+========================================================= */
+
+.cta-slider {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 28px 0;
+  background: linear-gradient(90deg, #45000f 0%, #7a0020 50%, #a8002c 100%);
+  color: #fff;
+  overflow: hidden;
+}
+
+.cta-slider__viewport {
+  overflow: hidden;
+  touch-action: pan-y;
+}
+
+.cta-slider__track {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.cta-slider__slide {
+  grid-area: 1 / 1;
+  min-width: 0;
+  transition: transform 0.45s ease;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 36px 56px;
+}
+
+.cta-slider--multi .cta-slider__slide {
+  padding: 36px 72px 48px;
+}
+
+.cta-slider .cta-slider__text {
+  flex: 1 1 auto;
+  max-width: 620px;
+  margin: 0;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  font-style: normal;
+  line-height: 1.6;
+}
+
+.cta-slider .cta-slider__btn {
+  flex: 0 0 auto;
+  display: inline-block;
+  padding: 18px 36px;
+  border-radius: 999px;
+  background: #fff;
+  color: #111;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cta-slider a.cta-slider__btn:hover {
+  color: #111;
+  text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+/* Arrows */
+.cta-slider .cta-slider__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 24px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.cta-slider .cta-slider__arrow:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.cta-slider__arrow--prev { left: 16px; }
+.cta-slider__arrow--next { right: 16px; }
+
+/* Dots */
+.cta-slider__dots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 14px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.cta-slider .cta-slider__dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  transition: width 0.2s ease, background 0.2s ease;
+}
+
+.cta-slider .cta-slider__dot.is-active {
+  width: 22px;
+  background: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-slider__slide { transition: none; }
+}
+
+@media (max-width: 640px) {
+  .cta-slider__slide,
+  .cta-slider--multi .cta-slider__slide {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px 20px 44px;
+  }
+
+  .cta-slider .cta-slider__text { font-size: 17px; }
+
+  .cta-slider .cta-slider__btn {
+    padding: 14px 28px;
+    font-size: 16px;
+  }
+
+  /* Swipe + dots on phones; arrows would cover the text */
+  .cta-slider .cta-slider__arrow { display: none; }
+}

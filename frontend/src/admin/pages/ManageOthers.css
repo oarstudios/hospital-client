@@ -139,3 +139,129 @@
   }
 }
 
+
+/* ── CTAs ─────────────────────────────────────────────────── */
+
+.cta-form {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.cta-form label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.manage-others .cta-form input[type="text"],
+.manage-others .cta-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font: inherit;
+}
+
+.manage-others .cta-form textarea {
+  resize: vertical;
+}
+
+.manage-others .cta-form .input-invalid {
+  border-color: #dc2626;
+}
+
+.cta-draft-preview {
+  margin-top: 14px;
+}
+
+.cta-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.manage-others .cta-card .cta-slider {
+  margin: 0;
+}
+
+.cta-form-actions {
+  display: flex;
+  gap: 8px;
+  margin: 14px 0 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.manage-others .cta-cancel-btn {
+  background: #fff;
+  color: #334155;
+  border: 1px solid #d1d5db;
+}
+
+.cta-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cta-list-item {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px;
+  background: #fcfcfd;
+}
+
+.cta-list-item.is-editing {
+  border-color: #93c5fd;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.cta-list-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.cta-list-head .carousel-slide-actions {
+  margin-left: auto;
+}
+
+.cta-usage {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.manage-others .cta-edit-btn {
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.cta-link {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: #64748b;
+  word-break: break-all;
+}
+
+@media (max-width: 900px) {
+  .cta-form {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-list-head {
+    flex-wrap: wrap;
+  }
+}

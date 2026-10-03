@@ -7,6 +7,12 @@
   font-family: "DM Sans", sans-serif;
 }
 
+/* Grid items default to min-width:auto, so wide content (tables, embeds,
+   sliders) would stretch the column past the page. Let it shrink instead. */
+.ictc-blogpost-article {
+  min-width: 0;
+}
+
 .ictc-blogpost-article .blg{
     background: rgba(255, 255, 255, 1);
     border: 1px solid var(--grey-100, rgba(228, 227, 229, 1));
