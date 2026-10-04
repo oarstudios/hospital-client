@@ -10,7 +10,14 @@
  * Pure string building — no DOM — so it runs inside the Vite plugin (Node).
  * Everything coming from the CMS is escaped.
  */
-import { escapeHtml, escapeAttr, absoluteUrl, plainText } from "./pageSeo.js";
+import {
+  escapeHtml,
+  escapeAttr,
+  absoluteUrl,
+  plainText,
+  centrePlaceName,
+  centerImageAlt,
+} from "./pageSeo.js";
 
 /* ── helpers ────────────────────────────────────────────────────────────── */
 
@@ -223,5 +230,24 @@ export function centerBody(center, { imageBase = "" } = {}) {
     `<article>${coverImg(imageBase, center.heroImage, heroAlt)}<h1>${escapeHtml(name)}</h1>${p(center.description)}${p(center.address)}${
       center.phone ? `<p>Phone: ${escapeHtml(center.phone)}</p>` : ""
     }${coverImg(imageBase, center.centerImage, centreAlt)}</article>`,
+  );
+}
+
+export function landingBody(center, { imageBase = "" } = {}) {
+  if (!center) return "";
+  const place = centrePlaceName(center) || "Mumbai";
+  const name = center.fullName || center.name;
+  const intro =
+    `Receive expert cancer diagnosis, treatment, chemotherapy, immunotherapy, and ` +
+    `follow-up care from a multidisciplinary oncology team in ${place}.`;
+  const description = plainText(center.description);
+
+  return wrap(
+    `<article><h1>Cancer Care &amp; Oncology Services in ${escapeHtml(place)}</h1>` +
+      `<p>${escapeHtml(intro)}</p><h2>Cancer Care at ${escapeHtml(name)}</h2>` +
+      `${description ? `<p>${escapeHtml(description)}</p>` : ""}` +
+      `${center.address ? `<p>${escapeHtml(center.address)}</p>` : ""}` +
+      `${center.phone ? `<p>Phone: ${escapeHtml(center.phone)}</p>` : ""}` +
+      `${coverImg(imageBase, center.centerImage, centerImageAlt(center))}</article>`,
   );
 }

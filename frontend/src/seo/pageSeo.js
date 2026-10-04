@@ -255,6 +255,7 @@ export function getBlogSeo(blog, { siteUrl = "", imageBase = "" } = {}) {
   const name = pickText(blog?.title);
   const title = pickText(blog?.metaTitle, name && `${name} | ${SITE_NAME}`, DEFAULT_TITLE);
   const description = pickText(blog?.metaDescription);
+  const keywords = pickText(blog?.keywords);
   const alt = blogAlt(blog);
   const slug = blog?.slug || "";
   const token = tokenFor(blog?.id);
@@ -266,6 +267,7 @@ export function getBlogSeo(blog, { siteUrl = "", imageBase = "" } = {}) {
   return {
     title,
     description,
+    keywords,
     alt,
     image,
     path,
@@ -532,6 +534,7 @@ export function injectHeadTags(html, seo) {
   }
 
   out = out.replace(/<meta\s+name=["']description["'][^>]*>\s*/gi, "");
+  out = out.replace(/<meta\s+name=["']keywords["'][^>]*>\s*/gi, "");
   out = out.replace(/<meta\s+name=["']robots["'][^>]*>\s*/gi, "");
   out = out.replace(/<meta\s+name=["']googlebot["'][^>]*>\s*/gi, "");
   out = out.replace(/<link\s+rel=["']canonical["'][^>]*>\s*/gi, "");
@@ -545,6 +548,9 @@ export function injectHeadTags(html, seo) {
   const tags = [
     seo.description
       ? `<meta name="description" content="${escapeAttr(seo.description)}" />`
+      : "",
+    seo.keywords
+      ? `<meta name="keywords" content="${escapeAttr(seo.keywords)}" />`
       : "",
     `<meta name="robots" content="${robots}" />`,
     `<meta name="googlebot" content="${robots}" />`,

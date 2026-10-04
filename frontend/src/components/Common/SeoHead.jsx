@@ -50,6 +50,7 @@ function upsertJsonLd(data) {
 export default function SeoHead({
   title,
   description,
+  keywords,
   image,
   alt,
   canonical,
@@ -63,6 +64,7 @@ export default function SeoHead({
     document.title = title || DEFAULT_TITLE;
 
     upsertMeta("name", "description", description);
+    upsertMeta("name", "keywords", keywords);
     upsertMeta("name", "robots", robots);
     upsertMeta("name", "googlebot", robots);
     upsertLink("canonical", canonical);
@@ -85,6 +87,7 @@ export default function SeoHead({
     return () => {
       document.title = DEFAULT_TITLE;
       upsertMeta("name", "description", DEFAULT_DESCRIPTION);
+      upsertMeta("name", "keywords", "");
       upsertMeta("name", "robots", "index, follow");
       upsertMeta("name", "googlebot", "index, follow");
       upsertLink("canonical", "");
@@ -101,7 +104,7 @@ export default function SeoHead({
       upsertMeta("name", "twitter:image", "");
       upsertJsonLd(null);
     };
-  }, [title, description, image, alt, canonical, index, json]);
+  }, [title, description, keywords, image, alt, canonical, index, json]);
 
   return null;
 }

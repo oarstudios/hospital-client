@@ -29,6 +29,7 @@ import {
   cancerBody,
   doctorBody,
   centerBody,
+  landingBody,
 } from "./src/seo/bodySnapshot.js";
 
 function unwrap(payload) {
@@ -41,6 +42,13 @@ async function fetchJson(url, signal) {
   if (!res.ok) return null;
   return unwrap(await res.json());
 }
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const isLocalhost = (url) =>
+  /^https?:\/\/(localhost|127\.0\.0\.1|\[::1\])(:|\/|$)/i.test(String(url || ""));
+
+const truthy = (v) => /^(1|true|yes|on)$/i.test(String(v || "").trim());
 
 function withTimeout(ms) {
   const controller = new AbortController();
@@ -55,23 +63,38 @@ export default function siteSeoPlugin() {
   let verification = "";
   let outDir = "dist";
   let root = process.cwd();
+  // SEO_STRICT=true  -> fail the build if the CMS API cannot be reached,
+  //                     instead of silently shipping pages that show Home's tags.
+  let strict = false;
+  // Build-time API calls are patient: free-tier hosts (e.g. Render) can take
+  // 30-60s to wake up, far longer than the 4s used for live dev/preview requests.
+  let buildTimeoutMs = 30000;
+  let buildRetries = 3;
 
   const envOpts = () => ({ siteUrl, imageBase });
 
-  async function loadOne(path) {
-    const { signal, cancel } = withTimeout(4000);
-    try {
-      return await fetchJson(`${apiBase}${path}`, signal);
-    } catch {
-      return null;
-    } finally {
-      cancel();
+  /** Returns the record, or null when the request failed / was not found. */
+  async function loadOne(path, { timeoutMs = 4000, retries = 0 } = {}) {
+    for (let attempt = 0; attempt <= retries; attempt += 1) {
+      const { signal, cancel } = withTimeout(timeoutMs);
+      try {
+        const data = await fetchJson(`${apiBase}${path}`, signal);
+        if (data) return data;
+      } catch {
+        /* network error / timeout -> retry */
+      } finally {
+        cancel();
+      }
+      if (attempt < retries) await sleep(1500 * (attempt + 1));
     }
+    return null;
   }
 
-  async function loadList(path) {
-    const data = await loadOne(path);
-    return Array.isArray(data) ? data : [];
+  /** Returns an array, or null when the request failed (so callers can tell
+   *  "API unreachable" apart from "no records yet"). */
+  async function loadList(path, load) {
+    const data = await loadOne(path, load);
+    return Array.isArray(data) ? data : null;
   }
 
   /** Attaches the crawler-visible body snapshot (see src/seo/bodySnapshot.js). */
@@ -80,8 +103,8 @@ export default function siteSeoPlugin() {
     return seo;
   }
 
-  async function loadCtas() {
-    const others = await loadOne("/others");
+  async function loadCtas(load) {
+    const others = await loadOne("/others", load);
     return Array.isArray(others?.ctas) ? others.ctas : [];
   }
 
@@ -96,15 +119,15 @@ export default function siteSeoPlugin() {
     );
   }
 
-  async function loadCatalog() {
-    const [services, cancers, blogs, doctors, centers] = await Promise.all([
-      loadList("/services"),
-      loadList("/cancers"),
-      loadList("/blogs"),
-      loadList("/doctors"),
-      loadList("/centers"),
-    ]);
-    return { services, cancers, blogs, doctors, centers };
+  async function loadCatalog(load) {
+    const names = ["services", "cancers", "blogs", "doctors", "centers"];
+    const results = await Promise.all(names.map((n) => loadList(`/${n}`, load)));
+    const catalog = { failed: [] };
+    names.forEach((name, i) => {
+      if (results[i] === null) catalog.failed.push(name);
+      catalog[name] = results[i] ?? [];
+    });
+    return catalog;
   }
 
   async function seoForPath(pathname) {
@@ -152,7 +175,7 @@ export default function siteSeoPlugin() {
         return doctor ? withBody(getDoctorSeo(doctor, opts), doctorBody(doctor, opts)) : null;
       }
       case "center": {
-        const centers = await loadList("/centers");
+        const centers = (await loadList("/centers")) ?? [];
         const bySlug = route.slug
           ? centers.find((c) => String(c.slug).toLowerCase() === String(route.slug).toLowerCase())
           : null;
@@ -163,9 +186,11 @@ export default function siteSeoPlugin() {
         return center ? withBody(getCenterSeo(center, opts), centerBody(center, opts)) : null;
       }
       case "landing": {
-        const centers = await loadList("/centers");
+        const centers = (await loadList("/centers")) ?? [];
         const center = findCenterByLandingSlug(centers, route.slug);
-        return center ? getLandingSeo(center, route.slug, opts) : null;
+        return center
+          ? withBody(getLandingSeo(center, route.slug, opts), landingBody(center, opts))
+          : null;
       }
       default:
         return null;
@@ -216,6 +241,12 @@ export default function siteSeoPlugin() {
       imageBase = (env.VITE_IMAGE_BASE_URL || imageBase).replace(/\/$/, "");
       if (env.VITE_SITE_URL) siteUrl = env.VITE_SITE_URL.replace(/\/$/, "");
       verification = env.VITE_GOOGLE_SITE_VERIFICATION || "";
+      strict = truthy(env.SEO_STRICT);
+      buildTimeoutMs = Number(env.SEO_API_TIMEOUT_MS) || buildTimeoutMs;
+      buildRetries = Number.isFinite(Number(env.SEO_API_RETRIES))
+        && env.SEO_API_RETRIES !== undefined && env.SEO_API_RETRIES !== ""
+        ? Number(env.SEO_API_RETRIES)
+        : buildRetries;
     },
     configResolved(config) {
       root = config.root;
@@ -232,16 +263,28 @@ export default function siteSeoPlugin() {
       server.middlewares.use(async (req, res, next) => {
         const url = (req.originalUrl || req.url || "").split("?")[0];
         if (!matchSeoRoute(url)) return next();
-        const seo = await seoForPath(url);
-        if (!seo) return next();
         try {
           const { readFile } = await import("node:fs/promises");
-          const { resolve } = await import("node:path");
-          const html = await readFile(resolve(root, outDir, "index.html"), "utf8");
-          serveText(res, injectHeadTags(html, seo), "text/html; charset=utf-8");
+          const { resolve, sep } = await import("node:path");
+          const distDir = resolve(root, outDir);
+
+          const seo = await seoForPath(url);
+          if (seo) {
+            const html = await readFile(resolve(distDir, "index.html"), "utf8");
+            return serveText(res, injectHeadTags(html, seo), "text/html; charset=utf-8");
+          }
+
+          // API down / record missing: serve the page generated at build time
+          // (dist/<path>/index.html) rather than the generic Home shell.
+          const rel = decodeURIComponent(url).replace(/^\/+|\/+$/g, "");
+          const file = resolve(distDir, rel, "index.html");
+          if (rel && file.startsWith(distDir + sep)) {
+            return serveText(res, await readFile(file, "utf8"), "text/html; charset=utf-8");
+          }
         } catch {
-          next();
+          /* fall through to the default handler */
         }
+        next();
       });
     },
     transformIndexHtml: {
@@ -254,217 +297,138 @@ export default function siteSeoPlugin() {
       },
     },
     async writeBundle(options) {
-  const { readFile, writeFile, mkdir } = await import("node:fs/promises");
-  const { resolve, dirname } = await import("node:path");
+      const { readFile, writeFile, mkdir } = await import("node:fs/promises");
+      const { resolve, dirname } = await import("node:path");
 
-  const dir = options.dir || resolve(root, outDir);
+      const dir = options.dir || resolve(root, outDir);
 
-  // Read the final Vite-generated index.html
-  const indexPath = resolve(dir, "index.html");
-  const html = injectSearchConsoleVerification(
-    await readFile(indexPath, "utf8"),
-    verification,
-  );
-
-  // Load CMS data
-  const catalog = await loadCatalog();
-  const opts = envOpts();
-
-  const { services, cancers, blogs, doctors, centers } = catalog;
-  const ctas = await loadCtas();
-
-  const hasAny =
-    services.length ||
-    cancers.length ||
-    blogs.length ||
-    doctors.length ||
-    centers.length;
-
-  if (!hasAny) {
-    console.warn(
-      "[site-seo] Could not load CMS data from the API. Static SEO HTML was not generated."
-    );
-
-    await writeFile(
-      resolve(dir, "robots.txt"),
-      buildRobotsTxt(siteUrl)
-    );
-
-    return;
-  }
-
-  // Helper to write generated HTML
-  async function writeSeoHtml(fileName, seo) {
-    if (!fileName || !seo) return;
-
-    const filePath = resolve(dir, fileName);
-
-    await mkdir(dirname(filePath), { recursive: true });
-
-    await writeFile(
-      filePath,
-      injectHeadTags(html, seo),
-      "utf8"
-    );
-  }
-
-  await writeSeoHtml(
-    "index.html",
-    getHomeSeo(opts)
-  );
-
-  // Static SEO pages
-  await writeSeoHtml(
-    "AllService/index.html",
-    getAllServicesSeo(opts)
-  );
-
-  await writeSeoHtml(
-    "CancerTypes/index.html",
-    getAllCancersSeo(opts)
-  );
-
-  await writeSeoHtml(
-    "AllCancer/index.html",
-    getAllCancersSeo(opts)
-  );
-
-  await writeSeoHtml(
-    "Blogs/index.html",
-    getAllBlogsSeo(opts)
-  );
-
-  // /blog listing — required because individual posts live under blog/*/
-  // Without this, refresh on /blog/ hits a real directory with no index → 403
-  await writeSeoHtml(
-    "blog/index.html",
-    getAllBlogsSeo(opts)
-  );
-
-  await writeSeoHtml(
-    "news/index.html",
-    getAllNewsSeo(opts)
-  );
-
-  await writeSeoHtml(
-    "OurDoctors/index.html",
-    getAllDoctorsSeo(opts)
-  );
-
-  await writeSeoHtml(
-    "OurCentres/index.html",
-    getAllCentersSeo(opts)
-  );
-
-  await writeSeoHtml(
-    "allCenters/index.html",
-    getAllCentersSeo(opts)
-  );
-
-  await writeSeoHtml(
-    "aboutUs/index.html",
-    getAboutSeo(opts)
-  );
-
-  await writeSeoHtml(
-    "privacy-policy/index.html",
-    getPrivacySeo(opts)
-  );
-
-  // Services
-  for (const service of services) {
-    const seo = withBody(getServiceSeo(service, opts), serviceBody(service, opts));
-
-    if (seo.token && service.slug) {
-      await writeSeoHtml(
-        `service/${service.slug}/${seo.token}/index.html`,
-        seo
+      // Read the final Vite-generated index.html (used as the template for every page)
+      const html = injectSearchConsoleVerification(
+        await readFile(resolve(dir, "index.html"), "utf8"),
+        verification,
       );
-    }
-  }
+      const opts = envOpts();
 
-  // Cancers
-  for (const cancer of cancers) {
-    const seo = withBody(getCancerSeo(cancer, opts), cancerBody(cancer, opts));
+      // Misconfiguration that silently produces empty / wrong SEO output
+      if (isLocalhost(apiBase)) {
+        console.warn(
+          `[site-seo] NOTE: VITE_API_BASE_URL is "${apiBase}". Fine for a local build, but a deploy/CI ` +
+            "build cannot reach it, so no CMS pages would be generated. Use your live API there.",
+        );
+      }
+      if (isLocalhost(siteUrl)) {
+        console.warn(
+          `[site-seo] NOTE: VITE_SITE_URL is "${siteUrl}". Canonical tags, og:url and sitemap.xml ` +
+            "will point at localhost. For a production build set it to your live website origin.",
+        );
+      }
 
-    if (seo.token && cancer.slug) {
-      await writeSeoHtml(
-        `cancer/${cancer.slug}/${seo.token}/index.html`,
-        seo
+      // Helper to write generated HTML
+      async function writeSeoHtml(fileName, seo) {
+        if (!fileName || !seo) return;
+        const filePath = resolve(dir, fileName);
+        await mkdir(dirname(filePath), { recursive: true });
+        await writeFile(filePath, injectHeadTags(html, seo), "utf8");
+      }
+
+      // 1) Pages that need NO CMS data: always generated, even if the API is down.
+      await writeSeoHtml("index.html", getHomeSeo(opts));
+      await writeSeoHtml("AllService/index.html", getAllServicesSeo(opts));
+      await writeSeoHtml("CancerTypes/index.html", getAllCancersSeo(opts));
+      await writeSeoHtml("AllCancer/index.html", getAllCancersSeo(opts));
+      await writeSeoHtml("Blogs/index.html", getAllBlogsSeo(opts));
+      // /blog listing: individual posts live under blog/*/, so without this a
+      // refresh on /blog/ hits a real directory with no index -> 403
+      await writeSeoHtml("blog/index.html", getAllBlogsSeo(opts));
+      await writeSeoHtml("news/index.html", getAllNewsSeo(opts));
+      await writeSeoHtml("OurDoctors/index.html", getAllDoctorsSeo(opts));
+      await writeSeoHtml("ourDoctors/index.html", getAllDoctorsSeo(opts));
+      await writeSeoHtml("OurCentres/index.html", getAllCentersSeo(opts));
+      await writeSeoHtml("allCenters/index.html", getAllCentersSeo(opts));
+      await writeSeoHtml("aboutUs/index.html", getAboutSeo(opts));
+      await writeSeoHtml("privacy-policy/index.html", getPrivacySeo(opts));
+
+      // 2) CMS-backed pages (patient retries: the API may be waking from sleep)
+      const load = { timeoutMs: buildTimeoutMs, retries: buildRetries };
+      const catalog = await loadCatalog(load);
+      const { services, cancers, blogs, doctors, centers, failed } = catalog;
+
+      if (failed.length) {
+        const msg =
+          `[site-seo] Could not load ${failed.join(", ")} from ${apiBase} ` +
+          `(tried ${buildRetries + 1}x, ${buildTimeoutMs / 1000}s timeout each). ` +
+          "Detail pages for these (service/cancer/blog/doctor/centre) were NOT generated, so those " +
+          "URLs will show the generic Home tags in View Source. " +
+          "Make sure the API is reachable from the machine running `vite build`.";
+        if (strict) throw new Error(msg + " (SEO_STRICT is on, failing the build.)");
+        console.warn(msg);
+      }
+
+      const ctas = failed.includes("blogs") ? [] : await loadCtas(load);
+
+      // Services
+      for (const service of services) {
+        const seo = withBody(getServiceSeo(service, opts), serviceBody(service, opts));
+        if (seo.token && service.slug) {
+          await writeSeoHtml(`service/${service.slug}/${seo.token}/index.html`, seo);
+          await writeSeoHtml(`Services/${service.slug}/${seo.token}/index.html`, seo);
+        }
+      }
+
+      // Cancers
+      for (const cancer of cancers) {
+        const seo = withBody(getCancerSeo(cancer, opts), cancerBody(cancer, opts));
+        if (seo.token && cancer.slug) {
+          await writeSeoHtml(`cancer/${cancer.slug}/${seo.token}/index.html`, seo);
+          await writeSeoHtml(`CancerTypes/${cancer.slug}/${seo.token}/index.html`, seo);
+        }
+      }
+
+      // Blogs
+      for (const blog of blogs) {
+        const seo = await blogSeoWithBody(blog, opts, { ctas, doctors });
+        if (seo.token && blog.slug) {
+          await writeSeoHtml(`blog/${seo.token}/${blog.slug}/index.html`, seo);
+          await writeSeoHtml(`Blogs/${blog.slug}/index.html`, seo);
+        }
+      }
+
+      // Doctors
+      for (const doctor of doctors) {
+        const seo = withBody(getDoctorSeo(doctor, opts), doctorBody(doctor, opts));
+        if (seo.token && doctor.slug) {
+          await writeSeoHtml(`doctor/${doctor.slug}/${seo.token}/index.html`, seo);
+          await writeSeoHtml(`OurDoctors/${doctor.slug}/${seo.token}/index.html`, seo);
+        }
+      }
+
+      // Centres
+      for (const center of centers) {
+        const seo = withBody(getCenterSeo(center, opts), centerBody(center, opts));
+        if (seo.token && center.slug) {
+          await writeSeoHtml(`centre/${center.slug}/${seo.token}/index.html`, seo);
+          await writeSeoHtml(`OurCentres/${center.slug}/${seo.token}/index.html`, seo);
+        }
+        if (center.slug) {
+          await writeSeoHtml(
+            `cancer-treatment/${center.slug}/index.html`,
+            withBody(
+              getLandingSeo(center, center.slug, opts),
+              landingBody(center, opts),
+            ),
+          );
+        }
+      }
+
+      await writeFile(resolve(dir, "sitemap.xml"), buildSitemap(catalog, siteUrl), "utf8");
+      await writeFile(resolve(dir, "robots.txt"), buildRobotsTxt(siteUrl), "utf8");
+
+      console.log(
+        `[site-seo] Generated SEO pages: ${services.length} services, ${cancers.length} cancers, ` +
+          `${blogs.length} blogs, ${doctors.length} doctors, ${centers.length} centers` +
+          (failed.length ? `  (FAILED to load: ${failed.join(", ")})` : ""),
       );
-    }
-  }
-
-  // Blogs
-  for (const blog of blogs) {
-    const seo = await blogSeoWithBody(blog, opts, { ctas, doctors });
-
-    if (seo.token && blog.slug) {
-      await writeSeoHtml(
-        `blog/${seo.token}/${blog.slug}/index.html`,
-        seo
-      );
-
-      await writeSeoHtml(
-        `Blogs/${blog.slug}/index.html`,
-        seo
-      );
-    }
-  }
-
-  // Doctors
-  for (const doctor of doctors) {
-    const seo = withBody(getDoctorSeo(doctor, opts), doctorBody(doctor, opts));
-
-    if (seo.token && doctor.slug) {
-      await writeSeoHtml(
-        `doctor/${doctor.slug}/${seo.token}/index.html`,
-        seo
-      );
-    }
-  }
-
-  // Centres
-  for (const center of centers) {
-    const seo = withBody(getCenterSeo(center, opts), centerBody(center, opts));
-
-    if (seo.token && center.slug) {
-      await writeSeoHtml(
-        `centre/${center.slug}/${seo.token}/index.html`,
-        seo
-      );
-    }
-
-    if (center.slug) {
-      await writeSeoHtml(
-        `cancer-treatment/${center.slug}/index.html`,
-        getLandingSeo(center, center.slug, opts)
-      );
-    }
-  }
-
-  // Sitemap
-  await writeFile(
-    resolve(dir, "sitemap.xml"),
-    buildSitemap(catalog, siteUrl),
-    "utf8"
-  );
-
-  // Robots
-  await writeFile(
-    resolve(dir, "robots.txt"),
-    buildRobotsTxt(siteUrl),
-    "utf8"
-  );
-
-  console.log(
-    `[site-seo] Generated SEO pages: ${services.length} services, ${cancers.length} cancers, ${blogs.length} blogs, ${doctors.length} doctors, ${centers.length} centers`
-  );
-
-  console.log(
-    `[site-seo] Sitemap: ${resolve(dir, "sitemap.xml")}`
-  );
-}
+      console.log(`[site-seo] Sitemap: ${resolve(dir, "sitemap.xml")}`);
+    },
   };
 }
-

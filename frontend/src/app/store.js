@@ -11,7 +11,7 @@ import tagsReducer             from '../redux/tags/tagsSlice';
 import dashboardReducer        from '../redux/dashboard/dashboardSlice';
 import appointmentsReducer     from '../redux/appointments/appointmentsSlice';
 
-import { toastMiddleware } from '../middleware/toastmiddleware';
+import { toastMiddleware } from '../middleware/Toastmiddleware';
 
 const store = configureStore({
   reducer: {
